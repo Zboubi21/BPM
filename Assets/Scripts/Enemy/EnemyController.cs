@@ -26,12 +26,6 @@ public class EnemyController : MonoBehaviour
 
     public virtual void OnEnable()
     {
-        //if(Player != null)
-        //{
-        //    DistanceToTarget = GetTargetDistance(currentTarget);
-        //    currentTarget = FindBestSpotsInRangeOfTarget(Player);
-        //}
-
         EnemyCantShoot = false;
         ChangeState((int)EnemyState.Enemy_IdleState);
     }
@@ -47,6 +41,9 @@ public class EnemyController : MonoBehaviour
     }
 
     #endregion
+
+    List<GameObject> allUsedCover = new List<GameObject>();
+    int choosenCover;
 
     EnemyCara cara;
     WeaponEnemyBehaviour weaponBehavior;
@@ -65,6 +62,7 @@ public class EnemyController : MonoBehaviour
     public EnemyCara Cara { get => cara; set => cara = value; }
     public bool EnemyCantShoot { get => _enemyCanShoot; set => _enemyCanShoot = value; }
     public Vector3 CurrentTarget { get => currentTarget; set => currentTarget = value; }
+    public List<GameObject> AllUsedCover { get => allUsedCover; set => allUsedCover = value; }
     #endregion
 
 
@@ -82,6 +80,7 @@ public class EnemyController : MonoBehaviour
             new ChaseState(this),				// 0 = Chase
             new IdleState(this),				// 1 = Idle
 			new AttackState(this),				// 2 = Attack
+            new RepositionState(this),          // 3 = Reposition
 			new StunState(this),				// 6 = Stun
 			new DieState(this),				    // 7 = Die
 		});
@@ -97,7 +96,6 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        //currentTarget = transform;
         Player = PlayerController.s_instance.gameObject.transform;
 
         currentTarget = FindBestSpotsInRangeOfTarget(Player);
@@ -141,47 +139,76 @@ public class EnemyController : MonoBehaviour
 
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
     {
-        Collider[] allColInSphere = Physics.OverlapSphere(target.position, Cara._enemyCaractéristique._attack.rangeRadius);
-        List<GameObject> allCoverInSphere = new List<GameObject>(); 
         Vector3 newTarget;
+
+        float distance = Vector3.Distance(transform.position, Player.transform.position);
+        Vector3 lastPoint = Vector3.Lerp(Player.transform.position, transform.position, Mathf.InverseLerp(0, distance, Cara._enemyCaractéristique._attack.rangeRadius));
+
+        #region Find all cover around the player
+        Collider[] allColInSphere = Physics.OverlapSphere(lastPoint, Cara._enemyCaractéristique._attack.rangeRadius);
+        List<GameObject> allCoverInSphere = new List<GameObject>(); 
         for (int i = 0, l= allColInSphere.Length; i < l; ++i)
         {
             if (allColInSphere[i].CompareTag("Cover"))
             {
-                allCoverInSphere.Add(allColInSphere[i].gameObject);
+                bool denied = false;
+                if(allUsedCover.Count > 0)
+                {
+                    for (int a = 0, m = allUsedCover.Count; a < m; ++a)
+                    {
+                        if(allColInSphere[i].gameObject == allUsedCover[m])
+                        {
+                            denied = true;
+                            break;
+                        }
+                    }
+                }
+                if (!denied)
+                {
+                    allCoverInSphere.Add(allColInSphere[i].gameObject);
+                }
             }
         }
-        if (allCoverInSphere.Count == 0)
+        #endregion
+
+        if (allCoverInSphere.Count == 0)  // The NPC hasn't found a cover
         {
-            float distance = Vector3.Distance(transform.position, Player.transform.position);
-            Vector3 lastPoint = Vector3.Lerp(Player.transform.position, transform.position, Mathf.InverseLerp(0, distance, Cara._enemyCaractéristique._attack.rangeRadius));/* Vector3.ClampMagnitude(direction, Cara._enemyCaractéristique._attack.rangeRadius);*/
             while (true)
             {
+                //Choisi un point aléatoire dans un cercle de la taille de la range du NPC
                 Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * Cara._enemyCaractéristique._attack.rangeRadius;
                 newTarget = new Vector3(randomPointInCircle.x + lastPoint.x, 0.1f + lastPoint.y, randomPointInCircle.y + lastPoint.z);
                 NavMeshPath path = new NavMeshPath();
                 agent.CalculatePath(newTarget, path);
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {
-                    //Debug.Log("Found");
                     return newTarget;
                 }
-                else
-                {
-                    //Debug.Log("NotFound");
-                }
             }
-            //return Vector3.zero;
         }
-        else
+        else // The NPC has found a cover
         {
             int randomIndex = UnityEngine.Random.Range(0, allCoverInSphere.Count);
             newTarget = allCoverInSphere[randomIndex].transform.position;
-
+            allUsedCover.Add(allCoverInSphere[randomIndex]);
+            choosenCover = randomIndex;
             return newTarget;
         }
     }
 
+
+    public bool ThrowBehaviorDice(float value)
+    {
+        float random = UnityEngine.Random.Range(0, 100);
+        if(random < value)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    #region Is Stun State
     public IEnumerator IsStun()
     {
         EnemyCantShoot = true;
@@ -189,7 +216,7 @@ public class EnemyController : MonoBehaviour
         EnemyCantShoot = false;
         ChangeState((int)EnemyState.Enemy_ChaseState);
     }
-
+    #endregion
 
     #region NPC is dead methods
     public void KillNPC(float time)

@@ -17,11 +17,22 @@ public class WaveController : MonoBehaviour
     public int NbrOfDeadEnemy { get => _nbrOfDeadEnemy; set => _nbrOfDeadEnemy = value; }
     #endregion
 
+    private void Update()
+    {
+#if UNITY_EDITOR
+
+        if (Input.GetKeyDown(KeyCode.M) && !hasStarted)
+        {
+            StartCoroutine(spawners[0].WaveSpawner(_nbrOfWave, this));
+            hasStarted = true;
+        }
+#endif
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !hasStarted)
         {
-
             StartCoroutine(spawners[0].WaveSpawner(_nbrOfWave, this));
             hasStarted = true;
         }
