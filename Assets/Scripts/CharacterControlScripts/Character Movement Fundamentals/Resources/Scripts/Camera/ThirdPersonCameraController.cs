@@ -34,7 +34,7 @@ public class ThirdPersonCameraController : CameraController {
 			RotateTowardsVelocity(_controllerVelocity, cameraTurnSpeed);
 
 			//Save current position for next frame; 
-			lastPosition = m_trans.position;
+			// lastPosition = m_trans.position;
 		}
 	}
 

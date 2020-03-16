@@ -9,15 +9,18 @@ public class TransformFollower : MonoBehaviour
     [SerializeField] UpdateType m_updateMethod = UpdateType.LateUpdate;
 
     [Header("Position")]
+    [SerializeField] bool m_useChangePos = true;
     [SerializeField] Freeze m_freezePos;
 
     [Tooltip("Use a world value")]
     [SerializeField] Vector3 m_freezePosValue = Vector3.zero;
     [SerializeField] bool m_changeWorldPos = true;
 
+    [Space]
     [Header("Rotation")]
-    [SerializeField] bool m_useRotationAtStart = false;
+    // [SerializeField] bool m_useRotationAtStart = false;
     Vector3 m_startRotation;
+    [SerializeField] bool m_useChangeRot = true;
     [SerializeField] Freeze m_freezeRot;
 
     [Tooltip("Use a world value")]
@@ -42,36 +45,44 @@ public class TransformFollower : MonoBehaviour
 
     void Start()
     {
-        if (m_useRotationAtStart)
-            m_startRotation = transform.eulerAngles;
+        // if (m_useRotationAtStart)
+            // m_startRotation = transform.eulerAngles;
     }
-    void FixedUpdate()
+    public void UpdateScript()
     {
-        if(m_updateMethod == UpdateType.FixedUpdate)
-        {
-            UpdatePosition();
-            UpdateRotation();
-        }
+        UpdatePosition();
+        UpdateRotation();
     }
-    void Update()
-    {
-        if(m_updateMethod == UpdateType.Update)
-        {
-            UpdatePosition();
-            UpdateRotation();
-        }
-    }
-    void LateUpdate()
-    {
-        if(m_updateMethod == UpdateType.LateUpdate)
-        {
-            UpdatePosition();
-            UpdateRotation();
-        }
-    }
+    // void FixedUpdate()
+    // {
+    //     if(m_updateMethod == UpdateType.FixedUpdate)
+    //     {
+    //         UpdatePosition();
+    //         UpdateRotation();
+    //     }
+    // }
+    // void Update()
+    // {
+    //     if(m_updateMethod == UpdateType.Update)
+    //     {
+    //         UpdatePosition();
+    //         UpdateRotation();
+    //     }
+    // }
+    // void LateUpdate()
+    // {
+    //     if(m_updateMethod == UpdateType.LateUpdate)
+    //     {
+    //         UpdatePosition();
+    //         UpdateRotation();
+    //     }
+    // }
 
     void UpdatePosition()
     {
+        if (!m_useChangePos)
+            return;
+        
         if(m_followedTrans != null)
         {
             if(!m_freezePos.m_freezeX)
@@ -113,6 +124,9 @@ public class TransformFollower : MonoBehaviour
     }
     void UpdateRotation()
     {
+        if (!m_useChangeRot)
+            return;
+
         if(m_followedTrans != null)
         {
             if(!m_freezeRot.m_freezeX)

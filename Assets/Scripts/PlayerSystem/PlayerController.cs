@@ -84,6 +84,12 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	[SerializeField] CameraController m_cameraControls;
+	[SerializeField] WeaponFollowPlayerCam m_weaponFollowPlayerCam;
+	[SerializeField] TransformFollower m_camPivotPos;
+	[SerializeField] TransformFollower m_camPivotRot;
+	[SerializeField] TransformFollower m_gunPivot;
+
 #endregion
 
 #region Private Variables
@@ -163,6 +169,11 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate()
 	{
 		m_sM.FixedUpdate();
+		m_cameraControls.UpdateScript();
+		m_camPivotPos.UpdateScript();
+		m_camPivotRot.UpdateScript();
+		m_gunPivot.UpdateScript();
+		m_weaponFollowPlayerCam.UpdateScript();
 	}
 
 	void Update()
@@ -173,6 +184,11 @@ public class PlayerController : MonoBehaviour
 	void LateUpdate()
 	{
 		m_sM.LateUpdate();
+		// m_cameraControls.UpdateScript();
+		// m_camPivotPos.UpdateScript();
+		// m_camPivotRot.UpdateScript();
+		// m_gunPivot.UpdateScript();
+		// m_weaponFollowPlayerCam.UpdateScript();
 	}
 #endregion
 

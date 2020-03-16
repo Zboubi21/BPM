@@ -37,7 +37,7 @@ public class CameraController : MonoBehaviour {
 	//Camera turning speed when using mouse input (if 'useMouseInput' is set to 'true');
 	public float cameraMouseSpeed = 1f;
 
-	protected Vector3 lastPosition;
+	// protected Vector3 lastPosition;
 
 	//Whether camera rotation values will be smoothed;
 	public bool smoothCameraRotation = false;
@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour {
 
 		m_camera = GetComponentInChildren<Camera>();
 
-		lastPosition = m_trans.position;
+		// lastPosition = m_trans.position;
 
 		//Set angle variables to current rotation angles of this transform;
 		currentXAngle = m_trans.localRotation.eulerAngles.x;
@@ -78,10 +78,14 @@ public class CameraController : MonoBehaviour {
 		Setup();
 	}
 
-	void Update()
+	public void UpdateScript()
 	{
 		HandleCameraRotation();
 	}
+	// void Update()
+	// {
+	// 	HandleCameraRotation();
+	// }
 	void LateUpdate()
 	{
 		// transform.position = new Vector3(34.54f, 1.7f, 44.01f);
