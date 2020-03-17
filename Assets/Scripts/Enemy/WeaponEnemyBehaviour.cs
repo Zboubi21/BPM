@@ -55,16 +55,16 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         yield return new WaitForSeconds(recoilTimeEachBurst);
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
-            Debug.Log("Before Throwing Dices");
+            //Debug.Log("Before Throwing Dices");
             if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfShootBeforeRepositionning && enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
             {
                 countAttacks = 0;
                 enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
-                Debug.Log("Launch Reposition");
+                //Debug.Log("Launch Reposition");
             }
             else
             {
-                Debug.Log("Launch Chaase");
+                //Debug.Log("Launch Chaase");
                 enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
             }
         }
