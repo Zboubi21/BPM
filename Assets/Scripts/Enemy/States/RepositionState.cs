@@ -8,7 +8,7 @@ public class RepositionState : IState
     EnemyController m_enemyController;
 
 
-    /// Le NPC se reposition en fonction de la position du Player
+    /// Le NPC se repositione en fonction de la position du Player
     public RepositionState(EnemyController enemyController)
     {
         m_enemyController = enemyController;
@@ -17,12 +17,15 @@ public class RepositionState : IState
 
     public void Enter()
     {
-        m_enemyController.CurrentTarget = m_enemyController.FindBestSpotsInRangeOfTarget(m_enemyController.Player);
+        m_enemyController.CurrentTarget = m_enemyController.FindBestSpotsInRangeOfTarget(m_enemyController.Player); //Find a new spot around the player (can be a cover)
+        
+        //Sapwn debug canvas
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.CurrentTarget);
     }
 
     public void Exit()
     {
+
         m_enemyController.DestroyObj(go);
     }
 

@@ -42,12 +42,12 @@ public class EnemyController : MonoBehaviour
 
     #endregion
 
-    List<GameObject> allUsedCover = new List<GameObject>();
     int choosenCover;
 
     EnemyCara cara;
     WeaponEnemyBehaviour weaponBehavior;
     NavMeshAgent agent;
+    GameManager manager;
     Transform target;
     Vector3 currentTarget;
 
@@ -62,7 +62,6 @@ public class EnemyController : MonoBehaviour
     public EnemyCara Cara { get => cara; set => cara = value; }
     public bool EnemyCantShoot { get => _enemyCanShoot; set => _enemyCanShoot = value; }
     public Vector3 CurrentTarget { get => currentTarget; set => currentTarget = value; }
-    public List<GameObject> AllUsedCover { get => allUsedCover; set => allUsedCover = value; }
     #endregion
 
 
@@ -72,6 +71,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         cara = GetComponent<EnemyCara>();
         weaponBehavior = GetComponent<WeaponEnemyBehaviour>();
+        manager = GameManager.Instance;
     }
 
     void SetupStateMachine()
@@ -98,7 +98,7 @@ public class EnemyController : MonoBehaviour
     {
         Player = PlayerController.s_instance.gameObject.transform;
 
-        currentTarget = FindBestSpotsInRangeOfTarget(Player);
+        //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
         DistanceToTarget = GetTargetDistance(currentTarget);
     }
@@ -140,23 +140,28 @@ public class EnemyController : MonoBehaviour
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
     {
         Vector3 newTarget;
-
-        float distance = Vector3.Distance(transform.position, Player.transform.position);
-        Vector3 lastPoint = Vector3.Lerp(Player.transform.position, transform.position, Mathf.InverseLerp(0, distance, Cara._enemyCaractéristique._attack.rangeRadius));
+        bool hasFoundACover = false;
+        float distance = Vector3.Distance(transform.position, target.position);
+        Vector3 lastPoint = Vector3.Lerp(target.position, transform.position, Mathf.InverseLerp(0, distance, Cara._enemyCaractéristique._attack.rangeRadius));
+        if(choosenCover != 0 && manager.AllUsedCover.Count > 0) 
+        {
+            manager.AllUsedCover.RemoveAt(choosenCover - 1); // -1 pour retomber sur l'index exacte (on fait +1 plus loin pour avoir choosenCover =0 : " je n'ai pas trouvé de cover"
+        }
 
         #region Find all cover around the player
         Collider[] allColInSphere = Physics.OverlapSphere(lastPoint, Cara._enemyCaractéristique._attack.rangeRadius);
-        List<GameObject> allCoverInSphere = new List<GameObject>(); 
+        List<GameObject> allCoverInSphere = new List<GameObject>();
+
         for (int i = 0, l= allColInSphere.Length; i < l; ++i)
         {
             if (allColInSphere[i].CompareTag("Cover"))
             {
                 bool denied = false;
-                if(allUsedCover.Count > 0)
+                if(manager.AllUsedCover.Count > 0)
                 {
-                    for (int a = 0, m = allUsedCover.Count; a < m; ++a)
+                    for (int a = 0, m = manager.AllUsedCover.Count; a < m; ++a)
                     {
-                        if(allColInSphere[i].gameObject == allUsedCover[m])
+                        if(allColInSphere[i].gameObject == manager.AllUsedCover[a])
                         {
                             denied = true;
                             break;
@@ -166,12 +171,14 @@ public class EnemyController : MonoBehaviour
                 if (!denied)
                 {
                     allCoverInSphere.Add(allColInSphere[i].gameObject);
+                    hasFoundACover = true;
                 }
             }
         }
+
         #endregion
 
-        if (allCoverInSphere.Count == 0)  // The NPC hasn't found a cover
+        if (allCoverInSphere.Count == 0 || !hasFoundACover)  // The NPC hasn't found a cover
         {
             while (true)
             {
@@ -190,8 +197,8 @@ public class EnemyController : MonoBehaviour
         {
             int randomIndex = UnityEngine.Random.Range(0, allCoverInSphere.Count);
             newTarget = allCoverInSphere[randomIndex].transform.position;
-            allUsedCover.Add(allCoverInSphere[randomIndex]);
-            choosenCover = randomIndex;
+            manager.AllUsedCover.Add(allCoverInSphere[randomIndex]);
+            choosenCover = randomIndex+1; // +1 pour avoir 0 = je n'ai pas trouvé de cover
             return newTarget;
         }
     }
@@ -199,7 +206,7 @@ public class EnemyController : MonoBehaviour
 
     public bool ThrowBehaviorDice(float value)
     {
-        float random = UnityEngine.Random.Range(0, 100);
+        float random = UnityEngine.Random.Range(0f, 100f);
         if(random < value)
         {
             return true;

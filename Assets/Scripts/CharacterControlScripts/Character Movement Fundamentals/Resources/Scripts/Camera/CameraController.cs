@@ -76,6 +76,9 @@ public class CameraController : MonoBehaviour {
 		RotateCamera(0f, 0f);
 
 		Setup();
+
+        Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 	public void UpdateScript()

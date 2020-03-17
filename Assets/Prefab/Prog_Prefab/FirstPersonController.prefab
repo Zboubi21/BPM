@@ -392,7 +392,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 7991
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1341,7 +1341,7 @@ MonoBehaviour:
   m_target: {fileID: 3419739023075528986}
   m_offset: {x: 0, y: 1.7, z: 0}
   m_xSpeed: 0.95
-  m_ySpeed: 0.95
+  m_ySpeed: 0.98
   m_zSpeed: 0.95
 --- !u!1 &3422404171733034980
 GameObject:
@@ -1361,7 +1361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3419531255567379398
 Transform:
   m_ObjectHideFlags: 0
@@ -1426,7 +1426,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3422404171733034980}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &563974979802422119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,18 +1727,18 @@ MonoBehaviour:
     m_playerAudio: {fileID: 4882480380523661751}
   m_movements:
     m_useRawInput: 1
-    m_movementSpeed: 12
+    m_movementSpeed: 11
   m_physics:
     m_airFriction: 1
     m_groundFriction: 1
-    m_gravity: 29
+    m_gravity: 25
     m_timeToFallWhenNotGrounded: 0.1
   m_airControl: 0.8
   m_jump:
-    m_height: 2.25
-    m_duration: 0.15
+    m_height: 2.15
+    m_duration: 0.2
   m_doubleJump:
-    m_height: 2.5
+    m_height: 2.15
     m_duration: 0.15
   m_dash:
     m_distance: 7.5

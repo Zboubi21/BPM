@@ -38,6 +38,15 @@ public class GameManager : SerializedMonoBehaviour
         }
     }
 
+    #region Enemy DataStocking
+    List<GameObject> allUsedCover = new List<GameObject>();
+
+    #region get set
+    public List<GameObject> AllUsedCover { get => allUsedCover; set => allUsedCover = value; }
+
+    #endregion
+    #endregion
+
 
     /*public void Start()
     {

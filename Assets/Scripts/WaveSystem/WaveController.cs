@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaveController : MonoBehaviour
 {
-    public SpawnerController[] spawners;
+    SpawnerController[] spawners;
     [Space]
     public float timeBetweenEachSpawn;
     int _nbrOfEnemy;
@@ -16,6 +16,11 @@ public class WaveController : MonoBehaviour
     public int NbrOfEnemy { get => _nbrOfEnemy; set => _nbrOfEnemy = value; }
     public int NbrOfDeadEnemy { get => _nbrOfDeadEnemy; set => _nbrOfDeadEnemy = value; }
     #endregion
+
+    private void Start()
+    {
+        spawners = GetComponentsInChildren<SpawnerController>();
+    }
 
     private void Update()
     {

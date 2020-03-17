@@ -776,7 +776,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_RenderingPathCustomFrameSettings:
     bitDatas:
-      data1: 69456063627037
+      data1: 69456055238429
       data2: 4539628424389459968
     lodBias: 1
     lodBiasMode: 0
@@ -787,53 +787,53 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
-  m_Version: 1
+  m_Version: 6
   m_ObsoleteRenderingPath: 0
   m_ObsoleteFrameSettings:
     overrides: 0
-    enableShadow: 1
-    enableContactShadows: 1
-    enableShadowMask: 1
+    enableShadow: 0
+    enableContactShadows: 0
+    enableShadowMask: 0
     enableSSR: 0
-    enableSSAO: 1
-    enableSubsurfaceScattering: 1
-    enableTransmission: 1
-    enableAtmosphericScattering: 1
-    enableVolumetrics: 1
-    enableReprojectionForVolumetrics: 1
-    enableLightLayers: 1
+    enableSSAO: 0
+    enableSubsurfaceScattering: 0
+    enableTransmission: 0
+    enableAtmosphericScattering: 0
+    enableVolumetrics: 0
+    enableReprojectionForVolumetrics: 0
+    enableLightLayers: 0
     enableExposureControl: 1
-    diffuseGlobalDimmer: 1
-    specularGlobalDimmer: 1
-    shaderLitMode: 1
+    diffuseGlobalDimmer: 0
+    specularGlobalDimmer: 0
+    shaderLitMode: 0
     enableDepthPrepassWithDeferredRendering: 0
-    enableTransparentPrepass: 1
-    enableMotionVectors: 1
-    enableObjectMotionVectors: 1
-    enableDecals: 1
-    enableRoughRefraction: 1
-    enableTransparentPostpass: 1
-    enableDistortion: 1
-    enablePostprocess: 1
-    enableOpaqueObjects: 1
-    enableTransparentObjects: 1
-    enableRealtimePlanarReflection: 1
+    enableTransparentPrepass: 0
+    enableMotionVectors: 0
+    enableObjectMotionVectors: 0
+    enableDecals: 0
+    enableRoughRefraction: 0
+    enableTransparentPostpass: 0
+    enableDistortion: 0
+    enablePostprocess: 0
+    enableOpaqueObjects: 0
+    enableTransparentObjects: 0
+    enableRealtimePlanarReflection: 0
     enableMSAA: 0
-    enableAsyncCompute: 1
-    runLightListAsync: 1
-    runSSRAsync: 1
-    runSSAOAsync: 1
-    runContactShadowsAsync: 1
-    runVolumeVoxelizationAsync: 1
+    enableAsyncCompute: 0
+    runLightListAsync: 0
+    runSSRAsync: 0
+    runSSAOAsync: 0
+    runContactShadowsAsync: 0
+    runVolumeVoxelizationAsync: 0
     lightLoopSettings:
       overrides: 0
-      enableDeferredTileAndCluster: 1
-      enableComputeLightEvaluation: 1
-      enableComputeLightVariants: 1
-      enableComputeMaterialVariants: 1
-      enableFptlForForwardOpaque: 1
-      enableBigTilePrepass: 1
-      isFptlEnabled: 1
+      enableDeferredTileAndCluster: 0
+      enableComputeLightEvaluation: 0
+      enableComputeLightVariants: 0
+      enableComputeMaterialVariants: 0
+      enableFptlForForwardOpaque: 0
+      enableBigTilePrepass: 0
+      isFptlEnabled: 0
 --- !u!1001 &205270808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1617,9 +1617,11 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 0.5, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 698484848}
+  - {fileID: 2126692479}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &481560150
 BoxCollider:
@@ -1646,8 +1648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625260891a44b7d4da733d8a06444840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawners:
-  - {fileID: 698484847}
   timeBetweenEachSpawn: 0.5
 --- !u!1 &491738489
 GameObject:
@@ -1768,7 +1768,7 @@ PrefabInstance:
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.40315628
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
@@ -1778,7 +1778,7 @@ PrefabInstance:
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.7810397
+      value: -0.79
       objectReference: {fileID: 0}
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
@@ -1803,7 +1803,7 @@ PrefabInstance:
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
@@ -2194,7 +2194,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -2230,25 +2230,58 @@ MonoBehaviour:
       Data: 3|EnemyArchetype[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 6
-    - Name: 
-      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
       Data: 1
     - Name: 
-      Entry: 10
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 4|EnemyArchetype[], Assembly-CSharp
+    - Name: 
+      Entry: 12
       Data: 1
     - Name: 
       Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 5|EnemyArchetype[], Assembly-CSharp
+    - Name: 
+      Entry: 12
       Data: 1
     - Name: 
       Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -2271,12 +2304,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698484846}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: 0, z: -40}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 16, y: -0.5, z: -49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_Father: {fileID: 481560149}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &783426161
 GameObject:
@@ -3206,7 +3239,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2.6105, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1090070042
 GameObject:
@@ -5055,7 +5088,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2.6105, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1538463965
 GameObject:
@@ -5368,6 +5401,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fb3e97c66800ad94ebde8f727819c49a,
         type: 2}
+    - target: {fileID: 8798216646479647648, guid: afa9eecb96c518548a307d2ca9de695b,
+        type: 3}
+      propertyPath: rayCastCollision.m_Bits
+      value: 3072
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3461373997355235120, guid: afa9eecb96c518548a307d2ca9de695b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: afa9eecb96c518548a307d2ca9de695b, type: 3}
@@ -5761,7 +5799,7 @@ PrefabInstance:
     - target: {fileID: 4285342616767174757, guid: a6eefe26e451520488247ee54f62dc72,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4285342616767174757, guid: a6eefe26e451520488247ee54f62dc72,
         type: 3}
@@ -7077,6 +7115,175 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2126692478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2126692479}
+  - component: {fileID: 2126692480}
+  m_Layer: 0
+  m_Name: Spawner (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2126692479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126692478}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -16, y: -0.5, z: -40}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 481560149}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2126692480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126692478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99290325f2a36dd4dbc46e071668b026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: waveManager
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[EnemyArchetype[],
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 2|EnemyArchetype[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 3|EnemyArchetype[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 4|EnemyArchetype[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 5|EnemyArchetype[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &2143327649
 GameObject:
   m_ObjectHideFlags: 0
@@ -7520,7 +7727,7 @@ PrefabInstance:
     - target: {fileID: 4556029032081389871, guid: 801aa31bbd318a449a26ef687ec91de7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4556029032081389871, guid: 801aa31bbd318a449a26ef687ec91de7,
         type: 3}
@@ -7546,6 +7753,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1249796298389412835, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 16183
+      objectReference: {fileID: 0}
     - target: {fileID: 1518701593319102534, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: m_LocalPosition.x
