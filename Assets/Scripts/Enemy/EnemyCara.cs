@@ -44,13 +44,6 @@ public class EnemyCara : MonoBehaviour
         {
             public float timeForStunResistance;
         }
-        public SpecialBehavior _specialBehavior = new SpecialBehavior();
-        [Serializable]
-        public class SpecialBehavior
-        {
-            [Range(0,100)]
-            public float _chanceToRepositionAfterAShoot;
-        }
     }
     EnemyController controller;
     float _currentLife;
@@ -69,11 +62,6 @@ public class EnemyCara : MonoBehaviour
     public void OnEnable()
     {
         _isDead = false;
-
-
-        #region Activate Archetype
-
-        #endregion
 
         InitializeEnemyStats();
     }

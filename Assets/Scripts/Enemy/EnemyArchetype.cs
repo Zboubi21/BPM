@@ -52,8 +52,8 @@ public class EnemyArchetype : SerializedScriptableObject
     [TabGroup("Enemy Behavior Chance")]
     [Title("Chance To Reposition", titleAlignment: TitleAlignments.Centered, horizontalLine: true, bold: false)]
     [HideLabel]
-    [ProgressBar(0,100, r:0.153f, g: 0.153f, b: 0.153f, Height = 20, R = 0.204f, G = 0.204f, B = 0.204f)]
-    public float _chanceToRepositionAfterAnAttack = 10f;
+    [ProgressBar(0,100, r: 0.204f, g: 0.204f, b: 0.204f, Height = 20, R = 0.102f, G = 1f, B = 1f)]
+    public int _chanceToRepositionAfterAnAttack = 10;
     [Space]
     [TabGroup("Enemy Behavior Chance")]
     public int _nbrOfShootBeforeRepositionning;

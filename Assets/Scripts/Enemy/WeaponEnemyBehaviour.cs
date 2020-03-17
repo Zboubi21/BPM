@@ -54,7 +54,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         yield return new WaitForSeconds(recoilTimeEachBurst);
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
-            if (!enemyController.ThrowBehaviorDice(enemyController.Cara._enemyCaractéristique._specialBehavior._chanceToRepositionAfterAShoot))
+            if (!enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
             {
                 enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
             }
