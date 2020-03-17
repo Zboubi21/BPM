@@ -38,10 +38,10 @@ public class AttackState : IState
 
     public void Update()
     {
-        if (m_enemyController.DistanceToTarget > m_enemyController.Agent.stoppingDistance)
+        /*if (m_enemyController.DistanceToTarget > m_enemyController.Agent.stoppingDistance)
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
-        }
+        }*/
         m_enemyController.gameObject.transform.LookAt(m_enemyController.Player);
     }
 

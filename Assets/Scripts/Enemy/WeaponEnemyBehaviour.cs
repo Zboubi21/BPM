@@ -37,9 +37,10 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
 
     #region ShootingMethods
 
-
+    int countAttacks;
     public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float recoilTimeEachBurst)
     {
+        countAttacks++;
         for (int i = 0; i < nbrOfShoot; ++i)
         {
             if (!enemyController.EnemyCantShoot)
@@ -54,13 +55,17 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         yield return new WaitForSeconds(recoilTimeEachBurst);
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
-            if (!enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
+            Debug.Log("Before Throwing Dices");
+            if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfShootBeforeRepositionning && enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
             {
-                enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+                countAttacks = 0;
+                enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+                Debug.Log("Launch Reposition");
             }
             else
             {
-                enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+                Debug.Log("Launch Chaase");
+                enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
             }
         }
     }

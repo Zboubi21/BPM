@@ -8,7 +8,7 @@ public class RepositionState : IState
     EnemyController m_enemyController;
 
 
-    /// Le NPC se reposition en fonction de la position du Player
+    /// Le NPC se repositione en fonction de la position du Player
     public RepositionState(EnemyController enemyController)
     {
         m_enemyController = enemyController;

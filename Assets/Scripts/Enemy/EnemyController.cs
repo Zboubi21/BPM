@@ -98,7 +98,7 @@ public class EnemyController : MonoBehaviour
     {
         Player = PlayerController.s_instance.gameObject.transform;
 
-        currentTarget = FindBestSpotsInRangeOfTarget(Player);
+        //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
         DistanceToTarget = GetTargetDistance(currentTarget);
     }
@@ -140,7 +140,7 @@ public class EnemyController : MonoBehaviour
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
     {
         Vector3 newTarget;
-
+        bool hasFoundACover = false;
         float distance = Vector3.Distance(transform.position, Player.transform.position);
         Vector3 lastPoint = Vector3.Lerp(Player.transform.position, transform.position, Mathf.InverseLerp(0, distance, Cara._enemyCaractéristique._attack.rangeRadius));
 
@@ -166,12 +166,14 @@ public class EnemyController : MonoBehaviour
                 if (!denied)
                 {
                     allCoverInSphere.Add(allColInSphere[i].gameObject);
+                    hasFoundACover = true;
                 }
             }
         }
+
         #endregion
 
-        if (allCoverInSphere.Count == 0)  // The NPC hasn't found a cover
+        if (allCoverInSphere.Count == 0 || !hasFoundACover)  // The NPC hasn't found a cover
         {
             while (true)
             {
@@ -199,7 +201,7 @@ public class EnemyController : MonoBehaviour
 
     public bool ThrowBehaviorDice(float value)
     {
-        float random = UnityEngine.Random.Range(0, 100);
+        float random = UnityEngine.Random.Range(0f, 100f);
         if(random < value)
         {
             return true;

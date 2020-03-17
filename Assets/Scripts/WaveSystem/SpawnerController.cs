@@ -7,24 +7,6 @@ using EnemyStateEnum;
 
 public class SpawnerController : SerializedMonoBehaviour
 {
-    //public WavesList[] _nbrOfWaves;
-    //[System.Serializable]
-    //public class WavesList
-    //{
-    //    [System.Serializable]
-    //    public class TypeOfEnemy
-    //    {
-    //        public EnemyArchetype archetype;
-    //        public EnemyType enemy;
-    //    }
-    //}
-
-    //public TypeOfEnemy[] m_enemyToSummon;
-    //[System.Serializable]
-    //public class TypeOfEnemy
-    //{
-    //    public EnemyArchetype archetype;
-    //}
 
     EnemyType enemy = EnemyType.EnemyBase;
 
@@ -35,8 +17,6 @@ public class SpawnerController : SerializedMonoBehaviour
     private void Start()
     {
         m_objectPooler = ObjectPooler.Instance;
-
-        //Debug.Log(waveManager[0].GetValue(0));
     }
     
 
@@ -61,7 +41,7 @@ public class SpawnerController : SerializedMonoBehaviour
 
                 EnemyController enemyController = go.GetComponent<EnemyController>();
                 yield return new WaitForFixedUpdate();
-                enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+                enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
 
             }
         }
