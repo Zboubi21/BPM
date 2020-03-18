@@ -11,11 +11,14 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    [SerializeField] float m_clampValue = 0.25f;
 
    [Space]
-   [SerializeField] float m_distance;
+   [SerializeField] float m_distance = 0.25f;
 
 	Vector3 localPositionOffset;
    Vector3 m_currentPosition;
    Vector3 m_targetPos;
+
+   // [Space]
+   // [SerializeField] Transform m_trans;
 
    void OnEnable()
 	{
@@ -26,7 +29,19 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    {
       m_currentPosition = transform.position;
    }
-   public void UpdateScript()
+   public void UpdateScript(Vector3 moveDirection)
+   {
+      FollowTarget();
+
+      // m_trans.position = m_target.position + moveDirection;
+      // m_trans.forward * m_distance;
+   }
+   void LateUpdate()
+   {
+      // FollowTarget();
+   }
+   
+   void FollowTarget()
    {
       m_targetPos = m_target.position + m_offset;
       // transform.position = Vector3.Lerp(transform.position, m_targetPos, Time.deltaTime * m_speed);
@@ -45,18 +60,7 @@ public class WeaponFollowPlayerCam : MonoBehaviour
       //Set position;
       transform.position = m_currentPosition;
    }
-   // void LateUpdate()
-   // {
-   //    m_targetPos = m_target.position + m_offset;
-   //    // transform.position = Vector3.Lerp(transform.position, m_targetPos, Time.deltaTime * m_speed);
 
-   //    //Smooth current position;
-   //    m_currentPosition = Smooth(m_currentPosition, m_targetPos, m_speed);
-
-   //    //Set position;
-   //    transform.position = m_currentPosition;
-   // }
-   
    Vector3 Smooth(Vector3 _start, Vector3 _target, float xSmooth, float ySmooth, float zSmooth)
 	{
 		//Convert local position offset to world coordinates;
@@ -66,9 +70,9 @@ public class WeaponFollowPlayerCam : MonoBehaviour
 		_target += _offset;
 
       Vector3 lerpPos;
-      lerpPos.x = Mathf.Lerp(_start.x, _target.x, xSmooth);
-      lerpPos.y = Mathf.Lerp(_start.y, _target.y, ySmooth);
-      lerpPos.z = Mathf.Lerp(_start.z, _target.z, zSmooth);
+      lerpPos.x = Mathf.Lerp(_start.x, _target.x, xSmooth /** Time.deltaTime*/);
+      lerpPos.y = Mathf.Lerp(_start.y, _target.y, ySmooth /** Time.deltaTime*/);
+      lerpPos.z = Mathf.Lerp(_start.z, _target.z, zSmooth /** Time.deltaTime*/);
       return lerpPos;
 
       // return Vector3.Lerp (_start, _target, /*Time.deltaTime * */xSmooth);
