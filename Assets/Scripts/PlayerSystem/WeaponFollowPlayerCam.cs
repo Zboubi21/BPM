@@ -11,11 +11,14 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    [SerializeField] float m_clampValue = 0.25f;
 
    [Space]
-   [SerializeField] float m_distance;
+   [SerializeField] float m_distance = 0.25f;
 
 	Vector3 localPositionOffset;
    Vector3 m_currentPosition;
    Vector3 m_targetPos;
+
+   // [Space]
+   // [SerializeField] Transform m_trans;
 
    void OnEnable()
 	{
@@ -28,8 +31,10 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    }
    public void UpdateScript(Vector3 moveDirection)
    {
-      // FollowTarget();
-      
+      FollowTarget();
+
+      // m_trans.position = m_target.position + moveDirection;
+      // m_trans.forward * m_distance;
    }
    void LateUpdate()
    {
@@ -65,9 +70,9 @@ public class WeaponFollowPlayerCam : MonoBehaviour
 		_target += _offset;
 
       Vector3 lerpPos;
-      lerpPos.x = Mathf.Lerp(_start.x, _target.x, xSmooth);
-      lerpPos.y = Mathf.Lerp(_start.y, _target.y, ySmooth);
-      lerpPos.z = Mathf.Lerp(_start.z, _target.z, zSmooth);
+      lerpPos.x = Mathf.Lerp(_start.x, _target.x, xSmooth /** Time.deltaTime*/);
+      lerpPos.y = Mathf.Lerp(_start.y, _target.y, ySmooth /** Time.deltaTime*/);
+      lerpPos.z = Mathf.Lerp(_start.z, _target.z, zSmooth /** Time.deltaTime*/);
       return lerpPos;
 
       // return Vector3.Lerp (_start, _target, /*Time.deltaTime * */xSmooth);

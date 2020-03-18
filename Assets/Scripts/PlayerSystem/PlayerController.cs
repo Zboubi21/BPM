@@ -169,16 +169,21 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate()
 	{
 		m_sM.FixedUpdate();
-		m_cameraControls.UpdateScript();
-		m_camPivotPos.UpdateScript();
-		m_camPivotRot.UpdateScript();
-		m_gunPivot.UpdateScript();
+		// m_cameraControls.UpdateScript();
+		// m_camPivotPos.UpdateScript();
+		// m_camPivotRot.UpdateScript();
+		// m_gunPivot.UpdateScript();
 		m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
 	}
 
 	void Update()
 	{
 		m_sM.Update();
+		m_cameraControls.UpdateScript();
+		m_camPivotPos.UpdateScript();
+		m_camPivotRot.UpdateScript();
+		m_gunPivot.UpdateScript();
+		// m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
 	}
 
 	void LateUpdate()
@@ -188,7 +193,7 @@ public class PlayerController : MonoBehaviour
 		// m_camPivotPos.UpdateScript();
 		// m_camPivotRot.UpdateScript();
 		// m_gunPivot.UpdateScript();
-		// m_weaponFollowPlayerCam.UpdateScript();
+		// m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
 	}
 #endregion
 
