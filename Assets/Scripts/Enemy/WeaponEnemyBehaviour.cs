@@ -12,7 +12,10 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public class Attack
     {
         public int damage;
+        public float rangeRadius;
+        [Space]
         public float bulletSpeed;
+        [Space]
         public float timeBetweenEachBullet;
         public int nbrOfShootOnRafale;
         public float timeBetweenEachBurst;
@@ -61,7 +64,29 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                 countAttacks = 0;
                 if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
                 {
-                    enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+                    float[] chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForCover, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
+
+                    int chossenState = enemyController.Choose(chances);
+                    switch (chossenState)
+                    {
+                        case 0:
+
+                                enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+
+                            break;
+                        case 1:
+
+                                enemyController.ChangeState((int)EnemyState.Enemy_AgressiveState);
+
+                            break;
+                        case 2:
+
+                                enemyController.ChangeState((int)EnemyState.Enemy_DefensiveState);
+
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 //Debug.Log("Launch Reposition");
             }
@@ -72,6 +97,8 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
             }
         }
     }
+
+
 
     public override IEnumerator RecoilCurve()
     {

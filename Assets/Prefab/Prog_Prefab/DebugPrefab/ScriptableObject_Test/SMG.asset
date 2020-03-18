@@ -12,12 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe4e7eb841624e458b7fd6061f90d84, type: 3}
   m_Name: SMG
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   _weaponLevel0:
     damage: 10
     attackCooldown: 0.08
     BPMGainOnHit: 5
     BPMCost: 0
     bulletSpeed: 200
+    useElectricalBullet: 0
+    timeOfElectricalStun: 0
     bullet: {fileID: 8129173191346671849, guid: 3a70a0991be4a6641ac4a9238603934f,
       type: 3}
   _weaponLevel1:
@@ -26,12 +37,17 @@ MonoBehaviour:
     BPMGainOnHit: 5
     BPMCost: 6
     bulletSpeed: 200
+    useElectricalBullet: 0
+    timeOfElectricalStun: 0
+    bullet: {fileID: 8129173191346671849, guid: 3a70a0991be4a6641ac4a9238603934f,
+      type: 3}
   _weaponLevel2:
     damage: 40
     attackCooldown: 0.05
     BPMGainOnHit: 5
     BPMCost: 12
     bulletSpeed: 300
+    useElectricalBullet: 1
     timeOfElectricalStun: 5
-    newBullet: {fileID: 8129173191346671849, guid: 3a70a0991be4a6641ac4a9238603934f,
+    bullet: {fileID: 8129173191346671849, guid: 3a70a0991be4a6641ac4a9238603934f,
       type: 3}

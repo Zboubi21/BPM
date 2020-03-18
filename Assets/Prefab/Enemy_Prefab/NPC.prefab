@@ -1625,7 +1625,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8d052b8323e414d9bc13a3849f143f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   _debug:
+    reallyNeedToUseDebug: 1
     weakSpots:
     - {fileID: 8684468554972112693}
     - {fileID: 1248985447757636268}
@@ -1642,19 +1652,44 @@ MonoBehaviour:
     - {fileID: 8684468554716952851}
     - {fileID: 8684468554904109097}
     - {fileID: 8684468554694490253}
+    allCollider:
+    - {fileID: 5853757111675912778}
+    - {fileID: 5853757113183338058}
+    - {fileID: 5853757112065415491}
+    - {fileID: 8684468554469892407}
+    - {fileID: 8684468554694490242}
+    - {fileID: 5853757112528748724}
+    - {fileID: 5853757113257301217}
+    - {fileID: 5853757112742638670}
+    - {fileID: 8684468554026531269}
+    - {fileID: 8684468554904109094}
+    - {fileID: 5853757111289463254}
+    - {fileID: 5853757111811898922}
+    - {fileID: 5853757112097301099}
+    - {fileID: 5853757113050533550}
+    - {fileID: 8684468554493518343}
+    - {fileID: 8684468554606028473}
+    - {fileID: 5853757112302944529}
+    - {fileID: 8684468554972112698}
+    - {fileID: 8684468554632929179}
+    - {fileID: 5853757111397767294}
+    - {fileID: 5853757111995568250}
+    - {fileID: 5853757111359228644}
+    - {fileID: 1248985447757636259}
+    - {fileID: 8684468553695087967}
+    - {fileID: 6001770106411946306}
+    - {fileID: 3822076234505880159}
+    - {fileID: 8684468555185997151}
+    - {fileID: 8684468554716952860}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 100
-    _attack:
-      rangeRadius: 15
     _health:
-      maxHealth: 10
+      maxHealth: 1000
       damageMultiplicatorOnWeakSpot: 1
       damageMultiplicatorOnNoSpot: 1
     _stunResistance:
       timeForStunResistance: 30
-    _specialBehavior:
-      _chanceToRepositionAfterAShoot: 80
 --- !u!114 &4187508792682329746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,6 +1764,7 @@ MonoBehaviour:
     recoilHeight: 1
   _attack:
     damage: 10
+    rangeRadius: 15
     bulletSpeed: 50
     timeBetweenEachBullet: 0.08
     nbrOfShootOnRafale: 10
@@ -3062,7 +3098,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16183
 --- !u!1 &6001770106411946317
 GameObject:
   m_ObjectHideFlags: 0
