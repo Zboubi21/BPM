@@ -8,6 +8,10 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    [SerializeField] Transform m_target;
    [SerializeField] Vector3 m_offset;
    [SerializeField, Range(0, 1)] float m_xSpeed = 1, m_ySpeed = 1, m_zSpeed = 1;
+   [SerializeField] float m_clampValue = 0.25f;
+
+   [Space]
+   [SerializeField] float m_distance;
 
 	Vector3 localPositionOffset;
    Vector3 m_currentPosition;
@@ -28,7 +32,15 @@ public class WeaponFollowPlayerCam : MonoBehaviour
       // transform.position = Vector3.Lerp(transform.position, m_targetPos, Time.deltaTime * m_speed);
 
       //Smooth current position;
+      Vector3 deltaValue = m_currentPosition - m_targetPos;
+      // Debug.Log("m_currentPosition = " + m_currentPosition + " | m_targetPos = " + m_targetPos + " | distance = " + deltaValue);
       m_currentPosition = Smooth(m_currentPosition, m_targetPos, m_xSpeed, m_ySpeed, m_zSpeed);
+
+      float deltaX = Mathf.Abs(m_currentPosition.x - m_targetPos.x);
+      if (deltaX > m_clampValue)
+      {
+
+      }
 
       //Set position;
       transform.position = m_currentPosition;
