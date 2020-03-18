@@ -56,10 +56,13 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
             //Debug.Log("Before Throwing Dices");
-            if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfShootBeforeRepositionning && enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
+            if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfShootBeforeRepositionning)
             {
                 countAttacks = 0;
-                enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+                if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
+                {
+                    enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+                }
                 //Debug.Log("Launch Reposition");
             }
             else
