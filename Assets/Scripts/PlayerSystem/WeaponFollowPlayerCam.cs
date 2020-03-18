@@ -8,6 +8,10 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    [SerializeField] Transform m_target;
    [SerializeField] Vector3 m_offset;
    [SerializeField, Range(0, 1)] float m_xSpeed = 1, m_ySpeed = 1, m_zSpeed = 1;
+   [SerializeField] float m_clampValue = 0.25f;
+
+   [Space]
+   [SerializeField] float m_distance;
 
 	Vector3 localPositionOffset;
    Vector3 m_currentPosition;
@@ -22,29 +26,36 @@ public class WeaponFollowPlayerCam : MonoBehaviour
    {
       m_currentPosition = transform.position;
    }
-   public void UpdateScript()
+   public void UpdateScript(Vector3 moveDirection)
+   {
+      // FollowTarget();
+      
+   }
+   void LateUpdate()
+   {
+      // FollowTarget();
+   }
+   
+   void FollowTarget()
    {
       m_targetPos = m_target.position + m_offset;
       // transform.position = Vector3.Lerp(transform.position, m_targetPos, Time.deltaTime * m_speed);
 
       //Smooth current position;
+      Vector3 deltaValue = m_currentPosition - m_targetPos;
+      // Debug.Log("m_currentPosition = " + m_currentPosition + " | m_targetPos = " + m_targetPos + " | distance = " + deltaValue);
       m_currentPosition = Smooth(m_currentPosition, m_targetPos, m_xSpeed, m_ySpeed, m_zSpeed);
+
+      float deltaX = Mathf.Abs(m_currentPosition.x - m_targetPos.x);
+      if (deltaX > m_clampValue)
+      {
+
+      }
 
       //Set position;
       transform.position = m_currentPosition;
    }
-   // void LateUpdate()
-   // {
-   //    m_targetPos = m_target.position + m_offset;
-   //    // transform.position = Vector3.Lerp(transform.position, m_targetPos, Time.deltaTime * m_speed);
 
-   //    //Smooth current position;
-   //    m_currentPosition = Smooth(m_currentPosition, m_targetPos, m_speed);
-
-   //    //Set position;
-   //    transform.position = m_currentPosition;
-   // }
-   
    Vector3 Smooth(Vector3 _start, Vector3 _target, float xSmooth, float ySmooth, float zSmooth)
 	{
 		//Convert local position offset to world coordinates;
