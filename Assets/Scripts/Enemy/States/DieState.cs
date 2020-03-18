@@ -15,7 +15,7 @@ public class DieState : IState
     public void Enter()
     {
         m_enemyController.Agent.isStopped = true;
-        m_enemyController.KillNPC(2f);   //Send back to pool
+        m_enemyController.KillNPC(2f);   //Send back to pool with animation time
     }
 
     public void Exit()

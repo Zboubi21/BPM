@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Sirenix.OdinInspector;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SerializedMonoBehaviour
 {
     #region Singleton
     public static GameManager Instance;
@@ -20,12 +21,31 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public float enemyAttackDispersement;
-    public float timeMeshShowingUp;
+    //public float enemyAttackDispersement;
+    //public float timeMeshShowingUp;
 
-    [Header("Differents Spots Multiplicator Tweaking")]
-    public float noSpotDamageMultiplicateur;
-    public float weakSpotDamageMultiplicateur;
+    //[Header("Differents Spots Multiplicator Tweaking")]
+    //public float noSpotDamageMultiplicateur;
+    //public float weakSpotDamageMultiplicateur;
+
+    bool consoleActivated;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            consoleActivated = !consoleActivated;
+
+        }
+    }
+
+    #region Enemy DataStocking
+    List<GameObject> allUsedCover = new List<GameObject>();
+
+    #region get set
+    public List<GameObject> AllUsedCover { get => allUsedCover; set => allUsedCover = value; }
+
+    #endregion
+    #endregion
 
 
     /*public void Start()

@@ -63,11 +63,6 @@ public class EnemyCara : MonoBehaviour
     {
         _isDead = false;
 
-
-        #region Activate Archetype
-
-        #endregion
-
         InitializeEnemyStats();
     }
 

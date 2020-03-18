@@ -8,58 +8,11 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "New EnemyArchetype", menuName = "EnemyArchetype")]
 public class EnemyArchetype : SerializedScriptableObject
 {
-    //public Head _head = new Head();
-    //[Serializable]
-    //public class Head
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    //[Space]
-    //public RightShoulder _rightShoulder = new RightShoulder();
-    //[Serializable]
-    //public class RightShoulder
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    //[Space]
-    //public LeftShoulder _leftShoulder = new LeftShoulder();
-    //[Serializable]
-    //public class LeftShoulder
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    //[Space]
-    //public Torso _torso = new Torso();
-    //[Serializable]
-    //public class Torso
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    //[Space]
-    //public Backo _backo = new Backo();
-    //[Serializable]
-    //public class Backo
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    //[Space]
-    //public RightKnee _rightKnee = new RightKnee();
-    //[Serializable]
-    //public class RightKnee
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    //[Space]
-    //public LeftKnee _leftKnee = new LeftKnee();
-    //[Serializable]
-    //public class LeftKnee
-    //{
-    //    public TypeOfSpot _typeOfSpot;
-    //}
-    [Space]
     [EnumToggleButtons, HideLabel]
     public TypeOfSpot typeOfSpot;
-
+    
+    [TabGroup("Enemy Weak Spots")]
+    [PropertySpace(SpaceBefore = 30, SpaceAfter = 30)]
     [System.Flags]
     public enum TypeOfSpot
     {
@@ -72,27 +25,12 @@ public class EnemyArchetype : SerializedScriptableObject
         LeftKnee = 1 << 7,
         All = Head | RightShoulder | LeftShoulder | Torso | Backo | RightKnee | LeftKnee,
     }
-
-    //public enum TypeOfSpot
-    //{
-    //    Head,
-    //    RightShoulder,
-    //    LeftShoulder,
-    //    Torso,
-    //    Backo,
-    //    RightKnee,
-    //    LeftKnee,
-    //}
-
     List<bool> spots;
 
     public List<bool> Spots { get => spots; set => spots = value; }
 
-    //public TypeOfSpot[] e_TypeOfSpot { get => _typeOfSpot; set => _typeOfSpot = value; }
-
     public void PopulateArray()
     {
-        //var value = TypeOfSpot.Head | TypeOfSpot.LeftKnee;
         Spots.Clear();
 
         foreach (TypeOfSpot flagToCheck in Enum.GetValues(typeof(TypeOfSpot)))
@@ -111,26 +49,59 @@ public class EnemyArchetype : SerializedScriptableObject
         }
     }
 
-    //public enum TypeOfSpot
-    //{
-    //    NoSpot,
-    //    WeakSpot,
-    //}
+    [TabGroup("Enemy Behavior Chance")]
+    [Title("Chance To Reposition", titleAlignment: TitleAlignments.Centered, horizontalLine: true, bold: false)]
+    [HideLabel]
+    [ProgressBar(0,100, r: 0.204f, g: 0.204f, b: 0.204f, Height = 20, R = 0.102f, G = 1f, B = 1f)]
+    public int _chanceToRepositionAfterAnAttack = 10;
+    [Space]
+    [TabGroup("Enemy Behavior Chance")]
+    public int _nbrOfShootBeforeRepositionning;
+
+    [Title("Behavior Change Chance", titleAlignment: TitleAlignments.Centered, horizontalLine: true, bold: false)]
+
+    [TabGroup("Enemy Behavior Chance")]
+    [Range(0,100)]
+    //[ProgressBar(0, 100, r: 0.51f, g: 0.153f, b: 1f, Height = 20, R = 0.051f, G = 0.153f, B = 1f)]
+    public float _chanceToGoInAgressive = 10f;
+
+    [TabGroup("Enemy Behavior Chance")]
+    [Range(0, 100)]
+    //[ProgressBar(0, 100, r: 0.51f, g: 0.153f, b: 1f, Height = 20, R = 0.051f, G = 0.153f, B = 1f)]
+    public float _chanceToGoInDefensive = 10f;
+
+    [Serializable]
+    public class MyTabObject
+    {
+        public int A;
+        public int B;
+        public int C;
+    }
+
+    
 
 
-    //[Title("Default")]
-    //public SomeBitmaskEnum DefaultEnumBitmask;
+    //[TitleGroup("Ints")]
+    //public int SomeInt1;
 
-    //[Title("Standard Enum")]
-    //[EnumToggleButtons]
-    //public SomeEnum SomeEnumField;
+    //[TitleGroup("$SomeString1", "Optional subtitle")]
+    //public string SomeString1;
 
-    //[EnumToggleButtons, HideLabel]
-    //public SomeEnum WideEnumField;
+    //[TitleGroup("Ints", "Optional subtitle", alignment: TitleAlignments.Split)]
+    //public int SomeInt2;
 
-    //[Title("Bitmask Enum")]
-    //[EnumToggleButtons]
-    //public SomeBitmaskEnum BitmaskEnumField;
+    //[TitleGroup("$SomeString1", "Optional subtitle")]
+    //public string SomeString2;
 
+    //[TitleGroup("Vectors")]
+    //public Vector2 SomeVector2 { get; set; }
 
+    //[TitleGroup("Ints/Buttons", indent: false)]
+    //private void IntButton() { }
+
+    //[TitleGroup("$SomeString1/Buttons", indent: false)]
+    //private void StringButton() { }
+
+    //[TitleGroup("Vectors")]
+    //private void VectorButton() { }
 }
