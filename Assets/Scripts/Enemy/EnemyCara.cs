@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using EnemyStateEnum;
+using Sirenix.OdinInspector;
 
-public class EnemyCara : MonoBehaviour
+public class EnemyCara : SerializedMonoBehaviour
 {
     public DebugOuvreSurtoutPas _debug = new DebugOuvreSurtoutPas();
     [Serializable] public class DebugOuvreSurtoutPas
     {
+        public bool reallyNeedToUseDebug;
+        [ShowIf("reallyNeedToUseDebug")]
         public GameObject[] weakSpots;
+        [ShowIf("reallyNeedToUseDebug")]
         public GameObject[] noSpot;
+        [ShowIf("reallyNeedToUseDebug")]
+        public Collider[] allCollider;
+
     }
     [Space]
     private EnemyArchetype enemyArchetype;
@@ -24,12 +31,7 @@ public class EnemyCara : MonoBehaviour
         {
             public float moveSpeed;
         }
-        public Attack _attack = new Attack();
-        [Serializable]
-        public class Attack
-        {
-            public float rangeRadius;
-        }
+        
         public Health _health = new Health();
         [Serializable]
         public class Health
@@ -118,6 +120,7 @@ public class EnemyCara : MonoBehaviour
                 break;
         }
 
+
         if (hasToBeStun && !controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && _currentTimeForStunResistance == 0f && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             _currentTimeForElectricalStun = timeForElectricalStun;
@@ -136,10 +139,15 @@ public class EnemyCara : MonoBehaviour
             _isDead = true;
             controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
         }
+        else
+        {
+            controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
+        }
     }
 
     void InitializeEnemyStats()
     {
+
         _currentLife = _enemyCaractéristique._health.maxHealth;
         //_currentDamage = _enemyCaractéristique._attack.damage;
     }

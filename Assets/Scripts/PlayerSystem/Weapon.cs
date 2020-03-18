@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName ="New Weapon", menuName = "Weapon")]
-public class Weapon : ScriptableObject
+public class Weapon : SerializedScriptableObject
 {
     public WeaponLevel0 _weaponLevel0 = new WeaponLevel0();
     [Serializable] public class WeaponLevel0
@@ -20,6 +20,9 @@ public class Weapon : ScriptableObject
         [Space]
         [Header("Level 0 bullet stats")]
         public float bulletSpeed;
+        public bool useElectricalBullet;
+        [ShowIf("useElectricalBullet")]
+        public float timeOfElectricalStun;
         public GameObject bullet;
 
     }
@@ -37,6 +40,11 @@ public class Weapon : ScriptableObject
         [Space]
         [Header("Level 1 bullet stats")]
         public float bulletSpeed;
+        public bool useElectricalBullet;
+        [ShowIf("useElectricalBullet")]
+        public float timeOfElectricalStun;
+        public GameObject bullet;
+
     }
     public WeaponLevel2 _weaponLevel2 = new WeaponLevel2();
     [Serializable]
@@ -52,8 +60,10 @@ public class Weapon : ScriptableObject
         [Space]
         [Header("Level 2 bullet stats")]
         public float bulletSpeed;
+        public bool useElectricalBullet;
+        [ShowIf("useElectricalBullet")]
         public float timeOfElectricalStun;
-        public GameObject newBullet;
+        public GameObject bullet;
 
     }
 

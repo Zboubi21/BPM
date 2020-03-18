@@ -67,6 +67,8 @@ public class BPMSystem : MonoBehaviour
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
         _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+
+        GainBPM(1f);
     }
 
     private void Update()
@@ -107,7 +109,6 @@ public class BPMSystem : MonoBehaviour
         if (_newCurrentBPM < _BPM.maxBPM)
         {
             _currentBPM += BPMGain;
-            ActivateWeaponLevel(_currentBPM);
         }
         else
         {
@@ -119,6 +120,8 @@ public class BPMSystem : MonoBehaviour
             }
 
         }
+        ActivateWeaponLevel(_currentBPM);
+
         FeedBackBPM();
     }
 
@@ -145,6 +148,10 @@ public class BPMSystem : MonoBehaviour
             ChangeWeaponLevel();
 
         }
+        else
+        {
+            _currentWeaponState = WeaponState.Level0;
+        }
     }
 
     void DeactivateWeaponLevel(float currentBPM)
@@ -162,6 +169,10 @@ public class BPMSystem : MonoBehaviour
 
             ChangeWeaponLevel();
 
+        }
+        else
+        {
+            _currentWeaponState = WeaponState.Level2;
         }
     }
 

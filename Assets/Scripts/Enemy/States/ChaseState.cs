@@ -28,12 +28,6 @@ public class ChaseState : IState
 
     public void FixedUpdate()
     {
-        m_enemyController.Agent.SetDestination(m_enemyController.Player.transform.position);
-        if(m_enemyController.DistanceToTarget <= m_enemyController.Cara._enemyCaractéristique._attack.rangeRadius && !m_enemyController.Cara.IsDead)
-        {
-            m_enemyController.Agent.SetDestination(m_enemyController.transform.position);
-            m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
-        }
     }
 
     public void LateUpdate()
@@ -42,6 +36,12 @@ public class ChaseState : IState
 
     public void Update()
     {
+        m_enemyController.Agent.SetDestination(m_enemyController.Player.transform.position);
+        if(m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius && !m_enemyController.Cara.IsDead)
+        {
+            //m_enemyController.Agent.SetDestination(m_enemyController.transform.position);
+            m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
+        }
     }
 
     

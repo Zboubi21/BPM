@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour
 		m_camPivotPos.UpdateScript();
 		m_camPivotRot.UpdateScript();
 		m_gunPivot.UpdateScript();
-		m_weaponFollowPlayerCam.UpdateScript();
+		m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
 	}
 
 	void Update()
