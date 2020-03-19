@@ -7,6 +7,8 @@ public class WaveController : MonoBehaviour
     SpawnerController[] spawners;
     [Space]
     public float timeBetweenEachSpawn;
+    [Space]
+    public float timeBetweenEachWave;
     int _nbrOfEnemy;
     int _nbrOfDeadEnemy;
     int _nbrOfWave;
@@ -15,6 +17,7 @@ public class WaveController : MonoBehaviour
     #region Get Set
     public int NbrOfEnemy { get => _nbrOfEnemy; set => _nbrOfEnemy = value; }
     public int NbrOfDeadEnemy { get => _nbrOfDeadEnemy; set => _nbrOfDeadEnemy = value; }
+    public int NbrOfWave { get => _nbrOfWave; set => _nbrOfWave = value; }
     #endregion
 
     private void Start()
@@ -47,24 +50,21 @@ public class WaveController : MonoBehaviour
     {
         if (NbrOfDeadEnemy != 0 && NbrOfDeadEnemy == NbrOfEnemy)
         {
-            _nbrOfWave++;
-            for (int i = 0, l = spawners.Length; i < l; i++)
-            {
-                if (spawners[i].waveManager.ContainsKey(i))
-                {
-                    StartCoroutine(spawners[i].WaveSpawner(_nbrOfWave, this));
-                    //ActivateAllSpawner(_nbrOfWave);
-                }
-            }
-            //End of Wave
+            //Previous wave's over
+            StartCoroutine(WaitForNextWave());
         }
     }
 
-    void ActivateAllSpawner(int waveNbr)
+    IEnumerator WaitForNextWave()
     {
-        for (int i = 0, l = spawners.Length; i < l; ++i)
+        _nbrOfWave++;
+        yield return new WaitForSeconds(timeBetweenEachWave); // time needed for all the animation/sound/voice/visual effect before next wave
+        //New wave starts
+        for (int i = 0, l = spawners.Length; i < l; i++)
         {
+            StartCoroutine(spawners[i].WaveSpawner(_nbrOfWave, this));
         }
+        //All the enemy have spawned
     }
 
 
