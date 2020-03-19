@@ -57,11 +57,15 @@ public class CameraController : MonoBehaviour {
 	protected Transform m_trans;
 	protected Camera m_camera;
 
+    Vector2 recoil;
+
 	IEnumerator m_fovChangerCorout;
 
-#region Event Functions
-	//Setup references.
-	void Awake () {
+    public Vector2 Recoil { get => recoil; set => recoil = value; }
+
+    #region Event Functions
+    //Setup references.
+    void Awake () {
 		m_trans = transform;
 
 		m_camera = GetComponentInChildren<Camera>();
@@ -116,8 +120,8 @@ public class CameraController : MonoBehaviour {
 		Vector2 _inputVector = GetInput();
 		
 		//Get input values;
-		float _inputHorizontal = _inputVector.x;
-		float _inputVertical = _inputVector.y;
+		float _inputHorizontal = _inputVector.x + Recoil.x;
+		float _inputVertical = _inputVector.y + Recoil.y;
 
 		if(!useMouseInput)
 		{

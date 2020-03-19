@@ -20,11 +20,32 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public Camera playerCamera;
     public LayerMask rayCastCollision;
 
-
-
     int defaultDistance = 500;
 
     RaycastHit _hit;
+    public WeaponRecoil weaponRecoil = new WeaponRecoil();
+    [Serializable]
+    public class WeaponRecoil
+    {
+        [Header("Recoil_Transform")]
+        public Transform RecoilPositionTranform;
+        public Transform RecoilRotationTranform;
+        [Space(10)]
+        [Header("Recoil_Settings")]
+        public float PositionDampTime;
+        public float RotationDampTime;
+        [Space(10)]
+        public float PositionRecoil;
+        public float RotationRecoil;
+        [Space(10)]
+        public Vector3 RecoilRotation;
+        public Vector3 RecoilKickBack;
+
+    }
+    Vector3 CurrentPositionRecoil;
+    Vector3 CurrentRotationRecoil;
+
+    Vector3 RotationOutput;
 
 
     public override void Awake()
@@ -61,6 +82,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     StartCoroutine(OnShoot(1, _currentAttackSpeed, 0));
                 }
+
 
                 break;
         }
@@ -115,8 +137,11 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             _BPMSystem.LoseBPM(_currentBPMCost);
 
             InitiateRayCast(InstatiateProj());
-            
+
+            Fire();
             yield return new WaitForSeconds(timeEachShoot);
+
+
 
         }
         yield return new WaitForSeconds(recoilTimeEachBurst);
@@ -124,7 +149,30 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         //CanShoot = true;
     }
 
-    public override IEnumerator RecoilCurve()
+    public void AddRecoil(float upRecoil, float sideRecoil)
+    {
+
+
+    }
+    
+    void FixedUpdate()
+    {
+        CurrentPositionRecoil = Vector3.Lerp(CurrentPositionRecoil, Vector3.zero, weaponRecoil.PositionRecoil * Time.deltaTime);
+        CurrentRotationRecoil = Vector3.Lerp(CurrentRotationRecoil, Vector3.zero, weaponRecoil.RotationRecoil * Time.deltaTime);
+
+        weaponRecoil.RecoilPositionTranform.localPosition = Vector3.Slerp(weaponRecoil.RecoilPositionTranform.localPosition, CurrentRotationRecoil, weaponRecoil.PositionDampTime * Time.fixedDeltaTime);
+        weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
+        RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
+        
+    }
+    public void Fire()
+    {
+        CurrentPositionRecoil += new Vector3(weaponRecoil.RecoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.y, weaponRecoil.RecoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.z, weaponRecoil.RecoilRotation.z));
+        CurrentRotationRecoil += new Vector3(UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.x, weaponRecoil.RecoilKickBack.x), UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.y, weaponRecoil.RecoilKickBack.y), weaponRecoil.RecoilKickBack.z);
+        
+    }
+
+    /*public override IEnumerator RecoilCurve()
     {
         _currentTimeToRecoverFromRecoil = 0;
         while (_currentTimeToRecoverFromRecoil / _SMG.timeToRecoverFromRecoil <= 1)
@@ -142,7 +190,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             weaponObj.transform.localEulerAngles = rotationTemp;
         }
         _currentTimeToRecoverFromRecoil = 0;
-    }
+    }*/
     #endregion
 
         

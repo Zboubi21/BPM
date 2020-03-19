@@ -134,10 +134,12 @@ public class PlayerController : MonoBehaviour
     CameraController m_cameraController;
 	WeaponPlayerBehaviour m_playerWeapon;
 
-#endregion
+    public CameraController CameraControls { get => m_cameraControls; set => m_cameraControls = value; }
 
-#region Event Functions
-	void Awake()
+    #endregion
+
+    #region Event Functions
+    void Awake()
     {
         SetupSingleton();
 		SetupStateMachine();
