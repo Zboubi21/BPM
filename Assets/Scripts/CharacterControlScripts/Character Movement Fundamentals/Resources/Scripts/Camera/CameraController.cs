@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour {
 	//Setting this value to '50f' (or above) will result in no smoothing at all;
 	//Setting this value to '1f' (or below) will result in very noticable smoothing;
 	//For most situations, a value of '25f' is recommended;
-	[Range(50f, 1f)]
+	[Range(1f, 50f)]
 	public float cameraSmoothingFactor = 25f;
 
 	//Variables for storing current facing direction and upwards direction;

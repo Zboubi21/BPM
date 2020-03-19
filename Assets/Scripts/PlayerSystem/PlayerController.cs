@@ -173,7 +173,8 @@ public class PlayerController : MonoBehaviour
 		// m_camPivotPos.UpdateScript();
 		// m_camPivotRot.UpdateScript();
 		// m_gunPivot.UpdateScript();
-		m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
+
+		m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection); // C'était ça avant !
 	}
 
 	void Update()
@@ -183,7 +184,8 @@ public class PlayerController : MonoBehaviour
 		m_camPivotPos.UpdateScript();
 		m_camPivotRot.UpdateScript();
 		m_gunPivot.UpdateScript();
-		// m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
+
+		// m_weaponFollowPlayerCam.UpdateScript(m_playerMoveInputsDirection);
 	}
 
 	void LateUpdate()
