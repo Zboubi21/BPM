@@ -16,6 +16,7 @@ public class PlayerAudioController : AudioController
         public float m_footStepDistanceRandomizer = 0.025f;
         public Sounds m_stoneStep;
         public Sounds m_woodStep;
+        public Sounds m_glassStep;
     }
 
     [Header("Jump")]
@@ -29,8 +30,8 @@ public class PlayerAudioController : AudioController
     [System.Serializable] class Land
     {
         public Sounds m_stone;
-        public Sounds m_metal;
         public Sounds m_wood;
+        public Sounds m_glass;
     }
 
     [Header("Dash")]
@@ -92,6 +93,9 @@ public class PlayerAudioController : AudioController
             case GroundTypeEnum.Wood:
                 StartSoundFromArray(m_steps.m_woodStep.m_audioSource, m_steps.m_woodStep.m_sounds, m_steps.m_woodStep.m_volume, m_steps.m_woodStep.m_volumeRandomizer, m_steps.m_woodStep.m_pitch, m_steps.m_woodStep.m_pitchRandomizer);
             break;
+            case GroundTypeEnum.Glass:
+                StartSoundFromArray(m_steps.m_glassStep.m_audioSource, m_steps.m_glassStep.m_sounds, m_steps.m_glassStep.m_volume, m_steps.m_glassStep.m_volumeRandomizer, m_steps.m_glassStep.m_pitch, m_steps.m_glassStep.m_pitchRandomizer);
+            break;
         }
     }
     GroundTypeEnum CheckPlayerGround()
@@ -138,6 +142,9 @@ public class PlayerAudioController : AudioController
             break;
             case GroundTypeEnum.Wood:
                 StartSoundFromArray(m_land.m_wood.m_audioSource, m_land.m_wood.m_sounds, m_land.m_wood.m_volume, m_land.m_wood.m_volumeRandomizer, m_land.m_wood.m_pitch, m_land.m_wood.m_pitchRandomizer);
+            break;
+            case GroundTypeEnum.Glass:
+                StartSoundFromArray(m_land.m_glass.m_audioSource, m_land.m_glass.m_sounds, m_land.m_glass.m_volume, m_land.m_glass.m_volumeRandomizer, m_land.m_glass.m_pitch, m_land.m_glass.m_pitchRandomizer);
             break;
         }
     }
