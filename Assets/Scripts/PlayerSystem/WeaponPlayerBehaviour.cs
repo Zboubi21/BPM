@@ -19,6 +19,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     public Camera playerCamera;
     public LayerMask rayCastCollision;
+    [Header("VFX")]
+    public GameObject[] _insideLaser;
 
     int defaultDistance = 500;
 
@@ -90,23 +92,39 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     public override void ChangeWeaponStats()
     {
+        int weaponLevel;
         switch (_BPMSystem.CurrentWeaponState)
         {
             case BPMSystem.WeaponState.Level0:
 
                 InitiateWeaponVar(weaponStats._weaponLevel0.damage, weaponStats._weaponLevel0.attackCooldown, weaponStats._weaponLevel0.BPMGainOnHit, weaponStats._weaponLevel0.BPMCost, weaponStats._weaponLevel0.bullet, weaponStats._weaponLevel0.bulletSpeed, weaponStats._weaponLevel0.useElectricalBullet, weaponStats._weaponLevel0.timeOfElectricalStun);
-
+                weaponLevel = 0;
                 break;
             case BPMSystem.WeaponState.Level1:
 
                 InitiateWeaponVar(weaponStats._weaponLevel1.damage, weaponStats._weaponLevel1.attackCooldown, weaponStats._weaponLevel1.BPMGainOnHit, weaponStats._weaponLevel1.BPMCost, weaponStats._weaponLevel1.bullet, weaponStats._weaponLevel1.bulletSpeed, weaponStats._weaponLevel1.useElectricalBullet, weaponStats._weaponLevel1.timeOfElectricalStun);
-
+                weaponLevel = 1;
                 break;
             case BPMSystem.WeaponState.Level2:
 
                 InitiateWeaponVar(weaponStats._weaponLevel2.damage, weaponStats._weaponLevel2.attackCooldown, weaponStats._weaponLevel2.BPMGainOnHit, weaponStats._weaponLevel2.BPMCost, weaponStats._weaponLevel2.bullet, weaponStats._weaponLevel2.bulletSpeed, weaponStats._weaponLevel2.useElectricalBullet, weaponStats._weaponLevel2.timeOfElectricalStun);
-
+                weaponLevel = 2;
                 break;
+            default:
+                weaponLevel = 0;
+                break;
+        }
+
+        for (int i = 0, l = _insideLaser.Length; i < l; ++i)
+        {
+            if (i != weaponLevel)
+            {
+                _insideLaser[i].SetActive(false);
+            }
+            else
+            {
+                _insideLaser[i].SetActive(true);
+            }
         }
     }
 
@@ -132,7 +150,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
         for (int i = 0; i < nbrOfShoot; ++i)
         {
-            StartCoroutine(RecoilCurve());
+            //StartCoroutine(RecoilCurve());
 
             _BPMSystem.LoseBPM(_currentBPMCost);
 
@@ -140,9 +158,6 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
             Fire();
             yield return new WaitForSeconds(timeEachShoot);
-
-
-
         }
         yield return new WaitForSeconds(recoilTimeEachBurst);
 
@@ -169,7 +184,6 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         CurrentPositionRecoil += new Vector3(weaponRecoil.RecoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.y, weaponRecoil.RecoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.z, weaponRecoil.RecoilRotation.z));
         CurrentRotationRecoil += new Vector3(UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.x, weaponRecoil.RecoilKickBack.x), UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.y, weaponRecoil.RecoilKickBack.y), weaponRecoil.RecoilKickBack.z);
-        
     }
 
     /*public override IEnumerator RecoilCurve()
@@ -199,7 +213,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
         GameObject go = Instantiate(_currentProjectil, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, projectilRoot);
-        go.GetComponent<Projectile>().Speed = _currentProjectilSpeed;
+        Projectile probjVar = go.GetComponent<Projectile>();
+        Level.AddFX(probjVar.m_muzzleFlash, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
+        probjVar.Speed = _currentProjectilSpeed;
         return go;
     }
 

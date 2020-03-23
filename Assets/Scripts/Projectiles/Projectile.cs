@@ -21,6 +21,7 @@ public class Projectile : MonoBehaviour
     [Space]
     [Header("FX")]
     public GameObject m_dieFX;
+    public GameObject m_muzzleFlash;
     [Space]
     public float m_maxLifeTime = 5;
     [Header("DEBUG")]
@@ -312,7 +313,9 @@ public class Projectile : MonoBehaviour
 
         if (m_dieFX != null)
         {
-            Level.AddFX(m_dieFX, _hit.point, Quaternion.identity);    //Impact FX
+            Vector3 rot = _hit.normal;
+
+            Level.AddFX(m_dieFX, _hit.point, transform.rotation);    //Impact FX
             if (collider.GetComponent<Rigidbody>() != null)
             {
                 Rigidbody _rb = collider.GetComponent<Rigidbody>();
