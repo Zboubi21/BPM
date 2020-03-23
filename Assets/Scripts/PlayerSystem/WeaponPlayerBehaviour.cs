@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TypeOfFireEnum;
+using PoolTypes;
 
 public class WeaponPlayerBehaviour : WeaponBehaviour
 {
@@ -16,6 +17,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     GameObject _currentProjectil;
 
     BPMSystem _BPMSystem;
+    ObjectPooler objectPooler;
 
     public Camera playerCamera;
     public LayerMask rayCastCollision;
@@ -54,6 +56,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         base.Awake();
         _BPMSystem = GetComponent<BPMSystem>();
+        objectPooler = ObjectPooler.Instance;
         ChangeWeaponStats();
     }
 
@@ -89,7 +92,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 break;
         }
     }
-
+    ProjectileType proj;
     public override void ChangeWeaponStats()
     {
         int weaponLevel;
@@ -99,19 +102,25 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
                 InitiateWeaponVar(weaponStats._weaponLevel0.damage, weaponStats._weaponLevel0.attackCooldown, weaponStats._weaponLevel0.BPMGainOnHit, weaponStats._weaponLevel0.BPMCost, weaponStats._weaponLevel0.bullet, weaponStats._weaponLevel0.bulletSpeed, weaponStats._weaponLevel0.useElectricalBullet, weaponStats._weaponLevel0.timeOfElectricalStun);
                 weaponLevel = 0;
+                proj = ProjectileType.ProjectileLevel1;
                 break;
             case BPMSystem.WeaponState.Level1:
 
                 InitiateWeaponVar(weaponStats._weaponLevel1.damage, weaponStats._weaponLevel1.attackCooldown, weaponStats._weaponLevel1.BPMGainOnHit, weaponStats._weaponLevel1.BPMCost, weaponStats._weaponLevel1.bullet, weaponStats._weaponLevel1.bulletSpeed, weaponStats._weaponLevel1.useElectricalBullet, weaponStats._weaponLevel1.timeOfElectricalStun);
                 weaponLevel = 1;
+                proj = ProjectileType.ProjectileLevel2;
+
                 break;
             case BPMSystem.WeaponState.Level2:
 
                 InitiateWeaponVar(weaponStats._weaponLevel2.damage, weaponStats._weaponLevel2.attackCooldown, weaponStats._weaponLevel2.BPMGainOnHit, weaponStats._weaponLevel2.BPMCost, weaponStats._weaponLevel2.bullet, weaponStats._weaponLevel2.bulletSpeed, weaponStats._weaponLevel2.useElectricalBullet, weaponStats._weaponLevel2.timeOfElectricalStun);
                 weaponLevel = 2;
+                proj = ProjectileType.ProjectileLevel3;
+
                 break;
             default:
                 weaponLevel = 0;
+                proj = ProjectileType.ProjectileLevel1;
                 break;
         }
 
@@ -153,8 +162,14 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             //StartCoroutine(RecoilCurve());
 
             _BPMSystem.LoseBPM(_currentBPMCost);
-
-            InitiateRayCast(InstatiateProj());
+            if (_currentProjectil != null)
+            {
+                InitiateRayCast(InstatiateProj());
+            }
+            else
+            {
+                InitiateRayCast();
+            }
 
             Fire();
             yield return new WaitForSeconds(timeEachShoot);
@@ -212,10 +227,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public override GameObject InstatiateProj()
     {
         _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
-        GameObject go = Instantiate(_currentProjectil, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, projectilRoot);
-        Projectile probjVar = go.GetComponent<Projectile>();
-        Level.AddFX(probjVar.m_muzzleFlash, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
-        probjVar.Speed = _currentProjectilSpeed;
+        
+        //GameObject go = Instantiate(_currentProjectil, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, projectilRoot);
+        GameObject go = objectPooler.SpawnProjectileFromPool(proj, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation);
         return go;
     }
 
@@ -239,8 +253,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
             #region Initiate Proj Var
             Projectile projVar = projectileFeedback.GetComponent<Projectile>();
-
-            if(projVar != null)
+            Level.AddFX(projVar.m_muzzleFlash, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
+            if (projVar != null)
             {
                 projVar.ProjectileType1 = Projectile.ProjectileType.Player;
                 projVar.DistanceToReach = _hit.point;
@@ -253,9 +267,18 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 projVar.CurrentDamage = _currentDamage;
                 projVar.HasToStun = _currentHasToStun;
                 projVar.TimeForElectricalStun = _currentTimeOfElctricalStun;
+                projVar.Speed = _currentProjectilSpeed;
+                projVar.ProjectileType2 = proj;
             }
             #endregion
 
+        }
+    }
+    void InitiateRayCast()
+    {
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+        {
+            string tag = _hit.collider.tag;
         }
     }
 
