@@ -27,13 +27,14 @@ public class PoolTracker : MonoBehaviour {
         }
     }
 
-    SpellType m_spellType;
-    public SpellType SpellType{
+    ProjectileType m_projectileType;
+    public ProjectileType ProjectileType
+    {
         get{
-            return m_spellType;
+            return m_projectileType;
         }
         set{
-            m_spellType = value;
+            m_projectileType = value;
         }
     }
 
@@ -59,8 +60,8 @@ public class PoolTracker : MonoBehaviour {
             case PoolType.EnemyType:
 		        m_objectPooler.ReturnEnemyToPool(m_enemyType, gameObject);
             break;
-            case PoolType.SpellType:
-		        m_objectPooler.ReturnSpellToPool(m_spellType, gameObject);
+            case PoolType.ProjectileType:
+		        m_objectPooler.ReturnProjectileToPool(m_projectileType, gameObject);
             break;
             case PoolType.ObjectType:
 		        m_objectPooler.ReturnObjectToPool(m_objectType, gameObject);

@@ -70,7 +70,7 @@ public class BPMSystem : MonoBehaviour
         // _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
         FeedBackBPM();
 
-        GainBPM(1f);
+        GainBPM(0f);
     }
 
     private void Update()

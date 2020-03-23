@@ -32,11 +32,11 @@ public class ObjectPooler : MonoBehaviour {
 		public int m_size;
     }
 
-	[Header("Spell pools")]
-	[SerializeField] List<SpellPool> m_spellPools;
-	[System.Serializable] public class SpellPool {
+	[Header("Projectile pools")]
+	[SerializeField] List<ProjectilPool> m_projectilPools;
+	[System.Serializable] public class ProjectilPool {
         public string m_name;
-        public SpellType m_spellType;
+        public ProjectileType m_projectileType;
         public GameObject m_prefab;
 		public int m_size;
     }
@@ -68,7 +68,7 @@ public class ObjectPooler : MonoBehaviour {
     }
 
 	Dictionary<EnemyType, Queue<GameObject>> m_enemyPoolDictionary;
-	Dictionary<SpellType, Queue<GameObject>> m_spellPoolDictionary;
+	Dictionary<ProjectileType, Queue<GameObject>> m_projectilePoolDictionary;
 	Dictionary<ObjectType, Queue<GameObject>> m_objectPoolDictionary;
 
 	Queue<PoolTracker> m_trackedObject = new Queue<PoolTracker>();
@@ -86,8 +86,8 @@ public class ObjectPooler : MonoBehaviour {
 			m_enemyPoolDictionary.Add(pool.m_enemyType, objectPool);
 		}
 
-		m_spellPoolDictionary = new Dictionary<SpellType, Queue<GameObject>>();
-		foreach(SpellPool pool in m_spellPools){
+		m_projectilePoolDictionary = new Dictionary<ProjectileType, Queue<GameObject>>();
+		foreach(ProjectilPool pool in m_projectilPools){
 			Queue<GameObject> objectPool = new Queue<GameObject>();
 			for(int i = 0, l = pool.m_size; i < l; ++i){
 				GameObject obj = Instantiate(pool.m_prefab, transform, this);
@@ -95,7 +95,7 @@ public class ObjectPooler : MonoBehaviour {
 				obj.name = obj.name + "_" + i;
 				objectPool.Enqueue(obj);
 			}
-			m_spellPoolDictionary.Add(pool.m_spellType, objectPool);
+			m_projectilePoolDictionary.Add(pool.m_projectileType, objectPool);
 		}
 
 		m_objectPoolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
@@ -165,34 +165,34 @@ public class ObjectPooler : MonoBehaviour {
 	}
 
 
-	public GameObject SpawnSpellFromPool(SpellType spellType, Vector3 position, Quaternion rotation){
+	public GameObject SpawnProjectileFromPool(ProjectileType projectileType, Vector3 position, Quaternion rotation){
 
-		if(!m_spellPoolDictionary.ContainsKey(spellType)){
-			Debug.LogError("Pool of " + spellType + " dosen't exist.");
+		if(!m_projectilePoolDictionary.ContainsKey(projectileType)){
+			Debug.LogError("Pool of " + projectileType + " dosen't exist.");
 			return null;
 		}
 
-		if(m_spellPoolDictionary[spellType].Count == 0){
-			Debug.LogError(spellType.ToString() + " pool is empty!");
+		if(m_projectilePoolDictionary[projectileType].Count == 0){
+			Debug.LogError(projectileType.ToString() + " pool is empty!");
 			return null;
 		}
 
-		GameObject objectToSpawn = m_spellPoolDictionary[spellType].Dequeue();
+		GameObject objectToSpawn = m_projectilePoolDictionary[projectileType].Dequeue();
 
 		objectToSpawn.transform.position = position;
 		objectToSpawn.transform.rotation = rotation;
 		objectToSpawn.SetActive(true);
 
-		PoolTracker poolTracker = AddPoolTrackerComponent(objectToSpawn, PoolType.SpellType);
-		poolTracker.SpellType = spellType;
+		PoolTracker poolTracker = AddPoolTrackerComponent(objectToSpawn, PoolType.ProjectileType);
+		poolTracker.ProjectileType = projectileType;
 		m_trackedObject.Enqueue(poolTracker);
 
 		return objectToSpawn;
 	}
-	public void ReturnSpellToPool(SpellType objectType, GameObject objectToReturn){
+	public void ReturnProjectileToPool(ProjectileType objectType, GameObject objectToReturn){
 		CheckPoolTrackerOnResetObject(objectToReturn);
 		objectToReturn.SetActive(false);
-		m_spellPoolDictionary[objectType].Enqueue(objectToReturn);
+		m_projectilePoolDictionary[objectType].Enqueue(objectToReturn);
 	}
 
 
