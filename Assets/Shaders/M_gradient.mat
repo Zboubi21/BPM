@@ -7,11 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Ennemie
-  m_Shader: {fileID: -6465566751694194690, guid: a095caef964b03c4f873fa3491242b7c,
+  m_Name: M_gradient
+  m_Shader: {fileID: -6465566751694194690, guid: f29ff7a02433edb4c93d5b7d3486dd13,
     type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 1
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -23,38 +23,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_5413CA3B:
-        m_Texture: {fileID: 2800000, guid: e231e4c02c48ee14aafa55f7b1a843c1, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_612620A8:
-        m_Texture: {fileID: 2800000, guid: 44a76088e07003a4081a69badda3d6bf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_7D64B99F:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_95EEE806:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_A1F14E6F:
-        m_Texture: {fileID: 2800000, guid: 44a76088e07003a4081a69badda3d6bf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_A3E9D161:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_CF6F1CDE:
-        m_Texture: {fileID: 2800000, guid: 44a76088e07003a4081a69badda3d6bf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_D8E92E88:
-        m_Texture: {fileID: 2800000, guid: 538411ecc44ed694486176a051640731, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -140,18 +108,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_375C65ED: 0
-    - Vector1_3C462BC9: 0.64
-    - Vector1_3D923430: 0
-    - Vector1_4CDD7395: 0
-    - Vector1_5C9AD9AC: 10
-    - Vector1_66699312: 0.45
-    - Vector1_7A04BFA6: 1
-    - Vector1_7DAFF02A: 0
-    - Vector1_8393A911: 5
-    - Vector1_B402B891: 0.26
-    - Vector1_D43A60: 0
-    - Vector1_F5394A68: 10
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -240,15 +196,15 @@ Material:
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SrcBlend: 1
-    - _StencilRef: 2
-    - _StencilRefDepth: 0
+    - _StencilRef: 0
+    - _StencilRefDepth: 32
     - _StencilRefDistortionVec: 64
     - _StencilRefGBuffer: 2
-    - _StencilRefMV: 128
+    - _StencilRefMV: 160
     - _StencilWriteMask: 3
     - _StencilWriteMaskDepth: 48
     - _StencilWriteMaskDistortionVec: 64
-    - _StencilWriteMaskGBuffer: 51
+    - _StencilWriteMaskGBuffer: 3
     - _StencilWriteMaskMV: 176
     - _SubsurfaceMask: 1
     - _SupportDecals: 1
@@ -275,12 +231,6 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_4A6B6E2F: {r: 0, g: 0.5162258, b: 1, a: 0}
-    - Color_5EF84F92: {r: 128, g: 128, b: 128, a: 0}
-    - Color_7E05C140: {r: 3.5648696, g: 3.5648696, b: 3.5648696, a: 0}
-    - Color_A404BD04: {r: 0, g: 710.7765, b: 766.9961, a: 0}
-    - Color_C57D3B3D: {r: 16, g: 16, b: 16, a: 0}
-    - Color_F666F2B5: {r: 0, g: 1024, b: 361.41177, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
