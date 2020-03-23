@@ -20,6 +20,7 @@ public class BPMSystem : MonoBehaviour
         //public int BPMGain_OnDestructableEnvironment;
         [Space]
         public Image BPM_Gauge;
+        public PlayerBpmGui m_playerBpmGui;
         //public Image Electra_Gauge;
     }
     float _currentBPM;
@@ -66,7 +67,8 @@ public class BPMSystem : MonoBehaviour
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
-        _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+        // _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+        FeedBackBPM();
 
         GainBPM(1f);
     }
@@ -100,6 +102,7 @@ public class BPMSystem : MonoBehaviour
             }
         }
         FeedBackBPM();
+        _BPM.m_playerBpmGui.On_PlayerGetBpm(false, BPMLoss);
     }
 
     public void GainBPM(float BPMGain)
@@ -123,12 +126,15 @@ public class BPMSystem : MonoBehaviour
         ActivateWeaponLevel(_currentBPM);
 
         FeedBackBPM();
+        _BPM.m_playerBpmGui.On_PlayerGetBpm(true, BPMGain);
     }
 
     void FeedBackBPM()
     {
         _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+        _BPM.m_playerBpmGui.SetPlayerBpm(_currentBPM);
     }
+
     #endregion
 
     #region Activate and Deactivate Weapon
