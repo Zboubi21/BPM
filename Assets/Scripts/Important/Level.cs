@@ -29,5 +29,14 @@ public class Level : MonoBehaviour {
 		}
         return null;    // On instentie pas de nouveaux FX
     }
-    
+    static public FX AddFX(GameObject model, Vector3 position, Quaternion rotation, Transform parent)
+    {
+        if (model != null)
+        {   // Si la variable m_deadFX est différente de null alors :
+            // Création d'une copie en mémoire de ce préfab dans la hiérarchie :
+            GameObject go = Instantiate(model, position, rotation, parent);	// On instentie l'objet original (model) avec une position (position) et une rotation (Quaternion.identity)
+            return go.GetComponent<FX>();
+        }
+        return null;    // On instentie pas de nouveaux FX
+    }
 }

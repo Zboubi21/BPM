@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PoolTypes;
 
 public class Projectile : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class Projectile : MonoBehaviour
     [Space]
     [Header("FX")]
     public GameObject m_dieFX;
+    public GameObject m_muzzleFlash;
     [Space]
     public float m_maxLifeTime = 5;
     [Header("DEBUG")]
@@ -31,7 +33,7 @@ public class Projectile : MonoBehaviour
     SphereCollider col;
 
 
-
+    PoolTypes.ProjectileType projectileType;
     RaycastHit _hit;
     bool m_dieWhenHit = true;
 
@@ -39,7 +41,6 @@ public class Projectile : MonoBehaviour
     float newLength;
     Vector3 m_awakeDistance;
     Vector3 m_currentDistance;
-
 
     WeaponBehaviour _WeaponBehaviour;
     BPMSystem m_BPMSystem;
@@ -80,6 +81,7 @@ public class Projectile : MonoBehaviour
     public ProjectileType ProjectileType1 { get => m_projectileType; set => m_projectileType = value; }
     public bool HasToStun { get => _hasToStun; set => _hasToStun = value; }
     public float TimeForElectricalStun { get => _timeForElectricalStun; set => _timeForElectricalStun = value; }
+    public PoolTypes.ProjectileType ProjectileType2 { get => projectileType; set => projectileType = value; }
     #endregion
 
     public void Start()
@@ -312,7 +314,9 @@ public class Projectile : MonoBehaviour
 
         if (m_dieFX != null)
         {
-            Level.AddFX(m_dieFX, _hit.point, Quaternion.identity);    //Impact FX
+            Vector3 rot = _hit.normal;
+
+            Level.AddFX(m_dieFX, _hit.point, transform.rotation);    //Impact FX
             if (collider.GetComponent<Rigidbody>() != null)
             {
                 Rigidbody _rb = collider.GetComponent<Rigidbody>();
@@ -331,6 +335,6 @@ public class Projectile : MonoBehaviour
 
     void DestroyProj()
     {
-        Destroy(gameObject);
+        ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
     }
 }

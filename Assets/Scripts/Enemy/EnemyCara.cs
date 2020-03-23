@@ -120,28 +120,33 @@ public class EnemyCara : SerializedMonoBehaviour
                 break;
         }
 
-
-        if (hasToBeStun && !controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && _currentTimeForStunResistance == 0f && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
+        if(controller != null)  // pour les dummy
         {
-            _currentTimeForElectricalStun = timeForElectricalStun;
-            _currentTimeForStunResistance = _enemyCaractéristique._stunResistance.timeForStunResistance;
-            controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+            if (hasToBeStun && !controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && _currentTimeForStunResistance == 0f && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
+            {
+                _currentTimeForElectricalStun = timeForElectricalStun;
+                _currentTimeForStunResistance = _enemyCaractéristique._stunResistance.timeForStunResistance;
+                controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+            }
+            CheckIfDead();
         }
 
-        CheckIfDead();
 
     }
 
     void CheckIfDead()
     {
-        if (_currentLife <= 0)
+        if(controller != null) // pour les dummy
         {
-            _isDead = true;
-            controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
-        }
-        else
-        {
-            controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
+            if (_currentLife <= 0)
+            {
+                _isDead = true;
+                controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
+            }
+            else
+            {
+                controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
+            }
         }
     }
 

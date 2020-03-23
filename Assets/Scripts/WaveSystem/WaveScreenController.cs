@@ -11,6 +11,11 @@ public class WaveScreenController : MonoBehaviour
     public GridLayoutGroup m_waveHasACanvasGroup;
     public Text m_displayNbrOfWave;
     public Text m_displayNbrOFEnemy;
+    [Space]
+    [Header("Sound")]
+    public AudioSource source;
+    public AudioClip[] audioEndOfEachWave;
+
 
 
     List<Image> allEnemyImages = new List<Image>();
@@ -64,7 +69,14 @@ public class WaveScreenController : MonoBehaviour
                 Image go = Instantiate(m_robotImage, m_waveHasACanvasGroup.transform.position, Quaternion.identity, m_waveHasACanvasGroup.transform);
                 allEnemyImages.Add(go);
             }
-            
+        }
+
+        if(source != null)
+        {
+            if(audioEndOfEachWave[nbrOfTheCurrentWave - 1] != null)
+            {
+                source.clip = audioEndOfEachWave[nbrOfTheCurrentWave - 1];
+            }
         }
     }
 }
