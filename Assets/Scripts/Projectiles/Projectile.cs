@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PoolTypes;
 
 public class Projectile : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class Projectile : MonoBehaviour
     SphereCollider col;
 
 
-
+    PoolTypes.ProjectileType projectileType;
     RaycastHit _hit;
     bool m_dieWhenHit = true;
 
@@ -40,7 +41,6 @@ public class Projectile : MonoBehaviour
     float newLength;
     Vector3 m_awakeDistance;
     Vector3 m_currentDistance;
-
 
     WeaponBehaviour _WeaponBehaviour;
     BPMSystem m_BPMSystem;
@@ -81,6 +81,7 @@ public class Projectile : MonoBehaviour
     public ProjectileType ProjectileType1 { get => m_projectileType; set => m_projectileType = value; }
     public bool HasToStun { get => _hasToStun; set => _hasToStun = value; }
     public float TimeForElectricalStun { get => _timeForElectricalStun; set => _timeForElectricalStun = value; }
+    public PoolTypes.ProjectileType ProjectileType2 { get => projectileType; set => projectileType = value; }
     #endregion
 
     public void Start()
@@ -334,6 +335,6 @@ public class Projectile : MonoBehaviour
 
     void DestroyProj()
     {
-        Destroy(gameObject);
+        ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
     }
 }

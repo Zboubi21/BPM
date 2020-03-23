@@ -18,6 +18,8 @@ public class EnemyController : MonoBehaviour
         public Text m_lifeText;
 
         public GameObject m_destinationImage;
+
+        public float obstacleAvoidance = 3f;
     }
 
     #region State Machine
@@ -153,7 +155,7 @@ public class EnemyController : MonoBehaviour
         Vector3 lastPoint = Vector3.Lerp(target.position, transform.position, Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius));
         if(choosenCover != 0 && manager.AllUsedCover.Count > 0) 
         {
-            manager.AllUsedCover.RemoveAt(choosenCover - 1); // -1 pour retomber sur l'index exacte (on fait +1 plus loin pour avoir choosenCover =0 : " je n'ai pas trouvé de cover"
+            manager.AllUsedCover.RemoveAt(choosenCover - 1); // -1 pour retomber sur l'index exacte (on fait +1 plus loin pour avoir choosenCover =0 : " je n'ai pas trouvé de cover")
         }
 
         #region Find all cover around the player
@@ -302,7 +304,10 @@ public class EnemyController : MonoBehaviour
         EnemyCantShoot = true;
         yield return new WaitForSeconds(Cara.CurrentTimeForElectricalStun);
         EnemyCantShoot = false;
-        ChangeState((int)EnemyState.Enemy_ChaseState);
+        if (m_sM.CompareState((int)EnemyState.Enemy_StunState))
+        {
+            ChangeState((int)EnemyState.Enemy_ChaseState);
+        }
     }
     #endregion
 
