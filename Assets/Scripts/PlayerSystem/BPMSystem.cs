@@ -61,26 +61,44 @@ public class BPMSystem : MonoBehaviour
     bool _canUseFury;
     bool _furyCoolDownOver;
     bool _isCurrentlyOnFury;
+    bool m_isInCriticalLevelOfBPM = false;
+    PlayerController m_playerController;
 
     private void Start()
     {
+        m_playerController = GetComponent<PlayerController>();
+
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
         // _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
         FeedBackBPM();
 
-        GainBPM(1f);
+        GainBPM(0);
     }
 
     private void Update()
     {
         FuryHandeler();
+
+        #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GainBPM(100);
+        }
+        #endif
     }
 
     #region BPM Gain and Loss
-    public void LoseBPM(float BPMLoss)
+    public void LoseBPM(float BPMLoss, bool playerShot = false)
     {
+        if (_isCurrentlyOnFury)
+            return;
+
+        // ---------- Dire au WeaponPlayerBehaviour que playerShot = true pour empêcher de pouvoir se suicider en tirant dans le vide ----------
+        if (playerShot && _currentBPM <= _BPM.criticalLvlOfBPM)
+            return;
+
         float _newCurrentBPM = _currentBPM - BPMLoss;
 
         if (!_isCurrentlyOnFury)
@@ -88,12 +106,9 @@ public class BPMSystem : MonoBehaviour
             if (_newCurrentBPM > 0)
             {
                 _currentBPM -= BPMLoss;
-                DeactivateWeaponLevel(_currentBPM);
+                // DeactivateWeaponLevel(_currentBPM);
 
-                if (_currentBPM < _BPM.criticalLvlOfBPM)
-                {
-                    ///Brancher le level critique de BPM
-                }
+                CheckCriticalLevelOfBPM();
             }
             else
             {
@@ -101,6 +116,7 @@ public class BPMSystem : MonoBehaviour
                 ///Tuer le personnage / Brancher respawn
             }
         }
+        ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
         _BPM.m_playerBpmGui.On_PlayerGetBpm(false, BPMLoss);
     }
@@ -123,10 +139,22 @@ public class BPMSystem : MonoBehaviour
             }
 
         }
-        ActivateWeaponLevel(_currentBPM);
-
+        ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
         _BPM.m_playerBpmGui.On_PlayerGetBpm(true, BPMGain);
+    }
+    void CheckCriticalLevelOfBPM()
+    {
+        if (_currentBPM < _BPM.criticalLvlOfBPM && !m_isInCriticalLevelOfBPM)
+        {
+            m_isInCriticalLevelOfBPM = true;
+            _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
+        }
+        else if(_currentBPM > _BPM.criticalLvlOfBPM && m_isInCriticalLevelOfBPM)
+        {
+            m_isInCriticalLevelOfBPM = false;
+            _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
+        }
     }
 
     void FeedBackBPM()
@@ -138,25 +166,35 @@ public class BPMSystem : MonoBehaviour
     #endregion
 
     #region Activate and Deactivate Weapon
-    void ActivateWeaponLevel(float currentBPM)
+    void ChangeWeaponLevel(float currentBPM)
     {
         if (currentBPM >= _weaponsLevel.firstWeaponLevel)
         {
             if(currentBPM >= _weaponsLevel.secondWeaponLevel)
             {
-                _currentWeaponState = WeaponState.Level2;
+                if (_currentWeaponState != WeaponState.Level2)
+                {
+                    _currentWeaponState = WeaponState.Level2;
+                    _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
+                }
             }
             else
             {
-                _currentWeaponState = WeaponState.Level1;
+                if (_currentWeaponState != WeaponState.Level1)
+                {
+                    _currentWeaponState = WeaponState.Level1;
+                    _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
+                }
             }
-
             ChangeWeaponLevel();
-
         }
         else
         {
-            _currentWeaponState = WeaponState.Level0;
+            if (_currentWeaponState != WeaponState.Level0)
+            {
+                _currentWeaponState = WeaponState.Level0;
+                _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
+            }
         }
     }
 
@@ -172,9 +210,7 @@ public class BPMSystem : MonoBehaviour
             {
                 _currentWeaponState = WeaponState.Level1;
             }
-
             ChangeWeaponLevel();
-
         }
         else
         {
@@ -213,9 +249,13 @@ public class BPMSystem : MonoBehaviour
     {
         _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(true);
         _isCurrentlyOnFury = true;
+        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(true);
+        m_playerController.On_OveradrenalineIsActivated(true);
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
         _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(false);
         _isCurrentlyOnFury = false;
+        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(false);
+        m_playerController.On_OveradrenalineIsActivated(false);
     }
 
     bool FuryCoolDownHandeler()
