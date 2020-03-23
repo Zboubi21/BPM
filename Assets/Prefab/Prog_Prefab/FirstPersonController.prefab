@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _BPM:
     maxBPM: 600
-    startingBPM: 100
+    startingBPM: 600
     criticalLvlOfBPM: 75
     BPMGain_OnNoSpot: 1
     BPMGain_OnWeak: 4
@@ -1636,8 +1636,8 @@ MonoBehaviour:
     RecoilRotationTranform: {fileID: 4814906131607140059}
     PositionDampTime: 6
     RotationDampTime: 9
-    PositionRecoil: 35
-    RotationRecoil: 35
+    PositionRecoil: 45
+    RotationRecoil: 45
     RecoilRotation: {x: -10, y: 4, z: 6}
     RecoilKickBack: {x: 0.015, y: 0.01, z: -0.075}
 --- !u!114 &3421608736393940812
@@ -3050,6 +3050,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 987ea9fc079a6a24597d991ade88ab35, type: 2}
+    - target: {fileID: 2767361912591360502, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
+        type: 3}
+      propertyPath: m_spawnTest
+      value: 
+      objectReference: {fileID: 4724814587470942516, guid: 19e35377672471a43a972dc5f2d505e5,
+        type: 3}
+    - target: {fileID: 2767361912591360502, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
+        type: 3}
+      propertyPath: m_timeToDo
+      value: 0.125
+      objectReference: {fileID: 0}
     - target: {fileID: 8742488850868591190, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
         type: 3}
       propertyPath: m_Layer
