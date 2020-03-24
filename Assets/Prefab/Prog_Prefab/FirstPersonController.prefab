@@ -1329,7 +1329,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 12288
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1366,7 +1366,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 12288
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
   SMAAQuality: 2
@@ -1387,7 +1387,7 @@ MonoBehaviour:
   invertFaceCulling: 0
   probeLayerMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 12288
   m_RenderingPathCustomFrameSettings:
     bitDatas:
       data1: 69456055238429
@@ -1659,15 +1659,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _BPM:
     maxBPM: 600
-    startingBPM: 300
-    criticalLvlOfBPM: 75
+    startingBPM: 500
+    criticalLvlOfBPM: 100
     BPMGain_OnNoSpot: 1
     BPMGain_OnWeak: 4
     BPM_Gauge: {fileID: 823295479828341272}
     m_playerBpmGui: {fileID: 8982157834547777731}
   _weaponsLevel:
-    firstWeaponLevel: 75
-    secondWeaponLevel: 225
+    firstWeaponLevel: 200
+    secondWeaponLevel: 400
   _overdrenaline:
     overdrenalineCooldown: 60
     timeOfOverAdrenaline: 15
@@ -1763,7 +1763,8 @@ MonoBehaviour:
     m_playerAudio: {fileID: 4882480380523661751}
   m_movements:
     m_useRawInput: 1
-    m_movementSpeed: 11
+    m_baseSpeed: 11
+    m_overadrenalineSpeed: 14
   m_physics:
     m_airFriction: 1
     m_groundFriction: 1
@@ -3270,6 +3271,12 @@ PrefabInstance:
       propertyPath: m_timeToDo
       value: 0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 7397190334868437858, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -4837222517135733676, guid: 2a1eb4d0bfd1c2b4bb689d5735534fd8,
+        type: 2}
     - target: {fileID: 8742488850868591190, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
         type: 3}
       propertyPath: m_Layer

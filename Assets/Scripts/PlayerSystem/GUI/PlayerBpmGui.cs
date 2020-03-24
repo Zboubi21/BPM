@@ -10,6 +10,7 @@ public class PlayerBpmGui : MonoBehaviour
     
     [Header("BPM Value")]
     [SerializeField] TextMeshProUGUI m_bpmValue;
+    [SerializeField] TMP_FontAsset[] m_bpmLvl = new TMP_FontAsset[3];
 
     [Header("BPM Get/Lost")]
     public GameObject m_spawnTest;
@@ -18,6 +19,12 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] Color m_lostBpmColor = Color.red;
     [SerializeField] float m_timeToDo = 0.25f;
     [SerializeField] float m_targetedYPos = 0.1f;
+
+    [Header("Feedbacks")]
+    [SerializeField] GameObject m_criticalLevelOfBPMFeedback;
+    [SerializeField] GameObject m_overadrenalineFeedback;
+    [SerializeField] Color m_normalBpmValueColor = Color.yellow;
+    [SerializeField] Color m_criticalBpmValueColor = Color.red;
 
     ObjectPooler m_objectPooler;
     ObjectType m_bpmToSpawn = ObjectType.BpmGuiValues;
@@ -57,6 +64,45 @@ public class PlayerBpmGui : MonoBehaviour
             guiValue.StartToMove(targetedYPos, m_timeToDo);
             guiValue.StartToChangeColor(guiColor, m_timeToDo);
         }
+    }
+    public void On_WeaponLvlChanged(int weaponLvl)
+    {
+        // Debug.Log("Level_" + weaponLvl);
+        switch (weaponLvl)
+        {
+            case 0:
+                m_bpmValue.font = m_bpmLvl[0];
+            break;
+            case 1:
+                m_bpmValue.font = m_bpmLvl[1];
+            break;
+            case 2:
+                m_bpmValue.font = m_bpmLvl[2];
+            break;
+        }
+
+    }
+    bool m_isInCtriticalLvl;
+    public void On_CriticalLevelOfBPM(bool inCriticalLevel)
+    {
+        m_criticalLevelOfBPMFeedback.SetActive(inCriticalLevel);
+        m_isInCtriticalLvl = inCriticalLevel;
+        m_bpmValue.color = inCriticalLevel ? m_criticalBpmValueColor : m_normalBpmValueColor;
+    }
+    public void On_OverAdrenalineActivated(bool isActivated)
+    {
+        m_overadrenalineFeedback.SetActive(isActivated);
+
+        if (isActivated)
+        {
+            m_criticalLevelOfBPMFeedback.SetActive(false);
+        }
+        else
+        {
+            if (m_isInCtriticalLvl)
+                m_criticalLevelOfBPMFeedback.SetActive(true);
+        }
+
     }
     
 }

@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] Movements m_movements;
 	[Serializable] class Movements{
 		public bool m_useRawInput = true;
-		public float m_movementSpeed = 10f;
+		public float m_baseSpeed = 11f;
+		public float m_overadrenalineSpeed = 14f;
 	}
 
 	[Header("Physics")]
@@ -150,7 +151,7 @@ public class PlayerController : MonoBehaviour
 		m_cameraController = GetComponentInChildren<CameraController>();
 		m_playerWeapon = GetComponent<WeaponPlayerBehaviour>();
 
-        m_currentSpeed = m_movements.m_movementSpeed;
+        m_currentSpeed = m_movements.m_baseSpeed;
 
 		m_jumpSpeed = m_jump.m_height / m_jump.m_duration;
 		m_doubleJumpSpeed = m_doubleJump.m_height / m_doubleJump.m_duration;
@@ -600,6 +601,11 @@ public class PlayerController : MonoBehaviour
 	public void ChangeCameraFov(float newFov, float timeToChangeFov, AnimationCurve changeFovCurve)
 	{
 		m_cameraController.ChangeCameraFov(newFov, timeToChangeFov, changeFovCurve);
+	}
+
+	public void On_OveradrenalineIsActivated(bool isActivated)
+	{
+		m_currentSpeed = isActivated ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
 	}
 
 #endregion
