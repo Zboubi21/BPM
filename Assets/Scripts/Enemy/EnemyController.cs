@@ -362,7 +362,6 @@ public class EnemyController : MonoBehaviour
     }
     #endregion
 
-    //public float range;
     private void OnDrawGizmosSelected()
     {
         if (_debug.useGizmos)

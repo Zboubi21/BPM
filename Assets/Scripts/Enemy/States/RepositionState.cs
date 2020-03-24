@@ -17,16 +17,22 @@ public class RepositionState : IState
 
     public void Enter()
     {
+        ///play run animation
+        ///play run sound
         m_enemyController.CurrentTarget = m_enemyController.FindBestSpotsInRangeOfTarget(m_enemyController.Player); //Find a new spot around the player (can be a cover)
-        
+
         //Sapwn debug canvas
-        go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.CurrentTarget);
+#if UNITY_EDITOR
+        go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
+#endif
     }
 
     public void Exit()
     {
-
+#if UNITY_EDITOR
         m_enemyController.DestroyObj(go);
+#endif
+
     }
 
     public void FixedUpdate()

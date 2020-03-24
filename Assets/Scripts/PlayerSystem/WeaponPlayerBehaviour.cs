@@ -87,11 +87,23 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     StartCoroutine(OnShoot(1, _currentAttackSpeed, 0));
                 }
-
-
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+            {
+                if (_hit.collider.CompareTag("Screen"))
+                {
+                    Debug.Log("hop");
+                    _hit.collider.GetComponent<WaveScreenController>().SwitchChannel();
+                }
+            }
+        }
+
     }
+   
     ProjectileType proj;
     public override void ChangeWeaponStats()
     {

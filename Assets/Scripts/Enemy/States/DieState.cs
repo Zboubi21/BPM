@@ -14,6 +14,8 @@ public class DieState : IState
 
     public void Enter()
     {
+        /// play dying animation
+        /// play dying sound
         m_enemyController.Agent.isStopped = true;
         m_enemyController.KillNPC(2f);   //Send back to pool with animation time
     }
