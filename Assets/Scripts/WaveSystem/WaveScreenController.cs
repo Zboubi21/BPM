@@ -90,7 +90,7 @@ public class WaveScreenController :  MonoBehaviour
             {
                 if(_screenChannel == ScreenChannel.EnemyCountChannel)
                 {
-                    UpdateChangingInfo(screenRef, waveController.NbrOfEnemy);
+                    UpdateChangingInfo(screenRef, waveController.NbrOfEnemy - waveController.NbrOfDeadEnemy);
                 }
                 else if(_screenChannel == ScreenChannel.ScoreCountChannel)
                 {

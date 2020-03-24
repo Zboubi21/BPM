@@ -34,6 +34,20 @@ public class SpawnerController : MonoBehaviour
     }
 
     
+    public void CountEnemy(int wave, WaveController controller)
+    {
+        for (int i = 0, l = Waves.Count; i < l; ++i)
+        {
+            if (Waves[i].waveNbr == wave)
+            {
+                for (int a = 0, f = Waves[wave].m_enemyArchetype.Length; a < f; ++a) 
+                {
+                    controller.NbrOfEnemy++;
+                }
+            }
+        }
+    }
+
     public IEnumerator WaveSpawner(int wave, WaveController controller)
     {
         for (int i = 0, l = Waves.Count; i < l; ++i)
@@ -52,7 +66,6 @@ public class SpawnerController : MonoBehaviour
 
                     Spawned_Tracker tracker = go.AddComponent<Spawned_Tracker>();
                     tracker.Controller = controller;
-                    controller.NbrOfEnemy++;
 
                     EnemyController enemyController = go.GetComponent<EnemyController>();
                     yield return new WaitForFixedUpdate();

@@ -96,7 +96,6 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             {
                 if (_hit.collider.CompareTag("Screen"))
                 {
-                    Debug.Log("hop");
                     _hit.collider.GetComponent<WaveScreenController>().SwitchChannel();
                 }
             }

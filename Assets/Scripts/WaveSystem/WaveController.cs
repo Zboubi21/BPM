@@ -64,12 +64,16 @@ public class WaveController : MonoBehaviour
         if (other.CompareTag("Player") && !hasStarted)
         {
             StartCoroutine(spawners[0].WaveSpawner(_nbrOfWave, this));
+            spawners[0].CountEnemy(_nbrOfWave, this);
+            ChangeAllScreen();
             hasStarted = true;
         }
     }
 
     public void CheckLivingEnemies()
     {
+        ChangeAllScreen();
+
         if (NbrOfDeadEnemy != 0 && NbrOfDeadEnemy == NbrOfEnemy)
         {
             ///Current wave's over
@@ -102,11 +106,15 @@ public class WaveController : MonoBehaviour
         yield return new WaitForSeconds(time); // time needed for all the animation/sound/voice/visual effect before next wave
 
         ///New wave starts
+        NbrOfDeadEnemy = 0;
+        NbrOfEnemy = 0;
 
         for (int i = 0, l = spawners.Length; i < l; i++)
         {
             StartCoroutine(spawners[i].WaveSpawner(_nbrOfWave, this));
+            spawners[i].CountEnemy(_nbrOfWave, this);
         }
+        ChangeAllScreen();
         //All the enemy have spawned
     }
 
