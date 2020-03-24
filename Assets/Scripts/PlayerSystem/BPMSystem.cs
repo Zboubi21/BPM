@@ -222,11 +222,6 @@ public class BPMSystem : MonoBehaviour
     {
         GetComponent<WeaponBehaviour>().ChangeWeaponStats();
     }
-
-    // script contien les armes ?
-    // les armes regarde la state ?
-    // enum en privé comment l'atteindre ?
-
     #endregion
 
     #region Overadrenaline
@@ -247,15 +242,16 @@ public class BPMSystem : MonoBehaviour
 
     IEnumerator OnOverADActivate()
     {
-        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(true);
-        _isCurrentlyOnFury = true;
-        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(true);
-        m_playerController.On_OveradrenalineIsActivated(true);
+        ActivateBool(true);
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
-        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(false);
-        _isCurrentlyOnFury = false;
-        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(false);
-        m_playerController.On_OveradrenalineIsActivated(false);
+        ActivateBool(false);
+    }
+    void ActivateBool(bool b)
+    {
+        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(b);
+        _isCurrentlyOnFury = b;
+        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(b);
+        m_playerController.On_OveradrenalineIsActivated(b);
     }
 
     bool FuryCoolDownHandeler()
