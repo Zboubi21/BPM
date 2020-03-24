@@ -19,6 +19,7 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] Color m_lostBpmColor = Color.red;
     [SerializeField] float m_timeToDo = 0.25f;
     [SerializeField] float m_targetedYPos = 0.1f;
+    [SerializeField] float m_delayToHideValue = 0.25f;
 
     [Header("Feedbacks")]
     [SerializeField] GameObject m_criticalLevelOfBPMFeedback;
@@ -62,7 +63,7 @@ public class PlayerBpmGui : MonoBehaviour
         {
             float targetedYPos = getBpm ? m_targetedYPos : - m_targetedYPos;
             guiValue.StartToMove(targetedYPos, m_timeToDo);
-            guiValue.StartToChangeColor(guiColor, m_timeToDo);
+            guiValue.StartToChangeColor(guiColor, m_timeToDo, m_delayToHideValue);
         }
     }
     public void On_WeaponLvlChanged(int weaponLvl)
@@ -85,12 +86,14 @@ public class PlayerBpmGui : MonoBehaviour
     bool m_isInCtriticalLvl;
     public void On_CriticalLevelOfBPM(bool inCriticalLevel)
     {
+        // Ajouter Fade In / Fade out
         m_criticalLevelOfBPMFeedback.SetActive(inCriticalLevel);
         m_isInCtriticalLvl = inCriticalLevel;
         m_bpmValue.color = inCriticalLevel ? m_criticalBpmValueColor : m_normalBpmValueColor;
     }
     public void On_OverAdrenalineActivated(bool isActivated)
     {
+        // Ajouter Fade In / Fade out
         m_overadrenalineFeedback.SetActive(isActivated);
 
         if (isActivated)
