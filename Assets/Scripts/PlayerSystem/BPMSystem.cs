@@ -90,13 +90,9 @@ public class BPMSystem : MonoBehaviour
     }
 
     #region BPM Gain and Loss
-    public void LoseBPM(float BPMLoss, bool playerShot = false)
+    public void LoseBPM(float BPMLoss)
     {
         if (_isCurrentlyOnFury)
-            return;
-
-        // ---------- Dire au WeaponPlayerBehaviour que playerShot = true pour empêcher de pouvoir se suicider en tirant dans le vide ----------
-        if (playerShot && _currentBPM <= _BPM.criticalLvlOfBPM)
             return;
 
         float _newCurrentBPM = _currentBPM - BPMLoss;
@@ -186,7 +182,6 @@ public class BPMSystem : MonoBehaviour
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
                 }
             }
-            ChangeWeaponLevel();
         }
         else
         {
@@ -196,6 +191,7 @@ public class BPMSystem : MonoBehaviour
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
             }
         }
+        ChangeWeaponStats();
     }
 
     void DeactivateWeaponLevel(float currentBPM)
@@ -210,7 +206,7 @@ public class BPMSystem : MonoBehaviour
             {
                 _currentWeaponState = WeaponState.Level1;
             }
-            ChangeWeaponLevel();
+            ChangeWeaponStats();
         }
         else
         {
@@ -218,7 +214,7 @@ public class BPMSystem : MonoBehaviour
         }
     }
 
-    void ChangeWeaponLevel()
+    void ChangeWeaponStats()
     {
         GetComponent<WeaponBehaviour>().ChangeWeaponStats();
     }
