@@ -74,63 +74,6 @@ MonoBehaviour:
   enableDistantFog:
     m_OverrideState: 1
     m_Value: 1
---- !u!114 &-2469450833827772190
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2150ee00179b2f4418ea8b21a7e98eea, type: 3}
-  m_Name: ExponentialFog
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  colorMode:
-    m_OverrideState: 1
-    m_Value: 1
-  color:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    hdr: 1
-    showAlpha: 0
-    showEyeDropper: 1
-  density:
-    m_OverrideState: 1
-    m_Value: 1
-    min: 0
-    max: 1
-  maxFogDistance:
-    m_OverrideState: 1
-    m_Value: 5000
-    min: 0
-  mipFogMaxMip:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  mipFogNear:
-    m_OverrideState: 1
-    m_Value: 0
-    min: 0
-  mipFogFar:
-    m_OverrideState: 1
-    m_Value: 1000
-    min: 0
-  fogDistance:
-    m_OverrideState: 1
-    m_Value: 0
-    min: 0
-  fogBaseHeight:
-    m_OverrideState: 1
-    m_Value: 0
-  fogHeightAttenuation:
-    m_OverrideState: 1
-    m_Value: 0.2
-    min: 0
-    max: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +90,6 @@ MonoBehaviour:
   - {fileID: 1591912495330335307}
   - {fileID: 2926520594555130314}
   - {fileID: 4291193248687608038}
-  - {fileID: -2469450833827772190}
   - {fileID: 286867247918839650}
   - {fileID: 6938176570372484497}
   - {fileID: 5616452671808944660}
@@ -165,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5ab44aadfb1804db5fd470983ac1b8, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   lift:
     m_OverrideState: 1
@@ -309,12 +251,12 @@ MonoBehaviour:
   m_AdvancedMode: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.373
+    m_Value: 0.2
     min: 0
     max: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.967
+    m_Value: 0.7
     min: 0
     max: 1
   tint:
@@ -417,19 +359,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6b00fcf518bb94a90b408492e07b44, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   type:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.416
+    m_Value: 0.246
     min: 0
     max: 1
   response:
     m_OverrideState: 1
-    m_Value: 0.812
+    m_Value: 0.32
     min: 0
     max: 1
   texture:
@@ -447,11 +389,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b24b200358312b4fa1004e2431c2f1f, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.8665718, y: 0.8668243, z: 1, w: 0.05070994}
+    m_Value: {x: 0.8477248, y: 0.8527774, z: 1, w: 0.05070994}
   midtones:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.9399346, z: 0.92438436, w: 0}
