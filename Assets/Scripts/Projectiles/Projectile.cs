@@ -295,6 +295,12 @@ public class Projectile : MonoBehaviour
                     }
 
                     break;
+
+                default:
+
+                    BPMGain = 0;
+
+                    break;
             }
             #endregion
             BPMSystem.GainBPM(BPMGain);

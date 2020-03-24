@@ -90,13 +90,9 @@ public class BPMSystem : MonoBehaviour
     }
 
     #region BPM Gain and Loss
-    public void LoseBPM(float BPMLoss, bool playerShot = false)
+    public void LoseBPM(float BPMLoss)
     {
         if (_isCurrentlyOnFury)
-            return;
-
-        // ---------- Dire au WeaponPlayerBehaviour que playerShot = true pour empêcher de pouvoir se suicider en tirant dans le vide ----------
-        if (playerShot && _currentBPM <= _BPM.criticalLvlOfBPM)
             return;
 
         float _newCurrentBPM = _currentBPM - BPMLoss;
@@ -186,7 +182,6 @@ public class BPMSystem : MonoBehaviour
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
                 }
             }
-            ChangeWeaponLevel();
         }
         else
         {
@@ -196,6 +191,7 @@ public class BPMSystem : MonoBehaviour
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
             }
         }
+        ChangeWeaponStats();
     }
 
     void DeactivateWeaponLevel(float currentBPM)
@@ -210,7 +206,7 @@ public class BPMSystem : MonoBehaviour
             {
                 _currentWeaponState = WeaponState.Level1;
             }
-            ChangeWeaponLevel();
+            ChangeWeaponStats();
         }
         else
         {
@@ -218,15 +214,10 @@ public class BPMSystem : MonoBehaviour
         }
     }
 
-    void ChangeWeaponLevel()
+    void ChangeWeaponStats()
     {
         GetComponent<WeaponBehaviour>().ChangeWeaponStats();
     }
-
-    // script contien les armes ?
-    // les armes regarde la state ?
-    // enum en privé comment l'atteindre ?
-
     #endregion
 
     #region Overadrenaline
@@ -247,15 +238,16 @@ public class BPMSystem : MonoBehaviour
 
     IEnumerator OnOverADActivate()
     {
-        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(true);
-        _isCurrentlyOnFury = true;
-        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(true);
-        m_playerController.On_OveradrenalineIsActivated(true);
+        ActivateBool(true);
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
-        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(false);
-        _isCurrentlyOnFury = false;
-        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(false);
-        m_playerController.On_OveradrenalineIsActivated(false);
+        ActivateBool(false);
+    }
+    void ActivateBool(bool b)
+    {
+        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(b);
+        _isCurrentlyOnFury = b;
+        _BPM.m_playerBpmGui.On_OverAdrenalineActivated(b);
+        m_playerController.On_OveradrenalineIsActivated(b);
     }
 
     bool FuryCoolDownHandeler()
