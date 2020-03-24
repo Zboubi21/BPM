@@ -317,6 +317,13 @@ public class Projectile : MonoBehaviour
             }
         }
 
+        // Voir avec Paul pour cette partie car si la cover d'un ennemi est détruite, l'ennemi doit être au courant et réagir en fonction !
+        if (collider.CompareTag("Cover"))
+        {
+            DestroyableObject destroyableObject = collider.GetComponent<DestroyableObject>();
+            if (destroyableObject != null)
+                destroyableObject.BreakObject();
+        }
 
         if (m_dieFX != null)
         {
