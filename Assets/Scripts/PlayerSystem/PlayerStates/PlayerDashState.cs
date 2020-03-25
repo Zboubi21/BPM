@@ -74,6 +74,11 @@ public class PlayerDashState : IState
         if (m_playerController.PlayerIsGrounded())
         {
             m_playerController.StartDashCooldown();
+
+            if (m_playerController.LastState(PlayerState.Jump) || (m_playerController.LastState(PlayerState.Fall)))
+            {
+                m_playerController.On_GroundContactRegained();
+            }
         }
 
         m_playerController.StartRawInputAfterDash();

@@ -8,6 +8,7 @@ public class PlayerJumpState : IState
 
     float m_timer = 0;
     bool m_haseJump = false;
+    float m_jumpDuration = 0;
 
     PlayerController m_playerController;
 
@@ -23,6 +24,7 @@ public class PlayerJumpState : IState
 
         m_timer = 0;
         m_haseJump = false;
+        m_jumpDuration = m_playerController.LastState(PlayerState.Jump) ? m_playerController.m_doubleJump.m_duration : m_playerController.m_jump.m_duration;
 
         // if (!m_playerController.LastState(PlayerState.Jump))   // Rajouté le 25/03 à 13h55 pour test de changer le feeling du 2e saut après le 1er
             m_playerController.On_GroundContactLost();
@@ -37,7 +39,7 @@ public class PlayerJumpState : IState
     public void FixedUpdate()
     {
         m_timer += Time.deltaTime;
-        if(m_timer > m_playerController.m_jump.m_duration && !m_haseJump)
+        if(m_timer > m_jumpDuration && !m_haseJump)
         {
             m_haseJump = true;
             m_playerController.ChangeState(PlayerState.Fall);

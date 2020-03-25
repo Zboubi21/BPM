@@ -328,6 +328,10 @@ public class PlayerController : MonoBehaviour
 			m_momentum += m_trans.up * m_jumpSpeed;
 		if (m_hasDoubleJump)
 			m_momentum += m_trans.up * m_doubleJumpSpeed;
+
+			// d = v x t
+			// v = d / t
+			float v = m_jump.m_height / m_jump.m_duration;
 	}
 
 	//Helper functions;
@@ -578,7 +582,6 @@ public class PlayerController : MonoBehaviour
 
 		// ResetPlayerVelocity();
 		ResetPlayerMomentum();
-		Debug.Log("On_GroundContactRegained");
 	}
 
 	public bool PlayerHasToFall()
