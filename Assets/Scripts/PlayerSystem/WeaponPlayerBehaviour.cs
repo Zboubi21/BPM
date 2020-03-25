@@ -24,6 +24,10 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public LayerMask rayCastCollision;
     [Header("VFX")]
     public GameObject[] _insideLaser;
+    [Header("SFX")]
+    public AudioSource source;
+    public AudioClip[] allFireSound;
+    public AudioClip[] allLastFireSound;
 
     int defaultDistance = 500;
 
@@ -87,6 +91,10 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 if (Input.GetKey(KeyCode.Mouse0) && CanShoot)
                 {
                     StartCoroutine(OnShoot(1, _currentAttackSpeed, 0));
+                }
+                if (Input.GetKeyUp(KeyCode.Mouse0) && CanShoot)
+                {
+                    PlayAppropriateSound(allLastFireSound);
                 }
                 break;
         }
@@ -205,6 +213,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             _BPMSystem.LoseBPM(_currentBPMCost);
             if (_currentProjectil != null)
             {
+                PlayAppropriateSound(allFireSound);
                 InitiateRayCast(InstatiateProj());
             }
             else
@@ -220,12 +229,25 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         //CanShoot = true;
     }
 
-    public void AddRecoil(float upRecoil, float sideRecoil)
+    void PlayAppropriateSound(AudioClip[] allSound)
     {
-
-
+        switch (_BPMSystem.CurrentWeaponState)
+        {
+            case BPMSystem.WeaponState.Level0:
+                source.clip = allFireSound[0];
+                break;
+            case BPMSystem.WeaponState.Level1:
+                source.clip = allFireSound[1];
+                break;
+            case BPMSystem.WeaponState.Level2:
+                source.clip = allFireSound[2];
+                break;
+            case BPMSystem.WeaponState.Fury:
+                source.clip = allFireSound[3];
+                break;
+        }
     }
-    
+
     void FixedUpdate()
     {
         CurrentPositionRecoil = Vector3.Lerp(CurrentPositionRecoil, Vector3.zero, weaponRecoil.PositionRecoil * Time.deltaTime);
@@ -263,7 +285,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }*/
     #endregion
 
-        
+
     #region FeedBack Projectile Methods
     public override GameObject InstatiateProj()
     {

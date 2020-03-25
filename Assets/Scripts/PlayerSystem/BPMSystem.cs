@@ -38,7 +38,8 @@ public class BPMSystem : MonoBehaviour
     {
         Level0,
         Level1,
-        Level2
+        Level2,
+        Fury
     }
     WeaponState _currentWeaponState = WeaponState.Level0;
     public WeaponState CurrentWeaponState { get => _currentWeaponState; set => _currentWeaponState = value; }

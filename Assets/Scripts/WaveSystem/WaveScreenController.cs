@@ -7,13 +7,15 @@ using ScreenTypes;
 public class WaveScreenController :  MonoBehaviour
 {
     public ScreenChannel _screenChannel;
+
+
     [Space]
     WaveScreenReference[] allWaveScreen;
     WaveController waveController;
 
     private void Start()
     {
-        allWaveScreen = GetComponentInChildren<Canvas>().GetComponentsInChildren<WaveScreenReference>();
+        allWaveScreen = GetComponentsInChildren<WaveScreenReference>();
         ChangeInformationDisplayed(_screenChannel);
 
         if(allWaveScreen.Length > 0)
@@ -82,7 +84,7 @@ public class WaveScreenController :  MonoBehaviour
                 }
             }
 
-            if (screenRef.changingInfo != null)
+            if (screenRef.changingText != null)
             {
                 switch (_screenChannel)
                 {
@@ -100,7 +102,7 @@ public class WaveScreenController :  MonoBehaviour
                 }
             }
 
-            if (screenRef.staticInfos.Length > 0)
+            if (screenRef.staticTexts.Length > 0)
             {
                 switch (_screenChannel)
                 {
@@ -149,7 +151,7 @@ public class WaveScreenController :  MonoBehaviour
     }
     void UpdateWave(WaveScreenReference screenRef, int current, int max)
     {
-        screenRef.changingInfo.text = string.Format("{0}/{1}", current+1, max); // pour éviter d'avoir une "wave 0" on met current +1
+        screenRef.changingText.text = string.Format("{0}/{1}", current+1, max); // pour éviter d'avoir une "wave 0" on met current +1
     }
     void UpdateWaveStaticInfo(WaveScreenReference screenRef)
     {
@@ -169,7 +171,7 @@ public class WaveScreenController :  MonoBehaviour
     }
     void UpdateEnemy(WaveScreenReference screenRef, int current)
     {
-        screenRef.changingInfo.text = string.Format("{0}x", current);
+        screenRef.changingText.text = string.Format("{0}x", current);
     }
     void UpdateEnemyStaticInfo(WaveScreenReference screenRef)
     {
@@ -188,7 +190,7 @@ public class WaveScreenController :  MonoBehaviour
     }
     void UpdateScore(WaveScreenReference screenRef, int current)
     {
-        screenRef.changingInfo.text = string.Format("{0}", current);
+        screenRef.changingText.text = string.Format("{0}", current);
     }
     void UpdateScoreStaticInfo(WaveScreenReference screenRef)
     {
