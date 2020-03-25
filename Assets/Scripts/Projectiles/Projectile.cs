@@ -187,15 +187,6 @@ public class Projectile : MonoBehaviour
 
     #region When Using Rigibody
 
-    private void FixedUpdate()
-    {
-        if (m_colType == TypeOfCollision.Rigibody)
-        {
-            rb.velocity = transform.forward * Speed;
-        }
-
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (col != null)
@@ -207,8 +198,13 @@ public class Projectile : MonoBehaviour
 
     #region When Using UpdateRayCast
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
+        if (m_colType == TypeOfCollision.Rigibody)
+        {
+            rb.velocity = transform.forward * Speed;
+        }
+
         if (m_colType == TypeOfCollision.UpdateRaycasts)
         {
             if (OnCastRay(transform.position))

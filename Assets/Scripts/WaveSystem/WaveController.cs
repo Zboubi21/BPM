@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using PoolTypes;
+using ScreenTypes;
 
 public class WaveController : MonoBehaviour
 {
@@ -44,6 +45,13 @@ public class WaveController : MonoBehaviour
     {
         spawners = GetComponentsInChildren<SpawnerController>();
         screenController = GetComponentsInChildren<WaveScreenController>();
+        if (screenController.Length > 0)
+        {
+            for (int i = 0, l = screenController.Length; i < l; ++i)
+            {
+                screenController[i].SetWaveController(this);
+            }
+        }
         _nbrOfWave = 0;
     }
 
@@ -65,14 +73,16 @@ public class WaveController : MonoBehaviour
         {
             StartCoroutine(spawners[0].WaveSpawner(_nbrOfWave, this));
             spawners[0].CountEnemy(_nbrOfWave, this);
-            ChangeAllScreen();
+            ///Wave Starts
+            ChangeAllScreen(ScreenChannel.WaveCountChannel);
             hasStarted = true;
         }
     }
 
     public void CheckLivingEnemies()
     {
-        ChangeAllScreen();
+
+        ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
 
         if (NbrOfDeadEnemy != 0 && NbrOfDeadEnemy == NbrOfEnemy)
         {
@@ -102,7 +112,7 @@ public class WaveController : MonoBehaviour
             }
         }
         _nbrOfWave++;
-        ChangeAllScreen();
+        ChangeAllScreen(ScreenChannel.WaveCountChannel); // Increment nbr of wave
         yield return new WaitForSeconds(time); // time needed for all the animation/sound/voice/visual effect before next wave
 
         ///New wave starts
@@ -114,24 +124,21 @@ public class WaveController : MonoBehaviour
             StartCoroutine(spawners[i].WaveSpawner(_nbrOfWave, this));
             spawners[i].CountEnemy(_nbrOfWave, this);
         }
-        ChangeAllScreen();
-        //All the enemy have spawned
+        ///All the enemy have spawned
+        ChangeAllScreen(ScreenChannel.EnemyCountChannel);
     }
 
-    void ChangeAllScreen()
+    void ChangeAllScreen(ScreenChannel chanel)
     {
-        for (int i = 0, l = screenController.Length; i < l; ++i)
+        if (screenController.Length > 0)
         {
-            screenController[i].OnChangeDisplayInfo(this);
+            for (int i = 0, l = screenController.Length; i < l; ++i)
+            {
+                screenController[i].OnChangeDisplayInfo(chanel);
+            }
         }
     }
 
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(transform.position, new Vector3(4f,1f,1f));
-    }
 
     public void AddCocoScreen()
     {

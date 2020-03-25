@@ -3,79 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using ScreenTypes;
 public class WaveScreenController :  MonoBehaviour
 {
-    #region Enumerateur
-    public enum ScreenChannel
-    {
-        WaveCountChannel,
-        EnemyCountChannel,
-        ScoreCountChannel,
-        CocoChannel
-    }
-    #endregion
-
     public ScreenChannel _screenChannel;
     [Space]
-    public GameObject[] allChannel;
+    WaveScreenReference[] allWaveScreen;
     WaveController waveController;
 
     private void Start()
     {
-        ChangeInformationDisplayed();
+        allWaveScreen = GetComponentInChildren<Canvas>().GetComponentsInChildren<WaveScreenReference>();
+        ChangeInformationDisplayed(_screenChannel);
+
+        if(allWaveScreen.Length > 0)
+        {
+            for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
+            {
+                if ((int)_screenChannel == i)
+                {
+                    allWaveScreen[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    allWaveScreen[i].gameObject.SetActive(false);
+                }
+            }
+        }
+        
     }
 
-    public void OnChangeDisplayInfo(WaveController control)
+    public void SetWaveController(WaveController control)
     {
-        if(waveController != control)
+        if (waveController != control || waveController == null)
         {
             waveController = control;
         }
-        ChangeInformationDisplayed();
+    }
+
+    public void OnChangeDisplayInfo(ScreenChannel channel)
+    {
+        if(channel == _screenChannel)
+        {
+            ChangeInformationDisplayed(channel);
+        }
     }
 
 
     #region Set Screen Var
-    void ChangeInformationDisplayed()
+    void ChangeInformationDisplayed(ScreenChannel channel)
     {
-        switch (_screenChannel)         //Get the right waveScreenReference depending on the type of channel this should display
+        if (allWaveScreen[(int)channel] != null)
         {
-            case ScreenChannel.EnemyCountChannel:
-
-                if (allChannel[0] != null)
-                {
-                    ChangeInfoOnScreen(allChannel[0].GetComponent<WaveScreenReference>());
-                    SwitchChannel(1);
-                }
-
-                break;
-            case ScreenChannel.WaveCountChannel:
-
-                if (allChannel[1] != null)
-                {
-                    ChangeInfoOnScreen(allChannel[1].GetComponent<WaveScreenReference>());
-                    SwitchChannel(2);
-                }
-
-                break;
-            case ScreenChannel.ScoreCountChannel:
-
-                if (allChannel[2] != null)
-                {
-                    ChangeInfoOnScreen(allChannel[2].GetComponent<WaveScreenReference>());
-                    SwitchChannel(3);
-                }
-
-                break;
-            case ScreenChannel.CocoChannel:
-
-                if(allChannel[3] != null)
-                {
-                    ChangeInfoOnScreen(allChannel[3].GetComponent<WaveScreenReference>());
-                    SwitchChannel(4);
-                }
-                break;
+            ChangeInfoOnScreen(allWaveScreen[(int)channel]);
+            //SwitchChannel((int)channel);
         }
     }
 
@@ -84,76 +65,157 @@ public class WaveScreenController :  MonoBehaviour
         if(waveController != null)
         {
             if (screenRef.backGround != null)
-                UpdateBackground(screenRef);
+            {
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                        UpdateWaveBackground(screenRef);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                        UpdateEnemyBackground(screenRef);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                        UpdateScoreBackground(screenRef);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             if (screenRef.changingInfo != null)
             {
-                if(_screenChannel == ScreenChannel.EnemyCountChannel)
+                switch (_screenChannel)
                 {
-                    UpdateChangingInfo(screenRef, waveController.NbrOfEnemy - waveController.NbrOfDeadEnemy);
-                }
-                else if(_screenChannel == ScreenChannel.ScoreCountChannel)
-                {
-                    UpdateChangingInfo(screenRef, 99599f);
-                }
-                else if (_screenChannel == ScreenChannel.WaveCountChannel)
-                {
-                    UpdateChangingInfo(screenRef, waveController.NbrOfWave, 10);
+                    case ScreenChannel.WaveCountChannel:
+                            UpdateWave(screenRef, waveController.NbrOfWave, 10);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                            UpdateEnemy(screenRef, waveController.NbrOfEnemy - waveController.NbrOfDeadEnemy);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                            UpdateScore(screenRef, 99599);
+                        break;
+                    default:
+                        break;
                 }
             }
 
             if (screenRef.staticInfos.Length > 0)
-                UpdateStaticInfos(screenRef);
+            {
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                        UpdateWaveStaticInfo(screenRef);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                        UpdateEnemyStaticInfo(screenRef);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                        UpdateScoreStaticInfo(screenRef);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             if (screenRef.decorativeImages.Length > 0)
-                UpdateDecorativeInfos(screenRef);
+            {
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                        UpdateWaveDecorativeInfos(screenRef);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                        UpdateEnemyDecorativeInfos(screenRef);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                        UpdateScoreDecorativeInfos(screenRef);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
     #endregion
 
 
     #region Update Screen Var
-    void UpdateBackground(WaveScreenReference screenRef)
+
+    #region UpdateWaveScreen
+    void UpdateWaveBackground(WaveScreenReference screenRef)
     {
         
     }
-
-    void UpdateChangingInfo(WaveScreenReference screenRef, int current, int max)
+    void UpdateWave(WaveScreenReference screenRef, int current, int max)
     {
-        screenRef.changingInfo.text = string.Format("{0}/{1}", current, max);
+        screenRef.changingInfo.text = string.Format("{0}/{1}", current+1, max); // pour éviter d'avoir une "wave 0" on met current +1
     }
-    void UpdateChangingInfo(WaveScreenReference screenRef, int current)
+    void UpdateWaveStaticInfo(WaveScreenReference screenRef)
+    {
+
+    }
+    void UpdateWaveDecorativeInfos(WaveScreenReference screenRef)
+    {
+
+    }
+
+    #endregion
+
+    #region UpdateEnemyScreen
+    void UpdateEnemyBackground(WaveScreenReference screenRef)
+    {
+        
+    }
+    void UpdateEnemy(WaveScreenReference screenRef, int current)
     {
         screenRef.changingInfo.text = string.Format("{0}x", current);
     }
-    void UpdateChangingInfo(WaveScreenReference screenRef, float current)
-    {
-        screenRef.changingInfo.text = string.Format("{0}", current);
-    }
-
-    void UpdateStaticInfos(WaveScreenReference screenRef)
+    void UpdateEnemyStaticInfo(WaveScreenReference screenRef)
     {
 
     }
-
-    void UpdateDecorativeInfos(WaveScreenReference screenRef)
+    void UpdateEnemyDecorativeInfos(WaveScreenReference screenRef)
     {
 
     }
     #endregion
 
-    #region Easter Egg
+    #region UpdateScoreScreen
+    void UpdateScoreBackground(WaveScreenReference screenRef)
+    {
+        
+    }
+    void UpdateScore(WaveScreenReference screenRef, int current)
+    {
+        screenRef.changingInfo.text = string.Format("{0}", current);
+    }
+    void UpdateScoreStaticInfo(WaveScreenReference screenRef)
+    {
+
+    }
+    void UpdateScoreDecorativeInfos(WaveScreenReference screenRef)
+    {
+
+    }
+    #endregion
+
+    #endregion
+
+    #region SwitchChanel
     public void SwitchChannel(int channel)
     {
-        for (int i = 0, l = allChannel.Length; i < l; ++i)
+        for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
         {
-            if(channel -1 == i)
+            if(channel == i)
             {
-                allChannel[i].SetActive(true);
+                allWaveScreen[i].gameObject.SetActive(true);
+                _screenChannel = (ScreenChannel)i;
+                ChangeInformationDisplayed((ScreenChannel)i);
             }
             else
             {
-                allChannel[i].SetActive(false);
+                allWaveScreen[i].gameObject.SetActive(false);
             }
         }
     }
@@ -161,17 +223,17 @@ public class WaveScreenController :  MonoBehaviour
     {
         if(waveController != null)
         {
-            for (int i = 0, l = allChannel.Length; i < l; ++i)
+            for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
             {
-                if (i == 3)
+                if (i == (int)ScreenChannel.CocoChannel)
                 {
-                    allChannel[i].SetActive(true);
+                    allWaveScreen[i].gameObject.SetActive(true);
                     _screenChannel = ScreenChannel.CocoChannel;
                     waveController.AddCocoScreen();
                 }
                 else
                 {
-                    allChannel[i].SetActive(false);
+                    allWaveScreen[i].gameObject.SetActive(false);
                 }
             }
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using TypeOfFireEnum;
 using PoolTypes;
+using ScreenTypes;
 
 public class WeaponPlayerBehaviour : WeaponBehaviour
 {
@@ -90,6 +91,34 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 break;
         }
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+            {
+                if (_hit.collider.CompareTag("Screen"))
+                {
+                    WaveScreenController ctrler = _hit.collider.GetComponent<WaveScreenController>();
+
+                    int i = (int)ctrler._screenChannel + 1;
+
+                    if (i == (int)ScreenChannel.CocoChannel)
+                    {
+                        i++;
+                    }
+
+                    if (i <= (int)ScreenChannel.ScoreCountChannel)
+                    {
+                        ctrler.SwitchChannel(i);
+                    }
+                    else
+                    {
+                        ctrler.SwitchChannel(0);
+                    }
+                }
+            }
+        }
+
+        #region Easter Egg
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
@@ -100,9 +129,10 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 }
             }
         }
+        #endregion
 
     }
-   
+
     ProjectileType proj;
     public override void ChangeWeaponStats()
     {
