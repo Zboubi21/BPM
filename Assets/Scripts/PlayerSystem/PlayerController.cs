@@ -275,6 +275,10 @@ public class PlayerController : MonoBehaviour
 		_velocity *= m_currentSpeed;
 
 		//If controller is in the air, multiply movement velocity with 'airControl';
+		// if (!PlayerIsGrounded() && m_hasToFall)
+			// Debug.Log("need airControl = ");
+
+// ----- !!! À réactiver !!! -----
 		if(!PlayerIsGrounded() && m_hasToFall)
 			_velocity = _velocityDirection * m_currentSpeed * m_airControl;
 
@@ -424,6 +428,10 @@ public class PlayerController : MonoBehaviour
 	{
 		SetPlayerVelocity(Vector3.zero);
 	}
+	public void ResetPlayerMomentum()
+	{
+		m_momentum = Vector3.zero;
+	}
 
 	//Returns 'true' if the player presses the jump key;
 	public bool IsJumpKeyPressed()
@@ -567,6 +575,10 @@ public class PlayerController : MonoBehaviour
 			OnLand(m_momentum);
 
 		m_references.m_playerAudio.On_Land();
+
+		// ResetPlayerVelocity();
+		ResetPlayerMomentum();
+		Debug.Log("On_GroundContactRegained");
 	}
 
 	public bool PlayerHasToFall()

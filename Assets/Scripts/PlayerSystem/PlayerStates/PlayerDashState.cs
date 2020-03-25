@@ -31,6 +31,7 @@ public class PlayerDashState : IState
         m_haseDash = false;
 
         m_playerController.ResetPlayerVelocity();
+        m_playerController.ResetPlayerMomentum();   // Rajouté le 25/03 à 13h55 pour test de changer le feeling du 2e saut après le 1er
 
         m_dashSpeed = m_playerController.m_dash.m_distance / m_playerController.m_dash.m_timeToDash;
 
@@ -95,6 +96,7 @@ public class PlayerDashState : IState
         }
         else
         {
+            m_playerController.On_GroundContactLost();   // Rajouté le 25/03 à 13h55 pour test de changer le feeling du 2e saut après le 1er
             m_playerController.ChangeState(PlayerState.Fall);
         }
     }
