@@ -22,8 +22,8 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] float m_delayToHideValue = 0.25f;
 
     [Header("Feedbacks")]
-    [SerializeField] GameObject m_criticalLevelOfBPMFeedback;
-    [SerializeField] GameObject m_overadrenalineFeedback;
+    [SerializeField] ChangeImageValues m_criticalLevelOfBPMFeedback;
+    [SerializeField] ChangeImageValues m_overadrenalineFeedback;
     [SerializeField] Color m_normalBpmValueColor = Color.yellow;
     [SerializeField] Color m_criticalBpmValueColor = Color.red;
 
@@ -86,26 +86,18 @@ public class PlayerBpmGui : MonoBehaviour
     bool m_isInCtriticalLvl;
     public void On_CriticalLevelOfBPM(bool inCriticalLevel)
     {
-        // Ajouter Fade In / Fade out
-        m_criticalLevelOfBPMFeedback.SetActive(inCriticalLevel);
+        m_criticalLevelOfBPMFeedback.SwitchImageValue();
         m_isInCtriticalLvl = inCriticalLevel;
         m_bpmValue.color = inCriticalLevel ? m_criticalBpmValueColor : m_normalBpmValueColor;
     }
     public void On_OverAdrenalineActivated(bool isActivated)
     {
-        // Ajouter Fade In / Fade out
-        m_overadrenalineFeedback.SetActive(isActivated);
+        m_overadrenalineFeedback.SwitchImageValue();
 
-        if (isActivated)
+        if (!m_criticalLevelOfBPMFeedback.IsInFadeIn())
         {
-            m_criticalLevelOfBPMFeedback.SetActive(false);
+            m_criticalLevelOfBPMFeedback.SwitchImageValue();
         }
-        else
-        {
-            if (m_isInCtriticalLvl)
-                m_criticalLevelOfBPMFeedback.SetActive(true);
-        }
-
     }
     
 }

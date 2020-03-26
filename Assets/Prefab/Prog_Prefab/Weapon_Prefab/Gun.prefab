@@ -157,8 +157,8 @@ MonoBehaviour:
   m_timeToDo: 0.5
   m_targetedYPos: 0.015
   m_delayToHideValue: 0.25
-  m_criticalLevelOfBPMFeedback: {fileID: 5871529040105778865}
-  m_overadrenalineFeedback: {fileID: 2899890123140158136}
+  m_criticalLevelOfBPMFeedback: {fileID: 8911300785778799552}
+  m_overadrenalineFeedback: {fileID: 2850677232329734290}
   m_normalBpmValueColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   m_criticalBpmValueColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1211110961685455872
@@ -754,7 +754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3589583510734244144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 0.09803922}
+  m_Color: {r: 1, g: 1, b: 0, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -822,10 +822,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870a588db28a61c4abc92c33144e8e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_startValue: 0
   m_timeToFadeIn: 0.25
   m_timeToFadeOff: 0.5
-  m_minAlpha: 0
-  m_maxAlpha: 25
+  m_fromColor: {r: 1, g: 1, b: 0, a: 0}
+  m_toColor: {r: 1, g: 1, b: 0, a: 0.09803922}
 --- !u!1 &3863762695731727821
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.09803922}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1021,10 +1022,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870a588db28a61c4abc92c33144e8e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_startValue: 0
   m_timeToFadeIn: 0.25
   m_timeToFadeOff: 0.5
-  m_minAlpha: 0
-  m_maxAlpha: 25
+  m_fromColor: {r: 1, g: 0, b: 0, a: 0}
+  m_toColor: {r: 1, g: 0, b: 0, a: 0.09803922}
 --- !u!1 &7928409344141827843
 GameObject:
   m_ObjectHideFlags: 0

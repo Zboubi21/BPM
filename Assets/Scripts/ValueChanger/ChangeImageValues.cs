@@ -44,29 +44,35 @@ public class ChangeImageValues : MonoBehaviour
         m_speedToFadeOff = m_distanceFromTargetedColors / m_timeToFadeOff;
     }
 
+    public bool IsInFadeIn()
+    {
+        return m_needToFadeIn;
+    }
     public void SwitchImageValue()
     {
         if (m_needToFadeIn)
         {
+            m_needToFadeIn = false;
             CheckToStartChangeImageColorCoroutine(m_toColor, m_timeToFadeIn);
         }
         else
         {
+            m_needToFadeIn = true;
             CheckToStartChangeImageColorCoroutine(m_fromColor, m_timeToFadeOff);
         }
     }
-    float GetTimeToDoValue(bool needToFadeIn)
-    {
-        if (needToFadeIn)
-        {
+    // float GetTimeToDoValue(bool needToFadeIn)
+    // {
+    //     if (needToFadeIn)
+    //     {
+    //         return 
+    //     }
+    //     else
+    //     {
 
-        }
-        else
-        {
-
-        }
-        return 0;
-    }
+    //     }
+    //     return 0;
+    // }
 
     void CheckToStartChangeImageColorCoroutine(Color toColor, float timeToDo)
     {

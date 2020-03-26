@@ -85,7 +85,11 @@ public class BPMSystem : MonoBehaviour
         #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.T))
         {
-            GainBPM(100);
+            GainBPM(25);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            LoseBPM(25);
         }
         #endif
     }
@@ -136,6 +140,7 @@ public class BPMSystem : MonoBehaviour
             }
 
         }
+        CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
         _BPM.m_playerBpmGui.On_PlayerGetBpm(true, BPMGain);
@@ -230,6 +235,9 @@ public class BPMSystem : MonoBehaviour
             _canUseFury = false;
 
             _currentOverdrenalineCooldown = 0;
+
+            //Set le BPM au max quand on active l'overadrénaline
+            // GainBPM(_BPM.maxBPM - _currentBPM); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
 
             _overdrenaline._overdrenalineButton.gameObject.SetActive(false);
             StartCoroutine(OnOverADActivate());
