@@ -87,11 +87,10 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                 countAttacks = 0;
                 if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
                 {
-                    Debug.Log("i should move right ?");
                     float[] chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForCover, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
 
                     int chossenState = enemyController.Choose(chances);
-                    Debug.Log("chossenState : " + chossenState);
+
                     switch (chossenState)
                     {
                         case 0:
