@@ -38,7 +38,8 @@ public class BPMSystem : MonoBehaviour
     {
         Level0,
         Level1,
-        Level2
+        Level2,
+        Fury
     }
     WeaponState _currentWeaponState = WeaponState.Level0;
     public WeaponState CurrentWeaponState { get => _currentWeaponState; set => _currentWeaponState = value; }
@@ -63,11 +64,11 @@ public class BPMSystem : MonoBehaviour
     bool _isCurrentlyOnFury;
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
-
+    WeaponBehaviour weapon;
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
-
+        weapon = GetComponent<WeaponBehaviour>();
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
@@ -216,7 +217,7 @@ public class BPMSystem : MonoBehaviour
 
     void ChangeWeaponStats()
     {
-        GetComponent<WeaponBehaviour>().ChangeWeaponStats();
+        weapon.ChangeWeaponStats();
     }
     #endregion
 

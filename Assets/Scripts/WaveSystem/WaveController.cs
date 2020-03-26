@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using PoolTypes;
+using ScreenTypes;
 
 public class WaveController : MonoBehaviour
 {
-    SpawnerController[] spawners;
+    public SpawnerController[] allSpawners;
+    WaveScreenController[] screenController;
     [Space]
-    public WaveControl[] waveControl;
+    public WaveControl[] wavesControl;
     [Serializable]
     public class WaveControl
     {
@@ -29,16 +32,27 @@ public class WaveController : MonoBehaviour
     int _nbrOfDeadEnemy;
     int _nbrOfWave;
     bool hasStarted;
+    int nbrOfCocoScreen;
 
     #region Get Set
     public int NbrOfEnemy { get => _nbrOfEnemy; set => _nbrOfEnemy = value; }
     public int NbrOfDeadEnemy { get => _nbrOfDeadEnemy; set => _nbrOfDeadEnemy = value; }
     public int NbrOfWave { get => _nbrOfWave; set => _nbrOfWave = value; }
+    public int NbrOfCocoScreen { get => nbrOfCocoScreen; set => nbrOfCocoScreen = value; }
     #endregion
 
     private void Start()
     {
-        spawners = GetComponentsInChildren<SpawnerController>();
+        //spawners = GetComponentsInChildren<SpawnerController>();
+        screenController = GetComponentsInChildren<WaveScreenController>();
+        if (screenController.Length > 0)
+        {
+            for (int i = 0, l = screenController.Length; i < l; ++i)
+            {
+                screenController[i].SetWaveController(this);
+            }
+        }
+        _nbrOfWave = 0;
     }
 
     private void Update()
@@ -47,7 +61,7 @@ public class WaveController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M) && !hasStarted)
         {
-            StartCoroutine(spawners[0].WaveSpawner(_nbrOfWave, this));
+            StartCoroutine(allSpawners[0].WaveSpawner(_nbrOfWave, this));
             hasStarted = true;
         }
 #endif
@@ -57,16 +71,22 @@ public class WaveController : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hasStarted)
         {
-            StartCoroutine(spawners[0].WaveSpawner(_nbrOfWave, this));
+            StartCoroutine(allSpawners[0].WaveSpawner(_nbrOfWave, this));
+            allSpawners[0].CountEnemy(_nbrOfWave, this);
+            ///Wave Starts
+            ChangeAllScreen(ScreenChannel.WaveCountChannel);
             hasStarted = true;
         }
     }
 
     public void CheckLivingEnemies()
     {
+
+        ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
+
         if (NbrOfDeadEnemy != 0 && NbrOfDeadEnemy == NbrOfEnemy)
         {
-            //Current wave's over
+            ///Current wave's over
 
             StartCoroutine(WaitForNextWave());
         }
@@ -75,14 +95,14 @@ public class WaveController : MonoBehaviour
     IEnumerator WaitForNextWave()
     {
         float time = 0f;
-        for (int i = 0, l = waveControl.Length; i < l; ++i)
+        for (int i = 0, l = wavesControl.Length; i < l; ++i)
         {
-            if(_nbrOfWave == waveControl[i].wave.waveNbr)
+            if(_nbrOfWave == wavesControl[i].wave.waveNbr)
             {
-                time = waveControl[i].wave.timeForNextWave;
-                if(waveControl[i].wave.eventOnEndOfWave != null)
+                time = wavesControl[i].wave.timeForNextWave;
+                if(wavesControl[i].wave.eventOnEndOfWave != null)
                 {
-                    waveControl[i].wave.eventOnEndOfWave.Invoke();
+                    wavesControl[i].wave.eventOnEndOfWave.Invoke();
                 }
                 break;
             }
@@ -92,19 +112,40 @@ public class WaveController : MonoBehaviour
             }
         }
         _nbrOfWave++;
+        ChangeAllScreen(ScreenChannel.WaveCountChannel); // Increment nbr of wave
         yield return new WaitForSeconds(time); // time needed for all the animation/sound/voice/visual effect before next wave
-        //New wave starts
-        for (int i = 0, l = spawners.Length; i < l; i++)
+
+        ///New wave starts
+        NbrOfDeadEnemy = 0;
+        NbrOfEnemy = 0;
+
+        for (int i = 0, l = allSpawners.Length; i < l; i++)
         {
-            StartCoroutine(spawners[i].WaveSpawner(_nbrOfWave, this));
+            StartCoroutine(allSpawners[i].WaveSpawner(_nbrOfWave, this));
+            allSpawners[i].CountEnemy(_nbrOfWave, this);
         }
-        //All the enemy have spawned
+        ///All the enemy have spawned
+        ChangeAllScreen(ScreenChannel.EnemyCountChannel);
+    }
+
+    void ChangeAllScreen(ScreenChannel chanel)
+    {
+        if (screenController.Length > 0)
+        {
+            for (int i = 0, l = screenController.Length; i < l; ++i)
+            {
+                screenController[i].OnChangeDisplayInfo(chanel);
+            }
+        }
     }
 
 
-    private void OnDrawGizmos()
+    public void AddCocoScreen()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(transform.position, new Vector3(4f,1f,1f));
+        NbrOfCocoScreen++;
+        if(NbrOfCocoScreen == screenController.Length)
+        {
+            ObjectPooler.Instance.SpawnObjectFromPool(ObjectType.Gun, new Vector3(PlayerController.s_instance.transform.position.x, 20f, PlayerController.s_instance.transform.position.z), Quaternion.identity);
+        }
     }
 }

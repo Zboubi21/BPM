@@ -16,7 +16,7 @@ public class PlayerFallState : IState
 
     public void Enter()
     {
-        m_playerController.On_GroundContactLost();
+        // m_playerController.On_GroundContactLost();
 
         if (m_playerController.LastState(PlayerState.Idle) || m_playerController.LastState(PlayerState.Run))
         {

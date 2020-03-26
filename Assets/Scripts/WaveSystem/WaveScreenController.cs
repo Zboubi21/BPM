@@ -2,81 +2,243 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class WaveScreenController : MonoBehaviour
+using TMPro;
+using ScreenTypes;
+public class WaveScreenController :  MonoBehaviour
 {
-    public Canvas m_allScreen;
-    public Image m_waveHasASlider;
-    public Image m_robotImage;
-    public GridLayoutGroup m_waveHasACanvasGroup;
-    public Text m_displayNbrOfWave;
-    public Text m_displayNbrOFEnemy;
+    public ScreenChannel _screenChannel;
+
+
     [Space]
-    [Header("Sound")]
-    public AudioSource source;
-    public AudioClip[] audioEndOfEachWave;
+    WaveScreenReference[] allWaveScreen;
+    WaveController waveController;
 
-
-
-    List<Image> allEnemyImages = new List<Image>();
-    List<Image> allredCrossedEnemyImages = new List<Image>();
-
-    public void ChangeDisplayedInfo(int nbrOfEnemyOnWave, int nbrOfEnemyAlive)  // Call this one every time an enemy dies
+    private void Start()
     {
-        m_displayNbrOFEnemy.text = string.Format("{0}/{1}", nbrOfEnemyOnWave - nbrOfEnemyAlive, nbrOfEnemyOnWave);
+        allWaveScreen = GetComponentsInChildren<WaveScreenReference>();
+        ChangeInformationDisplayed(_screenChannel);
 
-        #region only if gridLayout c'est de la merde
-        if (m_waveHasASlider != null)   // ça c'est juste que je le sent pas le GridLayoutGroup                                                   
+        if(allWaveScreen.Length > 0)
         {
-            m_waveHasASlider.fillAmount = Mathf.InverseLerp(0, nbrOfEnemyOnWave, nbrOfEnemyAlive);
+            for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
+            {
+                if ((int)_screenChannel == i)
+                {
+                    allWaveScreen[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    allWaveScreen[i].gameObject.SetActive(false);
+                }
+            }
         }
-        #endregion
+        
+    }
 
-        if (m_waveHasACanvasGroup != null)
+    public void SetWaveController(WaveController control)
+    {
+        if (waveController != control || waveController == null)
         {
-            Image go = Instantiate(m_robotImage, m_waveHasACanvasGroup.transform.position, Quaternion.identity, m_waveHasACanvasGroup.transform);
-            allredCrossedEnemyImages.Add(go);
+            waveController = control;
         }
     }
 
-    public void ChangeDisplayedInfo(int nbrOfEnemyOnWave, int nbrOfEnemyAlive, int nbrOfTheCurrentWave, int totalOfWave) // Call this one at each end of a wave
+    public void OnChangeDisplayInfo(ScreenChannel channel)
     {
-        m_displayNbrOfWave.text = string.Format("{0}/{1}", nbrOfTheCurrentWave, totalOfWave);
-
-        m_displayNbrOFEnemy.text = string.Format("{0}/{1}", nbrOfEnemyOnWave, nbrOfEnemyOnWave);
-
-        #region only if gridLayout c'est de la merde
-        if (m_waveHasASlider != null)   // ça c'est juste que je le sent pas le GridLayoutGroup                                                   
+        if(channel == _screenChannel)
         {
-            m_waveHasASlider.fillAmount = Mathf.InverseLerp(0, nbrOfEnemyOnWave, nbrOfEnemyAlive);
+            ChangeInformationDisplayed(channel);
         }
-        #endregion
+    }
 
-        if (m_waveHasACanvasGroup != null)
+
+    #region Set Screen Var
+    void ChangeInformationDisplayed(ScreenChannel channel)
+    {
+        if (allWaveScreen[(int)channel] != null)
         {
-            for (int i = 0; i < allredCrossedEnemyImages.Count; i++)
-            {
-                Destroy(allredCrossedEnemyImages[i].gameObject);
-            }
-            for (int i = 0; i < allEnemyImages.Count; i++)
-            {
-                Destroy(allEnemyImages[i].gameObject);
-            }
-            allEnemyImages.Clear();
-            allredCrossedEnemyImages.Clear();
-            for (int i = 0; i < nbrOfEnemyOnWave; i++)
-            {
-                Image go = Instantiate(m_robotImage, m_waveHasACanvasGroup.transform.position, Quaternion.identity, m_waveHasACanvasGroup.transform);
-                allEnemyImages.Add(go);
-            }
+            ChangeInfoOnScreen(allWaveScreen[(int)channel]);
+            //SwitchChannel((int)channel);
         }
+    }
 
-        if(source != null)
+    void ChangeInfoOnScreen(WaveScreenReference screenRef) //Set the variable to be change whithin the appropriate function
+    {
+        if(waveController != null)
         {
-            if(audioEndOfEachWave[nbrOfTheCurrentWave - 1] != null)
+            if (screenRef.backGround != null)
             {
-                source.clip = audioEndOfEachWave[nbrOfTheCurrentWave - 1];
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                        UpdateWaveBackground(screenRef);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                        UpdateEnemyBackground(screenRef);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                        UpdateScoreBackground(screenRef);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (screenRef.changingText != null)
+            {
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                            UpdateWave(screenRef, waveController.NbrOfWave, 10);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                            UpdateEnemy(screenRef, waveController.NbrOfEnemy - waveController.NbrOfDeadEnemy);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                            UpdateScore(screenRef, 99599);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (screenRef.staticTexts.Length > 0)
+            {
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                        UpdateWaveStaticInfo(screenRef);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                        UpdateEnemyStaticInfo(screenRef);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                        UpdateScoreStaticInfo(screenRef);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (screenRef.decorativeImages.Length > 0)
+            {
+                switch (_screenChannel)
+                {
+                    case ScreenChannel.WaveCountChannel:
+                        UpdateWaveDecorativeInfos(screenRef);
+                        break;
+                    case ScreenChannel.EnemyCountChannel:
+                        UpdateEnemyDecorativeInfos(screenRef);
+                        break;
+                    case ScreenChannel.ScoreCountChannel:
+                        UpdateScoreDecorativeInfos(screenRef);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
+    #endregion
+
+
+    #region Update Screen Var
+
+    #region UpdateWaveScreen
+    void UpdateWaveBackground(WaveScreenReference screenRef)
+    {
+        
+    }
+    void UpdateWave(WaveScreenReference screenRef, int current, int max)
+    {
+        screenRef.changingText.text = string.Format("{0}/{1}", current+1, max); // pour éviter d'avoir une "wave 0" on met current +1
+    }
+    void UpdateWaveStaticInfo(WaveScreenReference screenRef)
+    {
+
+    }
+    void UpdateWaveDecorativeInfos(WaveScreenReference screenRef)
+    {
+
+    }
+
+    #endregion
+
+    #region UpdateEnemyScreen
+    void UpdateEnemyBackground(WaveScreenReference screenRef)
+    {
+        
+    }
+    void UpdateEnemy(WaveScreenReference screenRef, int current)
+    {
+        screenRef.changingText.text = string.Format("{0}x", current);
+    }
+    void UpdateEnemyStaticInfo(WaveScreenReference screenRef)
+    {
+
+    }
+    void UpdateEnemyDecorativeInfos(WaveScreenReference screenRef)
+    {
+
+    }
+    #endregion
+
+    #region UpdateScoreScreen
+    void UpdateScoreBackground(WaveScreenReference screenRef)
+    {
+        
+    }
+    void UpdateScore(WaveScreenReference screenRef, int current)
+    {
+        screenRef.changingText.text = string.Format("{0}", current);
+    }
+    void UpdateScoreStaticInfo(WaveScreenReference screenRef)
+    {
+
+    }
+    void UpdateScoreDecorativeInfos(WaveScreenReference screenRef)
+    {
+
+    }
+    #endregion
+
+    #endregion
+
+    #region SwitchChanel
+    public void SwitchChannel(int channel)
+    {
+        for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
+        {
+            if(channel == i)
+            {
+                allWaveScreen[i].gameObject.SetActive(true);
+                _screenChannel = (ScreenChannel)i;
+                ChangeInformationDisplayed((ScreenChannel)i);
+            }
+            else
+            {
+                allWaveScreen[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    public void SwitchChannel()
+    {
+        if(waveController != null)
+        {
+            for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
+            {
+                if (i == (int)ScreenChannel.CocoChannel)
+                {
+                    allWaveScreen[i].gameObject.SetActive(true);
+                    _screenChannel = ScreenChannel.CocoChannel;
+                    waveController.AddCocoScreen();
+                }
+                else
+                {
+                    allWaveScreen[i].gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+    #endregion
 }

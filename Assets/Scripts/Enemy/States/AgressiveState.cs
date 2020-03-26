@@ -18,13 +18,19 @@ public class AgressiveState : IState
 
     public void Enter()
     {
+        ///play run animation
+        ///play run sound
         m_enemyController.CurrentTarget = m_enemyController.MoveForward(m_enemyController.Player);
-        go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.CurrentTarget);
+#if UNITY_EDITOR
+        go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
+#endif
     }
 
     public void Exit()
     {
+#if UNITY_EDITOR
         m_enemyController.DestroyObj(go);
+#endif
     }
 
     public void FixedUpdate()

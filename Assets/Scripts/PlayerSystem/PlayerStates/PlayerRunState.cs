@@ -24,6 +24,7 @@ public class PlayerRunState : IState
 
         if (m_playerController.PlayerHasToFall())
         {
+            m_playerController.On_GroundContactLost();   // Rajouté le 25/03 à 13h55 pour test de changer le feeling du 2e saut après le 1er
             m_playerController.ChangeState(PlayerState.Fall);
         }
 

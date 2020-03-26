@@ -29,12 +29,13 @@ public class PlayerBpmGuiValues : MonoBehaviour
         Destroy(gameObject); // À remplacer avec l'ObjectPooler !
     }
 
-    public void StartToChangeColor(Color color, float timeToDo)
+    public void StartToChangeColor(Color color, float timeToDo, float delay)
     {
-        StartCoroutine(ChangeColor(color, timeToDo));
+        StartCoroutine(ChangeColor(color, timeToDo, delay));
     }
-    IEnumerator ChangeColor(Color color, float timeToDo)
+    IEnumerator ChangeColor(Color color, float timeToDo, float delay)
     {
+        yield return new WaitForSeconds(delay);
         Color fromColor = color;
         Color toColor = color;
         toColor.a = 0;
@@ -42,7 +43,7 @@ public class PlayerBpmGuiValues : MonoBehaviour
 
         float fracJourney = 0;
         float distance = Mathf.Abs(fromColor.r - toColor.r) + Mathf.Abs(fromColor.g - toColor.g) + Mathf.Abs(fromColor.b - toColor.b) + Mathf.Abs(fromColor.a - toColor.a);
-        float speed = distance / timeToDo;
+        float speed = distance / (timeToDo - delay);
 
         TextMeshProUGUI guiText = GetComponent<TextMeshProUGUI>();
 

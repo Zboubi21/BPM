@@ -187,15 +187,6 @@ public class Projectile : MonoBehaviour
 
     #region When Using Rigibody
 
-    private void FixedUpdate()
-    {
-        if (m_colType == TypeOfCollision.Rigibody)
-        {
-            rb.velocity = transform.forward * Speed;
-        }
-
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (col != null)
@@ -207,8 +198,13 @@ public class Projectile : MonoBehaviour
 
     #region When Using UpdateRayCast
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
+        if (m_colType == TypeOfCollision.Rigibody)
+        {
+            rb.velocity = transform.forward * Speed;
+        }
+
         if (m_colType == TypeOfCollision.UpdateRaycasts)
         {
             if (OnCastRay(transform.position))
@@ -317,6 +313,13 @@ public class Projectile : MonoBehaviour
             }
         }
 
+        // Voir avec Paul pour cette partie car si la cover d'un ennemi est détruite, l'ennemi doit être au courant et réagir en fonction !
+        if (collider.CompareTag("Cover"))
+        {
+            DestroyableObject destroyableObject = collider.GetComponent<DestroyableObject>();
+            if (destroyableObject != null)
+                destroyableObject.BreakObject();
+        }
 
         if (m_dieFX != null)
         {

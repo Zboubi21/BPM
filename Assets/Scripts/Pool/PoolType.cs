@@ -16,5 +16,6 @@
 	}
     [System.Serializable] public enum ObjectType {
         BpmGuiValues,
+        Gun
 	}
 }
