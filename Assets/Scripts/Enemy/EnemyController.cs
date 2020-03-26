@@ -54,6 +54,7 @@ public class EnemyController : MonoBehaviour
     GameManager manager;
     Transform target;
     Vector3 currentTarget;
+    ObjectPooler objectPooler;
 
     float distanceToTarget;
     bool _enemyCanShoot;
@@ -67,6 +68,7 @@ public class EnemyController : MonoBehaviour
     public bool EnemyCantShoot { get => _enemyCanShoot; set => _enemyCanShoot = value; }
     public Vector3 CurrentTarget { get => currentTarget; set => currentTarget = value; }
     public WeaponEnemyBehaviour WeaponBehavior { get => weaponBehavior; set => weaponBehavior = value; }
+    public ObjectPooler ObjectPooler { get => objectPooler; set => objectPooler = value; }
     #endregion
 
 
@@ -77,6 +79,7 @@ public class EnemyController : MonoBehaviour
         cara = GetComponent<EnemyCara>();
         weaponBehavior = GetComponent<WeaponEnemyBehaviour>();
         manager = GameManager.Instance;
+        objectPooler = ObjectPooler.Instance;
     }
 
     void SetupStateMachine()
@@ -166,7 +169,7 @@ public class EnemyController : MonoBehaviour
 
         for (int i = 0, l= allColInSphere.Length; i < l; ++i)
         {
-            if (allColInSphere[i].CompareTag("Cover"))
+            if (allColInSphere[i].CompareTag("PointChaud"))
             {
                 bool denied = false;
                 if(manager.AllUsedCover.Count > 0)

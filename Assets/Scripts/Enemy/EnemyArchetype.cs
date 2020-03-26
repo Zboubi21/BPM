@@ -66,7 +66,7 @@ public class EnemyArchetype : SerializedScriptableObject
     [TabGroup("Enemy Behavior Chance")]
     [Range(0, 100)]
     //[ProgressBar(0, 100, r: 0.51f, g: 0.153f, b: 1f, Height = 20, R = 0.051f, G = 0.153f, B = 1f)]
-    public float _chanceToGoInLookForCover = 10f;
+    public float _chanceToGoInLookForHotSpot = 10f;
 
     [Title("Agressive Behavior State", titleAlignment: TitleAlignments.Centered, horizontalLine: false, bold: false)]
     [TabGroup("Enemy Behavior Chance")]

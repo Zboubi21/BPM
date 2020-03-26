@@ -298,7 +298,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
             #region Initiate Proj Var
             Projectile projVar = projectileFeedback.GetComponent<Projectile>();
-            Level.AddFX(projVar.m_muzzleFlash, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
+            Level.AddFX(projVar.muzzleFX, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
             if (projVar != null)
             {
                 projVar.ProjectileType1 = Projectile.ProjectileType.Player;

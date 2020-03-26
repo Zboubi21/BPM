@@ -40,8 +40,18 @@ public class ObjectPooler : MonoBehaviour {
         public GameObject m_prefab;
 		public int m_size;
     }
+    [Header("Fx pools")]
+    [SerializeField] List<FXPool> m_FXPools;
+    [System.Serializable]
+    public class FXPool
+    {
+        public string m_name;
+        public FxType m_fxType;
+        public GameObject m_prefab;
+        public int m_size;
+    }
 
-	[Header("Object pools")]
+    [Header("Object pools")]
 	[SerializeField] List<ObjectPool> m_objectPools;
 	[System.Serializable] public class ObjectPool {
         public string m_name;
@@ -69,6 +79,7 @@ public class ObjectPooler : MonoBehaviour {
 
 	Dictionary<EnemyType, Queue<GameObject>> m_enemyPoolDictionary;
 	Dictionary<ProjectileType, Queue<GameObject>> m_projectilePoolDictionary;
+	Dictionary<FxType, Queue<GameObject>> m_FXPoolDictionary;
 	Dictionary<ObjectType, Queue<GameObject>> m_objectPoolDictionary;
 
 	Queue<PoolTracker> m_trackedObject = new Queue<PoolTracker>();
@@ -98,7 +109,21 @@ public class ObjectPooler : MonoBehaviour {
 			m_projectilePoolDictionary.Add(pool.m_projectileType, objectPool);
 		}
 
-		m_objectPoolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
+        m_FXPoolDictionary = new Dictionary<FxType, Queue<GameObject>>();
+        foreach (FXPool pool in m_FXPools)
+        {
+            Queue<GameObject> objectPool = new Queue<GameObject>();
+            for (int i = 0, l = pool.m_size; i < l; ++i)
+            {
+                GameObject obj = Instantiate(pool.m_prefab, transform, this);
+                obj.SetActive(false);
+                obj.name = obj.name + "_" + i;
+                objectPool.Enqueue(obj);
+            }
+            m_FXPoolDictionary.Add(pool.m_fxType, objectPool);
+        }
+
+        m_objectPoolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
 		foreach(ObjectPool pool in m_objectPools){
 			Queue<GameObject> objectPool = new Queue<GameObject>();
 			for(int i = 0, l = pool.m_size; i < l; ++i){
@@ -195,8 +220,41 @@ public class ObjectPooler : MonoBehaviour {
 		m_projectilePoolDictionary[objectType].Enqueue(objectToReturn);
 	}
 
+    public GameObject SpawnFXFromPool(FxType FXType, Vector3 position, Quaternion rotation)
+    {
 
-	public GameObject SpawnObjectFromPool(ObjectType objectType, Vector3 position, Quaternion rotation){
+        if (!m_FXPoolDictionary.ContainsKey(FXType))
+        {
+            Debug.LogError("Pool of " + FXType + " dosen't exist.");
+            return null;
+        }
+
+        if (m_FXPoolDictionary[FXType].Count == 0)
+        {
+            Debug.LogError(FXType.ToString() + " pool is empty!");
+            return null;
+        }
+
+        GameObject objectToSpawn = m_FXPoolDictionary[FXType].Dequeue();
+
+        objectToSpawn.transform.position = position;
+        objectToSpawn.transform.rotation = rotation;
+        objectToSpawn.SetActive(true);
+
+        PoolTracker poolTracker = AddPoolTrackerComponent(objectToSpawn, PoolType.FxType);
+        poolTracker.FxType = FXType;
+        m_trackedObject.Enqueue(poolTracker);
+
+        return objectToSpawn;
+    }
+    public void ReturnFXToPool(FxType objectType, GameObject objectToReturn)
+    {
+        CheckPoolTrackerOnResetObject(objectToReturn);
+        objectToReturn.SetActive(false);
+        m_FXPoolDictionary[objectType].Enqueue(objectToReturn);
+    }
+
+    public GameObject SpawnObjectFromPool(ObjectType objectType, Vector3 position, Quaternion rotation){
 
 		if(!m_objectPoolDictionary.ContainsKey(objectType)){
 			Debug.LogError("Pool of " + objectType + " dosen't exist.");

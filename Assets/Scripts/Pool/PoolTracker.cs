@@ -37,7 +37,9 @@ public class PoolTracker : MonoBehaviour {
             m_projectileType = value;
         }
     }
-
+    FxType m_fxType;
+    public FxType FxType { get => m_fxType; set => m_fxType = value; }
+    
     ObjectType m_objectType;
     public ObjectType ObjectType{
         get{
@@ -48,6 +50,7 @@ public class PoolTracker : MonoBehaviour {
         }
     }
 
+
     void Start(){
         m_objectPooler = ObjectPooler.Instance;
     }
@@ -56,18 +59,22 @@ public class PoolTracker : MonoBehaviour {
         if(m_objectPooler == null){
             m_objectPooler = ObjectPooler.Instance;
         }
-        switch (m_poolType){
+        switch (m_poolType)
+        {
             case PoolType.EnemyType:
-		        m_objectPooler.ReturnEnemyToPool(m_enemyType, gameObject);
-            break;
+                m_objectPooler.ReturnEnemyToPool(m_enemyType, gameObject);
+                break;
             case PoolType.ProjectileType:
-		        m_objectPooler.ReturnProjectileToPool(m_projectileType, gameObject);
-            break;
+                m_objectPooler.ReturnProjectileToPool(m_projectileType, gameObject);
+                break;
             case PoolType.ObjectType:
-		        m_objectPooler.ReturnObjectToPool(m_objectType, gameObject);
-            break;
+                m_objectPooler.ReturnObjectToPool(m_objectType, gameObject);
+                break;
+            case PoolType.FxType:
+                m_objectPooler.ReturnFXToPool(m_fxType, gameObject);
+                break;
         }
         Destroy(this);
     }
-    
+
 }

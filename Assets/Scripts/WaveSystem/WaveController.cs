@@ -9,7 +9,8 @@ using ScreenTypes;
 public class WaveController : MonoBehaviour
 {
     public SpawnerController[] allSpawners;
-    WaveScreenController[] screenController;
+    [Space]
+    public WaveScreenController[] screenController;
     [Space]
     public WaveControl[] wavesControl;
     [Serializable]
@@ -44,7 +45,7 @@ public class WaveController : MonoBehaviour
     private void Start()
     {
         //spawners = GetComponentsInChildren<SpawnerController>();
-        screenController = GetComponentsInChildren<WaveScreenController>();
+        //screenController = GetComponentsInChildren<WaveScreenController>();
         if (screenController.Length > 0)
         {
             for (int i = 0, l = screenController.Length; i < l; ++i)
