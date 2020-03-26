@@ -231,7 +231,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     void PlayAppropriateSound(AudioClip[] allSound)
     {
-        if(allSound != null)
+        if(allSound.Length > 0)
         {
             switch (_BPMSystem.CurrentWeaponState)
             {

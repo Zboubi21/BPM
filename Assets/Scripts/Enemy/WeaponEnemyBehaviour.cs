@@ -40,6 +40,16 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
 
     #region ShootingMethods
 
+    RaycastHit _hit;
+    public IEnumerator CheckIfPlayerIsInSight()
+    {
+        if (Physics.Raycast(_SMG.firePoint.transform.position, _SMG.firePoint.transform.forward, out _hit, _attack.rangeRadius))
+        {
+            enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+        }
+        yield break;
+    }
+
     int countAttacks;
     public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float recoilTimeEachBurst)
     {
