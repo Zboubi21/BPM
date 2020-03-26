@@ -25,6 +25,7 @@ public class PlayerJumpState : IState
         m_timer = 0;
         m_haseJump = false;
         m_jumpDuration = m_playerController.LastState(PlayerState.Jump) ? m_playerController.m_doubleJump.m_duration : m_playerController.m_jump.m_duration;
+        // m_jumpDuration = m_playerController.m_jump.m_duration;
 
         // if (!m_playerController.LastState(PlayerState.Jump))   // Rajouté le 25/03 à 13h55 pour test de changer le feeling du 2e saut après le 1er
             m_playerController.On_GroundContactLost();
