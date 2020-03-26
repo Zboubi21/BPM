@@ -64,11 +64,11 @@ public class BPMSystem : MonoBehaviour
     bool _isCurrentlyOnFury;
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
-
+    WeaponBehaviour weapon;
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
-
+        weapon = GetComponent<WeaponBehaviour>();
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
@@ -222,7 +222,7 @@ public class BPMSystem : MonoBehaviour
 
     void ChangeWeaponStats()
     {
-        GetComponent<WeaponBehaviour>().ChangeWeaponStats();
+        weapon.ChangeWeaponStats();
     }
     #endregion
 
