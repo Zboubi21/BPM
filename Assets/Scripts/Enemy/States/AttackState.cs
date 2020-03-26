@@ -18,7 +18,6 @@ public class AttackState : IState
     public void Enter()
     {
         m_weaponEnemyBehaviour = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
-        m_weaponEnemyBehaviour.StartCoroutine(m_weaponEnemyBehaviour.CheckIfPlayerIsInSight());
 
         ///Play attack animation
         ///Play attack sound (enter state not shoot)

@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
 	// public bool m_useGravity = true;
 
 	[Header("References")]
-	[SerializeField] References m_references;
-	[Serializable] class References{
+	public References m_references;
+	[Serializable] public class References{
 		public Transform m_cameraPivot;
 		public PlayerAudioController m_playerAudio;
 	}

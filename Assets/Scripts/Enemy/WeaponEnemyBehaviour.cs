@@ -7,6 +7,7 @@ using System;
 public class WeaponEnemyBehaviour : WeaponBehaviour
 {
     [Space]
+    LayerMask hittedLayer;
     public Attack _attack = new Attack();
     [Serializable]
     public class Attack
@@ -41,18 +42,30 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     #region ShootingMethods
 
     RaycastHit _hit;
-    public IEnumerator CheckIfPlayerIsInSight()
-    {
-        if (Physics.Raycast(_SMG.firePoint.transform.position, _SMG.firePoint.transform.forward, out _hit, _attack.rangeRadius))
-        {
-            enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
-        }
-        yield break;
-    }
+    //public IEnumerator CheckIfPlayerIsInSight()
+    //{
+    //    float distance = 0;
+    //    if(Vector3.Distance(PlayerController.s_instance.transform.position, transform.position) < _attack.rangeRadius)
+    //    {
+    //        distance = Vector3.Distance(PlayerController.s_instance.transform.position, transform.position);
+    //    }
+    //    else
+    //    {
+    //        distance = _attack.rangeRadius;
+    //    }
+
+    //    if (Physics.Raycast(_SMG.firePoint.transform.position, _SMG.firePoint.transform.forward, out _hit, distance))
+    //    {
+    //        enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+    //        yield return new WaitForEndOfFrame();
+    //    }
+    //}
 
     int countAttacks;
     public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float recoilTimeEachBurst)
     {
+        //yield return StartCoroutine(CheckIfPlayerIsInSight());
+
         countAttacks++;
         for (int i = 0; i < nbrOfShoot; ++i)
         {
@@ -74,9 +87,11 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                 countAttacks = 0;
                 if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
                 {
+                    Debug.Log("i should move right ?");
                     float[] chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForCover, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
 
                     int chossenState = enemyController.Choose(chances);
+                    Debug.Log("chossenState : " + chossenState);
                     switch (chossenState)
                     {
                         case 0:
@@ -98,11 +113,14 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                             break;
                     }
                 }
+                else
+                {
+                    enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+                }
                 //Debug.Log("Launch Reposition");
             }
             else
             {
-                //Debug.Log("Launch Chaase");
                 enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
             }
         }

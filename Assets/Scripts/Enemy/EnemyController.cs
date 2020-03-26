@@ -147,15 +147,17 @@ public class EnemyController : MonoBehaviour
 
 
     #region NPC motion state methods
+    bool hasFoundACover = false;
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
     {
+
         Vector3 newTarget;
-        bool hasFoundACover = false;
         float distance = Vector3.Distance(transform.position, target.position);
         Vector3 lastPoint = Vector3.Lerp(target.position, transform.position, Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius));
-        if(choosenCover != 0 && manager.AllUsedCover.Count > 0) 
+        if(hasFoundACover && manager.AllUsedCover.Count > 0) 
         {
-            manager.AllUsedCover.RemoveAt(choosenCover - 1); // -1 pour retomber sur l'index exacte (on fait +1 plus loin pour avoir choosenCover =0 : " je n'ai pas trouvé de cover")
+            manager.AllUsedCover.RemoveAt(choosenCover); // -1 pour retomber sur l'index exacte (on fait +1 plus loin pour avoir choosenCover =0 : " je n'ai pas trouvé de cover")
+            hasFoundACover = false;
         }
 
         #region Find all cover around the player
@@ -191,6 +193,7 @@ public class EnemyController : MonoBehaviour
         if (allCoverInSphere.Count == 0 || !hasFoundACover)  // The NPC hasn't found a cover
         {
             int count = 200;
+            hasFoundACover = false;
             while (count > 0)
             {
                 //Choisi un point aléatoire dans un cercle de la taille de la range du NPC
@@ -208,10 +211,10 @@ public class EnemyController : MonoBehaviour
         }
         else // The NPC has found a cover
         {
-            int randomIndex = UnityEngine.Random.Range(0, allCoverInSphere.Count);
+            int randomIndex = UnityEngine.Random.Range(0, allCoverInSphere.Count-1);
             newTarget = allCoverInSphere[randomIndex].transform.position;
             manager.AllUsedCover.Add(allCoverInSphere[randomIndex]);
-            choosenCover = randomIndex+1; // +1 pour avoir 0 = je n'ai pas trouvé de cover
+            choosenCover = randomIndex; // +1 pour avoir 0 = je n'ai pas trouvé de cover
             return newTarget;
         }
     }

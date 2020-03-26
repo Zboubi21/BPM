@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GroundType;
+using System;
 
 public class PlayerAudioController : AudioController
 {
@@ -36,6 +37,57 @@ public class PlayerAudioController : AudioController
 
     [Header("Dash")]
     [SerializeField] Sounds m_dash;
+
+    [Header("WeaponSound")]
+    public WeaponSound weaponSound;
+    [Serializable]
+    public class WeaponSound
+    {
+        public AudioSource source;
+        [Space]
+        public AllDifferentFireSound[] allDifferentFireSound;
+        [Serializable]
+        public class AllDifferentFireSound
+        {
+            public AudioClip[] allDifferentClip;
+            public Pitch Pitch;
+            public Volume Volume;
+        }
+        [Space]
+        public AllDifferentLastFireSound[] allDifferentLastFireSound;
+        [Serializable]
+        public class AllDifferentLastFireSound
+        {
+            public AudioClip[] allDifferentClip;
+            public Pitch Pitch;
+            public Volume Volume;
+        }
+    }
+
+    #region Serializable class
+    [Serializable]
+    public class Pitch
+    {
+        [Range(0.1f, 1f)]
+        public float pitch;
+        float _currentPitch;
+        [Space]
+        [Range(0, 1)]
+        public float pitchRandomizer;
+        public float CurrentPitch { get => _currentPitch; set => _currentPitch = value; }
+    }
+    [Serializable]
+    public class Volume
+    {
+        [Range(0, 1)]
+        public float volume;
+        float _currentVolume;
+        [Space]
+        [Range(0, 1)]
+        public float volumeRandomizer;
+        public float CurrentVolume { get => _currentVolume; set => _currentVolume = value; }
+    }
+    #endregion
 
     [Header("Steps & Land Raycast")]
     [SerializeField] Transform m_raycastTrans;
@@ -152,6 +204,22 @@ public class PlayerAudioController : AudioController
     {
         StartSoundFromArray(m_dash.m_audioSource, m_dash.m_sounds, m_dash.m_volume, m_dash.m_volumeRandomizer, m_dash.m_pitch, m_dash.m_pitchRandomizer);
     }
-#endregion
+    public void PlayAppropriateLastFireSound(int currentIndex)
+    {
+        if (weaponSound.allDifferentLastFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.source != null)
+        {
+            StartSoundFromArray(weaponSound.source, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+        }
+    }
+
+    public void PlayAppropriateFireSound(int currentIndex)
+    {
+        if (weaponSound.allDifferentFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.source != null)
+        {
+            StartSoundFromArray(weaponSound.source, weaponSound.allDifferentFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+        }
+    }
+    #endregion
+
 
 }

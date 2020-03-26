@@ -19,15 +19,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     BPMSystem _BPMSystem;
     ObjectPooler objectPooler;
+    PlayerAudioController audioControl;
 
     public Camera playerCamera;
     public LayerMask rayCastCollision;
     [Header("VFX")]
     public GameObject[] _insideLaser;
-    [Header("SFX")]
-    public AudioSource source;
-    public AudioClip[] allFireSound;
-    public AudioClip[] allLastFireSound;
+    
 
     int defaultDistance = 500;
 
@@ -62,6 +60,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         base.Awake();
         _BPMSystem = GetComponent<BPMSystem>();
         objectPooler = ObjectPooler.Instance;
+        audioControl = PlayerController.s_instance.m_references.m_playerAudio;
         ChangeWeaponStats();
     }
 
@@ -94,7 +93,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 }
                 if (Input.GetKeyUp(KeyCode.Mouse0) && CanShoot)
                 {
-                    PlayAppropriateSound(allLastFireSound);
+                    audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
                 }
                 break;
         }
@@ -213,8 +212,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             _BPMSystem.LoseBPM(_currentBPMCost);
             if (_currentProjectil != null)
             {
-                PlayAppropriateSound(allFireSound);
                 InitiateRayCast(InstatiateProj());
+                audioControl.PlayAppropriateFireSound((int)_BPMSystem.CurrentWeaponState);
             }
             else
             {
@@ -229,27 +228,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         //CanShoot = true;
     }
 
-    void PlayAppropriateSound(AudioClip[] allSound)
-    {
-        if(allSound.Length > 0)
-        {
-            switch (_BPMSystem.CurrentWeaponState)
-            {
-                case BPMSystem.WeaponState.Level0:
-                    source.clip = allFireSound[0];
-                    break;
-                case BPMSystem.WeaponState.Level1:
-                    source.clip = allFireSound[1];
-                    break;
-                case BPMSystem.WeaponState.Level2:
-                    source.clip = allFireSound[2];
-                    break;
-                case BPMSystem.WeaponState.Fury:
-                    source.clip = allFireSound[3];
-                    break;
-            }
-        }
-    }
+    
 
     void FixedUpdate()
     {
