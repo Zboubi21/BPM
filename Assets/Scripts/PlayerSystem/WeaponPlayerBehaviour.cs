@@ -231,20 +231,23 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     void PlayAppropriateSound(AudioClip[] allSound)
     {
-        switch (_BPMSystem.CurrentWeaponState)
+        if(allSound != null)
         {
-            case BPMSystem.WeaponState.Level0:
-                source.clip = allFireSound[0];
-                break;
-            case BPMSystem.WeaponState.Level1:
-                source.clip = allFireSound[1];
-                break;
-            case BPMSystem.WeaponState.Level2:
-                source.clip = allFireSound[2];
-                break;
-            case BPMSystem.WeaponState.Fury:
-                source.clip = allFireSound[3];
-                break;
+            switch (_BPMSystem.CurrentWeaponState)
+            {
+                case BPMSystem.WeaponState.Level0:
+                    source.clip = allFireSound[0];
+                    break;
+                case BPMSystem.WeaponState.Level1:
+                    source.clip = allFireSound[1];
+                    break;
+                case BPMSystem.WeaponState.Level2:
+                    source.clip = allFireSound[2];
+                    break;
+                case BPMSystem.WeaponState.Fury:
+                    source.clip = allFireSound[3];
+                    break;
+            }
         }
     }
 

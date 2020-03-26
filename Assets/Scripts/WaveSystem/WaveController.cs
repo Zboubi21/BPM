@@ -145,7 +145,7 @@ public class WaveController : MonoBehaviour
         NbrOfCocoScreen++;
         if(NbrOfCocoScreen == screenController.Length)
         {
-            ObjectPooler.Instance.SpawnObjectFromPool(ObjectType.Gun, new Vector3(0, 20, 0), Quaternion.identity);
+            ObjectPooler.Instance.SpawnObjectFromPool(ObjectType.Gun, new Vector3(PlayerController.s_instance.transform.position.x, 20f, PlayerController.s_instance.transform.position.z), Quaternion.identity);
         }
     }
 }
