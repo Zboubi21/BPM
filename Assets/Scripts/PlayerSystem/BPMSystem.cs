@@ -22,7 +22,14 @@ public class BPMSystem : MonoBehaviour
         public Image BPM_Gauge;
         public PlayerBpmGui m_playerBpmGui;
         //public Image Electra_Gauge;
+
+        [Header("BPM Gauge")]
+        public MeshRenderer m_bpmGaugeShader;
+        public float m_gaugeSpeed = 1;
     }
+    float m_targetedGaugeValue;
+    float m_currentBpmGaugeValue;
+
     float _currentBPM;
 
     [Space]
@@ -92,6 +99,10 @@ public class BPMSystem : MonoBehaviour
             LoseBPM(25);
         }
         #endif
+    }
+    void FixedUpdate()
+    {
+        SetBpmGaugeShader();
     }
 
     #region BPM Gain and Loss
@@ -163,6 +174,14 @@ public class BPMSystem : MonoBehaviour
     {
         _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
         _BPM.m_playerBpmGui.SetPlayerBpm(_currentBPM);
+        m_targetedGaugeValue = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+    }
+
+    void SetBpmGaugeShader()
+    {
+        m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue, Time.deltaTime * _BPM.m_gaugeSpeed);
+        _BPM.m_bpmGaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
+        _BPM.m_bpmGaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
     }
 
     #endregion
