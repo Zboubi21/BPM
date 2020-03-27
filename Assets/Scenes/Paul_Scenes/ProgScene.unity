@@ -1434,21 +1434,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3833438521590562171, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: _attack.rangeRadius
-      value: 13.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833438521590562171, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: _attack._debugGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833438521590562171, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: _attack.enemyAttackDispersement
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4187508792682329747, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -6152,7 +6137,9 @@ MonoBehaviour:
       damageMultiplicatorOnWeakSpot: 1
       damageMultiplicatorOnNoSpot: 1
     _stunResistance:
+      timeOfStun: 0
       timeForStunResistance: 0
+      timeForElectricalStunResistance: 0
 --- !u!1 &1926500146
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,7 +84,7 @@ public class WaveScreenController :  MonoBehaviour
                 }
             }
 
-            if (screenRef.changingText != null)
+            if (screenRef.changingTexts.Length > 0)
             {
                 switch (_screenChannel)
                 {
@@ -151,7 +151,8 @@ public class WaveScreenController :  MonoBehaviour
     }
     void UpdateWave(WaveScreenReference screenRef, int current, int max)
     {
-        screenRef.changingText.text = string.Format("{0}/{1}", current+1, max); // pour éviter d'avoir une "wave 0" on met current +1
+        screenRef.changingTexts[0].text = string.Format("{0}", current+1); // pour éviter d'avoir une "wave 0" on met current +1
+        screenRef.changingTexts[1].text = string.Format("{0}", max);
     }
     void UpdateWaveStaticInfo(WaveScreenReference screenRef)
     {
@@ -171,7 +172,7 @@ public class WaveScreenController :  MonoBehaviour
     }
     void UpdateEnemy(WaveScreenReference screenRef, int current)
     {
-        screenRef.changingText.text = string.Format("{0}x", current);
+        screenRef.changingTexts[0].text = string.Format("{0}x", current);
     }
     void UpdateEnemyStaticInfo(WaveScreenReference screenRef)
     {
@@ -190,7 +191,7 @@ public class WaveScreenController :  MonoBehaviour
     }
     void UpdateScore(WaveScreenReference screenRef, int current)
     {
-        screenRef.changingText.text = string.Format("{0}", current);
+        screenRef.changingTexts[0].text = string.Format("{0}", current);
     }
     void UpdateScoreStaticInfo(WaveScreenReference screenRef)
     {

@@ -17,6 +17,9 @@ public class EnemyController : MonoBehaviour
         public Text m_stateText;
         public Text m_lifeText;
 
+        public Image stunResistance;
+        public Image stunTime;
+
         public GameObject m_destinationImage;
 
         public float obstacleAvoidance = 3f;
@@ -92,7 +95,8 @@ public class EnemyController : MonoBehaviour
             new AgressiveState(this),           // 4 = Agressive
             new DefensiveState(this),           // 5 = Defensive
             new StunState(this),				// 6 = Stun
-			new DieState(this),				    // 7 = Die
+            new ElectricalStunState(this),		// 7 = Elec Stun
+			new DieState(this),				    // 8 = Die
 		});
 
         string[] playerStateNames = System.Enum.GetNames(typeof(EnemyState));
@@ -124,6 +128,16 @@ public class EnemyController : MonoBehaviour
         {
             _debug.m_stateText.text = string.Format("{0}", m_sM.m_currentStateString);
             _debug.m_lifeText.text = string.Format("{0}", cara.CurrentLife);
+            if (!m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
+            {
+                _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeForStunResistance, 0, Cara.CurrentTimeForStunResistance);
+                _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForStun);
+            }
+            else if(!m_sM.CompareState((int)EnemyState.Enemy_StunState))
+            {
+                _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeForElectricalStunResistance, 0, Cara.CurrentTimeForElectricalStun);
+                _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForElectricalStun);
+            }
         }
         _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
         _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);
@@ -305,12 +319,14 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Is Stun State
-    public IEnumerator IsStun()
+    float debugStunTime;
+    public IEnumerator IsStun(float time, EnemyState state)
     {
         EnemyCantShoot = true;
-        yield return new WaitForSeconds(Cara.CurrentTimeForElectricalStun);
+        debugStunTime = time;
+        yield return new WaitForSeconds(time);
         EnemyCantShoot = false;
-        if (m_sM.CompareState((int)EnemyState.Enemy_StunState))
+        if (m_sM.CompareState((int)state))
         {
             ChangeState((int)EnemyState.Enemy_ChaseState);
         }

@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnemyStateEnum;
 
-public class StunState : IState
+public class ElectricalStunState : IState
 {
 
     EnemyController m_enemyController;
 
-    public StunState(EnemyController enemyController)
+    public ElectricalStunState(EnemyController enemyController)
     {
         m_enemyController = enemyController;
     }
 
     public void Enter()
     {
-        /// play stun animation
-        /// play stun sound
-        /// play stun FX
+        /// play elec stun animation
+        /// play elec stun sound
+        /// play elec stun FX
         m_enemyController.Agent.isStopped = true;
-        m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForStun, EnemyState.Enemy_StunState));
+        m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForElectricalStun, EnemyState.Enemy_ElectricalStunState));
     }
 
     public void Exit()
