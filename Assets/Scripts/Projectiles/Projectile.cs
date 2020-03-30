@@ -43,6 +43,7 @@ public class Projectile : MonoBehaviour
     Vector3 m_currentDistance;
 
     WeaponBehaviour _WeaponBehaviour;
+    WeaponPlayerBehaviour _WeaponPlayerBehaviour;
     BPMSystem m_BPMSystem;
     LayerMask m_rayCastCollision;
 
@@ -64,6 +65,7 @@ public class Projectile : MonoBehaviour
 
     #region Get Set
     public WeaponBehaviour WeaponBehaviour { get => _WeaponBehaviour; set => _WeaponBehaviour = value; }
+    public WeaponPlayerBehaviour WeaponPlayerBehaviour { get => _WeaponPlayerBehaviour; set => _WeaponPlayerBehaviour = value; }
     public LayerMask RayCastCollision { get => m_rayCastCollision; set => m_rayCastCollision = value; }
     public BPMSystem BPMSystem { get => m_BPMSystem; set => m_BPMSystem = value; }
 
@@ -256,6 +258,8 @@ public class Projectile : MonoBehaviour
 
                     BPMGain = BPMSystem._BPM.BPMGain_OnNoSpot * CurrentBPMGain;
 
+                    FeedbackPlayerHitMarker(tag);
+
                     if(collider != null)
                     {
                         if(refScript != null)
@@ -273,6 +277,8 @@ public class Projectile : MonoBehaviour
                 case "WeakSpot":
 
                     BPMGain = BPMSystem._BPM.BPMGain_OnWeak * CurrentBPMGain;
+
+                    FeedbackPlayerHitMarker(tag);
 
                     if (collider != null)
                     {
@@ -350,5 +356,11 @@ public class Projectile : MonoBehaviour
     void DestroyProj()
     {
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
+    }
+
+    void FeedbackPlayerHitMarker(string tag)
+    {
+        if (_WeaponPlayerBehaviour != null)
+            _WeaponPlayerBehaviour.SetPlayerHitmarker(tag);
     }
 }

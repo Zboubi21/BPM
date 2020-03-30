@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0.94952226, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.8379568, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1015,7 +1015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.9235792, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0.91849303, b: 1, a: 0.11764706}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1699,7 +1699,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
 --- !u!114 &3421608735032399566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1788,6 +1788,20 @@ MonoBehaviour:
   rayCastCollision:
     serializedVersion: 2
     m_Bits: 3072
+  m_crosshair:
+    m_img: {fileID: 7020714916427979086}
+    m_baseColor: {r: 1, g: 1, b: 1, a: 1}
+    m_onEnemyNoSpot: {r: 1, g: 0, b: 0, a: 1}
+    m_onEnemyWeakspot: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  m_hitmarkers:
+    m_img: {fileID: 7726750260758177193}
+    m_onEnemyNoSpot: {r: 1, g: 0, b: 0, a: 1}
+    m_onEnemyWeakspot: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    m_timeToShow: 0.125
+    m_timeToHideMarker: 0.1
+    m_additionalSizePerShoot: 0.05
+    m_maxShoot: 10
+    m_waitTimeToShowMarker: 0.05
   _insideLaser:
   - {fileID: 3944384578910511545}
   - {fileID: 933324989444567928}
@@ -1826,15 +1840,15 @@ MonoBehaviour:
   m_physics:
     m_airFriction: 1
     m_groundFriction: 1
-    m_gravity: 25
+    m_gravity: 35
     m_timeToFallWhenNotGrounded: 0.1
-  m_airControl: 0.8
+  m_airControl: 0.6
   m_jump:
-    m_height: 2.15
-    m_duration: 0.2
+    m_height: 1.6
+    m_duration: 0.22
   m_doubleJump:
-    m_height: 2.25
-    m_duration: 0.3
+    m_height: 1.4
+    m_duration: 0.15
   m_dash:
     m_distance: 7.5
     m_timeToDash: 0.2
@@ -2364,7 +2378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2782,8 +2796,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3021,7 +3035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.86289185, b: 0, a: 0.11764706}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3253,7 +3267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.6024933, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

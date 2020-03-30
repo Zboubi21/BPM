@@ -5,6 +5,7 @@ using System;
 using TypeOfFireEnum;
 using PoolTypes;
 using ScreenTypes;
+using UnityEngine.UI;
 
 public class WeaponPlayerBehaviour : WeaponBehaviour
 {
@@ -23,6 +24,34 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     public Camera playerCamera;
     public LayerMask rayCastCollision;
+
+    [Header("Feedback")]
+    [SerializeField] Crosshair m_crosshair;
+    [Serializable] class Crosshair
+    {
+        public Image m_img;
+        public Color m_baseColor = Color.white;
+        public Color m_onEnemyNoSpot = Color.red;
+        public Color m_onEnemyWeakspot = Color.yellow;
+    }
+    [SerializeField] Hitmarker m_hitmarkers;
+    IEnumerator m_showPlayerHitMarker;
+    [Serializable] class Hitmarker
+    {
+        public Image m_img;
+        public Color m_onEnemyNoSpot = Color.red;
+        public Color m_onEnemyWeakspot = Color.yellow;
+        public float m_timeToShow = 0.125f;
+        public float m_timeToHideMarker = 0.125f;
+
+        [Header("Size")]
+        public float m_additionalSizePerShoot = 0.1f;
+        public int m_maxShoot = 5;
+
+        public float m_waitTimeToShowMarker = 0.05f;
+    }
+    int m_currentShootCount = 0;
+
     [Header("VFX")]
     public GameObject[] _insideLaser;
     
@@ -100,7 +129,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+            if (WeaponForwardRaycast())
             {
                 if (_hit.collider.CompareTag("Screen"))
                 {
@@ -128,7 +157,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         #region Easter Egg
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+            if(WeaponForwardRaycast())
             {
                 if (_hit.collider.CompareTag("Screen"))
                 {
@@ -246,6 +275,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
         RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
         
+        SetPlayerCrosshairColor();
     }
     public void Fire()
     {
@@ -287,7 +317,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     public override Vector3 OnSearchForLookAt()
     {
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+        if (WeaponForwardRaycast())
         {
             return _hit.point;
         }
@@ -299,7 +329,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     void InitiateRayCast(GameObject projectileFeedback)
     {
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+        if (WeaponForwardRaycast())
         {
             string tag = _hit.collider.tag;
 
@@ -321,6 +351,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 projVar.TimeForElectricalStun = _currentTimeOfElctricalStun;
                 projVar.Speed = _currentProjectilSpeed;
                 projVar.ProjectileType2 = proj;
+
+                projVar.WeaponPlayerBehaviour = this;
             }
             #endregion
 
@@ -328,12 +360,92 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
     void InitiateRayCast()
     {
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide))
+        if (WeaponForwardRaycast())
         {
             string tag = _hit.collider.tag;
         }
     }
 
+    bool WeaponForwardRaycast()
+    {
+        return Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide);
+    }
+
+    void SetPlayerCrosshairColor()
+    {
+        if (!WeaponForwardRaycast())
+            return;
+        
+        if (_hit.collider.CompareTag("NoSpot"))
+        {
+            SetImageColor(m_crosshair.m_img, m_crosshair.m_onEnemyNoSpot);
+        }
+        else if (_hit.collider.CompareTag("WeakSpot"))
+        {
+            SetImageColor(m_crosshair.m_img, m_crosshair.m_onEnemyWeakspot);
+        }
+        else
+        {
+            SetImageColor(m_crosshair.m_img, m_crosshair.m_baseColor);
+        }
+    }
+    public void SetPlayerHitmarker(string colliderTag)
+    {
+        if (colliderTag == "NoSpot")
+        {
+            SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyNoSpot);
+        }
+        else if (colliderTag == "WeakSpot")
+        {
+            SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyWeakspot);
+        }
+        
+        if (m_showPlayerHitMarker != null)
+            StopCoroutine(m_showPlayerHitMarker);
+        m_showPlayerHitMarker = ShowPlayerHitMarker();
+        StartCoroutine(m_showPlayerHitMarker);
+    }
+    IEnumerator ShowPlayerHitMarker()
+    {
+        if (m_currentShootCount > 0 && m_currentShootCount < m_hitmarkers.m_maxShoot)
+        {
+            float newXScaleValue = m_hitmarkers.m_img.rectTransform.localScale.x + m_hitmarkers.m_additionalSizePerShoot;
+            float newYScaleValue = m_hitmarkers.m_img.rectTransform.localScale.y + m_hitmarkers.m_additionalSizePerShoot;
+            m_hitmarkers.m_img.rectTransform.localScale = new Vector3(newXScaleValue, newYScaleValue, m_hitmarkers.m_img.rectTransform.localScale.z);
+        }
+        
+        m_hitmarkers.m_img.color = new Color(m_hitmarkers.m_img.color.r, m_hitmarkers.m_img.color.g, m_hitmarkers.m_img.color.b, 1);
+
+        if (m_currentShootCount < m_hitmarkers.m_maxShoot)
+            m_currentShootCount ++;
+
+        yield return new WaitForSeconds(m_hitmarkers.m_timeToShow);
+
+        Color fromColor = m_hitmarkers.m_img.color;
+        Color toColor = new Color(m_hitmarkers.m_img.color.r, m_hitmarkers.m_img.color.g, m_hitmarkers.m_img.color.b, 0);
+
+        Color actualColor = fromColor;
+        float fracJourney = 0;
+        float distance = Mathf.Abs(fromColor.a - toColor.a);
+        float speed = distance / m_hitmarkers.m_timeToHideMarker;
+
+        while (actualColor != toColor)
+        {
+            fracJourney += (Time.deltaTime) * speed / distance;
+            actualColor = Color.Lerp(fromColor, toColor, fracJourney);
+            SetImageColor(m_hitmarkers.m_img, actualColor);
+            yield return null;
+        }
+
+        // Reset Shoot
+        m_currentShootCount = 0;
+        m_hitmarkers.m_img.rectTransform.localScale = Vector3.one;
+    }
+    void SetImageColor(Image image, Color color)
+    {
+        if (image.color != color)
+            image.color = color;
+    }
 
     #endregion
 
