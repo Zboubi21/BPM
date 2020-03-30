@@ -301,7 +301,7 @@ public class BPMSystem : MonoBehaviour
 
     bool HasUsedFury()
     {
-        return (_canUseFury && Input.GetKey(KeyCode.A) && _furyCoolDownOver);
+        return (_canUseFury && Input.GetButtonDown("OverAdrenaline") && _furyCoolDownOver);
     }
     #endregion
 }

@@ -12,5 +12,7 @@ public class WaveScreenReference : MonoBehaviour
     public TMP_Text[] staticTexts;
     [Space]
     public Image[] decorativeImages;
-
+    [Space]
+    public Animator animator;
+    public AnimationClip[] anims;
 }
