@@ -66,5 +66,24 @@ public class Weapon : SerializedScriptableObject
         public GameObject bullet;
 
     }
+    public WeaponFury _weaponFury = new WeaponFury();
+    [Serializable]
+    public class WeaponFury
+    {
+        [Header("Fury stats")]
+        public int damage;
+        public float attackCooldown;
+        [Space]
+        [Header("Fury BPM stats")]
+        public float BPMGainOnHit;
+        public int BPMCost;
+        [Space]
+        [Header("Fury bullet stats")]
+        public float bulletSpeed;
+        public bool useElectricalBullet;
+        [ShowIf("useElectricalBullet")]
+        public float timeOfElectricalStun;
+        public GameObject bullet;
 
+    }
 }

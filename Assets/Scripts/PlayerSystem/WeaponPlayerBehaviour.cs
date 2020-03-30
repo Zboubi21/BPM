@@ -166,6 +166,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 proj = ProjectileType.ProjectileLevel3;
 
                 break;
+            case BPMSystem.WeaponState.Fury:
+
+                InitiateWeaponVar(weaponStats._weaponFury.damage, weaponStats._weaponFury.attackCooldown, weaponStats._weaponFury.BPMGainOnHit, weaponStats._weaponFury.BPMCost, weaponStats._weaponFury.bullet, weaponStats._weaponFury.bulletSpeed, weaponStats._weaponFury.useElectricalBullet, weaponStats._weaponFury.timeOfElectricalStun);
+                weaponLevel = 3;
+                proj = ProjectileType.ProjectileLevel4;
+
+                break;
             default:
                 weaponLevel = 0;
                 proj = ProjectileType.ProjectileLevel1;

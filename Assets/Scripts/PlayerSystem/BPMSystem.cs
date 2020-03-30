@@ -135,6 +135,9 @@ public class BPMSystem : MonoBehaviour
 
     public void GainBPM(float BPMGain)
     {
+        if (_isCurrentlyOnFury)
+            return;
+
         float _newCurrentBPM = _currentBPM + BPMGain;
 
         if (_newCurrentBPM < _BPM.maxBPM)
@@ -267,7 +270,14 @@ public class BPMSystem : MonoBehaviour
     IEnumerator OnOverADActivate()
     {
         ActivateBool(true);
+        // play anim fuey
+        // play sound fury
+        // play fx fury
+        _currentWeaponState = WeaponState.Fury;
+        ChangeWeaponStats();
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+        _currentWeaponState = WeaponState.Level2;
+        ChangeWeaponStats();
         ActivateBool(false);
     }
     void ActivateBool(bool b)
