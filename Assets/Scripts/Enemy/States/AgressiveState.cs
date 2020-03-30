@@ -19,7 +19,8 @@ public class AgressiveState : IState
     public void Enter()
     {
         ///play run animation
-        ///play run sound
+        m_enemyController.AudioControl.On_Run(true);
+
         m_enemyController.CurrentTarget = m_enemyController.MoveForward(m_enemyController.Player);
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
@@ -31,6 +32,8 @@ public class AgressiveState : IState
 #if UNITY_EDITOR
         m_enemyController.DestroyObj(go);
 #endif
+        m_enemyController.AudioControl.On_Run(false);
+
     }
 
     public void FixedUpdate()

@@ -32,11 +32,13 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     [Tooltip("Pour que l'ennemies ne tir pas dans les pieds du player")]
     public float YOffset = 1f;
     EnemyController enemyController;
+    EnemyAudioController audioControl;
 
     public override void Awake()
     {
         base.Awake();
         enemyController = GetComponent<EnemyController>();
+        audioControl = GetComponent<EnemyAudioController>();
     }
 
 
@@ -73,12 +75,13 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
             if (!enemyController.EnemyCantShoot)
             {
                 StartCoroutine(RecoilCurve());
-
+                audioControl.PlayAppropriateFireSound();
                 InstatiateProj();
             }
             yield return new WaitForSeconds(timeEachShoot);
 
         }
+        audioControl.PlayAppropriateLastFireSound();
         yield return new WaitForSeconds(recoilTimeEachBurst);
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
@@ -162,6 +165,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
 
     void InitiateProjVar(Projectile proj)
     {
+        Level.AddFX(proj.muzzleFX, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
         proj.m_colType = Projectile.TypeOfCollision.Rigibody;
         proj.ProjectileType1 = Projectile.ProjectileType.Enemy;
         proj.ProjectileType2 = ProjectileType.EnemyProjectile;

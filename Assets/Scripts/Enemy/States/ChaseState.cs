@@ -18,7 +18,8 @@ public class ChaseState : IState
     public void Enter()
     {
         /// play run animation
-        /// play run sound
+        m_enemyController.AudioControl.On_Run(true);
+
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
         m_enemyController.CurrentTarget = m_enemyController.Player.transform.position;
 #if UNITY_EDITOR
@@ -31,6 +32,7 @@ public class ChaseState : IState
 #if UNITY_EDITOR
         m_enemyController.DestroyObj(go);
 #endif
+        m_enemyController.AudioControl.On_Run(false);
 
     }
 
