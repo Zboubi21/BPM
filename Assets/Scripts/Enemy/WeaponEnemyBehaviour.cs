@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnemyStateEnum;
 using System;
+using PoolTypes;
 
 public class WeaponEnemyBehaviour : WeaponBehaviour
 {
@@ -87,7 +88,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                 countAttacks = 0;
                 if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
                 {
-                    float[] chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForCover, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
+                    float[] chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForHotSpot, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
 
                     int chossenState = enemyController.Choose(chances);
 
@@ -153,7 +154,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public override GameObject InstatiateProj()
     {
         _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
-        GameObject go = Instantiate(enemyProjectil, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, projectilRoot);
+        GameObject go = enemyController.ObjectPooler.SpawnProjectileFromPool(ProjectileType.EnemyProjectile, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation);
         InitiateProjVar(go.GetComponent<Projectile>());
         return go;
     }
@@ -163,6 +164,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     {
         proj.m_colType = Projectile.TypeOfCollision.Rigibody;
         proj.ProjectileType1 = Projectile.ProjectileType.Enemy;
+        proj.ProjectileType2 = ProjectileType.EnemyProjectile;
         proj.Speed = _attack.bulletSpeed;
         proj.CurrentDamage = _attack.damage;
     }

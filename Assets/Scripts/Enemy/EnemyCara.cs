@@ -44,7 +44,9 @@ public class EnemyCara : SerializedMonoBehaviour
         [Serializable]
         public class StunResistance
         {
+            public float timeOfStun;
             public float timeForStunResistance;
+            public float timeForElectricalStunResistance;
         }
     }
     EnemyController controller;
@@ -52,13 +54,21 @@ public class EnemyCara : SerializedMonoBehaviour
     int _currentDamage;
     bool _isDead;
     float _currentTimeForElectricalStun;
+    float _currentTimeForElectricalStunResistance;
+
+    float _currentTimeForStun;
     float _currentTimeForStunResistance;
 
     #region Get Set
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
     public bool IsDead { get => _isDead; set => _isDead = value; }
-    public float CurrentTimeForElectricalStun { get => _currentTimeForElectricalStun; set => _currentTimeForElectricalStun = value; }
     public EnemyArchetype EnemyArchetype { get => enemyArchetype; set => enemyArchetype = value; }
+
+    public float CurrentTimeForStun { get => _currentTimeForStun; set => _currentTimeForStun = value; }
+    public float CurrentTimeForStunResistance { get => _currentTimeForStunResistance; set => _currentTimeForStunResistance = value; }
+
+    public float CurrentTimeForElectricalStun { get => _currentTimeForElectricalStun; set => _currentTimeForElectricalStun = value; }
+    public float CurrentTimeForElectricalStunResistance { get => _currentTimeForElectricalStunResistance; set => _currentTimeForElectricalStunResistance = value; }
     #endregion
 
     public void OnEnable()
@@ -100,9 +110,37 @@ public class EnemyCara : SerializedMonoBehaviour
                 _currentTimeForStunResistance = 0;
             }
         }
+
+        if (_currentTimeForElectricalStunResistance != 0)
+        {
+            _currentTimeForElectricalStunResistance -= Time.deltaTime;
+            if (_currentTimeForElectricalStunResistance <= 0)
+            {
+                _currentTimeForElectricalStunResistance = 0;
+            }
+        }
+
+        if (_currentTimeForElectricalStun != 0)
+        {
+            _currentTimeForElectricalStun -= Time.deltaTime;
+            if (_currentTimeForElectricalStun <= 0)
+            {
+                _currentTimeForElectricalStun = 0;
+            }
+        }
+
+        if (_currentTimeForStun != 0)
+        {
+            _currentTimeForStun -= Time.deltaTime;
+            if (_currentTimeForStun <= 0)
+            {
+                _currentTimeForStun = 0;
+            }
+        }
+
     }
 
-    public void TakeDamage(float damage, int i, bool hasToBeStun, float timeForElectricalStun)
+    public void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
     {
         switch (i)
         {
@@ -122,16 +160,29 @@ public class EnemyCara : SerializedMonoBehaviour
 
         if(controller != null)  // pour les dummy
         {
-            if (hasToBeStun && !controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && _currentTimeForStunResistance == 0f && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
+            if((!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) || !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState)) && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
             {
-                _currentTimeForElectricalStun = timeForElectricalStun;
-                _currentTimeForStunResistance = _enemyCaractéristique._stunResistance.timeForStunResistance;
-                controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                if (!hasToBeElectricalStun)
+                {
+                    if (_currentTimeForStunResistance == 0f)
+                    {
+                        _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
+                        _currentTimeForStunResistance = _enemyCaractéristique._stunResistance.timeForStunResistance;
+                        controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                    }
+                }
+                else
+                {
+                    if (_currentTimeForElectricalStunResistance == 0f)
+                    {
+                        _currentTimeForElectricalStun = timeForElectricalStun;
+                        _currentTimeForElectricalStunResistance = _enemyCaractéristique._stunResistance.timeForElectricalStunResistance;
+                        controller.m_sM.ChangeState((int)EnemyState.Enemy_ElectricalStunState);
+                    }
+                }
             }
             CheckIfDead();
         }
-
-
     }
 
     void CheckIfDead()
@@ -143,7 +194,7 @@ public class EnemyCara : SerializedMonoBehaviour
                 _isDead = true;
                 controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
             }
-            else
+            else if(!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
             {
                 controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
             }

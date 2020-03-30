@@ -16,7 +16,7 @@ public class WaveScreenController :  MonoBehaviour
     private void Start()
     {
         allWaveScreen = GetComponentsInChildren<WaveScreenReference>();
-        ChangeInformationDisplayed(_screenChannel);
+        //ChangeInformationDisplayed(_screenChannel);
 
         if(allWaveScreen.Length > 0)
         {
@@ -71,31 +71,31 @@ public class WaveScreenController :  MonoBehaviour
                 switch (_screenChannel)
                 {
                     case ScreenChannel.WaveCountChannel:
-                        UpdateWaveBackground(screenRef);
+                        StartCoroutine(UpdateWaveBackground(screenRef));
                         break;
                     case ScreenChannel.EnemyCountChannel:
-                        UpdateEnemyBackground(screenRef);
+                        StartCoroutine(UpdateEnemyBackground(screenRef));
                         break;
                     case ScreenChannel.ScoreCountChannel:
-                        UpdateScoreBackground(screenRef);
+                        StartCoroutine(UpdateScoreBackground(screenRef));
                         break;
                     default:
                         break;
                 }
             }
 
-            if (screenRef.changingText != null)
+            if (screenRef.changingTexts.Length > 0)
             {
                 switch (_screenChannel)
                 {
                     case ScreenChannel.WaveCountChannel:
-                            UpdateWave(screenRef, waveController.NbrOfWave, 10);
+                        StartCoroutine(UpdateWave(screenRef, waveController.NbrOfWave, 10));
                         break;
                     case ScreenChannel.EnemyCountChannel:
-                            UpdateEnemy(screenRef, waveController.NbrOfEnemy - waveController.NbrOfDeadEnemy);
+                        StartCoroutine(UpdateEnemy(screenRef, waveController.NbrOfEnemy));
                         break;
                     case ScreenChannel.ScoreCountChannel:
-                            UpdateScore(screenRef, 99599);
+                        StartCoroutine(UpdateScore(screenRef, 99599));
                         break;
                     default:
                         break;
@@ -107,13 +107,13 @@ public class WaveScreenController :  MonoBehaviour
                 switch (_screenChannel)
                 {
                     case ScreenChannel.WaveCountChannel:
-                        UpdateWaveStaticInfo(screenRef);
+                        StartCoroutine(UpdateWaveStaticInfo(screenRef));
                         break;
                     case ScreenChannel.EnemyCountChannel:
-                        UpdateEnemyStaticInfo(screenRef);
+                        StartCoroutine(UpdateEnemyStaticInfo(screenRef));
                         break;
                     case ScreenChannel.ScoreCountChannel:
-                        UpdateScoreStaticInfo(screenRef);
+                        StartCoroutine(UpdateScoreStaticInfo(screenRef));
                         break;
                     default:
                         break;
@@ -125,13 +125,13 @@ public class WaveScreenController :  MonoBehaviour
                 switch (_screenChannel)
                 {
                     case ScreenChannel.WaveCountChannel:
-                        UpdateWaveDecorativeInfos(screenRef);
+                        StartCoroutine(UpdateWaveDecorativeInfos(screenRef));
                         break;
                     case ScreenChannel.EnemyCountChannel:
-                        UpdateEnemyDecorativeInfos(screenRef);
+                        StartCoroutine(UpdateEnemyDecorativeInfos(screenRef));
                         break;
                     case ScreenChannel.ScoreCountChannel:
-                        UpdateScoreDecorativeInfos(screenRef);
+                        StartCoroutine(UpdateScoreDecorativeInfos(screenRef));
                         break;
                     default:
                         break;
@@ -145,59 +145,73 @@ public class WaveScreenController :  MonoBehaviour
     #region Update Screen Var
 
     #region UpdateWaveScreen
-    void UpdateWaveBackground(WaveScreenReference screenRef)
+    IEnumerator UpdateWaveBackground(WaveScreenReference screenRef)
     {
-        
-    }
-    void UpdateWave(WaveScreenReference screenRef, int current, int max)
-    {
-        screenRef.changingText.text = string.Format("{0}/{1}", current+1, max); // pour éviter d'avoir une "wave 0" on met current +1
-    }
-    void UpdateWaveStaticInfo(WaveScreenReference screenRef)
-    {
+        yield return null;
 
     }
-    void UpdateWaveDecorativeInfos(WaveScreenReference screenRef)
+    IEnumerator UpdateWave(WaveScreenReference screenRef, int current, int max)
     {
+        yield return null;
+        screenRef.changingTexts[0].text = string.Format("{0}", current+1); // pour éviter d'avoir une "wave 0" on met current +1
+        screenRef.changingTexts[1].text = string.Format("{0}", max);
+    }
+    IEnumerator UpdateWaveStaticInfo(WaveScreenReference screenRef)
+    {
+        yield return null;
+
+    }
+    IEnumerator UpdateWaveDecorativeInfos(WaveScreenReference screenRef)
+    {
+        yield return null;
 
     }
 
     #endregion
 
     #region UpdateEnemyScreen
-    void UpdateEnemyBackground(WaveScreenReference screenRef)
+    IEnumerator UpdateEnemyBackground(WaveScreenReference screenRef)
     {
-        
+        yield return null;
     }
-    void UpdateEnemy(WaveScreenReference screenRef, int current)
+    IEnumerator UpdateEnemy(WaveScreenReference screenRef, int current)
     {
-        screenRef.changingText.text = string.Format("{0}x", current);
+        screenRef.animator.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(0.5f);
+        screenRef.animator.SetTrigger("FadeIn");
+        screenRef.changingTexts[0].text = string.Format("x{0}", current - waveController.NbrOfDeadEnemy);
     }
-    void UpdateEnemyStaticInfo(WaveScreenReference screenRef)
+    IEnumerator UpdateEnemyStaticInfo(WaveScreenReference screenRef)
     {
+        yield return null;
 
     }
-    void UpdateEnemyDecorativeInfos(WaveScreenReference screenRef)
+    IEnumerator UpdateEnemyDecorativeInfos(WaveScreenReference screenRef)
     {
+        yield return null;
 
     }
     #endregion
 
     #region UpdateScoreScreen
-    void UpdateScoreBackground(WaveScreenReference screenRef)
+    IEnumerator UpdateScoreBackground(WaveScreenReference screenRef)
     {
-        
-    }
-    void UpdateScore(WaveScreenReference screenRef, int current)
-    {
-        screenRef.changingText.text = string.Format("{0}", current);
-    }
-    void UpdateScoreStaticInfo(WaveScreenReference screenRef)
-    {
+        yield return null;
 
     }
-    void UpdateScoreDecorativeInfos(WaveScreenReference screenRef)
+    IEnumerator UpdateScore(WaveScreenReference screenRef, int current)
     {
+        yield return null;
+        screenRef.changingTexts[0].text = string.Format("{0}", current);
+    }
+    IEnumerator UpdateScoreStaticInfo(WaveScreenReference screenRef)
+    {
+        yield return null;
+
+    }
+    IEnumerator UpdateScoreDecorativeInfos(WaveScreenReference screenRef)
+    {
+        yield return null;
 
     }
     #endregion

@@ -22,7 +22,14 @@ public class BPMSystem : MonoBehaviour
         public Image BPM_Gauge;
         public PlayerBpmGui m_playerBpmGui;
         //public Image Electra_Gauge;
+
+        [Header("BPM Gauge")]
+        public MeshRenderer m_bpmGaugeShader;
+        public float m_gaugeSpeed = 1;
     }
+    float m_targetedGaugeValue;
+    float m_currentBpmGaugeValue;
+
     float _currentBPM;
 
     [Space]
@@ -93,6 +100,10 @@ public class BPMSystem : MonoBehaviour
         }
         #endif
     }
+    void FixedUpdate()
+    {
+        SetBpmGaugeShader();
+    }
 
     #region BPM Gain and Loss
     public void LoseBPM(float BPMLoss)
@@ -124,6 +135,9 @@ public class BPMSystem : MonoBehaviour
 
     public void GainBPM(float BPMGain)
     {
+        if (_isCurrentlyOnFury)
+            return;
+
         float _newCurrentBPM = _currentBPM + BPMGain;
 
         if (_newCurrentBPM < _BPM.maxBPM)
@@ -163,6 +177,14 @@ public class BPMSystem : MonoBehaviour
     {
         _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
         _BPM.m_playerBpmGui.SetPlayerBpm(_currentBPM);
+        m_targetedGaugeValue = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+    }
+
+    void SetBpmGaugeShader()
+    {
+        m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue, Time.deltaTime * _BPM.m_gaugeSpeed);
+        _BPM.m_bpmGaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
+        _BPM.m_bpmGaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
     }
 
     #endregion
@@ -248,7 +270,14 @@ public class BPMSystem : MonoBehaviour
     IEnumerator OnOverADActivate()
     {
         ActivateBool(true);
+        // play anim fuey
+        // play sound fury
+        // play fx fury
+        _currentWeaponState = WeaponState.Fury;
+        ChangeWeaponStats();
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+        _currentWeaponState = WeaponState.Level2;
+        ChangeWeaponStats();
         ActivateBool(false);
     }
     void ActivateBool(bool b)
@@ -282,7 +311,7 @@ public class BPMSystem : MonoBehaviour
 
     bool HasUsedFury()
     {
-        return (_canUseFury && Input.GetKey(KeyCode.A) && _furyCoolDownOver);
+        return (_canUseFury && Input.GetButtonDown("OverAdrenaline") && _furyCoolDownOver);
     }
     #endregion
 }

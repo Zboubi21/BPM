@@ -8,9 +8,11 @@ public class WaveScreenReference : MonoBehaviour
 {
     public Image backGround;
     [Space]
-    public TMP_Text changingText;
+    public TMP_Text[] changingTexts;
     public TMP_Text[] staticTexts;
     [Space]
     public Image[] decorativeImages;
-
+    [Space]
+    public Animator animator;
+    public AnimationClip[] anims;
 }

@@ -19,7 +19,7 @@ public class StunState : IState
         /// play stun sound
         /// play stun FX
         m_enemyController.Agent.isStopped = true;
-        m_enemyController.StartCoroutine(m_enemyController.IsStun());
+        m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForStun, EnemyState.Enemy_StunState));
     }
 
     public void Exit()

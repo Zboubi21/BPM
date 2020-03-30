@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestChangeShaderValue : MonoBehaviour
 {
 
-    [SerializeField] float m_minValue, m_maxValue;
+    // [SerializeField] float m_minValue, m_maxValue;
 
     Material sliderShader;
     float m_currentValue;
@@ -16,7 +16,7 @@ public class TestChangeShaderValue : MonoBehaviour
     {
         sliderShader = GetComponent<MeshRenderer>().material;
 
-        UpdateShaderWithCurrentBPM(300, 0, 600);
+        // UpdateShaderWithCurrentBPM(300, 0, 600);
     }
 
     public void UpdateShaderWithCurrentBPM(float currentBPM, float minBPM, float maxBPM)
@@ -38,16 +38,17 @@ public class TestChangeShaderValue : MonoBehaviour
         
         // float v2 = (value1 - mini1) * range2 / range1  + mini2;
         // Debug.Log("v2 = " + v2);
-        
+        // float myValue = (currentBPM - minBPM) * 133 / 600  + -3;
 
-        float myValue = (currentBPM - minBPM) * 133 / 600  + -3;
+        float myValue = Mathf.InverseLerp(minBPM, maxBPM, currentBPM);
         Debug.Log("myValue = " + myValue);
-        sliderShader.SetFloat("Vector1_D2A5F511", myValue);
+        sliderShader.SetFloat("_Silder_BPM", myValue);
+        sliderShader.SetFloat("_Slide_BPM_Arriere", myValue);
     }
 
     void Update()
     {
-        UpdateShaderWithCurrentBPM(m_currentBPM, 0, 600);
+        // UpdateShaderWithCurrentBPM(m_currentBPM, 0, 600);
     }
     
 }

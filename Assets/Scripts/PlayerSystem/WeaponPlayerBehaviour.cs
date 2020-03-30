@@ -166,6 +166,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 proj = ProjectileType.ProjectileLevel3;
 
                 break;
+            case BPMSystem.WeaponState.Fury:
+
+                InitiateWeaponVar(weaponStats._weaponFury.damage, weaponStats._weaponFury.attackCooldown, weaponStats._weaponFury.BPMGainOnHit, weaponStats._weaponFury.BPMCost, weaponStats._weaponFury.bullet, weaponStats._weaponFury.bulletSpeed, weaponStats._weaponFury.useElectricalBullet, weaponStats._weaponFury.timeOfElectricalStun);
+                weaponLevel = 3;
+                proj = ProjectileType.ProjectileLevel4;
+
+                break;
             default:
                 weaponLevel = 0;
                 proj = ProjectileType.ProjectileLevel1;
@@ -298,7 +305,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
             #region Initiate Proj Var
             Projectile projVar = projectileFeedback.GetComponent<Projectile>();
-            Level.AddFX(projVar.m_muzzleFlash, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
+            Level.AddFX(projVar.muzzleFX, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation, _SMG.firePoint.transform);
             if (projVar != null)
             {
                 projVar.ProjectileType1 = Projectile.ProjectileType.Player;

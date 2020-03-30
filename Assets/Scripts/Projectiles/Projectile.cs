@@ -20,9 +20,9 @@ public class Projectile : MonoBehaviour
         UpdateRaycasts
     }
     [Space]
-    [Header("FX")]
-    public GameObject m_dieFX;
-    public GameObject m_muzzleFlash;
+    [Header("VFX")]
+    public FxType muzzleFX;
+    public FxType impactFX;
     [Space]
     public float m_maxLifeTime = 5;
     [Header("DEBUG")]
@@ -121,11 +121,6 @@ public class Projectile : MonoBehaviour
                 m_awakeDistance = transform.localPosition;
                 deltaLength = Vector3.Distance(m_distanceToReach, m_awakeDistance);
                 newLength = deltaLength;
-
-                if(_hit.distance - (Speed * Time.deltaTime) < 0)
-                {
-
-                }
 
                 break;
         }
@@ -321,16 +316,26 @@ public class Projectile : MonoBehaviour
                 destroyableObject.BreakObject();
         }
 
-        if (m_dieFX != null)
+        Vector3 pos = Vector3.zero;
+        switch (m_colType)
         {
-            Vector3 rot = _hit.normal;
+            case TypeOfCollision.Rigibody:
+                pos = collider.transform.position;
+                break;
+            case TypeOfCollision.DoubleRaycasts:
+                pos = _hit.point;
+                break;
+            case TypeOfCollision.UpdateRaycasts:
+                pos = _hit.point;
+                break;
 
-            Level.AddFX(m_dieFX, _hit.point, transform.rotation);    //Impact FX
-            if (collider.GetComponent<Rigidbody>() != null)
-            {
-                Rigidbody _rb = collider.GetComponent<Rigidbody>();
-                _rb.AddForceAtPosition(-(_hit.normal * forceBuffer), _hit.point);
-            }
+        }
+        Level.AddFX(impactFX, pos, transform.rotation);    //Impact FX
+
+        if (collider.GetComponent<Rigidbody>() != null)
+        {
+            Rigidbody _rb = collider.GetComponent<Rigidbody>();
+            _rb.AddForceAtPosition(-(_hit.normal * forceBuffer), _hit.point);
         }
 
         DestroyProj();
