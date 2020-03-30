@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour
 		// if (m_useGravity)
 		// {
 			_verticalMomentum -= m_trans.up * m_physics.m_gravity * Time.deltaTime;
-			if(PlayerIsGrounded() || !m_hasToFall)
+			if(CurrentState(PlayerState.Idle) || CurrentState(PlayerState.Run))
 				_verticalMomentum = Vector3.zero;
 		// }
 
@@ -331,7 +331,7 @@ public class PlayerController : MonoBehaviour
 
 			// d = v x t
 			// v = d / t
-			float v = m_jump.m_height / m_jump.m_duration;
+			// float v = m_jump.m_height / m_jump.m_duration;
 	}
 
 	//Helper functions;
