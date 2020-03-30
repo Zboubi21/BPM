@@ -320,7 +320,7 @@ public class Projectile : MonoBehaviour
         switch (m_colType)
         {
             case TypeOfCollision.Rigibody:
-                pos = collider.transform.position;
+                pos = transform.position;
                 break;
             case TypeOfCollision.DoubleRaycasts:
                 pos = _hit.point;

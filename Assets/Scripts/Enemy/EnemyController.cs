@@ -36,6 +36,8 @@ public class EnemyController : MonoBehaviour
         EnableDisableCollider(true);
         ChangeState((int)EnemyState.Enemy_IdleState);
     }
+    [Header("VFX")]
+    public GameObject shockVFX;
 
     public void ChangeState(int i)
     {
@@ -55,13 +57,14 @@ public class EnemyController : MonoBehaviour
     WeaponEnemyBehaviour weaponBehavior;
     NavMeshAgent agent;
     GameManager manager;
+    EnemyAudioController audioControl;
     Transform target;
     Vector3 currentTarget;
     ObjectPooler objectPooler;
 
     float distanceToTarget;
     bool _enemyCanShoot;
-
+    bool isInMotion;
     #region Get Set
     public NavMeshAgent Agent { get => agent; set => agent = value; }
     public Transform  Player { get => target; set => target = value; }
@@ -72,6 +75,8 @@ public class EnemyController : MonoBehaviour
     public Vector3 CurrentTarget { get => currentTarget; set => currentTarget = value; }
     public WeaponEnemyBehaviour WeaponBehavior { get => weaponBehavior; set => weaponBehavior = value; }
     public ObjectPooler ObjectPooler { get => objectPooler; set => objectPooler = value; }
+    public bool IsInMotion { get => isInMotion; set => isInMotion = value; }
+    public EnemyAudioController AudioControl { get => audioControl; set => audioControl = value; }
     #endregion
 
 
@@ -81,6 +86,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         cara = GetComponent<EnemyCara>();
         weaponBehavior = GetComponent<WeaponEnemyBehaviour>();
+        audioControl = GetComponent<EnemyAudioController>();
         manager = GameManager.Instance;
         objectPooler = ObjectPooler.Instance;
     }
@@ -145,6 +151,7 @@ public class EnemyController : MonoBehaviour
         #endregion
 
         DistanceToTarget = GetTargetDistance(currentTarget);
+
     }
 
     void FixedUpdate()

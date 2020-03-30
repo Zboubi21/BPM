@@ -18,7 +18,7 @@ public class DefensiveState : IState
     public void Enter()
     {
         ///play run animation
-        ///play run sound
+        m_enemyController.AudioControl.On_Run(true);
 
         m_enemyController.CurrentTarget = m_enemyController.MoveBackward(m_enemyController.Player);
 #if UNITY_EDITOR
@@ -31,6 +31,8 @@ public class DefensiveState : IState
 #if UNITY_EDITOR
         m_enemyController.DestroyObj(go);
 #endif
+        m_enemyController.AudioControl.On_Run(false);
+
     }
 
     public void FixedUpdate()
