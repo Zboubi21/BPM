@@ -1803,6 +1803,7 @@ MonoBehaviour:
     m_timeToHideMarker: 0.1
     m_additionalSizePerShoot: 0.05
     m_maxShoot: 10
+    m_waitTimeToShowMarker: 0.01
   _insideLaser:
   - {fileID: 3944384578910511545}
   - {fileID: 933324989444567928}
@@ -2549,7 +2550,7 @@ MonoBehaviour:
     m_pitch: 1
     m_pitchRandomizer: 0.25
   weaponSound:
-    source: {fileID: 5125647276093728765}
+    fireSource: {fileID: 0}
     allDifferentFireSound:
     - allDifferentClip:
       - {fileID: 8300000, guid: 68bc7110cdf2a494698e87c2ebf9f45d, type: 3}
@@ -2572,6 +2573,9 @@ MonoBehaviour:
       Volume:
         volume: 1
         volumeRandomizer: 0
+    morphSource: {fileID: 0}
+    allDifferentDegradeSound: []
+    allDifferentUpgradeSound: []
   m_raycastTrans: {fileID: 5837479378864761318}
   m_raycastMaxDistance: 0.5
   m_groundMask:
