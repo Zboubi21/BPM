@@ -77,7 +77,7 @@ public class BPMSystem : MonoBehaviour
     {
         m_playerController = GetComponent<PlayerController>();
         weapon = GetComponent<WeaponBehaviour>();
-        audioControl = GetComponent<PlayerAudioController>();
+        audioControl = m_playerController.m_references.m_playerAudio;
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
@@ -200,7 +200,10 @@ public class BPMSystem : MonoBehaviour
             {
                 if (_currentWeaponState != WeaponState.Level2)
                 {
-                    //audioControl.PlayWeaponUpgradeSound(1);
+                    if(audioControl != null)
+                    {
+                        audioControl.PlayWeaponUpgradeSound(1);
+                    }
                     _currentWeaponState = WeaponState.Level2;
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
                     
@@ -212,13 +215,18 @@ public class BPMSystem : MonoBehaviour
                 {
                     if (_currentWeaponState == WeaponState.Level2)
                     {
-                        //audioControl.PlayWeaponDegradeSound(1);
+                        if (audioControl != null)
+                        {
+                            audioControl.PlayWeaponDegradeSound(1);
+                        }
 
                     }
                     else if (_currentWeaponState == WeaponState.Level0)
                     {
-                        //audioControl.PlayWeaponUpgradeSound(0);
-
+                        if (audioControl != null)
+                        {
+                            audioControl.PlayWeaponUpgradeSound(0);
+                        }
                     }
                     _currentWeaponState = WeaponState.Level1;
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
@@ -230,7 +238,10 @@ public class BPMSystem : MonoBehaviour
         {
             if (_currentWeaponState != WeaponState.Level0)
             {
-                //audioControl.PlayWeaponDegradeSound(2);
+                if (audioControl != null)
+                {
+                    audioControl.PlayWeaponDegradeSound(2);
+                }
                 _currentWeaponState = WeaponState.Level0;
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
 
@@ -292,9 +303,15 @@ public class BPMSystem : MonoBehaviour
         // play fx fury
         _currentWeaponState = WeaponState.Fury;
         ChangeWeaponStats();
-        audioControl.PlayWeaponUpgradeSound(2);
+        if (audioControl != null)
+        {
+            audioControl.PlayWeaponUpgradeSound(2);
+        }
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
-        audioControl.PlayWeaponDegradeSound(0);
+        if (audioControl != null)
+        {
+            audioControl.PlayWeaponDegradeSound(0);
+        }
 
         _currentWeaponState = WeaponState.Level2;
         ChangeWeaponStats();
