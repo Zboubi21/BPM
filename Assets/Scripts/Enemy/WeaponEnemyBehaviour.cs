@@ -20,7 +20,8 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         [Space]
         public float timeBetweenEachBullet;
         public int nbrOfShootOnRafale;
-        public float timeBetweenEachBurst;
+        public float minTimeBetweenEachBurst;
+        public float maxTimeBetweenEachBurst;
         [Space]
         [Range(0,1)]
         public float _debugGizmos;
@@ -65,7 +66,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     //}
 
     int countAttacks;
-    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float recoilTimeEachBurst)
+    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime)
     {
         //yield return StartCoroutine(CheckIfPlayerIsInSight());
 
@@ -82,7 +83,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
 
         }
         audioControl.PlayAppropriateLastFireSound();
-        yield return new WaitForSeconds(recoilTimeEachBurst);
+        yield return new WaitForSeconds(UnityEngine.Random.Range(minRechargeTime, maxRechargeTime));
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
             //Debug.Log("Before Throwing Dices");
