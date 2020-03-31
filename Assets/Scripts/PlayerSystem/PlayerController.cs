@@ -122,8 +122,7 @@ public class PlayerController : MonoBehaviour
 
 	bool m_currentUseRawInput;
 
-	bool m_hasJump = false;
-	bool m_hasDoubleJump = false;
+	int m_currentJumpNbr = 0;
 
 	bool m_hasDash = false;
 	IEnumerator m_dashCooldownCorout;
@@ -324,14 +323,10 @@ public class PlayerController : MonoBehaviour
 	}
 	void AddJumpMomentum()
 	{
-		if (m_hasJump && !m_hasDoubleJump)
+		if (m_currentJumpNbr == 1)
 			m_momentum += m_trans.up * m_jumpSpeed;
-		if (m_hasDoubleJump)
+		if (m_currentJumpNbr == 2)
 			m_momentum += m_trans.up * m_doubleJumpSpeed;
-
-			// d = v x t
-			// v = d / t
-			// float v = m_jump.m_height / m_jump.m_duration;
 	}
 
 	//Helper functions;
@@ -442,10 +437,6 @@ public class PlayerController : MonoBehaviour
 	{
         return (Input.GetButtonDown("Jump"));
 	}
-	public bool CanJump()
-	{
-		return !m_hasJump || !m_hasDoubleJump;
-	}
 
 	public bool IsDashKeyPressed()
 	{
@@ -462,18 +453,28 @@ public class PlayerController : MonoBehaviour
 	{
 		m_references.m_playerAudio.On_Run(isRunning);
 	}
+
+	public bool CanJump()
+	{
+		return m_currentJumpNbr < 2; // 2 = max jump nbr
+	}
 	public void On_PlayerHasJump(bool hasJump)
 	{
-		m_hasJump = hasJump;
 		if (hasJump)
+		{
+			m_currentJumpNbr ++;
 			m_references.m_playerAudio.On_Jump();
+		}
 	}
 	public void On_PlayerHasDoubleJump(bool hasDoubleJump)
 	{
-		m_hasDoubleJump = hasDoubleJump;
 		if (hasDoubleJump)
+		{
+			m_currentJumpNbr ++;
 			m_references.m_playerAudio.On_DoubleJump();
+		}
 	}
+
 	public void On_PlayerStartDash(bool hasDash)
 	{
 		m_playerWeapon.CanShoot = !hasDash;
@@ -573,6 +574,7 @@ public class PlayerController : MonoBehaviour
 		On_PlayerHasJump(false);
 		On_PlayerHasDoubleJump(false);
 		On_PlayerHasDash(false);
+		m_currentJumpNbr = 0;
 
 		//Call 'OnLand' event;
 		if(OnLand != null)
