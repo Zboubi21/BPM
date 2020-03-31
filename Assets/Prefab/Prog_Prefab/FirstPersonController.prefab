@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 3030643709255460716}
   - component: {fileID: 5125647276093728765}
   m_Layer: 8
-  m_Name: PlaterFire
+  m_Name: PlayerFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -507,7 +507,7 @@ AudioSource:
   m_GameObject: {fileID: 1218980094430320659}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243065452371384912, guid: a85e201b31392bf4f9bd45014460ef8d,
+  OutputAudioMixerGroup: {fileID: 1041462234004532461, guid: a85e201b31392bf4f9bd45014460ef8d,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
@@ -1795,13 +1795,14 @@ MonoBehaviour:
     m_onEnemyWeakspot: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   m_hitmarkers:
     m_img: {fileID: 7726750260758177193}
+    m_noSpotMarker: {fileID: 21300000, guid: 811900c1ae3fc79499eab178da63ef77, type: 3}
+    m_weakSpotMarker: {fileID: 21300000, guid: f28075e0d333a7b48bdc7dd2dfa32536, type: 3}
     m_onEnemyNoSpot: {r: 1, g: 0, b: 0, a: 1}
     m_onEnemyWeakspot: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     m_timeToShow: 0.125
     m_timeToHideMarker: 0.1
     m_additionalSizePerShoot: 0.05
     m_maxShoot: 10
-    m_waitTimeToShowMarker: 0.05
   _insideLaser:
   - {fileID: 3944384578910511545}
   - {fileID: 933324989444567928}
@@ -2548,17 +2549,17 @@ MonoBehaviour:
     m_pitch: 1
     m_pitchRandomizer: 0.25
   weaponSound:
-    source: {fileID: 0}
+    source: {fileID: 5125647276093728765}
     allDifferentFireSound:
     - allDifferentClip:
       - {fileID: 8300000, guid: 68bc7110cdf2a494698e87c2ebf9f45d, type: 3}
       - {fileID: 8300000, guid: 1cba929051b81e846a665937b6a43c7b, type: 3}
       - {fileID: 8300000, guid: 447e266ca5afe3441bb090f1735f6b35, type: 3}
       Pitch:
-        pitch: 0
+        pitch: 1
         pitchRandomizer: 0
       Volume:
-        volume: 0
+        volume: 1
         volumeRandomizer: 0
     allDifferentLastFireSound:
     - allDifferentClip:
@@ -2566,10 +2567,10 @@ MonoBehaviour:
       - {fileID: 8300000, guid: b838ad543d2e30b419f640585c89d0df, type: 3}
       - {fileID: 8300000, guid: 758e561d16e36be40b2a58c6bcee551d, type: 3}
       Pitch:
-        pitch: 0
+        pitch: 1
         pitchRandomizer: 0
       Volume:
-        volume: 0
+        volume: 1
         volumeRandomizer: 0
   m_raycastTrans: {fileID: 5837479378864761318}
   m_raycastMaxDistance: 0.5

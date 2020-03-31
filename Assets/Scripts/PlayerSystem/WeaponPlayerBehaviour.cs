@@ -39,6 +39,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     [Serializable] class Hitmarker
     {
         public Image m_img;
+        [Header("Sprites")]
+        public Sprite m_noSpotMarker;
+        public Sprite m_weakSpotMarker;
         public Color m_onEnemyNoSpot = Color.red;
         public Color m_onEnemyWeakspot = Color.yellow;
         public float m_timeToShow = 0.125f;
@@ -48,7 +51,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         public float m_additionalSizePerShoot = 0.1f;
         public int m_maxShoot = 5;
 
-        public float m_waitTimeToShowMarker = 0.05f;
+        // public float m_waitTimeToShowMarker = 0.05f;
     }
     int m_currentShootCount = 0;
 
@@ -89,8 +92,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         base.Awake();
         _BPMSystem = GetComponent<BPMSystem>();
         objectPooler = ObjectPooler.Instance;
-        audioControl = PlayerController.s_instance.m_references.m_playerAudio;
         ChangeWeaponStats();
+    }
+
+    public override void Start()
+    {
+        base.Start();
+        audioControl = PlayerController.s_instance.m_references.m_playerAudio;
     }
 
     public override void Update()
