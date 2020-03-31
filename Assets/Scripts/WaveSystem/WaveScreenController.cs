@@ -121,7 +121,7 @@ public class WaveScreenController :  MonoBehaviour
                 switch (_screenChannel)
                 {
                     case ScreenChannel.WaveCountChannel:
-                        StartCoroutine(UpdateWave(screenRef, waveController.NbrOfWave, hasToAnimate));
+                        StartCoroutine(UpdateWave(screenRef, waveController.NbrOfWave, hasToAnimate, waveController.maxWave));
                         break;
                     case ScreenChannel.EnemyCountChannel:
                         StartCoroutine(UpdateEnemy(screenRef, waveController.NbrOfEnemy, hasToAnimate));
@@ -183,10 +183,11 @@ public class WaveScreenController :  MonoBehaviour
         yield return null;
 
     }
-    IEnumerator UpdateWave(WaveScreenReference screenRef, int current, bool hasToAnimate)
+    IEnumerator UpdateWave(WaveScreenReference screenRef, int current, bool hasToAnimate, int max)
     {
         if (hasToAnimate)
         {
+            screenRef.changingTexts[2].text = string.Format("{0}", max);
             screenRef.changingTexts[1].text = string.Format("{0}", current + 1);
             screenRef.animator.SetTrigger("FadeIn");
             yield return new WaitForSeconds(0.5f);
@@ -195,6 +196,7 @@ public class WaveScreenController :  MonoBehaviour
         }
         else
         {
+            screenRef.changingTexts[2].text = string.Format("{0}", max);
             screenRef.changingTexts[1].text = string.Format("{0}", current + 1);
             screenRef.changingTexts[0].text = string.Format("{0}", current + 1); // pour éviter d'avoir une "wave 0" on met current +1
         }

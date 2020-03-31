@@ -22,7 +22,11 @@ public class WaveController : MonoBehaviour
         {
             public int waveNbr;
             public float timeForNextWave;
+            [Space]
+            public UnityEvent eventOnStartWave;
+            [Space]
             public UnityEvent eventOnEndOfWave;
+
         }
     }
     [Tooltip("Temps d'attente par défaut si aucun autre n'est référencé")]
@@ -122,6 +126,7 @@ public class WaveController : MonoBehaviour
                 }
                 else
                 {
+                    time = timeBetweenEachWave;
                 }
             }
         }
@@ -133,6 +138,21 @@ public class WaveController : MonoBehaviour
 
         _nbrOfWave++;
         yield return new WaitForSeconds(time); // time needed for all the animation/sound/voice/visual effect before next wave
+
+        if (wavesControl.Length > 0)
+        {
+            for (int i = 0, l = wavesControl.Length; i < l; ++i)
+            {
+                if (_nbrOfWave == wavesControl[i].wave.waveNbr)
+                {
+                    if (wavesControl[i].wave.eventOnStartWave != null)
+                    {
+                        wavesControl[i].wave.eventOnStartWave.Invoke();
+                    }
+                    break;
+                }
+            }
+        }
 
         NbrOfDeadEnemy = 0;
         NbrOfEnemy = 0;
