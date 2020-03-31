@@ -3630,8 +3630,8 @@ VisualEffectResource:
       indirectIndex = indirectBuffer.IncrementCounter();\r\n\t\tindirectBuffer[indirectIndex]
       = index;\r\n#endif\r\n#endif\r\n\t}\r\n}\r\n"
   - compute: 0
-    name: '[Burst Flower Source]A Direction Facing Burst (Side)'
-    source: "Shader \"Hidden/VFX/Burst Flower Source/(A) Direction Facing Burst (Side)\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
+    name: '[Burst Flower Source]Direction Facing Burst (Side)'
+    source: "Shader \"Hidden/VFX/Burst Flower Source/Direction Facing Burst (Side)\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
       Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent+0\" \"IgnoreProjector\"=\"True\"
       \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha One \n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t#if
@@ -3810,8 +3810,8 @@ VisualEffectResource:
       = VFXApplyPreExposure(o.color, i);\n\t\t\t\to.color = VFXApplyFog(o.color,i);\n\t\t\t\tVFXClipFragmentColor(o.color.a,i);\n\t\t\t\to.color.a
       = saturate(o.color.a);\n\t\t\t\treturn o;\n\t\t\t}\n\t\t\tENDHLSL\n\t\t}\n\t\t\n\r\n\t\t\r\n\t}\r\n}\r\n"
   - compute: 0
-    name: '[Burst Flower Source]B Camera Facing Flower'
-    source: "Shader \"Hidden/VFX/Burst Flower Source/(B) Camera Facing Flower\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
+    name: '[Burst Flower Source]Camera Facing Flower'
+    source: "Shader \"Hidden/VFX/Burst Flower Source/Camera Facing Flower\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
       Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent+400\" \"IgnoreProjector\"=\"True\"
       \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha One , Zero One\n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t#if
