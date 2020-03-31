@@ -39,11 +39,16 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     [Serializable] class Hitmarker
     {
         public Image m_img;
+
         [Header("Sprites")]
         public Sprite m_noSpotMarker;
         public Sprite m_weakSpotMarker;
+
+        [Header("Colors")]
         public Color m_onEnemyNoSpot = Color.red;
         public Color m_onEnemyWeakspot = Color.yellow;
+
+        [Header("Timers")]
         public float m_timeToShow = 0.125f;
         public float m_timeToHideMarker = 0.125f;
 
@@ -51,7 +56,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         public float m_additionalSizePerShoot = 0.1f;
         public int m_maxShoot = 5;
 
-        // public float m_waitTimeToShowMarker = 0.05f;
+        public float m_waitTimeToShowMarker = 0.05f;
     }
     int m_currentShootCount = 0;
 
@@ -401,10 +406,12 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         if (colliderTag == "NoSpot")
         {
             SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyNoSpot);
+            m_hitmarkers.m_img.sprite = m_hitmarkers.m_noSpotMarker;
         }
         else if (colliderTag == "WeakSpot")
         {
             SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyWeakspot);
+            m_hitmarkers.m_img.sprite = m_hitmarkers.m_weakSpotMarker;
         }
         
         if (m_showPlayerHitMarker != null)
@@ -414,6 +421,10 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
     IEnumerator ShowPlayerHitMarker()
     {
+        m_hitmarkers.m_img.enabled = false;
+        yield return new WaitForSeconds(m_hitmarkers.m_waitTimeToShowMarker);
+        m_hitmarkers.m_img.enabled = true;
+
         if (m_currentShootCount > 0 && m_currentShootCount < m_hitmarkers.m_maxShoot)
         {
             float newXScaleValue = m_hitmarkers.m_img.rectTransform.localScale.x + m_hitmarkers.m_additionalSizePerShoot;

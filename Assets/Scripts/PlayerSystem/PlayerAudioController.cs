@@ -235,7 +235,7 @@ public class PlayerAudioController : AudioController
     {
         if (weaponSound.allDifferentFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.fireSource != null)
         {
-            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentFireSound[currentIndex].Volume.volume, weaponSound.allDifferentFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentFireSound[currentIndex].Pitch.pitchRandomizer);
         }
     }
 
@@ -243,7 +243,7 @@ public class PlayerAudioController : AudioController
     {
         if (weaponSound.allDifferentUpgradeSound.Length == (int)BPMSystem.WeaponState.Fury && weaponSound.morphSource != null)
         {
-            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[levelToUpgrade].allDifferentClip, weaponSound.allDifferentLastFireSound[levelToUpgrade].Volume.volume, weaponSound.allDifferentLastFireSound[levelToUpgrade].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[levelToUpgrade].Pitch.pitch, weaponSound.allDifferentLastFireSound[levelToUpgrade].Pitch.pitchRandomizer);
+            StartSoundFromArray(weaponSound.morphSource, weaponSound.allDifferentUpgradeSound[levelToUpgrade].allDifferentClip, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Volume.volume, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Volume.volumeRandomizer, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Pitch.pitch, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Pitch.pitchRandomizer);
         }
     }
 
@@ -251,7 +251,7 @@ public class PlayerAudioController : AudioController
     {
         if (weaponSound.allDifferentDegradeSound.Length == (int)BPMSystem.WeaponState.Fury && weaponSound.morphSource != null)
         {
-            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[degradeFrom].allDifferentClip, weaponSound.allDifferentLastFireSound[degradeFrom].Volume.volume, weaponSound.allDifferentLastFireSound[degradeFrom].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[degradeFrom].Pitch.pitch, weaponSound.allDifferentLastFireSound[degradeFrom].Pitch.pitchRandomizer);
+            StartSoundFromArray(weaponSound.morphSource, weaponSound.allDifferentDegradeSound[degradeFrom].allDifferentClip, weaponSound.allDifferentDegradeSound[degradeFrom].Volume.volume, weaponSound.allDifferentDegradeSound[degradeFrom].Volume.volumeRandomizer, weaponSound.allDifferentDegradeSound[degradeFrom].Pitch.pitch, weaponSound.allDifferentDegradeSound[degradeFrom].Pitch.pitchRandomizer);
         }
     }
     #endregion
