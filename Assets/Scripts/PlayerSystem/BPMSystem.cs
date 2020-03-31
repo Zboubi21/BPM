@@ -72,10 +72,12 @@ public class BPMSystem : MonoBehaviour
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
     WeaponBehaviour weapon;
+    PlayerAudioController audioControl;
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
         weapon = GetComponent<WeaponBehaviour>();
+        audioControl = GetComponent<PlayerAudioController>();
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
@@ -198,16 +200,29 @@ public class BPMSystem : MonoBehaviour
             {
                 if (_currentWeaponState != WeaponState.Level2)
                 {
+                    //audioControl.PlayWeaponUpgradeSound(1);
                     _currentWeaponState = WeaponState.Level2;
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
+                    
                 }
             }
             else
             {
                 if (_currentWeaponState != WeaponState.Level1)
                 {
+                    if (_currentWeaponState == WeaponState.Level2)
+                    {
+                        //audioControl.PlayWeaponDegradeSound(1);
+
+                    }
+                    else if (_currentWeaponState == WeaponState.Level0)
+                    {
+                        //audioControl.PlayWeaponUpgradeSound(0);
+
+                    }
                     _currentWeaponState = WeaponState.Level1;
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
+
                 }
             }
         }
@@ -215,8 +230,10 @@ public class BPMSystem : MonoBehaviour
         {
             if (_currentWeaponState != WeaponState.Level0)
             {
+                //audioControl.PlayWeaponDegradeSound(2);
                 _currentWeaponState = WeaponState.Level0;
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
+
             }
         }
         ChangeWeaponStats();
@@ -275,7 +292,10 @@ public class BPMSystem : MonoBehaviour
         // play fx fury
         _currentWeaponState = WeaponState.Fury;
         ChangeWeaponStats();
+        audioControl.PlayWeaponUpgradeSound(2);
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+        audioControl.PlayWeaponDegradeSound(0);
+
         _currentWeaponState = WeaponState.Level2;
         ChangeWeaponStats();
         ActivateBool(false);

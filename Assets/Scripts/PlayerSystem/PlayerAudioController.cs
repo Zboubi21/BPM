@@ -43,7 +43,7 @@ public class PlayerAudioController : AudioController
     [Serializable]
     public class WeaponSound
     {
-        public AudioSource source;
+        public AudioSource fireSource;
         [Space]
         public AllDifferentFireSound[] allDifferentFireSound;
         [Serializable]
@@ -57,6 +57,25 @@ public class PlayerAudioController : AudioController
         public AllDifferentLastFireSound[] allDifferentLastFireSound;
         [Serializable]
         public class AllDifferentLastFireSound
+        {
+            public AudioClip[] allDifferentClip;
+            public Pitch Pitch;
+            public Volume Volume;
+        }
+        [Space]
+        public AudioSource morphSource;
+        [Space]
+        public AllDifferentDegradeSound[] allDifferentDegradeSound;
+        [Serializable]
+        public class AllDifferentDegradeSound
+        {
+            public AudioClip[] allDifferentClip;
+            public Pitch Pitch;
+            public Volume Volume;
+        }
+        public AllDifferentUpgradeSound[] allDifferentUpgradeSound;
+        [Serializable]
+        public class AllDifferentUpgradeSound
         {
             public AudioClip[] allDifferentClip;
             public Pitch Pitch;
@@ -206,17 +225,33 @@ public class PlayerAudioController : AudioController
     }
     public void PlayAppropriateLastFireSound(int currentIndex)
     {
-        if (weaponSound.allDifferentLastFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.source != null)
+        if (weaponSound.allDifferentLastFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.fireSource != null)
         {
-            StartSoundFromArray(weaponSound.source, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
         }
     }
 
     public void PlayAppropriateFireSound(int currentIndex)
     {
-        if (weaponSound.allDifferentFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.source != null)
+        if (weaponSound.allDifferentFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.fireSource != null)
         {
-            StartSoundFromArray(weaponSound.source, weaponSound.allDifferentFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+        }
+    }
+
+    public void PlayWeaponUpgradeSound(int levelToUpgrade)
+    {
+        if (weaponSound.allDifferentUpgradeSound.Length == (int)BPMSystem.WeaponState.Fury && weaponSound.morphSource != null)
+        {
+            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[levelToUpgrade].allDifferentClip, weaponSound.allDifferentLastFireSound[levelToUpgrade].Volume.volume, weaponSound.allDifferentLastFireSound[levelToUpgrade].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[levelToUpgrade].Pitch.pitch, weaponSound.allDifferentLastFireSound[levelToUpgrade].Pitch.pitchRandomizer);
+        }
+    }
+
+    public void PlayWeaponDegradeSound(int degradeFrom)
+    {
+        if (weaponSound.allDifferentDegradeSound.Length == (int)BPMSystem.WeaponState.Fury && weaponSound.morphSource != null)
+        {
+            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentFireSound[degradeFrom].allDifferentClip, weaponSound.allDifferentLastFireSound[degradeFrom].Volume.volume, weaponSound.allDifferentLastFireSound[degradeFrom].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[degradeFrom].Pitch.pitch, weaponSound.allDifferentLastFireSound[degradeFrom].Pitch.pitchRandomizer);
         }
     }
     #endregion

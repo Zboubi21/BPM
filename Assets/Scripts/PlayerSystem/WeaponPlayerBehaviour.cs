@@ -247,12 +247,11 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     #region ShootingMethods
     public override IEnumerator OnShoot(int nbrOfShoot, float timeEachShoot, float recoilTimeEachBurst)
     {
-        //CanShoot = false;
+        CanShoot = false;
 
         for (int i = 0; i < nbrOfShoot; ++i)
         {
             //StartCoroutine(RecoilCurve());
-
             _BPMSystem.LoseBPM(_currentBPMCost);
             if (_currentProjectil != null)
             {
@@ -269,7 +268,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         }
         yield return new WaitForSeconds(recoilTimeEachBurst);
 
-        //CanShoot = true;
+        CanShoot = true;
     }
 
     
