@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     public FxType muzzleFX;
     public FxType impactFX;
     [Space]
-    public float m_maxLifeTime = 5;
+    public float m_maxLifeTime = 2;
     [Header("DEBUG")]
     [Space]
     public TypeOfCollision m_colType = TypeOfCollision.DoubleRaycasts;
@@ -86,7 +86,7 @@ public class Projectile : MonoBehaviour
     public PoolTypes.ProjectileType ProjectileType2 { get => projectileType; set => projectileType = value; }
     #endregion
 
-    public void Start()
+    public void Awake()
     {
         switch (m_colType)
         {
@@ -129,6 +129,46 @@ public class Projectile : MonoBehaviour
 
         StartCoroutine(DestroyAnyway());
 
+    }
+    private void OnEnable()
+    {
+        switch (m_colType)
+        {
+            case TypeOfCollision.Rigibody:
+
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+                rb.interpolation = RigidbodyInterpolation.Extrapolate;
+                rb.constraints = RigidbodyConstraints.FreezeRotation;
+                rb.useGravity = false;
+
+                col.isTrigger = true;
+                col.radius = 0.05f;
+
+
+                break;
+            case TypeOfCollision.DoubleRaycasts:
+
+                #region Set Starting Length
+
+                m_awakeDistance = transform.localPosition;
+                deltaLength = Vector3.Distance(m_distanceToReach, m_awakeDistance);
+                newLength = deltaLength;
+
+                #endregion
+
+                StartCoroutine(CalculateDistance());
+
+                break;
+            case TypeOfCollision.UpdateRaycasts:
+
+                m_awakeDistance = transform.localPosition;
+                deltaLength = Vector3.Distance(m_distanceToReach, m_awakeDistance);
+                newLength = deltaLength;
+
+                break;
+        }
+
+        StartCoroutine(DestroyAnyway());
     }
 
     #region When using RayCast
