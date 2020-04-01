@@ -4,113 +4,132 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class ChangeImageValues : MonoBehaviour
+public class ChangeImageValues : ChangeValues
 {
     
-    [SerializeField] StartType m_startValue = StartType.StartWithFromValue;
     [SerializeField] float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
     [SerializeField] Color m_fromColor, m_toColor;
 
-    enum StartType
-    {
-        StartWithFromValue,
-        StartWithToValue,
-    }
+    [Header("Blink")]
+    [SerializeField] float m_minAlpha = 0;
+    [SerializeField] float m_maxAlpha = 1;
+    [SerializeField] float m_timeToChangeAlpha = 1;
 
     Image m_targetImage;
-    bool m_needToFadeIn = true; // Si m_needToFadeIn == false alors c'est qu'il faut FadeOut
-    IEnumerator m_currentChangementValues;
     float m_distanceFromTargetedColors;
     float m_speedToFadeIn, m_speedToFadeOff;
+    bool m_blinkIsActivate;
+    IEnumerator m_currentBlinkAnim;
+    bool m_isBlinkOn = true;
 
-    void Start()
+    protected override void Start()
     {
         m_targetImage = GetComponent<Image>();
 
-        if (m_startValue == StartType.StartWithFromValue)
-        {
-            SetImageColor(m_fromColor);
-            m_needToFadeIn = true;
-        }
-        else
-        {
-            SetImageColor(m_toColor);
-            m_needToFadeIn = false;
-        }
+        base.Start();
 
         m_distanceFromTargetedColors = GetDistanceFromColors(m_fromColor, m_toColor);
-        // vitesse = distance / temps
         m_speedToFadeIn = m_distanceFromTargetedColors / m_timeToFadeIn;
         m_speedToFadeOff = m_distanceFromTargetedColors / m_timeToFadeOff;
     }
+    protected override void SetupChangeValue(bool startWithFromValue)
+    {
+        base.SetupChangeValue(startWithFromValue);
 
-    public bool IsInFadeIn()
-    {
-        return m_needToFadeIn;
+        if (startWithFromValue)
+            SetImageColor(m_targetImage, m_fromColor);
+        else
+            SetImageColor(m_targetImage, m_toColor);
     }
-    public void SwitchImageValue()
+
+    public override void SwitchValue()
     {
+        base.SwitchValue();
         if (m_needToFadeIn)
         {
-            m_needToFadeIn = false;
-            CheckToStartChangeImageColorCoroutine(m_toColor, m_timeToFadeIn);
+            m_blinkIsActivate = true;
+            CheckToStartChangeImageColorCoroutine(m_toColor, m_speedToFadeIn);
         }
         else
         {
-            m_needToFadeIn = true;
-            CheckToStartChangeImageColorCoroutine(m_fromColor, m_timeToFadeOff);
+            m_blinkIsActivate = false;
+            StartToBlink(false);
+            CheckToStartChangeImageColorCoroutine(m_fromColor, m_speedToFadeOff);
         }
     }
-    // float GetTimeToDoValue(bool needToFadeIn)
-    // {
-    //     if (needToFadeIn)
-    //     {
-    //         return 
-    //     }
-    //     else
-    //     {
 
-    //     }
-    //     return 0;
-    // }
-
-    void CheckToStartChangeImageColorCoroutine(Color toColor, float timeToDo)
+    void CheckToStartChangeImageColorCoroutine(Color toColor, float speed)
     {
         if (m_currentChangementValues != null)
             StopCoroutine(m_currentChangementValues);
 
-        m_currentChangementValues = ChangeImageColor(toColor, timeToDo);
+        m_currentChangementValues = ChangeImageColor(toColor, speed);
         StartCoroutine(m_currentChangementValues);
     }
-    IEnumerator ChangeImageColor(/*Color fromColor, */Color toColor, float timeToDo)
+
+    IEnumerator ChangeImageColor(Color toColor, float speed)
     {
-        // Color fromColor = m_fromColor;
-        // Color toColor = m_toColor;
-        // float timeToDo = m_timeToFadeIn;
+        m_valueIsChanging = true;
 
         Color fromColor = m_targetImage.color;
 
         Color actualColor = fromColor;
         float fracJourney = 0;
-        float distance = m_distanceFromTargetedColors;
-        float speed = distance / timeToDo;
 
         while (actualColor != toColor)
         {
-            fracJourney += (Time.deltaTime) * speed / distance;
+            fracJourney += (Time.deltaTime) * speed / m_distanceFromTargetedColors;
             actualColor = Color.Lerp(fromColor, toColor, fracJourney);
-            SetImageColor(actualColor);
+            SetImageColor(m_targetImage, actualColor);
             yield return null;
         }
+        if (m_blinkIsActivate)
+            StartToBlink(true);
+        else
+            m_valueIsChanging = false;
     }
-    float GetDistanceFromColors(Color color1, Color color2)
+
+    void StartToBlink(bool blink)
     {
-        return Mathf.Abs(color1.r - color2.r) + Mathf.Abs(color1.g - color2.g) + Mathf.Abs(color1.b - color2.b) + Mathf.Abs(color1.a - color2.a);
+        if (m_currentBlinkAnim != null)
+            StopCoroutine(m_currentBlinkAnim);
+
+        if (blink)
+        {
+            m_currentBlinkAnim = BlinkImageColor();
+            StartCoroutine(m_currentBlinkAnim);
+        }
     }
-    void SetImageColor(Color newColor)
+    IEnumerator BlinkImageColor()
     {
-        if (m_targetImage.color != newColor)
-            m_targetImage.color = newColor;
+        m_isBlinkOn =! m_isBlinkOn;
+
+        Color fromColor = m_targetImage.color;
+        Color toColor = m_isBlinkOn ? new Color(fromColor.r, fromColor.g, fromColor.b, m_maxAlpha / 255) : new Color(fromColor.r, fromColor.g, fromColor.b, m_minAlpha / 255);
+
+        float distance = GetDistanceFromColors(fromColor, toColor);
+        float speed = distance / m_timeToChangeAlpha;
+
+        Color actualColor = fromColor;
+        float fracJourney = 0;
+
+        while (actualColor != toColor && m_blinkIsActivate)
+        {
+            fracJourney += (Time.deltaTime) * speed / distance;
+            actualColor = Color.Lerp(fromColor, toColor, fracJourney);
+            SetImageColor(m_targetImage, actualColor);
+            yield return null;
+        }
+        if (m_blinkIsActivate)
+            StartCoroutine(BlinkImageColor());
+        else
+            m_valueIsChanging = false;
+    }
+
+    public override void StopChangingValues()
+    {
+        StartToBlink(false);
+        base.StopChangingValues();
     }
     
 }
