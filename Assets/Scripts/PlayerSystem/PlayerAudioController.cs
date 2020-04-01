@@ -244,6 +244,7 @@ public class PlayerAudioController : AudioController
         if (weaponSound.allDifferentUpgradeSound.Length == (int)BPMSystem.WeaponState.Fury && weaponSound.morphSource != null)
         {
             StartSoundFromArray(weaponSound.morphSource, weaponSound.allDifferentUpgradeSound[levelToUpgrade].allDifferentClip, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Volume.volume, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Volume.volumeRandomizer, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Pitch.pitch, weaponSound.allDifferentUpgradeSound[levelToUpgrade].Pitch.pitchRandomizer);
+            //Debug.Log(weaponSound.allDifferentUpgradeSound[levelToUpgrade].allDifferentClip[0]);
         }
     }
 
@@ -252,6 +253,7 @@ public class PlayerAudioController : AudioController
         if (weaponSound.allDifferentDegradeSound.Length == (int)BPMSystem.WeaponState.Fury && weaponSound.morphSource != null)
         {
             StartSoundFromArray(weaponSound.morphSource, weaponSound.allDifferentDegradeSound[degradeFrom].allDifferentClip, weaponSound.allDifferentDegradeSound[degradeFrom].Volume.volume, weaponSound.allDifferentDegradeSound[degradeFrom].Volume.volumeRandomizer, weaponSound.allDifferentDegradeSound[degradeFrom].Pitch.pitch, weaponSound.allDifferentDegradeSound[degradeFrom].Pitch.pitchRandomizer);
+            //Debug.Log(weaponSound.allDifferentDegradeSound[degradeFrom].allDifferentClip[0]);
         }
     }
     #endregion

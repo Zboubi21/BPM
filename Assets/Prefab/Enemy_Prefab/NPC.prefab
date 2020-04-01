@@ -1495,7 +1495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1518701593319102534
 Transform:
   m_ObjectHideFlags: 0
@@ -1505,7 +1505,7 @@ Transform:
   m_GameObject: {fileID: 1518701593319261286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.40315628, y: 0, z: 5.7810397}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 1518701593319102532}
   - {fileID: 7134084445160699037}
@@ -1619,12 +1619,12 @@ MonoBehaviour:
     _move:
       moveSpeed: 100
     _health:
-      maxHealth: 1000
+      maxHealth: 100
       damageMultiplicatorOnWeakSpot: 1
       damageMultiplicatorOnNoSpot: 1
     _stunResistance:
-      timeOfStun: 10
-      timeForStunResistance: 15
+      timeOfStun: 0.5
+      timeForStunResistance: 8
       timeForElectricalStunResistance: 20
 --- !u!114 &4187508792682329746
 MonoBehaviour:
@@ -1704,14 +1704,14 @@ MonoBehaviour:
     recoilHeight: 1
   _attack:
     damage: 10
-    rangeRadius: 15
-    bulletSpeed: 50
-    timeBetweenEachBullet: 0.08
-    nbrOfShootOnRafale: 10
+    rangeRadius: 30
+    bulletSpeed: 30
+    timeBetweenEachBullet: 0.085714
+    nbrOfShootOnRafale: 5
     timeBetweenEachBurst: 1
     _debugGizmos: 1
-    enemyAttackDispersement: 2
-  enemyProjectil: {fileID: 5968050715683303546, guid: 71911ab77eec20144841928b510fed53,
+    enemyAttackDispersement: 1
+  enemyProjectil: {fileID: 9046812263005556533, guid: 506ffc20978299d42ab0fd3dd712352c,
     type: 3}
   YOffset: 1
 --- !u!114 &5378848665415633138
