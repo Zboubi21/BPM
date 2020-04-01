@@ -59,7 +59,7 @@ public class EnemyArchetype : SerializedScriptableObject
     [Space]
 
     [TabGroup("Enemy Behavior Chance")]
-    public int _nbrOfShootBeforeRepositionning;
+    public int _nbrOfRafaleBeforeRepositionning;
 
     [Title("Behavior Change Chance", titleAlignment: TitleAlignments.Centered, horizontalLine: true, bold: true)]
     [Title("Cover Behavior State", titleAlignment: TitleAlignments.Centered, horizontalLine: false, bold: false)]

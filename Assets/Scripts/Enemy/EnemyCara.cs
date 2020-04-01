@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using EnemyStateEnum;
 using Sirenix.OdinInspector;
+using UnityEngine.AI;
 
 public class EnemyCara : SerializedMonoBehaviour
 {
@@ -82,6 +83,10 @@ public class EnemyCara : SerializedMonoBehaviour
     public void Awake()
     {
         controller = GetComponent<EnemyController>();
+        if(controller != null)
+        {
+            controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
+        }
     }
 
     private void Start()
@@ -205,6 +210,10 @@ public class EnemyCara : SerializedMonoBehaviour
     {
 
         _currentLife = _enemyCaractéristique._health.maxHealth;
+        if(controller != null)
+        {
+            controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
+        }
         //_currentDamage = _enemyCaractéristique._attack.damage;
     }
 }
