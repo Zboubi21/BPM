@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class BPMSystem : MonoBehaviour
 {
+    [SerializeField] bool m_canChangeWeaponLvl = true;
     public BPM _BPM = new BPM();
     [Serializable]
     public class BPM
@@ -194,6 +195,9 @@ public class BPMSystem : MonoBehaviour
     #region Activate and Deactivate Weapon
     void ChangeWeaponLevel(float currentBPM)
     {
+        if (!m_canChangeWeaponLvl)
+            return;
+        
         if (currentBPM >= _weaponsLevel.firstWeaponLevel)
         {
             if(currentBPM >= _weaponsLevel.secondWeaponLevel)
