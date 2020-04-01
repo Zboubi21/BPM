@@ -63,6 +63,7 @@ public class EnemyController : MonoBehaviour
     ObjectPooler objectPooler;
 
     float distanceToTarget;
+    float distanceToPlayer;
     bool _enemyCanShoot;
     bool isInMotion;
     #region Get Set
@@ -77,6 +78,7 @@ public class EnemyController : MonoBehaviour
     public ObjectPooler ObjectPooler { get => objectPooler; set => objectPooler = value; }
     public bool IsInMotion { get => isInMotion; set => isInMotion = value; }
     public EnemyAudioController AudioControl { get => audioControl; set => audioControl = value; }
+    public float DistanceToPlayer { get => distanceToPlayer; set => distanceToPlayer = value; }
     #endregion
 
 
@@ -121,7 +123,7 @@ public class EnemyController : MonoBehaviour
         //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
         DistanceToTarget = GetTargetDistance(currentTarget);
-
+        DistanceToPlayer = GetTargetDistance(Player.position);
     }
 
     private void Update()
@@ -151,6 +153,7 @@ public class EnemyController : MonoBehaviour
         #endregion
 
         DistanceToTarget = GetTargetDistance(currentTarget);
+        DistanceToPlayer = GetTargetDistance(Player.position);
 
     }
 

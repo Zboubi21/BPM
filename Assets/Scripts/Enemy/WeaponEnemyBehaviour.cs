@@ -8,7 +8,7 @@ using PoolTypes;
 public class WeaponEnemyBehaviour : WeaponBehaviour
 {
     [Space]
-    LayerMask hittedLayer;
+    public LayerMask hittedLayer;
     public Attack _attack = new Attack();
     [Serializable]
     public class Attack
@@ -87,7 +87,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
             //Debug.Log("Before Throwing Dices");
-            if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfShootBeforeRepositionning)
+            if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfRafaleBeforeRepositionning)
             {
                 countAttacks = 0;
                 if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))

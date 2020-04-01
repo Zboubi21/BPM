@@ -47,7 +47,7 @@ public class RepositionState : IState
     public void Update()
     {
         m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if (m_enemyController.DistanceToTarget - m_enemyController._debug.obstacleAvoidance <= m_enemyController.Agent.stoppingDistance  && !m_enemyController.Cara.IsDead)
+        if ((m_enemyController.DistanceToTarget - m_enemyController._debug.obstacleAvoidance <= m_enemyController.Agent.stoppingDistance || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeRadius/2f) && !m_enemyController.Cara.IsDead)
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
         }

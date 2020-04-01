@@ -46,7 +46,7 @@ public class DefensiveState : IState
     public void Update()
     {
         m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if ((m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance || m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius / 2f) && !m_enemyController.Cara.IsDead)
+        if ((m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance || m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius / 2f || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeRadius / 2f) && !m_enemyController.Cara.IsDead)
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
         }
