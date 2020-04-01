@@ -8,7 +8,7 @@ using PoolTypes;
 public class WeaponEnemyBehaviour : WeaponBehaviour
 {
     [Space]
-    LayerMask hittedLayer;
+    public LayerMask hittedLayer;
     public Attack _attack = new Attack();
     [Serializable]
     public class Attack

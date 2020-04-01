@@ -7,6 +7,7 @@ public class ChaseState : IState
 {
     EnemyController m_enemyController;
     WeaponEnemyBehaviour weapon;
+    PlayerController playerController;
 
     /// Le NPC court après le joueur pour être en range d'attaque
     public ChaseState(EnemyController enemyController)
@@ -19,7 +20,7 @@ public class ChaseState : IState
     {
         /// play run animation
         m_enemyController.AudioControl.On_Run(true);
-
+        playerController = PlayerController.s_instance;
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
         m_enemyController.CurrentTarget = m_enemyController.Player.transform.position;
 #if UNITY_EDITOR
@@ -46,20 +47,25 @@ public class ChaseState : IState
     RaycastHit _hit;
     public void Update()
     {
-        float distance = 0;
-        if (Vector3.Distance(PlayerController.s_instance.transform.position, m_enemyController.transform.position) < weapon._attack.rangeRadius)
-        {
-            distance = Vector3.Distance(PlayerController.s_instance.transform.position, m_enemyController.transform.position);
-        }
-        else
-        {
-            distance = weapon._attack.rangeRadius;
-        }
+        //float distance = 0;
+        //if (Vector3.Distance(PlayerController.s_instance.transform.position, m_enemyController.transform.position) < weapon._attack.rangeRadius)
+        //{
+        //    distance = Vector3.Distance(PlayerController.s_instance.transform.position, m_enemyController.transform.position);
+        //}
+        //else
+        //{
+        //    distance = weapon._attack.rangeRadius;
+        //}
         m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if(m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius && !m_enemyController.Cara.IsDead && !Physics.Raycast(weapon._SMG.firePoint.transform.position, weapon._SMG.firePoint.transform.forward, out _hit, distance, 11))
+        if(m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius && !m_enemyController.Cara.IsDead && !Physics.Linecast(new Vector3(weapon.transform.position.x, weapon.transform.position.y+1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), out _hit, weapon.hittedLayer))
         {
+            //Debug.DrawLine(new Vector3(weapon.transform.position.x, weapon.transform.position.y + 1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), Color.green, 1f);
             m_enemyController.Agent.SetDestination(m_enemyController.transform.position);
             m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
+        }
+        else if (Physics.Linecast(new Vector3(weapon.transform.position.x, weapon.transform.position.y + 1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), out _hit, weapon.hittedLayer))
+        {
+            //Debug.DrawLine(new Vector3(weapon.transform.position.x, weapon.transform.position.y + 1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), Color.red);
         }
     }
 
