@@ -31,8 +31,10 @@ public class EnemyCara : SerializedMonoBehaviour
         public class Move
         {
             public float moveSpeed;
+            [Tooltip("The time needed for the NPC to look directly at the target ( when the target don't move ), it HAS to be less than 5 seconds")]
+            public float timeOfLateLookAt;
         }
-        
+
         public Health _health = new Health();
         [Serializable]
         public class Health
@@ -59,6 +61,7 @@ public class EnemyCara : SerializedMonoBehaviour
 
     float _currentTimeForStun;
     float _currentTimeForStunResistance;
+    int _currentIndexInLateLookAt;
 
     #region Get Set
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
@@ -70,6 +73,7 @@ public class EnemyCara : SerializedMonoBehaviour
 
     public float CurrentTimeForElectricalStun { get => _currentTimeForElectricalStun; set => _currentTimeForElectricalStun = value; }
     public float CurrentTimeForElectricalStunResistance { get => _currentTimeForElectricalStunResistance; set => _currentTimeForElectricalStunResistance = value; }
+    public int CurrentIndexInLateLookAt { get => _currentIndexInLateLookAt; set => _currentIndexInLateLookAt = value; }
     #endregion
 
     public void OnEnable()
@@ -79,13 +83,15 @@ public class EnemyCara : SerializedMonoBehaviour
         InitializeEnemyStats();
     }
 
-
+    PlayerController playerController;
     public void Awake()
     {
         controller = GetComponent<EnemyController>();
-        if(controller != null)
+        playerController = PlayerController.s_instance;
+        if (controller != null)
         {
             controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
+            _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
         }
     }
 

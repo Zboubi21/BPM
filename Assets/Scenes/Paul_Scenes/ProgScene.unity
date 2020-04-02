@@ -1489,16 +1489,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 1518701593319261286, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833438521590562171, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: _attack.rangeOfAttackNoMatterWhat
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4187508792682329747, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -2176,8 +2166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: {fileID: 0}
   to: {fileID: 0}
-  time: 60
-  target: {fileID: 1599274998}
+  time: 1
+  target: {fileID: 1010905932}
+  levelOfInBetween: 0.0000001
 --- !u!65 &857055063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2244,13 +2235,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857055061}
-  m_LocalRotation: {x: -0, y: 0.47094417, z: -0, w: 0.88216305}
-  m_LocalPosition: {x: 5.12, y: 0.5, z: -9.82}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 0.5, z: 24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 25
-  m_LocalEulerAnglesHint: {x: 0, y: 56.191, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &881591756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2708,7 +2699,9 @@ PrefabInstance:
       propertyPath: cara
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8587504611661176213, guid: 00c35a6d69442a34997ad9abb61305c9, type: 3}
+    - {fileID: 3006670858843352175, guid: 00c35a6d69442a34997ad9abb61305c9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 00c35a6d69442a34997ad9abb61305c9, type: 3}
 --- !u!4 &1010905932 stripped
 Transform:
@@ -3268,7 +3261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129133559}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 1.13, z: 15.27}
+  m_LocalPosition: {x: 6, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6918,6 +6911,7 @@ MonoBehaviour:
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
+      timeOfLateLookAt: 0
     _health:
       maxHealth: 5205120
       damageMultiplicatorOnWeakSpot: 1
