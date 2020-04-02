@@ -221,16 +221,28 @@ public class EnemyController : MonoBehaviour
         {
             int count = 200;
             hasFoundACover = false;
+            bool playerIsOnNavMesh = true;
             while (count > 0)
             {
                 //Choisi un point aléatoire dans un cercle de la taille de la range du NPC
                 Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeRadius;
-                newTarget = new Vector3(randomPointInCircle.x + lastPoint.x, 0.1f + lastPoint.y, randomPointInCircle.y + lastPoint.z);
+                if (playerIsOnNavMesh)
+                {
+                    newTarget = new Vector3(randomPointInCircle.x + lastPoint.x, lastPoint.y, randomPointInCircle.y + lastPoint.z);
+                }
+                else
+                {
+                    newTarget = new Vector3(randomPointInCircle.x + lastPoint.x, transform.position.y, randomPointInCircle.y + lastPoint.z);
+                }
                 NavMeshPath path = new NavMeshPath();
                 agent.CalculatePath(newTarget, path);
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {
                     return newTarget;
+                }
+                else
+                {
+                    playerIsOnNavMesh = false;
                 }
                 count--;
             }
@@ -251,21 +263,34 @@ public class EnemyController : MonoBehaviour
         int count = 200;
         Vector3 newTarget;
         float distance = Vector3.Distance(transform.position, target.position);
-        Vector3 newPoint = Vector3.Lerp(transform.position, target.position, Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfAgressivity));
+        Vector3 newPoint = Vector3.Lerp(transform.position, target.position, Cara.EnemyArchetype._rateOfAgressivity /*Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfAgressivity)*/);
+        bool playerIsOnNavMesh = true;
         while (count > 0)
         {
             //Choisi un point aléatoire dans un cercle de la taille de la range du NPC mutliplié par un coefficiant d'agressivité
-            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfAgressivity);
-            newTarget = new Vector3(randomPointInCircle.x + newPoint.x, 0.1f + newPoint.y, randomPointInCircle.y + newPoint.z);
+            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle /* (weaponBehavior._attack.rangeRadius * (Cara.EnemyArchetype._rateOfAgressivity/2))*/;
+
+            if (playerIsOnNavMesh)
+            {
+                newTarget = new Vector3(randomPointInCircle.x + newPoint.x, newPoint.y, randomPointInCircle.y + newPoint.z);
+            }
+            else
+            {
+                newTarget = new Vector3(randomPointInCircle.x + newPoint.x, transform.position.y, randomPointInCircle.y + newPoint.z);
+            }
             NavMeshPath path = new NavMeshPath();
             agent.CalculatePath(newTarget, path);
             if (path.status == NavMeshPathStatus.PathComplete)
             {
                 return newTarget;
             }
+            else
+            {
+                playerIsOnNavMesh = false;
+            }
             count--;
         }
-        return transform.position; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
+        return newPoint; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
     }
 
     public Vector3 MoveBackward(Transform target)
@@ -273,20 +298,66 @@ public class EnemyController : MonoBehaviour
         int count = 200;
         Vector3 newTarget;
         float distance = Vector3.Distance(transform.position, target.position);
-        Vector3 newPoint = Vector3.LerpUnclamped(target.position, transform.position, 1 + weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity);
+        Vector3 newPoint = Vector3.LerpUnclamped(target.position, transform.position, 1 /*+ weaponBehavior._attack.rangeRadius **/+ Cara.EnemyArchetype._rateOfDefensivity);
+        bool playerIsOnNavMesh = true;
         while (count > 0)
         {
-            //Choisi un point aléatoire dans un cercle de la taille de la range du NPC mutliplié par un coefficiant d'agressivité
-            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity);
-            newTarget = new Vector3(randomPointInCircle.x + newPoint.x, 0.1f + newPoint.y, randomPointInCircle.y + newPoint.z);
+            //Choisi un point aléatoire dans un cercle de radius 1;
+            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle /* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
+            if (playerIsOnNavMesh)
+            {
+                newTarget = new Vector3(randomPointInCircle.x + newPoint.x, newPoint.y, randomPointInCircle.y + newPoint.z);
+            }
+            else
+            {
+                newTarget = new Vector3(randomPointInCircle.x + newPoint.x, transform.position.y, randomPointInCircle.y + newPoint.z);
+            }
             NavMeshPath path = new NavMeshPath();
             agent.CalculatePath(newTarget, path);
             if (path.status == NavMeshPathStatus.PathComplete)
             {
                 return newTarget;
             }
+            else
+            {
+                playerIsOnNavMesh = false;
+            }
             count--;
         }
+        return newPoint; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
+    }
+
+    public Vector3 ChaseATarget(Transform target)
+    {
+        int count = 200;
+        Vector3 newTarget;
+        Vector3 newPoint = target.position;
+        bool playerIsOnNavMesh = true;
+        while (count > 0)
+        {
+            //Choisi un point aléatoire dans un cercle de radius 1;
+            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeOfAttackNoMatterWhat;/* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
+            if (playerIsOnNavMesh)
+            {
+                newTarget = new Vector3(randomPointInCircle.x + newPoint.x, newPoint.y, randomPointInCircle.y + newPoint.z);
+            }
+            else
+            {
+                newTarget = new Vector3(randomPointInCircle.x + newPoint.x, transform.position.y, randomPointInCircle.y + newPoint.z);
+            }
+            NavMeshPath path = new NavMeshPath();
+            agent.CalculatePath(newTarget, path);
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                return newTarget;
+            }
+            else
+            {
+                playerIsOnNavMesh = false;
+            }
+            count--;
+        }
+        ChangeState((int)EnemyState.Enemy_RepositionState);
         return transform.position; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
     }
 
@@ -406,7 +477,8 @@ public class EnemyController : MonoBehaviour
                 Gizmos.DrawWireSphere(transform.position, weaponBehavior._attack.rangeRadius);
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(new Vector3(weaponBehavior._SMG.firePoint.transform.position.x, weaponBehavior._SMG.firePoint.transform.position.y, weaponBehavior._SMG.firePoint.transform.position.z + weaponBehavior._attack.rangeRadius /*- weaponBehavior._attack.enemyAttackDispersement*2)*/* weaponBehavior._attack._debugGizmos), weaponBehavior._attack.enemyAttackDispersement);
-                //Gizmos.color = Color.black;
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, weaponBehavior._attack.rangeOfAttackNoMatterWhat);
                 //Gizmos.DrawWireSphere(Vector3.LerpUnclamped(transform.position, Vector3.zero, range), 1f);
 
             }

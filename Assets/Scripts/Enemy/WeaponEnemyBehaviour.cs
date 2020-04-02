@@ -15,6 +15,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     {
         public int damage;
         public float rangeRadius;
+        public float rangeOfAttackNoMatterWhat;
         [Space]
         public float bulletSpeed;
         [Space]
