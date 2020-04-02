@@ -4,24 +4,15 @@ using UnityEngine;
 
 public class testScript : MonoBehaviour
 {
-    Renderer rend;
-    public Shader shader;
+    public Transform from;
+    public Transform to;
 
-    void Start()
-    {
-        rend = GetComponent<Renderer>();
-
-        // Use the Specular shader on the material
-        rend.material.shader = shader;
-    }
+    private float timeCount = 0.0f;
 
     void Update()
     {
-        // Animate the Shininess value
-        float chromapropability = Mathf.PingPong(Time.time, 1.0f);
-
-        Debug.Log(rend.material.GetFloat("chromapropability"));
-
-        rend.material.SetFloat("chromapropability", chromapropability);
+        transform.position = Vector3.Slerp(from.position, to.position, timeCount);
+        transform.rotation = Quaternion.Slerp(from.rotation, to.rotation, timeCount);
+        timeCount = timeCount + Time.deltaTime;
     }
 }

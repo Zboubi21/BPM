@@ -151,7 +151,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a1eb4d0bfd1c2b4bb689d5735534fd8, type: 2}
   - {fileID: 11400000, guid: f9b729769e8b2e4458dc549ad60ab18f, type: 2}
   - {fileID: 11400000, guid: 7d3fde354de8e28448df602b70653f89, type: 2}
-  m_spawnTest: {fileID: 0}
+  m_textAnim: {fileID: 35415202272341894}
+  m_spawnTest: {fileID: 4724814587470942516, guid: 19e35377672471a43a972dc5f2d505e5,
+    type: 3}
   m_spawnPos: {fileID: 884761023869104338}
   m_getBpmColor: {r: 0, g: 1, b: 0, a: 1}
   m_lostBpmColor: {r: 1, g: 0, b: 0, a: 1}
@@ -828,6 +830,9 @@ MonoBehaviour:
   m_timeToFadeOff: 0.5
   m_fromColor: {r: 1, g: 1, b: 0, a: 0}
   m_toColor: {r: 1, g: 1, b: 0, a: 0.09803922}
+  m_minAlpha: 20
+  m_maxAlpha: 30
+  m_timeToChangeAlpha: 0.4
 --- !u!1 &3863762695731727821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,6 +1111,9 @@ MonoBehaviour:
   m_timeToFadeOff: 0.5
   m_fromColor: {r: 1, g: 0, b: 0, a: 0}
   m_toColor: {r: 1, g: 0, b: 0, a: 0.09803922}
+  m_minAlpha: 15
+  m_maxAlpha: 35
+  m_timeToChangeAlpha: 0.25
 --- !u!1 &7928409344141827843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1208,6 +1216,7 @@ GameObject:
   - component: {fileID: 1859804046404506753}
   - component: {fileID: 7868452334161573903}
   - component: {fileID: 7397190334868437858}
+  - component: {fileID: 35415202272341894}
   m_Layer: 13
   m_Name: BPMValue_Txt
   m_TagString: Untagged
@@ -1353,6 +1362,47 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &35415202272341894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279245237997168483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71768eb6d7d653f4e80cb42d3d604b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_startValue: 0
+  m_minSizeAnim: {x: 0.875, y: 0.875, z: 1}
+  m_maxSizeAnim: {x: 1.125, y: 1.125, z: 1}
+  m_timeToDoMinSizeAnim: 0.25
+  m_timeToDoMaxSizeAnim: 0.25
+  m_curveAnim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8556364467435565583
 GameObject:
   m_ObjectHideFlags: 0

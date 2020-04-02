@@ -8,9 +8,10 @@ using PoolTypes;
 public class PlayerBpmGui : MonoBehaviour
 {
     
-    [Header("BPM Value")]
+    [Header("BPM Text Value")]
     [SerializeField] TextMeshProUGUI m_bpmValue;
     [SerializeField] TMP_FontAsset[] m_bpmLvl = new TMP_FontAsset[3];
+    [SerializeField] ChangeScaleValues m_textAnim;
 
     [Header("BPM Get/Lost")]
     public GameObject m_spawnTest;
@@ -29,6 +30,7 @@ public class PlayerBpmGui : MonoBehaviour
 
     ObjectPooler m_objectPooler;
     ObjectType m_bpmToSpawn = ObjectType.BpmGuiValues;
+    int m_lastWeaponLvl;
 
     void Start()
     {
@@ -81,23 +83,24 @@ public class PlayerBpmGui : MonoBehaviour
                 m_bpmValue.font = m_bpmLvl[2];
             break;
         }
+        if (m_lastWeaponLvl > weaponLvl)    // Le niveau de l'arme a baissé
+            m_textAnim.SwitchValue(false);
+        else                                // Le niveau de l'arme a augmenté
+            m_textAnim.SwitchValue(true);
 
+        m_lastWeaponLvl = weaponLvl;
     }
     bool m_isInCtriticalLvl;
     public void On_CriticalLevelOfBPM(bool inCriticalLevel)
     {
-        m_criticalLevelOfBPMFeedback.SwitchImageValue();
+        m_criticalLevelOfBPMFeedback.SwitchValue();
         m_isInCtriticalLvl = inCriticalLevel;
         m_bpmValue.color = inCriticalLevel ? m_criticalBpmValueColor : m_normalBpmValueColor;
     }
     public void On_OverAdrenalineActivated(bool isActivated)
     {
-        m_overadrenalineFeedback.SwitchImageValue();
-
-        if (!m_criticalLevelOfBPMFeedback.IsInFadeIn())
-        {
-            m_criticalLevelOfBPMFeedback.SwitchImageValue();
-        }
+        m_overadrenalineFeedback.SwitchValue();
+        m_criticalLevelOfBPMFeedback.StopChangingValues();
     }
     
 }
