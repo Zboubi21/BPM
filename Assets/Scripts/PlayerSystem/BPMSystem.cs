@@ -24,9 +24,19 @@ public class BPMSystem : MonoBehaviour
         public PlayerBpmGui m_playerBpmGui;
         //public Image Electra_Gauge;
 
-        [Header("BPM Gauge")]
-        public MeshRenderer m_bpmGaugeShader;
-        public float m_gaugeSpeed = 1;
+        public Gauge m_bpmGauge;
+        [Serializable] public class Gauge
+        {
+            public MeshRenderer m_gaugeShader;
+
+            [Header("General Speed")]
+            public float m_gaugeSpeed = 1;
+
+            [Header("Oscillation Values")]
+            public float m_minMoveDeltaValue = 0.025f;
+            public float m_maxMoveDeltaValue = 0.1f;
+            public float m_minMoveDeltaSpeed = 0.1f, m_maxMoveDeltaSpeed = 0.25f;
+        }
     }
     float m_targetedGaugeValue;
     float m_currentBpmGaugeValue;
@@ -185,9 +195,20 @@ public class BPMSystem : MonoBehaviour
 
     void SetBpmGaugeShader()
     {
-        m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue, Time.deltaTime * _BPM.m_gaugeSpeed);
-        _BPM.m_bpmGaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
-        _BPM.m_bpmGaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
+        // float delta = Mathf.PingPong(Time.time * _BPM.m_moveDeltaSpeed, _BPM.m_moveDeltaValue);
+        float deltaBPM = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+        // Debug.Log("deltaBPM = " + deltaBPM);
+
+        float deltaValue = Mathf.Lerp(_BPM.m_bpmGauge.m_minMoveDeltaValue, _BPM.m_bpmGauge.m_maxMoveDeltaValue, deltaBPM);
+        // Debug.Log("deltaValue = " + deltaValue);
+
+        float deltaSpeed = Mathf.Lerp(_BPM.m_bpmGauge.m_minMoveDeltaSpeed, _BPM.m_bpmGauge.m_maxMoveDeltaSpeed, deltaBPM);
+
+        float delta = Mathf.PingPong(Time.time * deltaSpeed, deltaValue);
+
+        m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue + delta, Time.deltaTime * _BPM.m_bpmGauge.m_gaugeSpeed);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
     }
 
     #endregion
