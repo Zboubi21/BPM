@@ -26,14 +26,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public LayerMask rayCastCollision;
 
     [Header("Feedback")]
-    [SerializeField] Crosshair m_crosshair;
-    [Serializable] class Crosshair
-    {
-        public Image m_img;
-        public Color m_baseColor = Color.white;
-        public Color m_onEnemyNoSpot = Color.red;
-        public Color m_onEnemyWeakspot = Color.yellow;
-    }
+    [SerializeField] PlayerBpmCrosshairController m_crosshair;
     [SerializeField] Hitmarker m_hitmarkers;
     IEnumerator m_showPlayerHitMarker;
     [Serializable] class Hitmarker
@@ -137,6 +130,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
                 }
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                    m_crosshair.On_StopShoot();
                 break;
         }
 
@@ -253,6 +248,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public override IEnumerator OnShoot(int nbrOfShoot, float timeEachShoot, float recoilTimeEachBurst)
     {
         CanShoot = false;
+
+        m_crosshair.On_Shoot();
 
         for (int i = 0; i < nbrOfShoot; ++i)
         {
@@ -388,18 +385,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         if (!WeaponForwardRaycast())
             return;
         
-        if (_hit.collider.CompareTag("NoSpot"))
-        {
-            SetImageColor(m_crosshair.m_img, m_crosshair.m_onEnemyNoSpot);
-        }
-        else if (_hit.collider.CompareTag("WeakSpot"))
-        {
-            SetImageColor(m_crosshair.m_img, m_crosshair.m_onEnemyWeakspot);
-        }
-        else
-        {
-            SetImageColor(m_crosshair.m_img, m_crosshair.m_baseColor);
-        }
+        m_crosshair.On_ChangeCrosshairColor(_hit.collider.tag);
     }
     public void SetPlayerHitmarker(string colliderTag)
     {
@@ -463,6 +449,15 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         if (image.color != color)
             image.color = color;
+    }
+    void SetImagesColor(Image[] image, Color color)
+    {
+        for (int i = 0, l = image.Length; i < l; ++i)
+        {
+            if (image[i] != null)
+                if (image[i].color != color)
+                    image[i].color = color;
+        }
     }
 
     #endregion
