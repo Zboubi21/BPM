@@ -1617,10 +1617,10 @@ MonoBehaviour:
     - {fileID: 8684468554716952860}
   "_enemyCaract\xE9ristique":
     _move:
-      moveSpeed: 100
+      moveSpeed: 8
     _health:
       maxHealth: 100
-      damageMultiplicatorOnWeakSpot: 1
+      damageMultiplicatorOnWeakSpot: 2
       damageMultiplicatorOnNoSpot: 1
     _stunResistance:
       timeOfStun: 0.5
@@ -1702,14 +1702,18 @@ MonoBehaviour:
       m_RotationOrder: 4
     timeToRecoverFromRecoil: 0.1
     recoilHeight: 1
+  hittedLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   _attack:
     damage: 10
-    rangeRadius: 30
+    rangeRadius: 10
+    rangeOfAttackNoMatterWhat: 5
     bulletSpeed: 30
     timeBetweenEachBullet: 0.085714
     nbrOfShootOnRafale: 5
-    minTimeBetweenEachBurst: 0.5
-    maxTimeBetweenEachBurst: 2
+    minTimeBetweenEachBurst: 1
+    maxTimeBetweenEachBurst: 3
     _debugGizmos: 1
     enemyAttackDispersement: 1
   enemyProjectil: {fileID: 9046812263005556533, guid: 506ffc20978299d42ab0fd3dd712352c,
