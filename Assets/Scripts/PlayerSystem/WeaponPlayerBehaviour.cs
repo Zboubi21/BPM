@@ -126,12 +126,11 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     StartCoroutine(OnShoot(1, _currentAttackSpeed, 0));
                 }
-                if (Input.GetKeyUp(KeyCode.Mouse0) && CanShoot)
+                if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
-                }
-                if (Input.GetKeyUp(KeyCode.Mouse0))
                     m_crosshair.On_StopShoot();
+                }
                 break;
         }
 

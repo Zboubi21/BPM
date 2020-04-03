@@ -5,6 +5,7 @@ using PoolTypes;
 //using Sirenix.OdinInspector;
 using EnemyStateEnum;
 using System;
+using UnityEngine.AI;
 
 public class SpawnerController : MonoBehaviour
 {
@@ -25,8 +26,22 @@ public class SpawnerController : MonoBehaviour
     [Space]
     //[TableList]
     public List<EnemyArchetypes> Waves = new List<EnemyArchetypes>();
+    [Space]
+    [Header("Spawning Variable")]
+    [Header("Box Size")]
+    public float sizeX;
+    public float sizeZ;
+    [Header("Random time between spawn")]
+    public float errorPercentNegative;
+    public float errorPercentPositive;
+
+    [Header("DEBUG")]
+    public float overlapRadiusOffset;
+    [Space]
+    public LayerMask layer;
 
     ObjectPooler m_objectPooler;
+    Vector3 spawnPosition;
 
     private void Start()
     {
@@ -57,9 +72,21 @@ public class SpawnerController : MonoBehaviour
                 for (int a = 0, f = Waves[wave].m_enemyArchetype.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
                 {
 
-                    yield return new WaitForSeconds(controller.timeBetweenEachSpawn);
+                    yield return new WaitForSeconds(OnCreateTimeBetweenSpawn(controller));
+                    spawnPosition = OnCreateRandomPositionInSquare();
+                    while (true)
+                    {
+                        if (CapsuleCast(0, spawnPosition))
+                        {
+                            spawnPosition = OnCreateRandomPositionInSquare();
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
 
-                    GameObject go = m_objectPooler.SpawnEnemyFromPool(enemy, transform.position, transform.rotation);
+                    GameObject go = m_objectPooler.SpawnEnemyFromPool(enemy, spawnPosition, transform.rotation);
 
                     EnemyCara cara = go.GetComponent<EnemyCara>();
                     cara.EnemyArchetype = Waves[wave].m_enemyArchetype[a];  // Donne à l'enemy spawned l'archetype "a" de la wave en cours
@@ -76,10 +103,55 @@ public class SpawnerController : MonoBehaviour
         }
     }
 
+    float OnCreateTimeBetweenSpawn(WaveController controller)
+    {
+        return UnityEngine.Random.Range(controller.timeBetweenEachSpawn - (controller.timeBetweenEachSpawn * (errorPercentNegative / 100f)), controller.timeBetweenEachSpawn + (controller.timeBetweenEachSpawn * (errorPercentPositive / 100f)));
+    }
+
+    bool CapsuleCast(int i, Vector3 pos)
+    {
+        NavMeshAgent col = m_objectPooler.m_enemyPools[i].m_prefab.GetComponent<NavMeshAgent>();
+
+        Vector3 p1 = new Vector3(pos.x, 0.5f / m_objectPooler.m_enemyPools[i].m_prefab.GetComponent<Transform>().localScale.y, pos.z);
+        Vector3 p2 = p1 + Vector3.up;
+
+        //if (activateVisualDebug)
+        //{
+        //    go0 = Instantiate(sphere, p1, Quaternion.identity, GameManager.s_instance.transform);
+        //    go1 = Instantiate(sphere, p2, Quaternion.identity, GameManager.s_instance.transform);
+
+        //    Destroy(go0, 2f);
+        //    Destroy(go1, 2f);
+        //}
+
+        Collider[] hits = Physics.OverlapCapsule(p1, p2, col.radius + overlapRadiusOffset, layer, QueryTriggerInteraction.Collide);
+        if (hits.Length > 0)
+        {
+            for (int a = 0, l = hits.Length; a < l; a++)
+            {
+                if (hits[a].CompareTag("Enemy"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    Vector3 OnCreateRandomPositionInSquare()
+    {
+        float posX = UnityEngine.Random.Range(transform.position.x - sizeX / 2f, transform.position.x + sizeX / 2f);
+        float posZ = UnityEngine.Random.Range(transform.position.z - sizeZ / 2f, transform.position.z + sizeZ / 2f);
+        return new Vector3(posX, 0f, posZ);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 1f);
+        Gizmos.DrawWireSphere(transform.position, 0.1f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(sizeX, 2f, sizeZ));
     }
 }
 

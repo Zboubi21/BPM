@@ -174,6 +174,14 @@ MonoBehaviour:
   - waveNbr: 2
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+  sizeX: 4
+  sizeZ: 3
+  errorPercentNegative: 10
+  errorPercentPositive: 10
+  overlapRadiusOffset: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &35259500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,6 +1497,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1518701593319261286, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4187508792682329747, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -2762,6 +2775,14 @@ MonoBehaviour:
   - waveNbr: 2
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+  sizeX: 4
+  sizeZ: 3
+  errorPercentNegative: 10
+  errorPercentPositive: 10
+  overlapRadiusOffset: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 3072
 --- !u!1 &1025980781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3603,8 +3624,13 @@ MonoBehaviour:
     BPMGain_OnWeak: 20
     BPM_Gauge: {fileID: 1884199753}
     m_playerBpmGui: {fileID: 0}
-    m_bpmGaugeShader: {fileID: 0}
-    m_gaugeSpeed: 1
+    m_bpmGauge:
+      m_gaugeShader: {fileID: 0}
+      m_gaugeSpeed: 1
+      m_minMoveDeltaValue: 0.025
+      m_maxMoveDeltaValue: 0.1
+      m_minMoveDeltaSpeed: 0.1
+      m_maxMoveDeltaSpeed: 0.25
   _weaponsLevel:
     firstWeaponLevel: 75
     secondWeaponLevel: 225
@@ -3614,6 +3640,9 @@ MonoBehaviour:
     _overadrenalineCoolDownGauge: {fileID: 2117101398}
     _overdrenalineFeedBack: {fileID: 1170082188}
     _overdrenalineButton: {fileID: 35259501}
+  m_damageIndicator:
+    m_target: {fileID: 0}
+    m_canvasTrans: {fileID: 0}
 --- !u!114 &1308428466
 MonoBehaviour:
   m_ObjectHideFlags: 0
