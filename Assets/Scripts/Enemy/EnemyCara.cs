@@ -51,7 +51,7 @@ public class EnemyCara : SerializedMonoBehaviour
         }
     }
     EnemyController controller;
-    float _currentLife;
+    protected float _currentLife;
     int _currentDamage;
     bool _isDead;
     float _currentTimeForElectricalStun;
@@ -89,7 +89,7 @@ public class EnemyCara : SerializedMonoBehaviour
         }
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (enemyArchetype != null)
         {
@@ -145,7 +145,7 @@ public class EnemyCara : SerializedMonoBehaviour
 
     }
 
-    public void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
+    public virtual void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
     {
         switch (i)
         {
@@ -190,7 +190,7 @@ public class EnemyCara : SerializedMonoBehaviour
         }
     }
 
-    void CheckIfDead()
+    protected virtual void CheckIfDead()
     {
         if(controller != null) // pour les dummy
         {

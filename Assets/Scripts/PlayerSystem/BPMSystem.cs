@@ -24,9 +24,19 @@ public class BPMSystem : MonoBehaviour
         public PlayerBpmGui m_playerBpmGui;
         //public Image Electra_Gauge;
 
-        [Header("BPM Gauge")]
-        public MeshRenderer m_bpmGaugeShader;
-        public float m_gaugeSpeed = 1;
+        public Gauge m_bpmGauge;
+        [Serializable] public class Gauge
+        {
+            public MeshRenderer m_gaugeShader;
+
+            [Header("General Speed")]
+            public float m_gaugeSpeed = 1;
+
+            [Header("Oscillation Values")]
+            public float m_minMoveDeltaValue = 0.025f;
+            public float m_maxMoveDeltaValue = 0.1f;
+            public float m_minMoveDeltaSpeed = 0.1f, m_maxMoveDeltaSpeed = 0.25f;
+        }
     }
     float m_targetedGaugeValue;
     float m_currentBpmGaugeValue;
@@ -66,6 +76,14 @@ public class BPMSystem : MonoBehaviour
         public Image _overdrenalineButton;
 
     }
+
+    [SerializeField] DamageIndicator m_damageIndicator;
+    [Serializable] class DamageIndicator
+    {
+        public Transform m_target;
+        public RectTransform m_canvasTrans;
+    }
+    
     float _currentOverdrenalineCooldown;
     bool _canUseFury;
     bool _furyCoolDownOver;
@@ -74,6 +92,7 @@ public class BPMSystem : MonoBehaviour
     PlayerController m_playerController;
     WeaponBehaviour weapon;
     PlayerAudioController audioControl;
+
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
@@ -106,6 +125,10 @@ public class BPMSystem : MonoBehaviour
     void FixedUpdate()
     {
         SetBpmGaugeShader();
+    }
+    void LateUpdate()
+    {
+        TestRotation();
     }
 
     #region BPM Gain and Loss
@@ -185,9 +208,20 @@ public class BPMSystem : MonoBehaviour
 
     void SetBpmGaugeShader()
     {
-        m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue, Time.deltaTime * _BPM.m_gaugeSpeed);
-        _BPM.m_bpmGaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
-        _BPM.m_bpmGaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
+        // float delta = Mathf.PingPong(Time.time * _BPM.m_moveDeltaSpeed, _BPM.m_moveDeltaValue);
+        float deltaBPM = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
+        // Debug.Log("deltaBPM = " + deltaBPM);
+
+        float deltaValue = Mathf.Lerp(_BPM.m_bpmGauge.m_minMoveDeltaValue, _BPM.m_bpmGauge.m_maxMoveDeltaValue, deltaBPM);
+        // Debug.Log("deltaValue = " + deltaValue);
+
+        float deltaSpeed = Mathf.Lerp(_BPM.m_bpmGauge.m_minMoveDeltaSpeed, _BPM.m_bpmGauge.m_maxMoveDeltaSpeed, deltaBPM);
+
+        float delta = Mathf.PingPong(Time.time * deltaSpeed, deltaValue);
+
+        m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue + delta, Time.deltaTime * _BPM.m_bpmGauge.m_gaugeSpeed);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
     }
 
     #endregion
@@ -353,6 +387,20 @@ public class BPMSystem : MonoBehaviour
     bool HasUsedFury()
     {
         return (_canUseFury && Input.GetButtonDown("OverAdrenaline") && _furyCoolDownOver);
+    }
+
+    void TestRotation()
+    {
+        if (m_damageIndicator.m_target == null)
+            return;
+        
+        Vector3 direction = m_playerController.m_references.m_cameraPivot.position - m_damageIndicator.m_target.position;
+        Quaternion tRot = Quaternion.LookRotation(direction);
+        tRot.z = -tRot.y;
+        tRot.x = 0;
+        tRot.y = 0;
+        Vector3 nortDirection = new Vector3(0, 0, m_playerController.m_references.m_cameraPivot.eulerAngles.y);
+        m_damageIndicator.m_canvasTrans.localRotation = tRot * Quaternion.Euler(nortDirection);
     }
     #endregion
 }

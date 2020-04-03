@@ -75,6 +75,7 @@ public class EnemyArchetype : SerializedScriptableObject
     public float _chanceToGoInAgressive = 10f;
 
     [TabGroup("Enemy Behavior Chance")]
+    [Tooltip("Distance en pourcentage que l'ennemi parcourt par rapport à sa current position et sa range d'attaque")]
     [ShowIf("@_chanceToGoInAgressive > 0")]
     [Range(0f,1f)]
     public float _rateOfAgressivity;
@@ -86,6 +87,7 @@ public class EnemyArchetype : SerializedScriptableObject
     public float _chanceToGoInDefensive = 10f;
 
     [TabGroup("Enemy Behavior Chance")]
+    [Tooltip("Distance en pourcentage que l'ennemi parcourt par rapport à sa current position et sa range d'attaque")]
     [ShowIf("@_chanceToGoInDefensive > 0")]
     [Range(0f,1f)]
     public float _rateOfDefensivity;

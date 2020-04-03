@@ -37,17 +37,21 @@ public class ChangeScaleValues : ChangeValues
     {
         base.SwitchValue(newValue);
         m_passNbr = 0;
+        // Debug.Log("m_passNbr = " + m_passNbr);
         m_valueIsChanging = true;
         if (m_needToFadeIn)
             CheckToStartChangeScaleCoroutine(m_maxSizeAnim, m_speedToFadeIn, m_distanceToMaxSize);
         else
             CheckToStartChangeScaleCoroutine(m_minSizeAnim, m_speedToFadeOff, m_distanceToMinSize);
     }
-
     void CheckToStartChangeScaleCoroutine(Vector3 newScale, float speed, float distance)
     {
-        if (m_currentChangementValues != null)
-            StopCoroutine(m_currentChangementValues);
+        // if (m_currentChangementValues != null)
+        // {
+        //     Debug.Log("StopCoroutine");
+        //     StopCoroutine(m_currentChangementValues);
+        // }
+        StopAllCoroutines(); // J'arrivais pas à trouver pourquoi ça marche avec ça et pas avec les lignes du dessus...
 
         m_currentChangementValues = ChangeScale(newScale, speed, distance);
         StartCoroutine(m_currentChangementValues);
@@ -55,7 +59,9 @@ public class ChangeScaleValues : ChangeValues
 
     IEnumerator ChangeScale(Vector3 newScale, float speed, float distance)
     {
+
         m_passNbr ++;
+        // Debug.Log("m_passNbr = " + m_passNbr);
 
         Vector3 fromValue = m_rectTrans.localScale;
         Vector3 toValue = newScale;
@@ -63,10 +69,13 @@ public class ChangeScaleValues : ChangeValues
         Vector3 actualValue = fromValue;
         float fracJourney = 0;
 
-        while (fracJourney < 1)
+        // while (fracJourney < 1)
+        while (actualValue != toValue)
         {
-            fracJourney += (Time.deltaTime) * speed / distance;
+            // fracJourney += (Time.deltaTime) * speed / distance;
+            fracJourney += (Time.deltaTime) * speed / GetDistanceFromVectors(fromValue, toValue);
             actualValue = Vector3.Lerp(fromValue, toValue, m_curveAnim.Evaluate(fracJourney));
+            // Debug.Log("fracJourney = " + fracJourney);
             SetRectTransScale(actualValue);
             yield return null;
         }
@@ -74,7 +83,10 @@ public class ChangeScaleValues : ChangeValues
         if (m_passNbr == 1)
             StartCoroutine(ChangeScale(m_startScale, speed, distance));
         if (m_passNbr == 2)
+        {
             m_valueIsChanging = false;
+            // m_passNbr = 0;
+        }
     }
 
     void SetRectTransScale(Vector3 newScale)
