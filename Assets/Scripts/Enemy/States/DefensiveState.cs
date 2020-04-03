@@ -22,7 +22,7 @@ public class DefensiveState : IState
 
         m_enemyController.CurrentTarget = m_enemyController.MoveBackward(m_enemyController.Player);
 #if UNITY_EDITOR
-        go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
+        go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.CurrentTarget);
 #endif
     }
 

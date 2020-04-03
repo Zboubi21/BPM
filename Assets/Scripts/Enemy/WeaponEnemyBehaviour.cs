@@ -158,7 +158,17 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     #region FeedBack Projectile Methods
     public override GameObject InstatiateProj()
     {
-        _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
+           _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
+        /*Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
+
+        Quaternion rotation = Quaternion.LookRotation(Vector3.Slerp(enemyController.transform.forward, 
+            enemyController.Player.position - enemyController.transform.position, 
+            (1 / enemyController.Cara._enemyCaractéristique._move.timeOfLateLookAt) * Time.deltaTime));
+
+        _SMG.firePoint.transform.eulerAngles = new Vector3(_SMG.firePoint.transform.eulerAngles.x + enemyController.Player.position.x + dispersion.x, 
+            rotation.eulerAngles.y + (enemyController.Player.position.y + YOffset) + dispersion.y, 
+            _SMG.firePoint.transform.eulerAngles.z + enemyController.Player.position.z);*/
+
         GameObject go = enemyController.ObjectPooler.SpawnProjectileFromPool(ProjectileType.EnemyProjectile, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation);
         InitiateProjVar(go.GetComponent<Projectile>());
         return go;
@@ -178,7 +188,9 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public override Vector3 OnSearchForLookAt()
     {
         Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
-        return new Vector3(enemyController.Player.position.x + dispersion.x, (enemyController.Player.position.y + YOffset) + dispersion.y, enemyController.Player.position.z ) ;
+        return new Vector3(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].x + dispersion.x, 
+                            (enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].y) + dispersion.y,
+                                enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].z );
     }
 
     #endregion

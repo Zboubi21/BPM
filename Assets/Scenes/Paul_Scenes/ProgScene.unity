@@ -174,6 +174,14 @@ MonoBehaviour:
   - waveNbr: 2
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+  sizeX: 4
+  sizeZ: 3
+  errorPercentNegative: 10
+  errorPercentPositive: 10
+  overlapRadiusOffset: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &35259500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,11 +1502,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3833438521590562171, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: _attack.rangeOfAttackNoMatterWhat
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4187508792682329747, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -2176,8 +2179,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: {fileID: 0}
   to: {fileID: 0}
-  time: 60
-  target: {fileID: 1599274998}
+  time: 1
+  target: {fileID: 1010905932}
+  levelOfInBetween: 0.0000001
 --- !u!65 &857055063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2244,13 +2248,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857055061}
-  m_LocalRotation: {x: -0, y: 0.47094417, z: -0, w: 0.88216305}
-  m_LocalPosition: {x: 5.12, y: 0.5, z: -9.82}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 0.5, z: 24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 25
-  m_LocalEulerAnglesHint: {x: 0, y: 56.191, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &881591756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2708,7 +2712,9 @@ PrefabInstance:
       propertyPath: cara
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8587504611661176213, guid: 00c35a6d69442a34997ad9abb61305c9, type: 3}
+    - {fileID: 3006670858843352175, guid: 00c35a6d69442a34997ad9abb61305c9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 00c35a6d69442a34997ad9abb61305c9, type: 3}
 --- !u!4 &1010905932 stripped
 Transform:
@@ -2769,6 +2775,14 @@ MonoBehaviour:
   - waveNbr: 2
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+  sizeX: 4
+  sizeZ: 3
+  errorPercentNegative: 10
+  errorPercentPositive: 10
+  overlapRadiusOffset: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 3072
 --- !u!1 &1025980781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,7 +3282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129133559}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 1.13, z: 15.27}
+  m_LocalPosition: {x: 6, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3610,8 +3624,13 @@ MonoBehaviour:
     BPMGain_OnWeak: 20
     BPM_Gauge: {fileID: 1884199753}
     m_playerBpmGui: {fileID: 0}
-    m_bpmGaugeShader: {fileID: 0}
-    m_gaugeSpeed: 1
+    m_bpmGauge:
+      m_gaugeShader: {fileID: 0}
+      m_gaugeSpeed: 1
+      m_minMoveDeltaValue: 0.025
+      m_maxMoveDeltaValue: 0.1
+      m_minMoveDeltaSpeed: 0.1
+      m_maxMoveDeltaSpeed: 0.25
   _weaponsLevel:
     firstWeaponLevel: 75
     secondWeaponLevel: 225
@@ -3621,6 +3640,9 @@ MonoBehaviour:
     _overadrenalineCoolDownGauge: {fileID: 2117101398}
     _overdrenalineFeedBack: {fileID: 1170082188}
     _overdrenalineButton: {fileID: 35259501}
+  m_damageIndicator:
+    m_target: {fileID: 0}
+    m_canvasTrans: {fileID: 0}
 --- !u!114 &1308428466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6918,6 +6940,7 @@ MonoBehaviour:
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
+      timeOfLateLookAt: 0
     _health:
       maxHealth: 5205120
       damageMultiplicatorOnWeakSpot: 1

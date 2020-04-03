@@ -61,6 +61,7 @@ public class EnemyController : MonoBehaviour
     Transform target;
     Vector3 currentTarget;
     ObjectPooler objectPooler;
+    PlayerController playerController;
 
     float distanceToTarget;
     float distanceToPlayer;
@@ -79,6 +80,7 @@ public class EnemyController : MonoBehaviour
     public bool IsInMotion { get => isInMotion; set => isInMotion = value; }
     public EnemyAudioController AudioControl { get => audioControl; set => audioControl = value; }
     public float DistanceToPlayer { get => distanceToPlayer; set => distanceToPlayer = value; }
+    public PlayerController PlayerController { get => playerController; set => playerController = value; }
     #endregion
 
 
@@ -91,6 +93,7 @@ public class EnemyController : MonoBehaviour
         audioControl = GetComponent<EnemyAudioController>();
         manager = GameManager.Instance;
         objectPooler = ObjectPooler.Instance;
+        playerController = PlayerController.s_instance;
     }
 
     void SetupStateMachine()

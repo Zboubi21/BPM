@@ -24,7 +24,7 @@ public class ObjectPooler : MonoBehaviour {
 #endregion Singleton
 
 	[Header("Enemy pools")]
-	[SerializeField] List<EnemyPool> m_enemyPools;
+	public List<EnemyPool> m_enemyPools;
 	[System.Serializable] public class EnemyPool {
         public string m_name;
         public EnemyType m_enemyType;

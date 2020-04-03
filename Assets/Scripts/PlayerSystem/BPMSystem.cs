@@ -32,14 +32,39 @@ public class BPMSystem : MonoBehaviour
             [Header("General Speed")]
             public float m_gaugeSpeed = 1;
 
-            [Header("Oscillation Values")]
-            public float m_minMoveDeltaValue = 0.025f;
-            public float m_maxMoveDeltaValue = 0.1f;
-            public float m_minMoveDeltaSpeed = 0.1f, m_maxMoveDeltaSpeed = 0.25f;
+            public GaugePolish m_gaugePolish;
+            [Serializable] public class GaugePolish
+            {
+                [Header("Moving Delta")]
+                public float m_minMoveDeltaValue = 0.025f;
+                public float m_maxMoveDeltaValue = 0.1f;
+
+                [Header("Moving Speed")]
+                public float m_minMoveDeltaSpeed = 0.1f;
+                public float m_maxMoveDeltaSpeed = 0.25f;
+
+                [Header("Cardio Speed")]
+                public float m_minCardioSpeed = 40;
+                public float m_maxCardioSpeed = 50;
+                public float m_changeCardioSpeed = 10;
+
+                [Header("Pique Length")]
+                public float m_minCardioLength = 0.5f;
+                public float m_maxCardioLength = 2.5f;
+                public float m_changeLengthSpeed = 10;
+
+                [Header("Pique Height")]
+                [Range(0, 1)] public float m_minCardioHeight = 0;
+                [Range(0, 1)] public float m_maxCardioHeight = 1;
+                public float m_changeHeightSpeed = 10;
+            }
         }
     }
     float m_targetedGaugeValue;
     float m_currentBpmGaugeValue;
+    float m_currentCardioSpeed;
+    float m_currentCardioLength;
+    float m_currentCardioHeight;
 
     float _currentBPM;
 
@@ -208,20 +233,26 @@ public class BPMSystem : MonoBehaviour
 
     void SetBpmGaugeShader()
     {
-        // float delta = Mathf.PingPong(Time.time * _BPM.m_moveDeltaSpeed, _BPM.m_moveDeltaValue);
         float deltaBPM = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
-        // Debug.Log("deltaBPM = " + deltaBPM);
 
-        float deltaValue = Mathf.Lerp(_BPM.m_bpmGauge.m_minMoveDeltaValue, _BPM.m_bpmGauge.m_maxMoveDeltaValue, deltaBPM);
-        // Debug.Log("deltaValue = " + deltaValue);
-
-        float deltaSpeed = Mathf.Lerp(_BPM.m_bpmGauge.m_minMoveDeltaSpeed, _BPM.m_bpmGauge.m_maxMoveDeltaSpeed, deltaBPM);
-
+        float deltaValue = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minMoveDeltaValue, _BPM.m_bpmGauge.m_gaugePolish.m_maxMoveDeltaValue, deltaBPM);
+        float deltaSpeed = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minMoveDeltaSpeed, _BPM.m_bpmGauge.m_gaugePolish.m_maxMoveDeltaSpeed, deltaBPM);
         float delta = Mathf.PingPong(Time.time * deltaSpeed, deltaValue);
-
         m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue + delta, Time.deltaTime * _BPM.m_bpmGauge.m_gaugeSpeed);
         _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
         _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
+
+        float cardioSpeedTarget = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minCardioSpeed, _BPM.m_bpmGauge.m_gaugePolish.m_maxCardioSpeed, deltaBPM);
+        m_currentCardioSpeed = Mathf.Lerp(m_currentCardioSpeed, cardioSpeedTarget, Time.deltaTime * _BPM.m_bpmGauge.m_gaugePolish.m_changeCardioSpeed);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Vitesse", m_currentCardioSpeed);
+
+        float cardioLengthTarget = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minCardioLength, _BPM.m_bpmGauge.m_gaugePolish.m_maxCardioLength, deltaBPM);
+        m_currentCardioLength = Mathf.Lerp(m_currentCardioLength, cardioLengthTarget, Time.deltaTime * _BPM.m_bpmGauge.m_gaugePolish.m_changeLengthSpeed);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Pique", m_currentCardioLength);
+
+        float cardioHeightTarget = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minCardioHeight, _BPM.m_bpmGauge.m_gaugePolish.m_maxCardioHeight, deltaBPM);
+        m_currentCardioHeight = Mathf.Lerp(m_currentCardioHeight, cardioHeightTarget, Time.deltaTime * _BPM.m_bpmGauge.m_gaugePolish.m_changeHeightSpeed);
+        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Anim_pic", m_currentCardioHeight);
     }
 
     #endregion
