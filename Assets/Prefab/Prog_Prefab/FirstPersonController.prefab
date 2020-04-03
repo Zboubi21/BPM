@@ -2119,10 +2119,20 @@ MonoBehaviour:
     m_bpmGauge:
       m_gaugeShader: {fileID: 1640088262123835593}
       m_gaugeSpeed: 10
-      m_minMoveDeltaValue: 0.025
-      m_maxMoveDeltaValue: 0.1
-      m_minMoveDeltaSpeed: 0.1
-      m_maxMoveDeltaSpeed: 0.25
+      m_gaugePolish:
+        m_minMoveDeltaValue: 0.025
+        m_maxMoveDeltaValue: 0.1
+        m_minMoveDeltaSpeed: 0.1
+        m_maxMoveDeltaSpeed: 0.25
+        m_minCardioSpeed: 30
+        m_maxCardioSpeed: 40
+        m_changeCardioSpeed: 10
+        m_minCardioLength: 0.5
+        m_maxCardioLength: 2.5
+        m_changeLengthSpeed: 10
+        m_minCardioHeight: 0
+        m_maxCardioHeight: 1
+        m_changeHeightSpeed: 10
   _weaponsLevel:
     firstWeaponLevel: 200
     secondWeaponLevel: 400
@@ -2232,6 +2242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_sM:
     m_currentStateString: 
+  maxRecordPositionTime: 5
   m_references:
     m_cameraPivot: {fileID: 8087587520425720305}
     m_playerAudio: {fileID: 4882480380523661751}
