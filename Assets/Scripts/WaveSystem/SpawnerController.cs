@@ -38,7 +38,7 @@ public class SpawnerController : MonoBehaviour
     [Header("DEBUG")]
     public float overlapRadiusOffset;
     [Space]
-    public LayerMask layer;
+    LayerMask layer;
 
     ObjectPooler m_objectPooler;
     Vector3 spawnPosition;
@@ -124,7 +124,7 @@ public class SpawnerController : MonoBehaviour
         //    Destroy(go1, 2f);
         //}
 
-        Collider[] hits = Physics.OverlapCapsule(p1, p2, col.radius + overlapRadiusOffset, layer, QueryTriggerInteraction.Collide);
+        Collider[] hits = Physics.OverlapCapsule(p1, p2, col.radius + overlapRadiusOffset, 11, QueryTriggerInteraction.Collide);
         if (hits.Length > 0)
         {
             for (int a = 0, l = hits.Length; a < l; a++)

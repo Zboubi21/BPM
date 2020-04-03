@@ -80,10 +80,19 @@ public class EnemyArchetype : SerializedScriptableObject
     [Range(0f,1f)]
     public float _rateOfAgressivity;
 
+
     [Title("Defensive Behavior State", titleAlignment: TitleAlignments.Centered, horizontalLine: false, bold: false)]
     [TabGroup("Enemy Behavior Chance")]
+    public bool useDependencyForDefensive;
+    //[TabGroup("Enemy Behavior Chance")]
+    [ShowIf("@useDependencyForDefensive")]
     [Range(0, 100)]
-    //[ProgressBar(0, 100, r: 0.51f, g: 0.153f, b: 1f, Height = 20, R = 0.051f, G = 0.153f, B = 1f)]
+    [TabGroup("Enemy Behavior Chance")]
+    [Tooltip("La vie en pourcentage nécessaire avant de pouvoir être capable de passé en Defensive State")]
+    public float percentLifeBeforeDefensive;
+    [Space]
+    [TabGroup("Enemy Behavior Chance")]
+    [Range(0, 100)]
     public float _chanceToGoInDefensive = 10f;
 
     [TabGroup("Enemy Behavior Chance")]
@@ -93,13 +102,47 @@ public class EnemyArchetype : SerializedScriptableObject
     public float _rateOfDefensivity;
 
 
-    [Serializable]
-    public class MyTabObject
-    {
-        public int A;
-        public int B;
-        public int C;
-    }
+
+
+
+    //[TabGroup("Tabs/Split/Parameters", "A")]
+    //public string NameA, NameB, NameC;
+
+    //[TabGroup("Tabs/Split/Parameters", "B")]
+    //public int ValueA, ValueB, ValueC;
+    //[TabGroup("Tabs/Split/Buttons", "Responsive")]
+    //[ResponsiveButtonGroup("Tabs/Split/Buttons/Responsive/ResponsiveButtons")]
+    //public void Hello() { }
+
+    //[ResponsiveButtonGroup("Tabs/Split/Buttons/Responsive/ResponsiveButtons")]
+    //public void World() { }
+
+    //[ResponsiveButtonGroup("Tabs/Split/Buttons/Responsive/ResponsiveButtons")]
+    //public void And() { }
+
+    //[ResponsiveButtonGroup("Tabs/Split/Buttons/Responsive/ResponsiveButtons")]
+    //public void Such() { }
+
+    //[TitleGroup("Tabs")]
+    //[Button]
+    //[TabGroup("Tabs")]
+    //[TabGroup("Tabs/SubTabGroup", "A")]
+    //public void SubButtonA() { }
+
+    //[Button]
+    //[TabGroup("Tabs/SubTabGroup", "A")]
+    //public void SubButtonB() { }
+
+    //[Button(ButtonSizes.Gigantic)]
+    //[TabGroup("Tabs/SubTabGroup", "B")]
+    //public void SubButtonC() { }
+    //[Serializable]
+    //public class MyTabObject
+    //{
+    //    public int A;
+    //    public int B;
+    //    public int C;
+    //}
 
     //[MinMaxSlider(-10, 10)]
     //public Vector2 MinMaxValueSlider = new Vector2(-7, -2);

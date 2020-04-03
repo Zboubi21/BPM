@@ -168,6 +168,11 @@ MonoBehaviour:
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
   - waveNbr: 1
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
@@ -179,9 +184,6 @@ MonoBehaviour:
   errorPercentNegative: 10
   errorPercentPositive: 10
   overlapRadiusOffset: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &35259500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,11 +1499,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 1518701593319261286, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4187508792682329747, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -2766,7 +2763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Waves:
-  - waveNbr: 0
+  - waveNbr: 5
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
   - waveNbr: 1
@@ -2780,9 +2777,6 @@ MonoBehaviour:
   errorPercentNegative: 10
   errorPercentPositive: 10
   overlapRadiusOffset: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 3072
 --- !u!1 &1025980781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3627,10 +3621,20 @@ MonoBehaviour:
     m_bpmGauge:
       m_gaugeShader: {fileID: 0}
       m_gaugeSpeed: 1
-      m_minMoveDeltaValue: 0.025
-      m_maxMoveDeltaValue: 0.1
-      m_minMoveDeltaSpeed: 0.1
-      m_maxMoveDeltaSpeed: 0.25
+      m_gaugePolish:
+        m_minMoveDeltaValue: 0.025
+        m_maxMoveDeltaValue: 0.1
+        m_minMoveDeltaSpeed: 0.1
+        m_maxMoveDeltaSpeed: 0.25
+        m_minCardioSpeed: 40
+        m_maxCardioSpeed: 50
+        m_changeCardioSpeed: 10
+        m_minCardioLength: 0.5
+        m_maxCardioLength: 2.5
+        m_changeLengthSpeed: 10
+        m_minCardioHeight: 0
+        m_maxCardioHeight: 1
+        m_changeHeightSpeed: 10
   _weaponsLevel:
     firstWeaponLevel: 75
     secondWeaponLevel: 225
@@ -6947,8 +6951,8 @@ MonoBehaviour:
       damageMultiplicatorOnNoSpot: 1
     _stunResistance:
       timeOfStun: 0
-      timeForStunResistance: 0
-      timeForElectricalStunResistance: 0
+      allPercentLifeBeforeGettingStuned: []
+      timeOfElectricalStunResistance: 0
 --- !u!1 &1926500146
 GameObject:
   m_ObjectHideFlags: 0

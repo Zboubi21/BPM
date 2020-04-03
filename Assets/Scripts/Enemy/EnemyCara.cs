@@ -48,8 +48,9 @@ public class EnemyCara : SerializedMonoBehaviour
         public class StunResistance
         {
             public float timeOfStun;
-            public float timeForStunResistance;
-            public float timeForElectricalStunResistance;
+            [Range(0,100)]
+            public float[] allPercentLifeBeforeGettingStuned;
+            public float timeOfElectricalStunResistance;
         }
     }
     EnemyController controller;
@@ -62,6 +63,8 @@ public class EnemyCara : SerializedMonoBehaviour
     float _currentTimeForStun;
     float _currentTimeForStunResistance;
     int _currentIndexInLateLookAt;
+
+    bool[] hasBeenStuned;
 
     #region Get Set
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
@@ -92,6 +95,15 @@ public class EnemyCara : SerializedMonoBehaviour
         {
             controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
             _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+        }
+        if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
+        {
+            hasBeenStuned = new bool[_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length];
+
+            for (int i = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; i < l; ++i)
+            {
+                hasBeenStuned[i] = false;
+            }
         }
     }
 
@@ -175,11 +187,18 @@ public class EnemyCara : SerializedMonoBehaviour
             {
                 if (!hasToBeElectricalStun)
                 {
-                    if (_currentTimeForStunResistance == 0f)
+                    if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
                     {
-                        _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
-                        _currentTimeForStunResistance = _enemyCaractéristique._stunResistance.timeForStunResistance;
-                        controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                        for (int a = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; a < l; ++a)
+                        {
+                            if (_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned[a] > Mathf.InverseLerp(0, _enemyCaractéristique._health.maxHealth, CurrentLife)*100f && !hasBeenStuned[a])
+                            {
+                                _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
+                                hasBeenStuned[a] = true;
+                                controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                                break;
+                            }
+                        }
                     }
                 }
                 else
@@ -187,7 +206,7 @@ public class EnemyCara : SerializedMonoBehaviour
                     if (_currentTimeForElectricalStunResistance == 0f)
                     {
                         _currentTimeForElectricalStun = timeForElectricalStun;
-                        _currentTimeForElectricalStunResistance = _enemyCaractéristique._stunResistance.timeForElectricalStunResistance;
+                        _currentTimeForElectricalStunResistance = _enemyCaractéristique._stunResistance.timeOfElectricalStunResistance;
                         controller.m_sM.ChangeState((int)EnemyState.Enemy_ElectricalStunState);
                     }
                 }

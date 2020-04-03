@@ -93,7 +93,16 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                 countAttacks = 0;
                 if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
                 {
-                    float[] chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForHotSpot, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
+                    float[] chances;
+                    if (!enemyController.Cara.EnemyArchetype.useDependencyForDefensive || Mathf.InverseLerp(0, enemyController.Cara._enemyCaractéristique._health.maxHealth, enemyController.Cara.CurrentLife) <= (enemyController.Cara.EnemyArchetype.percentLifeBeforeDefensive/100f))
+                    {
+                        chances = new float[3] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForHotSpot, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive, enemyController.Cara.EnemyArchetype._chanceToGoInDefensive };
+                    }
+                    else
+                    {
+                        chances = new float[2] { enemyController.Cara.EnemyArchetype._chanceToGoInLookForHotSpot, enemyController.Cara.EnemyArchetype._chanceToGoInAgressive};
+
+                    }
 
                     int chossenState = enemyController.Choose(chances);
 
@@ -158,7 +167,14 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     #region FeedBack Projectile Methods
     public override GameObject InstatiateProj()
     {
+        if(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt] != null)
+        {
            _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
+        }
+        else
+        {
+            Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+        }
         /*Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.Slerp(enemyController.transform.forward, 

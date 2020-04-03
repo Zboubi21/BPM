@@ -61,7 +61,14 @@ public class AttackState : IState
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
         }*/
-        m_enemyController.transform.LookAt(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt]);
+        if(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt] != null)
+        {
+            m_enemyController.transform.LookAt(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt]);
+        }
+        else
+        {
+            Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+        }
         //LateLookAt();
 
     }

@@ -141,12 +141,12 @@ public class EnemyController : MonoBehaviour
             _debug.m_lifeText.text = string.Format("{0}", cara.CurrentLife);
             if (!m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
             {
-                _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeForStunResistance, 0, Cara.CurrentTimeForStunResistance);
+                //_debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.percentLifeBeforeGettingStuned, 0, Cara.CurrentTimeForStunResistance);
                 _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForStun);
             }
             else if(!m_sM.CompareState((int)EnemyState.Enemy_StunState))
             {
-                _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeForElectricalStunResistance, 0, Cara.CurrentTimeForElectricalStun);
+                _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeOfElectricalStunResistance, 0, Cara.CurrentTimeForElectricalStun);
                 _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForElectricalStun);
             }
         }
