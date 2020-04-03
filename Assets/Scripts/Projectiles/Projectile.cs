@@ -62,6 +62,8 @@ public class Projectile : MonoBehaviour
     bool _hasToStun;
     float _timeForElectricalStun;
 
+    Transform m_shooter;
+
 
     #region Get Set
     public WeaponBehaviour WeaponBehaviour { get => _WeaponBehaviour; set => _WeaponBehaviour = value; }
@@ -84,6 +86,7 @@ public class Projectile : MonoBehaviour
     public bool HasToStun { get => _hasToStun; set => _hasToStun = value; }
     public float TimeForElectricalStun { get => _timeForElectricalStun; set => _timeForElectricalStun = value; }
     public PoolTypes.ProjectileType ProjectileType2 { get => projectileType; set => projectileType = value; }
+    public Transform Shooter { get => m_shooter; set => m_shooter = value; }
     #endregion
 
     public void Awake()
@@ -349,7 +352,7 @@ public class Projectile : MonoBehaviour
                 BPMSystem _BPMSystem = collider.GetComponent<BPMSystem>();
                 if(_BPMSystem != null)
                 {
-                    _BPMSystem.LoseBPM(CurrentDamage);
+                    _BPMSystem.LoseBPM(CurrentDamage, Shooter);
                 }
             }
         }

@@ -199,6 +199,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         proj.ProjectileType2 = ProjectileType.EnemyProjectile;
         proj.Speed = _attack.bulletSpeed;
         proj.CurrentDamage = _attack.damage;
+        proj.Shooter = transform;
     }
 
     public override Vector3 OnSearchForLookAt()

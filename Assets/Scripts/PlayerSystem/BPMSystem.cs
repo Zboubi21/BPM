@@ -102,11 +102,18 @@ public class BPMSystem : MonoBehaviour
 
     }
 
-    [SerializeField] DamageIndicator m_damageIndicator;
-    [Serializable] class DamageIndicator
+    // [SerializeField] DamageIndicator m_damageIndicator;
+    // [Serializable] class DamageIndicator
+    // {
+    //     public Transform m_target;
+    //     public RectTransform m_canvasTrans;
+    // }
+    [Space]
+    [SerializeField] DamageIndicatorParameters m_damageIndicator;
+    [Serializable] public class DamageIndicatorParameters
     {
-        public Transform m_target;
-        public RectTransform m_canvasTrans;
+        public GameObject m_indicator;
+        public Transform m_indicatorRoot;
     }
     
     float _currentOverdrenalineCooldown;
@@ -157,8 +164,11 @@ public class BPMSystem : MonoBehaviour
     }
 
     #region BPM Gain and Loss
-    public void LoseBPM(float BPMLoss)
+    public void LoseBPM(float BPMLoss, Transform shooter = null)
     {
+        if (shooter != null)
+            AddDamageIndicator(shooter);
+
         if (_isCurrentlyOnFury)
             return;
 
@@ -422,16 +432,22 @@ public class BPMSystem : MonoBehaviour
 
     void TestRotation()
     {
-        if (m_damageIndicator.m_target == null)
-            return;
+        // if (m_damageIndicator.m_target == null)
+        //     return;
         
-        Vector3 direction = m_playerController.m_references.m_cameraPivot.position - m_damageIndicator.m_target.position;
-        Quaternion tRot = Quaternion.LookRotation(direction);
-        tRot.z = -tRot.y;
-        tRot.x = 0;
-        tRot.y = 0;
-        Vector3 nortDirection = new Vector3(0, 0, m_playerController.m_references.m_cameraPivot.eulerAngles.y);
-        m_damageIndicator.m_canvasTrans.localRotation = tRot * Quaternion.Euler(nortDirection);
+        // Vector3 direction = m_playerController.m_references.m_cameraPivot.position - m_damageIndicator.m_target.position;
+        // Quaternion tRot = Quaternion.LookRotation(direction);
+        // tRot.z = -tRot.y;
+        // tRot.x = 0;
+        // tRot.y = 0;
+        // Vector3 nortDirection = new Vector3(0, 0, m_playerController.m_references.m_cameraPivot.eulerAngles.y);
+        // m_damageIndicator.m_canvasTrans.localRotation = tRot * Quaternion.Euler(nortDirection);
+    }
+
+    void AddDamageIndicator(Transform shooter)
+    {
+        DamageIndicator di = Instantiate(m_damageIndicator.m_indicator, m_damageIndicator.m_indicatorRoot.position, Quaternion.identity).GetComponent<DamageIndicator>();
+        di.SetupIndicator(m_playerController.m_references.m_cameraPivot, shooter);
     }
     #endregion
 }
