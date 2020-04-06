@@ -111,7 +111,6 @@ public class BPMSystem : MonoBehaviour
     [SerializeField] DamageIndicatorParameters m_damageIndicator;
     [Serializable] public class DamageIndicatorParameters
     {
-        public GameObject m_indicator;
         public Transform m_indicatorRoot;
     }
     

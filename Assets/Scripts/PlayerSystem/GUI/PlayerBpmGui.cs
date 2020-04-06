@@ -14,7 +14,7 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] ChangeScaleValues m_textAnim;
 
     [Header("BPM Get/Lost")]
-    public GameObject m_spawnTest;
+    // public GameObject m_spawnTest;
     [SerializeField] Transform m_spawnPos;
     [SerializeField] Color m_getBpmColor = Color.green;
     [SerializeField] Color m_lostBpmColor = Color.red;
@@ -29,7 +29,6 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] Color m_criticalBpmValueColor = Color.red;
 
     ObjectPooler m_objectPooler;
-    ObjectType m_bpmToSpawn = ObjectType.BpmGuiValues;
     int m_lastWeaponLvl;
 
     void Start()
@@ -46,8 +45,8 @@ public class PlayerBpmGui : MonoBehaviour
         if (bpmValue == 0)
             return;
         
-        // GameObject spawnedBpm = m_objectPooler.SpawnObjectFromPool(m_bpmToSpawn, m_spawnPos.position, m_spawnPos.rotation);
-        GameObject spawnedBpm = GameObject.Instantiate(m_spawnTest, m_spawnPos.position, m_spawnPos.rotation, m_spawnPos);
+        // GameObject spawnedBpm = GameObject.Instantiate(m_spawnTest, m_spawnPos.position, m_spawnPos.rotation, m_spawnPos);
+        GameObject spawnedBpm = m_objectPooler.SpawnObjectFromPool(ObjectType.BpmGuiValues, m_spawnPos.position, m_spawnPos.rotation, m_spawnPos);
 
         Color guiColor = Color.white;
 
