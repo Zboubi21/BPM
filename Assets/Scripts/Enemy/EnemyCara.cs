@@ -82,7 +82,7 @@ public class EnemyCara : SerializedMonoBehaviour
     public void OnEnable()
     {
         _isDead = false;
-
+        playerController = PlayerController.s_instance;
         InitializeEnemyStats();
     }
 
@@ -94,7 +94,17 @@ public class EnemyCara : SerializedMonoBehaviour
         if (controller != null)
         {
             controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
-            _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+            if(playerController != null)
+            {
+                if(playerController.maxRecordPositionTime > 0)
+                {
+                    _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+                }
+                else
+                {
+                    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+                }
+            }
         }
         if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
         {

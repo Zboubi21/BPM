@@ -81,6 +81,7 @@ public class PlayerAudioController : AudioController
             public Pitch Pitch;
             public Volume Volume;
         }
+        
     }
 
     #region Serializable class
