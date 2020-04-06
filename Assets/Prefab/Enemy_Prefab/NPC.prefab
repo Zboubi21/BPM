@@ -1491,11 +1491,11 @@ GameObject:
   - component: {fileID: 5378848665415633138}
   m_Layer: 10
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1518701593319102534
 Transform:
   m_ObjectHideFlags: 0
@@ -1618,6 +1618,7 @@ MonoBehaviour:
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 8
+      timeOfLateLookAt: 0.5
     _health:
       maxHealth: 100
       damageMultiplicatorOnWeakSpot: 2
