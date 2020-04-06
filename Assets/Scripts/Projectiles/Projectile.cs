@@ -437,7 +437,10 @@ public class Projectile : MonoBehaviour
 
     void DestroyProj()
     {
-        //StartSoundFromArray(hitSource, allDifferentHitSound[].allDifferentClip)
+        if((int)ProjectileType2 < (int)PoolTypes.ProjectileType.EnemyProjectile && allDifferentHitSound.Length > 0 && allDifferentHitSound[(int)ProjectileType2].allDifferentClip.Length > 0)
+        {
+            StartSoundFromArray(hitSource, allDifferentHitSound[(int)ProjectileType2].allDifferentClip, allDifferentHitSound[(int)ProjectileType2].Volume.volume, allDifferentHitSound[(int)ProjectileType2].Volume.volumeRandomizer, allDifferentHitSound[(int)ProjectileType2].Pitch.pitch, allDifferentHitSound[(int)ProjectileType2].Pitch.pitchRandomizer);
+        }
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
     }
 
