@@ -25,42 +25,7 @@ public class Projectile : MonoBehaviour
     public FxType muzzleFX;
     public FxType impactFX;
     [Space]
-    [Header("SFX")]
-    public AudioSource hitSource;
-
-    public AllDifferentHitSound[] allDifferentHitSound;
-    [Serializable]
-    public class AllDifferentHitSound
-    {
-        public AudioClip[] allDifferentClip;
-        public Pitch Pitch;
-        public Volume Volume;
-    }
-
-    #region Serializable class
-    [Serializable]
-    public class Pitch
-    {
-        [Range(0.1f, 1f)]
-        public float pitch;
-        float _currentPitch;
-        [Space]
-        [Range(0, 1)]
-        public float pitchRandomizer;
-        public float CurrentPitch { get => _currentPitch; set => _currentPitch = value; }
-    }
-    [Serializable]
-    public class Volume
-    {
-        [Range(0, 1)]
-        public float volume;
-        float _currentVolume;
-        [Space]
-        [Range(0, 1)]
-        public float volumeRandomizer;
-        public float CurrentVolume { get => _currentVolume; set => _currentVolume = value; }
-    }
-    #endregion
+    
 
     [Space]
     public float m_maxLifeTime = 2;
@@ -437,10 +402,7 @@ public class Projectile : MonoBehaviour
 
     void DestroyProj()
     {
-        if((int)ProjectileType2 < (int)PoolTypes.ProjectileType.EnemyProjectile && allDifferentHitSound.Length > 0 && allDifferentHitSound[(int)ProjectileType2].allDifferentClip.Length > 0)
-        {
-            StartSoundFromArray(hitSource, allDifferentHitSound[(int)ProjectileType2].allDifferentClip, allDifferentHitSound[(int)ProjectileType2].Volume.volume, allDifferentHitSound[(int)ProjectileType2].Volume.volumeRandomizer, allDifferentHitSound[(int)ProjectileType2].Pitch.pitch, allDifferentHitSound[(int)ProjectileType2].Pitch.pitchRandomizer);
-        }
+
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
     }
 
@@ -450,37 +412,5 @@ public class Projectile : MonoBehaviour
             _WeaponPlayerBehaviour.SetPlayerHitmarker(tag);
     }
 
-    void StartSoundFromArray(AudioSource audioSource, AudioClip[] audioClip, float volume, float volumeRandomizer, float pitch, float pitchRandomizer)
-    {
-        if (audioClip.Length == 0)
-        {
-            Debug.LogWarning("No audioClip in the array!");
-            return;
-        }
-
-        AudioClip sound = GetAudioFromArray(audioClip);
-        float volumeValue = GetRandomValue(volume, volumeRandomizer);
-        float pitchValue = GetRandomValue(pitch, pitchRandomizer);
-
-        audioSource.volume = volumeValue;
-        audioSource.pitch = pitchValue;
-
-        audioSource.PlayOneShot(sound);
-    }
-
-    AudioClip GetAudioFromArray(AudioClip[] audios)
-    {
-        if (audios.Length == 0)
-        {
-            Debug.LogWarning("No audioClip in the array!");
-            return null;
-        }
-
-        return audios[UnityEngine.Random.Range(0, audios.Length)];
-    }
-
-    float GetRandomValue(float baseValue, float randomizerRange)
-    {
-        return baseValue - UnityEngine.Random.Range(-randomizerRange, randomizerRange);
-    }
+    
 }

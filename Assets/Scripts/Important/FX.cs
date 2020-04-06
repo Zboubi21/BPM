@@ -53,11 +53,9 @@ public class FX : MonoBehaviour {
         {
             if ((audio != null) && (ps != null))
             {
-
                 if (audio.clip.length >= ps.main.duration)
                 {
                     StartCoroutine(ReturnToPoolAfterATime(audio.clip.length));
-
                 }
                 else if (ps.main.duration >= audio.clip.length)
                 {
