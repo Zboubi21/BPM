@@ -143,7 +143,7 @@ public class SpawnerController : MonoBehaviour
     {
         float posX = UnityEngine.Random.Range(transform.position.x - sizeX / 2f, transform.position.x + sizeX / 2f);
         float posZ = UnityEngine.Random.Range(transform.position.z - sizeZ / 2f, transform.position.z + sizeZ / 2f);
-        return new Vector3(posX, 0f, posZ);
+        return new Vector3(posX, transform.position.y, posZ);
     }
 
     private void OnDrawGizmos()

@@ -251,4 +251,18 @@ public class EnemyCara : SerializedMonoBehaviour
         }
         //_currentDamage = _enemyCaractéristique._attack.damage;
     }
+    private void OnDrawGizmos()
+    {
+        if (controller != null)
+        {
+            if (playerController != null)
+            {
+                if (playerController.maxRecordPositionTime > 0)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(playerController.AllPreviousPos[_currentIndexInLateLookAt], 0.1f);
+                }
+            }
+        }
+    }
 }

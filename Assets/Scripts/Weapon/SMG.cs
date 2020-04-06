@@ -10,7 +10,6 @@ public class SMG
     
     public TypeOfFire typeOfFire;
     public GameObject firePoint;
-    public GameObject fireAudio;
     [Space]
     public AnimationCurve recoilCurve;
     public float timeToRecoverFromRecoil;
