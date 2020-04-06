@@ -88,15 +88,15 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public override void Awake()
     {
         base.Awake();
-        _BPMSystem = GetComponent<BPMSystem>();
-        objectPooler = ObjectPooler.Instance;
-        ChangeWeaponStats();
     }
 
     public override void Start()
     {
         base.Start();
         audioControl = PlayerController.s_instance.m_references.m_playerAudio;
+        _BPMSystem = GetComponent<BPMSystem>();
+        objectPooler = ObjectPooler.Instance;
+        ChangeWeaponStats();
     }
 
     public override void Update()
