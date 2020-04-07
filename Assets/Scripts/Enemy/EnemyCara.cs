@@ -84,6 +84,7 @@ public class EnemyCara : SerializedMonoBehaviour
         _isDead = false;
         playerController = PlayerController.s_instance;
         InitializeEnemyStats();
+        GiveArchetypeToTheEnemy();
     }
 
     PlayerController playerController;
@@ -117,7 +118,7 @@ public class EnemyCara : SerializedMonoBehaviour
         }
     }
 
-    protected virtual void Start()
+    void GiveArchetypeToTheEnemy()
     {
         if (enemyArchetype != null)
         {
@@ -131,6 +132,11 @@ public class EnemyCara : SerializedMonoBehaviour
                 }
             }
         }
+    }
+
+    protected virtual void Start()
+    {
+        GiveArchetypeToTheEnemy();
     }
 
     private void Update()

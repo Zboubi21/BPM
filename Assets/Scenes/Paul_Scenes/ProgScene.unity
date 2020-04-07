@@ -167,8 +167,7 @@ MonoBehaviour:
   - waveNbr: 0
     m_enemyArchetype: []
   - waveNbr: 1
-    m_enemyArchetype:
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    m_enemyArchetype: []
   - waveNbr: 2
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
@@ -3578,17 +3577,11 @@ MonoBehaviour:
   - waveNbr: 0
     m_enemyArchetype:
     - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
   - waveNbr: 1
     m_enemyArchetype:
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    - {fileID: 11400000, guid: 135203eff2891e24695a7cb64d000917, type: 2}
   - waveNbr: 2
-    m_enemyArchetype:
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    m_enemyArchetype: []
   sizeX: 4
   sizeZ: 3
   errorPercentNegative: 10
@@ -4430,6 +4423,7 @@ MonoBehaviour:
     maxBPM: 300
     startingBPM: 100
     criticalLvlOfBPM: 75
+    m_activateFuryBPM: 500
     BPMGain_OnNoSpot: 10
     BPMGain_OnWeak: 20
     BPM_Gauge: {fileID: 1884199753}
@@ -9028,6 +9022,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ObjectPooler
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_enemyPools.Array.data[0].m_size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4556029032081389871, guid: 801aa31bbd318a449a26ef687ec91de7,
         type: 3}
