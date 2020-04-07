@@ -59,7 +59,7 @@ public class ChaseState : IState
         //    distance = weapon._attack.rangeRadius;
         //}
         m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if(m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius && !m_enemyController.Cara.IsDead && !Physics.Linecast(new Vector3(weapon.transform.position.x, weapon.transform.position.y+1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), out _hit, weapon.hittedLayer))
+        if((m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeOfAttackNoMatterWhat) && !m_enemyController.Cara.IsDead && !Physics.Linecast(new Vector3(weapon.transform.position.x, weapon.transform.position.y+1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), out _hit, weapon.hittedLayer))
         {
             //Debug.DrawLine(new Vector3(weapon.transform.position.x, weapon.transform.position.y + 1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), Color.green, 1f);
             m_enemyController.Agent.SetDestination(m_enemyController.transform.position);
