@@ -99,7 +99,10 @@ public class EnemyCara : SerializedMonoBehaviour
             {
                 if(playerController.maxRecordPositionTime > 0)
                 {
-                    _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+                    if(_enemyCaractéristique._move.timeOfLateLookAt != 0)
+                    {
+                        _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+                    }
                 }
                 else
                 {
@@ -263,7 +266,7 @@ public class EnemyCara : SerializedMonoBehaviour
         {
             if (playerController != null)
             {
-                if (playerController.maxRecordPositionTime > 0)
+                if (playerController.maxRecordPositionTime > 0 && _currentIndexInLateLookAt != 0)
                 {
                     Gizmos.color = Color.red;
                     Gizmos.DrawWireSphere(playerController.AllPreviousPos[_currentIndexInLateLookAt], 0.1f);

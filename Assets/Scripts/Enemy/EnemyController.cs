@@ -23,6 +23,7 @@ public class EnemyController : MonoBehaviour
         public GameObject m_destinationImage;
 
         public float obstacleAvoidance = 3f;
+        public Transform spine;
     }
 
     #region State Machine
@@ -152,6 +153,8 @@ public class EnemyController : MonoBehaviour
                 _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeOfElectricalStunResistance, 0, Cara.CurrentTimeForElectricalStun);
                 _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForElectricalStun);
             }
+
+            //_debug.spine.LookAt(Player.position);
         }
         _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
         _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);

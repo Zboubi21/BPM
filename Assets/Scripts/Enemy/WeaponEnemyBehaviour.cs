@@ -29,8 +29,8 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         public float enemyAttackDispersement;
     }
     [Space]
-    public GameObject enemyProjectil;
-    [Space]
+    //public GameObject enemyProjectil;
+    //[Space]
     [Tooltip("Pour que l'ennemies ne tir pas dans les pieds du player")]
     public float YOffset = 1f;
     EnemyController enemyController;
@@ -65,13 +65,14 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     //        yield return new WaitForEndOfFrame();
     //    }
     //}
-
+    Transform playerPosOnShoot;
     int countAttacks;
-    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime)
+    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime, Transform lastPlayerPos)
     {
         //yield return StartCoroutine(CheckIfPlayerIsInSight());
 
         countAttacks++;
+        playerPosOnShoot = lastPlayerPos;
         for (int i = 0; i < nbrOfShoot; ++i)
         {
             if (!enemyController.EnemyCantShoot)
@@ -205,9 +206,9 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public override Vector3 OnSearchForLookAt()
     {
         Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
-        return new Vector3(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].x + dispersion.x, 
-                            (enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].y) + dispersion.y,
-                                enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].z );
+        return new Vector3(playerPosOnShoot.position.x + dispersion.x, 
+                            (playerPosOnShoot.position.y) + dispersion.y,
+                                playerPosOnShoot.position.z );
     }
 
     #endregion

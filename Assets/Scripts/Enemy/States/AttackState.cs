@@ -15,7 +15,7 @@ public class AttackState : IState
     float _currentTime;
     Vector3 relativePos;
     Vector3 initForward;
-    Vector3 lastFrameTargetPos;
+    Transform lastFrameTargetPos;
 
     public AttackState(EnemyController enemyController)
     {
@@ -34,18 +34,18 @@ public class AttackState : IState
 
         relativePos = m_enemyController.Player.position - m_enemyController.transform.position;
         initForward = m_enemyController.transform.forward;
-        lastFrameTargetPos = m_enemyController.Player.position;
+        lastFrameTargetPos = m_enemyController.Player;
 
         timeCount = 0;
         _currentTime = 0;
 
-        m_weaponEnemyBehaviour.StartCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst));
+        m_weaponEnemyBehaviour.StartCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
 
     }
 
     public void Exit()
     {
-        m_weaponEnemyBehaviour.StopCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst));
+        m_weaponEnemyBehaviour.StopCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
     }
 
     public void FixedUpdate()
@@ -63,18 +63,18 @@ public class AttackState : IState
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
         }*/
-        if(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt] != null)
+        /*if(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt] != null)
         {
             m_enemyController.transform.LookAt(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt]);
         }
         else
         {
             Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-        }
+        }*/
         //LateLookAt();
 
     }
-    void LateLookAt()
+   /* void LateLookAt()
     {
         Quaternion rotation;
         if (m_enemyController.Player.position == lastFrameTargetPos)
@@ -99,7 +99,7 @@ public class AttackState : IState
         }
         lastFrameTargetPos = m_enemyController.Player.position;
         m_enemyController.transform.eulerAngles = new Vector3(m_enemyController.transform.eulerAngles.x, rotation.eulerAngles.y, m_enemyController.transform.eulerAngles.z);
-    }
+    }*/
 
 
 
