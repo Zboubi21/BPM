@@ -28,8 +28,10 @@ public class AttackState : IState
         m_weaponEnemyBehaviour = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
 
         ///Play attack animation
+        m_enemyController.Anim.SetTrigger("Aim");
+
         ///Play attack sound (enter state not shoot)
-        
+
         relativePos = m_enemyController.Player.position - m_enemyController.transform.position;
         initForward = m_enemyController.transform.forward;
         lastFrameTargetPos = m_enemyController.Player.position;

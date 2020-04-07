@@ -62,6 +62,7 @@ public class EnemyController : MonoBehaviour
     Vector3 currentTarget;
     ObjectPooler objectPooler;
     PlayerController playerController;
+    Animator anim;
 
     float distanceToTarget;
     float distanceToPlayer;
@@ -81,6 +82,7 @@ public class EnemyController : MonoBehaviour
     public EnemyAudioController AudioControl { get => audioControl; set => audioControl = value; }
     public float DistanceToPlayer { get => distanceToPlayer; set => distanceToPlayer = value; }
     public PlayerController PlayerController { get => playerController; set => playerController = value; }
+    public Animator Anim { get => anim; set => anim = value; }
     #endregion
 
 
@@ -94,6 +96,7 @@ public class EnemyController : MonoBehaviour
         manager = GameManager.Instance;
         objectPooler = ObjectPooler.Instance;
         playerController = PlayerController.s_instance;
+        anim = GetComponent<Animator>();
     }
 
     void SetupStateMachine()
@@ -352,12 +355,14 @@ public class EnemyController : MonoBehaviour
             agent.CalculatePath(newTarget, path);
             if (path.status == NavMeshPathStatus.PathComplete)
             {
+                //Debug.Log("J'ai trouver une destination ! " + this);
                 return newTarget;
             }
             else
             {
                 playerIsOnNavMesh = false;
             }
+            Debug.Log(this +" : "+ count);
             count--;
         }
         ChangeState((int)EnemyState.Enemy_RepositionState);

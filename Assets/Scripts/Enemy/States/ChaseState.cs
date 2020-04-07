@@ -18,11 +18,13 @@ public class ChaseState : IState
 
     public void Enter()
     {
-        /// play run animation
+        ///Play attack animation
+        m_enemyController.Anim.SetTrigger("Run");
+
         m_enemyController.AudioControl.On_Run(true);
         playerController = PlayerController.s_instance;
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
-        m_enemyController.CurrentTarget = m_enemyController.Player.transform.position;
+        m_enemyController.CurrentTarget = m_enemyController.ChaseATarget(m_enemyController.Player);
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
 #endif
