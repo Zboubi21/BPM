@@ -21,11 +21,11 @@ public class EnemyCara : SerializedMonoBehaviour
 
     }
     [Space]
-    private EnemyArchetype enemyArchetype;
-    [Space]
     public EnemyCaractéristique _enemyCaractéristique = new EnemyCaractéristique();
     [Serializable] public class EnemyCaractéristique
     {
+        public EnemyArchetype enemyArchetype;
+        [Space]
         public Move _move = new Move();
         [Serializable]
         public class Move
@@ -69,7 +69,7 @@ public class EnemyCara : SerializedMonoBehaviour
     #region Get Set
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
     public bool IsDead { get => _isDead; set => _isDead = value; }
-    public EnemyArchetype EnemyArchetype { get => enemyArchetype; set => enemyArchetype = value; }
+    public EnemyArchetype EnemyArchetype { get => _enemyCaractéristique.enemyArchetype; set => _enemyCaractéristique.enemyArchetype = value; }
 
     public float CurrentTimeForStun { get => _currentTimeForStun; set => _currentTimeForStun = value; }
     public float CurrentTimeForStunResistance { get => _currentTimeForStunResistance; set => _currentTimeForStunResistance = value; }
@@ -118,11 +118,11 @@ public class EnemyCara : SerializedMonoBehaviour
         }
     }
 
-    void GiveArchetypeToTheEnemy()
+    public void GiveArchetypeToTheEnemy()
     {
-        if (enemyArchetype != null)
+        if (_enemyCaractéristique.enemyArchetype != null)
         {
-            enemyArchetype.PopulateArray();
+            _enemyCaractéristique.enemyArchetype.PopulateArray();
             if (EnemyArchetype.Spots.Count > 0)
             {
                 for (int i = 0, l = EnemyArchetype.Spots.Count; i < l; ++i)

@@ -6,7 +6,8 @@
         FxType,
 	}
 	[System.Serializable] public enum EnemyType {
-		EnemyBase,
+		Rusher,
+        Sniper,
 	}
     [System.Serializable] public enum ProjectileType {
 

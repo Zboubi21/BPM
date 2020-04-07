@@ -446,7 +446,7 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(poolTracker);
         }
-        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.EnemyBase, gameObject);
+        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }
 
     void EnableDisableCollider(bool b)

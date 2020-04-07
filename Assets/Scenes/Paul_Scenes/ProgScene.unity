@@ -165,12 +165,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Waves:
   - waveNbr: 0
-    m_enemyArchetype: []
+    enemy: 
   - waveNbr: 1
-    m_enemyArchetype: []
+    enemy: 
   - waveNbr: 2
-    m_enemyArchetype:
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    enemy: 
   sizeX: 4
   sizeZ: 3
   errorPercentNegative: 10
@@ -3575,13 +3574,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Waves:
   - waveNbr: 0
-    m_enemyArchetype:
-    - {fileID: 11400000, guid: 6042b2b58426de243811d97e7a2a4017, type: 2}
+    enemy: 00000000
   - waveNbr: 1
-    m_enemyArchetype:
-    - {fileID: 11400000, guid: 135203eff2891e24695a7cb64d000917, type: 2}
+    enemy: 01000000
   - waveNbr: 2
-    m_enemyArchetype: []
+    enemy: 
   sizeX: 4
   sizeZ: 3
   errorPercentNegative: 10
@@ -7757,6 +7754,7 @@ MonoBehaviour:
     noSpot: []
     allCollider: []
   "_enemyCaract\xE9ristique":
+    enemyArchetype: {fileID: 0}
     _move:
       moveSpeed: 0
       timeOfLateLookAt: 0
@@ -9025,7 +9023,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
         type: 3}
+      propertyPath: m_enemyPools.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
       propertyPath: m_enemyPools.Array.data[0].m_size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_enemyPools.Array.data[1].m_enemyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_enemyPools.Array.data[1].m_name
+      value: Sniper
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_enemyPools.Array.data[0].m_name
+      value: Rusher
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_enemyPools.Array.data[1].m_prefab
+      value: 
+      objectReference: {fileID: 1518701593319261286, guid: fdf553839ecaf414ca5b1cb2794de5b3,
+        type: 3}
+    - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_enemyPools.Array.data[1].m_size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4556029032081389871, guid: 801aa31bbd318a449a26ef687ec91de7,

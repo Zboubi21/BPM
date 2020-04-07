@@ -1490,7 +1490,7 @@ GameObject:
   - component: {fileID: 3833438521590562171}
   - component: {fileID: 5378848665415633138}
   m_Layer: 10
-  m_Name: NPC
+  m_Name: Rusher
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1616,6 +1616,7 @@ MonoBehaviour:
     - {fileID: 8684468555185997151}
     - {fileID: 8684468554716952860}
   "_enemyCaract\xE9ristique":
+    enemyArchetype: {fileID: 11400000, guid: 67ebe2b48256204429b14e7d49026637, type: 2}
     _move:
       moveSpeed: 8
       timeOfLateLookAt: 0.5
@@ -1672,7 +1673,6 @@ MonoBehaviour:
   _SMG:
     typeOfFire: 1
     firePoint: {fileID: 2068807990734219183}
-    fireAudio: {fileID: 0}
     recoilCurve:
       serializedVersion: 2
       m_Curve:
