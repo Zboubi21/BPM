@@ -119,6 +119,7 @@ public class BPMSystem : MonoBehaviour
     bool _canUseFury;
     bool _furyCoolDownOver = true;
     bool _isCurrentlyOnFury;
+    public bool IsCurrentlyOnFury { get => _isCurrentlyOnFury; }
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
     WeaponBehaviour weapon;
@@ -162,11 +163,11 @@ public class BPMSystem : MonoBehaviour
     #region BPM Gain and Loss
     public void LoseBPM(float BPMLoss, Transform shooter = null)
     {
-        if (_isCurrentlyOnFury)
-            return;
-
         if (shooter != null)
             AddDamageIndicator(shooter);
+
+        if (_isCurrentlyOnFury)
+            return;
 
         float _newCurrentBPM = _currentBPM - BPMLoss;
 
@@ -392,8 +393,6 @@ public class BPMSystem : MonoBehaviour
 
             _canUseFury = false;
 
-            _currentOverdrenalineCooldown = 0;
-
             _overdrenaline._overdrenalineButton.gameObject.SetActive(false);
             StartCoroutine(OnOverADActivate());
         }
@@ -414,6 +413,7 @@ public class BPMSystem : MonoBehaviour
             audioControl.PlayWeaponUpgradeSound(2);
         }
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+        _currentOverdrenalineCooldown = 0;
         ChangeBpmShaderGaugeLength();
         if (audioControl != null)
         {

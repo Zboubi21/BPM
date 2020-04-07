@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
 		[Header("After Dash")]
 		public bool m_useRawInput = false;
 		public float m_timeToStopUseRawInput = 1;
+
+		[Header("Feedback")]
+		public ChangeImageValues m_dashFeedbackScreen;
 	}
 
 	[Header("Field Of View")]
@@ -501,6 +504,7 @@ public class PlayerController : MonoBehaviour
 	public void On_PlayerStartDash(bool hasDash)
 	{
 		m_playerWeapon.CanShoot = !hasDash;
+		m_dash.m_dashFeedbackScreen.SwitchValue();
 		if (hasDash)
 			m_references.m_playerAudio.On_Dash();
 	}

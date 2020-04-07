@@ -11,6 +11,7 @@ public class ChangeImageValues : ChangeValues
     [SerializeField] Color m_fromColor, m_toColor;
 
     [Header("Blink")]
+    [SerializeField] bool m_useBlink = true;
     [SerializeField] float m_minAlpha = 0;
     [SerializeField] float m_maxAlpha = 1;
     [SerializeField] float m_timeToChangeAlpha = 1;
@@ -18,7 +19,7 @@ public class ChangeImageValues : ChangeValues
     Image m_targetImage;
     float m_distanceFromTargetedColors;
     float m_speedToFadeIn, m_speedToFadeOff;
-    bool m_blinkIsActivate;
+    bool m_blinkIsActivate = false;
     IEnumerator m_currentBlinkAnim;
     bool m_isBlinkOn = true;
 
@@ -47,12 +48,14 @@ public class ChangeImageValues : ChangeValues
         base.SwitchValue();
         if (m_needToFadeIn)
         {
-            m_blinkIsActivate = true;
+            if (m_useBlink)
+                m_blinkIsActivate = true;
             CheckToStartChangeImageColorCoroutine(m_toColor, m_speedToFadeIn);
         }
         else
         {
-            m_blinkIsActivate = false;
+            if (m_useBlink)
+                m_blinkIsActivate = false;
             StartToBlink(false);
             CheckToStartChangeImageColorCoroutine(m_fromColor, m_speedToFadeOff);
         }
@@ -83,7 +86,7 @@ public class ChangeImageValues : ChangeValues
             SetImageColor(m_targetImage, actualColor);
             yield return null;
         }
-        if (m_blinkIsActivate)
+        if (m_useBlink && m_blinkIsActivate)
             StartToBlink(true);
         else
             m_valueIsChanging = false;
@@ -113,14 +116,14 @@ public class ChangeImageValues : ChangeValues
         Color actualColor = fromColor;
         float fracJourney = 0;
 
-        while (actualColor != toColor && m_blinkIsActivate)
+        while (actualColor != toColor && m_useBlink && m_blinkIsActivate)
         {
             fracJourney += (Time.deltaTime) * speed / distance;
             actualColor = Color.Lerp(fromColor, toColor, fracJourney);
             SetImageColor(m_targetImage, actualColor);
             yield return null;
         }
-        if (m_blinkIsActivate)
+        if (m_useBlink && m_blinkIsActivate)
             StartCoroutine(BlinkImageColor());
         else
             m_valueIsChanging = false;
