@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using PoolTypes;
 
 public class BPMSystem : MonoBehaviour
 {
@@ -106,17 +107,10 @@ public class BPMSystem : MonoBehaviour
 
     }
 
-    // [SerializeField] DamageIndicator m_damageIndicator;
-    // [Serializable] class DamageIndicator
-    // {
-    //     public Transform m_target;
-    //     public RectTransform m_canvasTrans;
-    // }
     [Space]
     [SerializeField] DamageIndicatorParameters m_damageIndicator;
     [Serializable] public class DamageIndicatorParameters
     {
-        public GameObject m_indicator;
         public Transform m_indicatorRoot;
     }
     
@@ -162,10 +156,6 @@ public class BPMSystem : MonoBehaviour
     void FixedUpdate()
     {
         SetBpmGaugeShader();
-    }
-    void LateUpdate()
-    {
-        TestRotation();
     }
 
     #region BPM Gain and Loss
@@ -464,23 +454,9 @@ public class BPMSystem : MonoBehaviour
         return (_canUseFury && Input.GetButtonDown("OverAdrenaline") && _furyCoolDownOver);
     }
 
-    void TestRotation()
-    {
-        // if (m_damageIndicator.m_target == null)
-        //     return;
-        
-        // Vector3 direction = m_playerController.m_references.m_cameraPivot.position - m_damageIndicator.m_target.position;
-        // Quaternion tRot = Quaternion.LookRotation(direction);
-        // tRot.z = -tRot.y;
-        // tRot.x = 0;
-        // tRot.y = 0;
-        // Vector3 nortDirection = new Vector3(0, 0, m_playerController.m_references.m_cameraPivot.eulerAngles.y);
-        // m_damageIndicator.m_canvasTrans.localRotation = tRot * Quaternion.Euler(nortDirection);
-    }
-
     void AddDamageIndicator(Transform shooter)
     {
-        DamageIndicator di = Instantiate(m_damageIndicator.m_indicator, m_damageIndicator.m_indicatorRoot.position, Quaternion.identity).GetComponent<DamageIndicator>();
+        DamageIndicator di = ObjectPooler.Instance.SpawnObjectFromPool(ObjectType.DamageIndicator, m_damageIndicator.m_indicatorRoot.position, Quaternion.identity, m_damageIndicator.m_indicatorRoot).GetComponent<DamageIndicator>();
         di.SetupIndicator(m_playerController.m_references.m_cameraPivot, shooter);
     }
     #endregion

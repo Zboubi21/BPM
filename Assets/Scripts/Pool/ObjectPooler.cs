@@ -254,7 +254,7 @@ public class ObjectPooler : MonoBehaviour {
         m_FXPoolDictionary[objectType].Enqueue(objectToReturn);
     }
 
-    public GameObject SpawnObjectFromPool(ObjectType objectType, Vector3 position, Quaternion rotation){
+    public GameObject SpawnObjectFromPool(ObjectType objectType, Vector3 position, Quaternion rotation, Transform parent = null){
 
 		if(!m_objectPoolDictionary.ContainsKey(objectType)){
 			Debug.LogError("Pool of " + objectType + " dosen't exist.");
@@ -270,6 +270,11 @@ public class ObjectPooler : MonoBehaviour {
 
 		objectToSpawn.transform.position = position;
 		objectToSpawn.transform.rotation = rotation;
+
+		if (parent != null)
+			if( objectToSpawn.transform.parent != parent)
+				objectToSpawn.transform.parent = parent;
+
 		objectToSpawn.SetActive(true);
 
 		PoolTracker poolTracker = AddPoolTrackerComponent(objectToSpawn, PoolType.ObjectType);

@@ -2,9 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using PoolTypes;
 
 public class PlayerBpmGuiValues : MonoBehaviour
 {
+
+    bool m_isStoped = false;
+
+    void OnEnable()
+    {
+        m_isStoped = false;
+    }
 
     public void StartToMove(float yPosToReach, float timeToDo)
     {
@@ -23,10 +31,11 @@ public class PlayerBpmGuiValues : MonoBehaviour
         while (actualPos != toPos)
         {
             fracJourney += (Time.deltaTime) * speed / distance;
-            transform.localPosition = Vector3.Lerp(fromPos, toPos, fracJourney);
+            actualPos = Vector3.Lerp(fromPos, toPos, fracJourney);
+            transform.localPosition = actualPos;
             yield return null;
         }
-        Destroy(gameObject); // À remplacer avec l'ObjectPooler !
+        On_StopUseValue();
     }
 
     public void StartToChangeColor(Color color, float timeToDo, float delay)
@@ -52,10 +61,21 @@ public class PlayerBpmGuiValues : MonoBehaviour
             fracJourney += (Time.deltaTime) * speed / distance;
             
             if (guiText != null)
-                guiText.color = Color.Lerp(fromColor, toColor, fracJourney);
+            {
+                actualColor = Color.Lerp(fromColor, toColor, fracJourney);
+                guiText.color = actualColor;
+            }
             yield return null;
         }
-        Destroy(gameObject); // À remplacer avec l'ObjectPooler !
+        On_StopUseValue();
+    }
+
+    void On_StopUseValue()
+    {
+        if (m_isStoped)
+            return;
+        m_isStoped = true;
+        ObjectPooler.Instance.ReturnObjectToPool(ObjectType.BpmGuiValues, gameObject);
     }
 
 }
