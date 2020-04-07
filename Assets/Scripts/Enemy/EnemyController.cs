@@ -362,7 +362,7 @@ public class EnemyController : MonoBehaviour
             {
                 playerIsOnNavMesh = false;
             }
-            Debug.Log(this +" : "+ count);
+            //Debug.Log(this +" : "+ count);
             count--;
         }
         ChangeState((int)EnemyState.Enemy_RepositionState);

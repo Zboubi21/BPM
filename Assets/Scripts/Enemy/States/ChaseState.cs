@@ -18,7 +18,7 @@ public class ChaseState : IState
 
     public void Enter()
     {
-        ///Play attack animation
+        ///Play run animation
         m_enemyController.Anim.SetTrigger("Run");
 
         m_enemyController.AudioControl.On_Run(true);
