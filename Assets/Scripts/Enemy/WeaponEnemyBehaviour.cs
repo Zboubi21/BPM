@@ -168,14 +168,14 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     #region FeedBack Projectile Methods
     public override GameObject InstatiateProj()
     {
-        if(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt] != null)
-        {
-           _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
-        }
-        else
-        {
-            Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-        }
+        _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
+        //if(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt] != null)
+        //{
+        //}
+        //else
+        //{
+        //    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+        //}
         /*Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.Slerp(enemyController.transform.forward, 

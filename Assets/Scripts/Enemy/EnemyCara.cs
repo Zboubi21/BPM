@@ -31,8 +31,8 @@ public class EnemyCara : SerializedMonoBehaviour
         public class Move
         {
             public float moveSpeed;
-            [Tooltip("The time needed for the NPC to look directly at the target ( when the target don't move ), it HAS to be less than 5 seconds")]
-            public float timeOfLateLookAt;
+            //[Tooltip("The time needed for the NPC to look directly at the target ( when the target don't move ), it HAS to be less than 5 seconds")]
+            //public float timeOfLateLookAt;
         }
 
         public Health _health = new Health();
@@ -53,6 +53,7 @@ public class EnemyCara : SerializedMonoBehaviour
             public float timeOfElectricalStunResistance;
         }
     }
+    public float rotationSpeed;
     EnemyController controller;
     protected float _currentLife;
     int _currentDamage;
@@ -97,17 +98,17 @@ public class EnemyCara : SerializedMonoBehaviour
             controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
             if(playerController != null)
             {
-                if(playerController.maxRecordPositionTime > 0)
-                {
-                    if(_enemyCaractéristique._move.timeOfLateLookAt != 0)
-                    {
-                        _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
-                    }
-                }
-                else
-                {
-                    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-                }
+                //if(playerController.maxRecordPositionTime > 0)
+                //{
+                //    if(_enemyCaractéristique._move.timeOfLateLookAt != 0)
+                //    {
+                //        _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+                //    }
+                //}
+                //else
+                //{
+                //    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+                //}
             }
         }
         if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
@@ -260,18 +261,18 @@ public class EnemyCara : SerializedMonoBehaviour
         }
         //_currentDamage = _enemyCaractéristique._attack.damage;
     }
-    private void OnDrawGizmos()
-    {
-        if (controller != null)
-        {
-            if (playerController != null)
-            {
-                if (playerController.maxRecordPositionTime > 0 && _currentIndexInLateLookAt != 0)
-                {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawWireSphere(playerController.AllPreviousPos[_currentIndexInLateLookAt], 0.1f);
-                }
-            }
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if (controller != null)
+    //    {
+    //        if (playerController != null)
+    //        {
+    //            if (playerController.maxRecordPositionTime > 0 && _currentIndexInLateLookAt != 0)
+    //            {
+    //                Gizmos.color = Color.red;
+    //                Gizmos.DrawWireSphere(playerController.AllPreviousPos[_currentIndexInLateLookAt], 0.1f);
+    //            }
+    //        }
+    //    }
+    //}
 }
