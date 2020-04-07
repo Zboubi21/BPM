@@ -151,9 +151,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a1eb4d0bfd1c2b4bb689d5735534fd8, type: 2}
   - {fileID: 11400000, guid: f9b729769e8b2e4458dc549ad60ab18f, type: 2}
   - {fileID: 11400000, guid: 7d3fde354de8e28448df602b70653f89, type: 2}
+  - {fileID: 11400000, guid: fbdff2f431202e846b63249cbaa6b103, type: 2}
   m_textAnim: {fileID: 35415202272341894}
-  m_spawnTest: {fileID: 4724814587470942516, guid: 19e35377672471a43a972dc5f2d505e5,
-    type: 3}
   m_spawnPos: {fileID: 884761023869104338}
   m_getBpmColor: {r: 0, g: 1, b: 0, a: 1}
   m_lostBpmColor: {r: 1, g: 0, b: 0, a: 1}
@@ -164,6 +163,7 @@ MonoBehaviour:
   m_overadrenalineFeedback: {fileID: 2850677232329734290}
   m_normalBpmValueColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   m_criticalBpmValueColor: {r: 1, g: 0, b: 0, a: 1}
+  m_overadrenalineBpmValueColor: {r: 0, g: 0.53333336, b: 1, a: 1}
 --- !u!1 &1211110961685455872
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 0}
+  m_Color: {r: 0.5058824, g: 0.7607843, b: 1, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -828,10 +828,11 @@ MonoBehaviour:
   m_startValue: 0
   m_timeToFadeIn: 0.25
   m_timeToFadeOff: 0.5
-  m_fromColor: {r: 1, g: 1, b: 0, a: 0}
-  m_toColor: {r: 1, g: 1, b: 0, a: 0.09803922}
-  m_minAlpha: 20
-  m_maxAlpha: 30
+  m_fromColor: {r: 0.504717, g: 0.7607328, b: 1, a: 0}
+  m_toColor: {r: 0.5058824, g: 0.7607843, b: 1, a: 0.13725491}
+  m_useBlink: 1
+  m_minAlpha: 30
+  m_maxAlpha: 40
   m_timeToChangeAlpha: 0.4
 --- !u!1 &3863762695731727821
 GameObject:
@@ -1111,6 +1112,7 @@ MonoBehaviour:
   m_timeToFadeOff: 0.5
   m_fromColor: {r: 1, g: 0, b: 0, a: 0}
   m_toColor: {r: 1, g: 0, b: 0, a: 0.09803922}
+  m_useBlink: 1
   m_minAlpha: 15
   m_maxAlpha: 35
   m_timeToChangeAlpha: 0.25

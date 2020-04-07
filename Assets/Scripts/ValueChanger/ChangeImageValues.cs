@@ -55,8 +55,10 @@ public class ChangeImageValues : ChangeValues
         else
         {
             if (m_useBlink)
+            {
                 m_blinkIsActivate = false;
-            StartToBlink(false);
+                StartToBlink(false);
+            }
             CheckToStartChangeImageColorCoroutine(m_fromColor, m_speedToFadeOff);
         }
     }
@@ -131,6 +133,7 @@ public class ChangeImageValues : ChangeValues
 
     public override void StopChangingValues()
     {
+        // m_blinkIsActivate = false;
         StartToBlink(false);
         base.StopChangingValues();
     }
