@@ -273,7 +273,7 @@ public class ObjectPooler : MonoBehaviour {
 
 		if (parent != null)
 			if( objectToSpawn.transform.parent != parent)
-				objectToSpawn.transform.parent = parent;
+				objectToSpawn.transform.SetParent(parent);
 
 		objectToSpawn.SetActive(true);
 
