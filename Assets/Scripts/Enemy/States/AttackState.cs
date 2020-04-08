@@ -124,9 +124,15 @@ public class AttackState : IState
             direction = (target - m_enemyController.transform.position).normalized;
             lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             angularDistance = Quaternion.Angle(m_enemyController.transform.rotation, lookRotation);
-            //Debug.Log(angularDistance);
             maxTime = angularDistance / (m_enemyController.Cara.rotationSpeed);
-            //Debug.Log(maxTime);
+            if(maxTime == 0)
+            {
+                maxTime = 0.01f;
+            }
+#if UNITY_EDITOR
+        if(m_enemyController._debug.useDebugLogs)
+                Debug.Log(m_enemyController + " I have to wait " + maxTime + " seconds before starting to attack.");
+#endif
             time += Time.deltaTime /* (m_enemyController.Cara.rotationSpeed/100)*/;
             return false;
         }

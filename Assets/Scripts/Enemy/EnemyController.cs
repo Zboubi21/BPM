@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     [Serializable] public class DEBUG
     {
         public bool useGizmos;
+        public bool useDebugLogs;
 
         public Text m_stateText;
         public Text m_lifeText;

@@ -85,7 +85,12 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
 
         }
         audioControl.PlayAppropriateLastFireSound();
-        yield return new WaitForSeconds(UnityEngine.Random.Range(minRechargeTime, maxRechargeTime));
+        float time = UnityEngine.Random.Range(minRechargeTime, maxRechargeTime);
+#if UNITY_EDITOR
+        if(enemyController._debug.useDebugLogs)
+            Debug.Log(this.enemyController + " I'm waiting " + time + " seconds before changing state.");
+#endif
+        yield return new WaitForSeconds(time);
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
             //Debug.Log("Before Throwing Dices");
