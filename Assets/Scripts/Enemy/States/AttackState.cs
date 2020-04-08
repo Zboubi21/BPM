@@ -15,7 +15,7 @@ public class AttackState : IState
     float _currentTime;
     Vector3 relativePos;
     Vector3 initForward;
-    Transform lastFrameTargetPos;
+    Vector3 lastFrameTargetPos;
 
     public AttackState(EnemyController enemyController)
     {
@@ -34,8 +34,7 @@ public class AttackState : IState
 
         relativePos = m_enemyController.Player.position - m_enemyController.transform.position;
         initForward = m_enemyController.transform.forward;
-        lastFrameTargetPos = m_enemyController.Player;
-
+        lastFrameTargetPos = new Vector3(m_enemyController.Player.position.x, m_enemyController.Player.position.y + 1.5f, m_enemyController.Player.position.z);
         m_enemyController.Agent.isStopped = true;
 
         timeCount = 0;
@@ -110,18 +109,31 @@ public class AttackState : IState
          m_enemyController.transform.eulerAngles = new Vector3(m_enemyController.transform.eulerAngles.x, rotation.eulerAngles.y, m_enemyController.transform.eulerAngles.z);
      }*/
     float time;
-    private bool RotateTowards(Transform target)
+    Vector3 direction;
+    Quaternion lookRotation;
+    float angularDistance;
+    float maxTime;
+    private bool RotateTowards(Vector3 target)
     {
-        time += Time.deltaTime * (m_enemyController.Cara.rotationSpeed/100);
-        if(time >= 1)
+        if (Mathf.InverseLerp(0, maxTime, time) >= 1)
         {
             return true;
         }
+        else if (Mathf.InverseLerp(0, maxTime, time) == 0)
+        {
+            direction = (target - m_enemyController.transform.position).normalized;
+            lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            angularDistance = Quaternion.Angle(m_enemyController.transform.rotation, lookRotation);
+            //Debug.Log(angularDistance);
+            maxTime = angularDistance / (m_enemyController.Cara.rotationSpeed);
+            //Debug.Log(maxTime);
+            time += Time.deltaTime /* (m_enemyController.Cara.rotationSpeed/100)*/;
+            return false;
+        }
         else
         {
-            Vector3 direction = (target.position - m_enemyController.transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            m_enemyController.transform.rotation = Quaternion.Slerp(m_enemyController.transform.rotation, lookRotation, time);
+            time += Time.deltaTime /* (m_enemyController.Cara.rotationSpeed/100)*/;
+            m_enemyController.transform.rotation = Quaternion.Slerp(m_enemyController.transform.rotation, lookRotation, Mathf.InverseLerp(0, maxTime, time));
             return false;
         }
     }

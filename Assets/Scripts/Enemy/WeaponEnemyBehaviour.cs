@@ -65,9 +65,9 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     //        yield return new WaitForEndOfFrame();
     //    }
     //}
-    Transform playerPosOnShoot;
+    Vector3 playerPosOnShoot;
     int countAttacks;
-    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime, Transform lastPlayerPos)
+    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime, Vector3 lastPlayerPos)
     {
         //yield return StartCoroutine(CheckIfPlayerIsInSight());
 
@@ -206,9 +206,9 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public override Vector3 OnSearchForLookAt()
     {
         Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
-        return new Vector3(playerPosOnShoot.position.x + dispersion.x, 
-                            (playerPosOnShoot.position.y) + dispersion.y,
-                                playerPosOnShoot.position.z );
+        return new Vector3(playerPosOnShoot.x + dispersion.x, 
+                            (playerPosOnShoot.y) + dispersion.y,
+                                playerPosOnShoot.z );
     }
 
     #endregion

@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
         public GameObject m_destinationImage;
 
         public float obstacleAvoidance = 3f;
-        public Transform spine;
+        public Transform aimSpine;
     }
 
     #region State Machine
@@ -163,6 +163,7 @@ public class EnemyController : MonoBehaviour
 
         DistanceToTarget = GetTargetDistance(currentTarget);
         DistanceToPlayer = GetTargetDistance(Player.position);
+        //_debug.aimSpine = playerController.transform;
 
     }
 
@@ -500,6 +501,9 @@ public class EnemyController : MonoBehaviour
                 cara = GetComponent<EnemyCara>();
             }
         }
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
     }
 }
 
