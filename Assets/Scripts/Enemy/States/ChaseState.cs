@@ -18,11 +18,13 @@ public class ChaseState : IState
 
     public void Enter()
     {
-        /// play run animation
+        ///Play run animation
+        m_enemyController.Anim.SetTrigger("Run");
+
         m_enemyController.AudioControl.On_Run(true);
         playerController = PlayerController.s_instance;
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
-        m_enemyController.CurrentTarget = m_enemyController.Player.transform.position;
+        m_enemyController.CurrentTarget = m_enemyController.ChaseATarget(m_enemyController.Player);
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
 #endif
@@ -57,7 +59,7 @@ public class ChaseState : IState
         //    distance = weapon._attack.rangeRadius;
         //}
         m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if(m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius && !m_enemyController.Cara.IsDead && !Physics.Linecast(new Vector3(weapon.transform.position.x, weapon.transform.position.y+1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), out _hit, weapon.hittedLayer))
+        if((m_enemyController.DistanceToTarget <= m_enemyController.WeaponBehavior._attack.rangeRadius || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeOfAttackNoMatterWhat) && !m_enemyController.Cara.IsDead && !Physics.Linecast(new Vector3(weapon.transform.position.x, weapon.transform.position.y+1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), out _hit, weapon.hittedLayer))
         {
             //Debug.DrawLine(new Vector3(weapon.transform.position.x, weapon.transform.position.y + 1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), Color.green, 1f);
             m_enemyController.Agent.SetDestination(m_enemyController.transform.position);

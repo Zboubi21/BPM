@@ -19,6 +19,8 @@ public class AgressiveState : IState
     public void Enter()
     {
         ///play run animation
+        m_enemyController.Anim.SetTrigger("Run");
+
         m_enemyController.AudioControl.On_Run(true);
 
         m_enemyController.CurrentTarget = m_enemyController.MoveForward(m_enemyController.Player);

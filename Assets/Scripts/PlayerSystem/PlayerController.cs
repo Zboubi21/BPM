@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 #region Public Variables
 	[Header("Debug")]
     [SerializeField] StateMachine m_sM = new StateMachine();
-    public float maxRecordPositionTime = 5f;
+    //public float maxRecordPositionTime = 5f;
 	// public bool m_useGravity = true;
 
 	[Header("References")]
@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
 		[Header("After Dash")]
 		public bool m_useRawInput = false;
 		public float m_timeToStopUseRawInput = 1;
+
+		[Header("Feedback")]
+		public ChangeImageValues m_dashFeedbackScreen;
 	}
 
 	[Header("Field Of View")]
@@ -135,11 +138,9 @@ public class PlayerController : MonoBehaviour
     CameraController m_cameraController;
 	WeaponPlayerBehaviour m_playerWeapon;
 
-    List<Vector3> allPreviousPos = new List<Vector3>();
     float _currentTimefRecord;
 
     public CameraController CameraControls { get => m_cameraControls; set => m_cameraControls = value; }
-    public List<Vector3> AllPreviousPos { get => allPreviousPos; set => allPreviousPos = value; }
 
     #endregion
 
@@ -182,16 +183,16 @@ public class PlayerController : MonoBehaviour
 		// m_gunPivot.UpdateScript();
 
 		m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection); // C'était ça avant !
-        if(maxRecordPositionTime <= _currentTimefRecord)
-        {
-            _currentTimefRecord = maxRecordPositionTime;
-            allPreviousPos.RemoveAt(0);
-        }
-        else
-        {
-            _currentTimefRecord += Time.deltaTime;
-        }
-        allPreviousPos.Add(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
+        //if(maxRecordPositionTime <= _currentTimefRecord)
+        //{
+        //    _currentTimefRecord = maxRecordPositionTime;
+        //    allPreviousPos.RemoveAt(0);
+        //}
+        //else
+        //{
+        //    _currentTimefRecord += Time.deltaTime;
+        //}
+        //allPreviousPos.Add(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
 	}
 
 	void Update()
@@ -371,14 +372,7 @@ public class PlayerController : MonoBehaviour
 		m_currentUseRawInput = m_movements.m_useRawInput;
 	}
 
-    private void OnDrawGizmos()
-    {
-        if(allPreviousPos.Count > 0)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(allPreviousPos[0], 01f);
-        }
-    }
+    
     #endregion
 
     #region Public Functions
@@ -501,6 +495,7 @@ public class PlayerController : MonoBehaviour
 	public void On_PlayerStartDash(bool hasDash)
 	{
 		m_playerWeapon.CanShoot = !hasDash;
+		m_dash.m_dashFeedbackScreen.SwitchValue();
 		if (hasDash)
 			m_references.m_playerAudio.On_Dash();
 	}

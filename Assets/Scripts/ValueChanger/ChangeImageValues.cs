@@ -9,16 +9,18 @@ public class ChangeImageValues : ChangeValues
     
     [SerializeField] float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
     [SerializeField] Color m_fromColor, m_toColor;
+    [SerializeField] bool m_useCurve = false;
+    [SerializeField] AnimationCurve m_curve;
 
     [Header("Blink")]
-    [SerializeField] float m_minAlpha = 0;
-    [SerializeField] float m_maxAlpha = 1;
+    [SerializeField] bool m_useBlink = true;
+    [SerializeField, Range(0, 255)] float m_minAlpha = 0, m_maxAlpha = 255;
     [SerializeField] float m_timeToChangeAlpha = 1;
 
     Image m_targetImage;
     float m_distanceFromTargetedColors;
     float m_speedToFadeIn, m_speedToFadeOff;
-    bool m_blinkIsActivate;
+    bool m_blinkIsActivate = false;
     IEnumerator m_currentBlinkAnim;
     bool m_isBlinkOn = true;
 
@@ -47,13 +49,17 @@ public class ChangeImageValues : ChangeValues
         base.SwitchValue();
         if (m_needToFadeIn)
         {
-            m_blinkIsActivate = true;
+            if (m_useBlink)
+                m_blinkIsActivate = true;
             CheckToStartChangeImageColorCoroutine(m_toColor, m_speedToFadeIn);
         }
         else
         {
-            m_blinkIsActivate = false;
-            StartToBlink(false);
+            if (m_useBlink)
+            {
+                m_blinkIsActivate = false;
+                StartToBlink(false);
+            }
             CheckToStartChangeImageColorCoroutine(m_fromColor, m_speedToFadeOff);
         }
     }
@@ -79,11 +85,14 @@ public class ChangeImageValues : ChangeValues
         while (actualColor != toColor)
         {
             fracJourney += (Time.deltaTime) * speed / m_distanceFromTargetedColors;
-            actualColor = Color.Lerp(fromColor, toColor, fracJourney);
+            if (m_useCurve)
+                actualColor = Color.Lerp(fromColor, toColor, m_curve.Evaluate(fracJourney));
+            else
+                actualColor = Color.Lerp(fromColor, toColor, fracJourney);
             SetImageColor(m_targetImage, actualColor);
             yield return null;
         }
-        if (m_blinkIsActivate)
+        if (m_useBlink && m_blinkIsActivate)
             StartToBlink(true);
         else
             m_valueIsChanging = false;
@@ -113,14 +122,14 @@ public class ChangeImageValues : ChangeValues
         Color actualColor = fromColor;
         float fracJourney = 0;
 
-        while (actualColor != toColor && m_blinkIsActivate)
+        while (actualColor != toColor && m_useBlink && m_blinkIsActivate)
         {
             fracJourney += (Time.deltaTime) * speed / distance;
             actualColor = Color.Lerp(fromColor, toColor, fracJourney);
             SetImageColor(m_targetImage, actualColor);
             yield return null;
         }
-        if (m_blinkIsActivate)
+        if (m_useBlink && m_blinkIsActivate)
             StartCoroutine(BlinkImageColor());
         else
             m_valueIsChanging = false;
@@ -128,6 +137,7 @@ public class ChangeImageValues : ChangeValues
 
     public override void StopChangingValues()
     {
+        // m_blinkIsActivate = false;
         StartToBlink(false);
         base.StopChangingValues();
     }

@@ -8,6 +8,7 @@ public class DamageIndicator : MonoBehaviour
     
     [SerializeField] float m_timeToShow = 2;
 
+    Animator m_animator;
     RectTransform m_myTrans;
     Transform m_player;
     Transform m_target;
@@ -17,10 +18,20 @@ public class DamageIndicator : MonoBehaviour
     void Awake()
     {
         m_myTrans = GetComponent<RectTransform>();
+        m_animator = GetComponent<Animator>();
     }
     void OnEnable()
     {
         Invoke("On_StopShowIndicator", m_timeToShow);
+        PlayerController player = PlayerController.s_instance;
+        if (player != null)
+        {
+            bool onFury = player.GetComponent<BPMSystem>().IsCurrentlyOnFury;
+            if (onFury)
+                m_animator.SetTrigger("StartFury");
+            else
+                m_animator.SetTrigger("StartNoFury");
+        }
     }
 
     public void SetupIndicator(Transform player, Transform target)

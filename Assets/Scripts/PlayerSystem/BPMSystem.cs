@@ -15,6 +15,11 @@ public class BPMSystem : MonoBehaviour
         public int maxBPM = 300;
         public int startingBPM = 100;
         public int criticalLvlOfBPM = 75;
+        public int m_activateFuryBPM = 500;
+
+        [Header("Feedback")]
+        public ChangeImageValues m_criticalBpmFeedBackScreen;
+
         [Space]
         public int BPMGain_OnNoSpot;
         public int BPMGain_OnWeak;
@@ -105,6 +110,9 @@ public class BPMSystem : MonoBehaviour
         public Image _overdrenalineFeedBack;
         public Image _overdrenalineButton;
 
+        [Header("Feedback")]
+        public ChangeImageValues m_overadrenalineFeedBackScreen;
+        public ParticleSystem m_overadrenalineFeedBackParticles;
     }
 
     [Space]
@@ -116,8 +124,9 @@ public class BPMSystem : MonoBehaviour
     
     float _currentOverdrenalineCooldown;
     bool _canUseFury;
-    bool _furyCoolDownOver;
+    bool _furyCoolDownOver = true;
     bool _isCurrentlyOnFury;
+    public bool IsCurrentlyOnFury { get => _isCurrentlyOnFury; }
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
     WeaponBehaviour weapon;
@@ -203,13 +212,8 @@ public class BPMSystem : MonoBehaviour
         else
         {
             _currentBPM = _BPM.maxBPM;
-            if (_furyCoolDownOver) ///Fury dispo
-            {
-                _overdrenaline._overdrenalineButton.gameObject.SetActive(true);
-                _canUseFury = true;
-            }
-
         }
+        CheckCanActivateFury();
         CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
@@ -221,11 +225,21 @@ public class BPMSystem : MonoBehaviour
         {
             m_isInCriticalLevelOfBPM = true;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
+            _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
         }
         else if(_currentBPM > _BPM.criticalLvlOfBPM && m_isInCriticalLevelOfBPM)
         {
             m_isInCriticalLevelOfBPM = false;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
+            _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+        }
+    }
+    void CheckCanActivateFury()
+    {
+        if (_currentBPM >= _BPM.m_activateFuryBPM && _furyCoolDownOver && !_canUseFury && !_isCurrentlyOnFury)
+        {
+            _overdrenaline._overdrenalineButton.gameObject.SetActive(true);
+            _canUseFury = true;
         }
     }
 
@@ -383,17 +397,15 @@ public class BPMSystem : MonoBehaviour
     {
         if (HasUsedFury())
         {
-            _canUseFury = false;
-
-            _currentOverdrenalineCooldown = 0;
-
             //Set le BPM au max quand on active l'overadrénaline
-            // GainBPM(_BPM.maxBPM - _currentBPM); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
+            GainBPM(_BPM.maxBPM - _currentBPM); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
+
+            _canUseFury = false;
 
             _overdrenaline._overdrenalineButton.gameObject.SetActive(false);
             StartCoroutine(OnOverADActivate());
         }
-        _furyCoolDownOver = FuryCoolDownHandeler();
+        FuryCoolDownHandeler();
     }
 
     IEnumerator OnOverADActivate()
@@ -409,7 +421,15 @@ public class BPMSystem : MonoBehaviour
         {
             audioControl.PlayWeaponUpgradeSound(2);
         }
+
+        _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
+        var mainOveradrenalineFeedBackParticles = _overdrenaline.m_overadrenalineFeedBackParticles.main;
+        mainOveradrenalineFeedBackParticles.loop = true;
+        _overdrenaline.m_overadrenalineFeedBackParticles.Play();
+
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+
+        _currentOverdrenalineCooldown = 0;
         ChangeBpmShaderGaugeLength();
         if (audioControl != null)
         {
@@ -419,7 +439,11 @@ public class BPMSystem : MonoBehaviour
         _currentWeaponState = WeaponState.Level2;
         ChangeWeaponStats();
         ActivateBool(false);
+        
+        _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
+        mainOveradrenalineFeedBackParticles.loop = false;
     }
+    ParticleSystem ps;
     void ActivateBool(bool b)
     {
         _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(b);
@@ -428,7 +452,7 @@ public class BPMSystem : MonoBehaviour
         m_playerController.On_OveradrenalineIsActivated(b);
     }
 
-    bool FuryCoolDownHandeler()
+    void FuryCoolDownHandeler()
     {
         if (!_canUseFury && _currentOverdrenalineCooldown != _overdrenaline.overdrenalineCooldown)
         {
@@ -439,13 +463,16 @@ public class BPMSystem : MonoBehaviour
             if (_currentOverdrenalineCooldown >= _overdrenaline.overdrenalineCooldown)
             {
                 _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
-                return true;
+                _furyCoolDownOver = true;
+                CheckCanActivateFury();
             }
-            return false;
+            if (_furyCoolDownOver)
+                _furyCoolDownOver = false;
         }
         else
         {
-            return true;
+            if (!_furyCoolDownOver)
+                _furyCoolDownOver = true;
         }
     }
 

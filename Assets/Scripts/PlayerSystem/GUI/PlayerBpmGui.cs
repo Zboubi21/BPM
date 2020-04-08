@@ -27,6 +27,7 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] ChangeImageValues m_overadrenalineFeedback;
     [SerializeField] Color m_normalBpmValueColor = Color.yellow;
     [SerializeField] Color m_criticalBpmValueColor = Color.red;
+    [SerializeField] Color m_overadrenalineBpmValueColor = Color.blue;
 
     ObjectPooler m_objectPooler;
     int m_lastWeaponLvl;
@@ -89,17 +90,25 @@ public class PlayerBpmGui : MonoBehaviour
 
         m_lastWeaponLvl = weaponLvl;
     }
-    bool m_isInCtriticalLvl;
     public void On_CriticalLevelOfBPM(bool inCriticalLevel)
     {
         m_criticalLevelOfBPMFeedback.SwitchValue();
-        m_isInCtriticalLvl = inCriticalLevel;
         m_bpmValue.color = inCriticalLevel ? m_criticalBpmValueColor : m_normalBpmValueColor;
     }
     public void On_OverAdrenalineActivated(bool isActivated)
     {
+        // m_criticalLevelOfBPMFeedback.StopChangingValues();
         m_overadrenalineFeedback.SwitchValue();
-        m_criticalLevelOfBPMFeedback.StopChangingValues();
+        if (isActivated)
+        {
+            m_bpmValue.color = m_overadrenalineBpmValueColor;
+            m_bpmValue.font = m_bpmLvl[3];
+        }
+        else
+        {
+            m_bpmValue.color = m_normalBpmValueColor;
+            m_bpmValue.font = m_bpmLvl[2];
+        }
     }
     
 }

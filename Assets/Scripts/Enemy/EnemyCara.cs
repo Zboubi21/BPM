@@ -21,18 +21,18 @@ public class EnemyCara : SerializedMonoBehaviour
 
     }
     [Space]
-    private EnemyArchetype enemyArchetype;
-    [Space]
     public EnemyCaractéristique _enemyCaractéristique = new EnemyCaractéristique();
     [Serializable] public class EnemyCaractéristique
     {
+        public EnemyArchetype enemyArchetype;
+        [Space]
         public Move _move = new Move();
         [Serializable]
         public class Move
         {
             public float moveSpeed;
-            [Tooltip("The time needed for the NPC to look directly at the target ( when the target don't move ), it HAS to be less than 5 seconds")]
-            public float timeOfLateLookAt;
+            //[Tooltip("The time needed for the NPC to look directly at the target ( when the target don't move ), it HAS to be less than 5 seconds")]
+            //public float timeOfLateLookAt;
         }
 
         public Health _health = new Health();
@@ -53,6 +53,7 @@ public class EnemyCara : SerializedMonoBehaviour
             public float timeOfElectricalStunResistance;
         }
     }
+    public float rotationSpeed;
     EnemyController controller;
     protected float _currentLife;
     int _currentDamage;
@@ -69,7 +70,7 @@ public class EnemyCara : SerializedMonoBehaviour
     #region Get Set
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
     public bool IsDead { get => _isDead; set => _isDead = value; }
-    public EnemyArchetype EnemyArchetype { get => enemyArchetype; set => enemyArchetype = value; }
+    public EnemyArchetype EnemyArchetype { get => _enemyCaractéristique.enemyArchetype; set => _enemyCaractéristique.enemyArchetype = value; }
 
     public float CurrentTimeForStun { get => _currentTimeForStun; set => _currentTimeForStun = value; }
     public float CurrentTimeForStunResistance { get => _currentTimeForStunResistance; set => _currentTimeForStunResistance = value; }
@@ -84,6 +85,7 @@ public class EnemyCara : SerializedMonoBehaviour
         _isDead = false;
         playerController = PlayerController.s_instance;
         InitializeEnemyStats();
+        GiveArchetypeToTheEnemy();
     }
 
     PlayerController playerController;
@@ -96,14 +98,17 @@ public class EnemyCara : SerializedMonoBehaviour
             controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
             if(playerController != null)
             {
-                if(playerController.maxRecordPositionTime > 0)
-                {
-                    _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
-                }
-                else
-                {
-                    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-                }
+                //if(playerController.maxRecordPositionTime > 0)
+                //{
+                //    if(_enemyCaractéristique._move.timeOfLateLookAt != 0)
+                //    {
+                //        _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+                //    }
+                //}
+                //else
+                //{
+                //    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+                //}
             }
         }
         if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
@@ -117,11 +122,11 @@ public class EnemyCara : SerializedMonoBehaviour
         }
     }
 
-    protected virtual void Start()
+    public void GiveArchetypeToTheEnemy()
     {
-        if (enemyArchetype != null)
+        if (_enemyCaractéristique.enemyArchetype != null)
         {
-            enemyArchetype.PopulateArray();
+            _enemyCaractéristique.enemyArchetype.PopulateArray();
             if (EnemyArchetype.Spots.Count > 0)
             {
                 for (int i = 0, l = EnemyArchetype.Spots.Count; i < l; ++i)
@@ -131,6 +136,11 @@ public class EnemyCara : SerializedMonoBehaviour
                 }
             }
         }
+    }
+
+    protected virtual void Start()
+    {
+        GiveArchetypeToTheEnemy();
     }
 
     private void Update()
@@ -251,18 +261,18 @@ public class EnemyCara : SerializedMonoBehaviour
         }
         //_currentDamage = _enemyCaractéristique._attack.damage;
     }
-    private void OnDrawGizmos()
-    {
-        if (controller != null)
-        {
-            if (playerController != null)
-            {
-                if (playerController.maxRecordPositionTime > 0)
-                {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawWireSphere(playerController.AllPreviousPos[_currentIndexInLateLookAt], 0.1f);
-                }
-            }
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if (controller != null)
+    //    {
+    //        if (playerController != null)
+    //        {
+    //            if (playerController.maxRecordPositionTime > 0 && _currentIndexInLateLookAt != 0)
+    //            {
+    //                Gizmos.color = Color.red;
+    //                Gizmos.DrawWireSphere(playerController.AllPreviousPos[_currentIndexInLateLookAt], 0.1f);
+    //            }
+    //        }
+    //    }
+    //}
 }

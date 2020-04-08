@@ -51,27 +51,24 @@ public class FX : MonoBehaviour {
     {
         if(IsCallFromPool)
         {
-            if ((audio != null) && (ps != null))
+            if ((audio != null) && (ps != null) && audio.clip != null)
             {
-                if (audio.clip != null)
+                if (audio.clip.length >= ps.main.duration)
                 {
-                    if (audio.clip.length >= ps.main.duration)
+                    StartCoroutine(ReturnToPoolAfterATime(audio.clip.length));
+                }
+                else if (ps.main.duration >= audio.clip.length)
+                {
+                    if (!ps.main.loop)
                     {
-                        StartCoroutine(ReturnToPoolAfterATime(audio.clip.length));
-                    }
-                    else if (ps.main.duration >= audio.clip.length)
-                    {
-                        if (!ps.main.loop)
-                        {
-                            StartCoroutine(ReturnToPoolAfterATime(ps.main.duration));
+                        StartCoroutine(ReturnToPoolAfterATime(ps.main.duration));
 
-                        }
                     }
                 }
             }
             else
             {
-                if (audio != null)
+                if (audio != null && audio.clip != null)
                 {
                     if(audio.clip != null)
                     {
@@ -99,7 +96,7 @@ public class FX : MonoBehaviour {
 
     IEnumerator ReturnToPoolAfterATime(float time)
     {
-        yield return new WaitForSeconds(time+1);
+        yield return new WaitForSeconds(time);
         objectPooler.ReturnFXToPool(FXType, this.gameObject);
     }
 }

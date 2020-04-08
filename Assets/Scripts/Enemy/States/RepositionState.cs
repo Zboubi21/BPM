@@ -18,6 +18,8 @@ public class RepositionState : IState
     public void Enter()
     {
         ///play run animation
+        m_enemyController.Anim.SetTrigger("Run");
+
         m_enemyController.AudioControl.On_Run(true);
         m_enemyController.CurrentTarget = m_enemyController.FindBestSpotsInRangeOfTarget(m_enemyController.Player); //Find a new spot around the player (can be a cover)
 

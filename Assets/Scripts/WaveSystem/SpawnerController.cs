@@ -10,7 +10,6 @@ using UnityEngine.AI;
 public class SpawnerController : MonoBehaviour
 {
 
-    EnemyType enemy = EnemyType.EnemyBase;
 
     EnemyArchetypes enemyArchetypes = new EnemyArchetypes();
     [Serializable]
@@ -20,7 +19,8 @@ public class SpawnerController : MonoBehaviour
         //[TableColumnWidth(40, Resizable = false)]
         public int waveNbr;
         //[TableColumnWidth(90)]
-        public EnemyArchetype[] m_enemyArchetype;
+        public EnemyType[] enemy;
+
     }
     //public Dictionary<int, EnemyArchetype[]> waveManager = new Dictionary<int, EnemyArchetype[]>();
     [Space]
@@ -55,7 +55,7 @@ public class SpawnerController : MonoBehaviour
         {
             if (Waves[i].waveNbr == wave)
             {
-                for (int a = 0, f = Waves[wave].m_enemyArchetype.Length; a < f; ++a) 
+                for (int a = 0, f = Waves[wave].enemy.Length; a < f; ++a) 
                 {
                     controller.NbrOfEnemy++;
                 }
@@ -69,7 +69,7 @@ public class SpawnerController : MonoBehaviour
         {
             if (Waves[i].waveNbr == wave)  // Verifie si il y a plusieur index avec le meme int, et pour chacun d'eux si ils sont égaux à la wave en cours commence à faire spawn
             {
-                for (int a = 0, f = Waves[wave].m_enemyArchetype.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
+                for (int a = 0, f = Waves[wave].enemy.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
                 {
 
                     yield return new WaitForSeconds(OnCreateTimeBetweenSpawn(controller));
@@ -86,11 +86,11 @@ public class SpawnerController : MonoBehaviour
                         }
                     }
 
-                    GameObject go = m_objectPooler.SpawnEnemyFromPool(enemy, spawnPosition, transform.rotation);
+                    GameObject go = m_objectPooler.SpawnEnemyFromPool(Waves[wave].enemy[a], spawnPosition, transform.rotation);
 
                     EnemyCara cara = go.GetComponent<EnemyCara>();
-                    cara.EnemyArchetype = Waves[wave].m_enemyArchetype[a];  // Donne à l'enemy spawned l'archetype "a" de la wave en cours
-
+                    //cara.EnemyArchetype = Waves[wave].m_enemyType[a];  // Donne à l'enemy spawned l'archetype "a" de la wave en cours
+                    //cara.GiveArchetypeToTheEnemy();
                     Spawned_Tracker tracker = go.AddComponent<Spawned_Tracker>();
                     tracker.Controller = controller;
 

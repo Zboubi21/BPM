@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     [Serializable] public class DEBUG
     {
         public bool useGizmos;
+        public bool useDebugLogs;
 
         public Text m_stateText;
         public Text m_lifeText;
@@ -23,6 +24,7 @@ public class EnemyController : MonoBehaviour
         public GameObject m_destinationImage;
 
         public float obstacleAvoidance = 3f;
+        public Transform aimSpine;
     }
 
     #region State Machine
@@ -62,6 +64,7 @@ public class EnemyController : MonoBehaviour
     Vector3 currentTarget;
     ObjectPooler objectPooler;
     PlayerController playerController;
+    Animator anim;
 
     float distanceToTarget;
     float distanceToPlayer;
@@ -81,6 +84,7 @@ public class EnemyController : MonoBehaviour
     public EnemyAudioController AudioControl { get => audioControl; set => audioControl = value; }
     public float DistanceToPlayer { get => distanceToPlayer; set => distanceToPlayer = value; }
     public PlayerController PlayerController { get => playerController; set => playerController = value; }
+    public Animator Anim { get => anim; set => anim = value; }
     #endregion
 
 
@@ -94,6 +98,7 @@ public class EnemyController : MonoBehaviour
         manager = GameManager.Instance;
         objectPooler = ObjectPooler.Instance;
         playerController = PlayerController.s_instance;
+        anim = GetComponent<Animator>();
     }
 
     void SetupStateMachine()
@@ -149,6 +154,8 @@ public class EnemyController : MonoBehaviour
                 _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeOfElectricalStunResistance, 0, Cara.CurrentTimeForElectricalStun);
                 _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForElectricalStun);
             }
+
+            //_debug.spine.LookAt(Player.position);
         }
         _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
         _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);
@@ -157,6 +164,7 @@ public class EnemyController : MonoBehaviour
 
         DistanceToTarget = GetTargetDistance(currentTarget);
         DistanceToPlayer = GetTargetDistance(Player.position);
+        //_debug.aimSpine = playerController.transform;
 
     }
 
@@ -352,12 +360,14 @@ public class EnemyController : MonoBehaviour
             agent.CalculatePath(newTarget, path);
             if (path.status == NavMeshPathStatus.PathComplete)
             {
+                //Debug.Log("J'ai trouver une destination ! " + this);
                 return newTarget;
             }
             else
             {
                 playerIsOnNavMesh = false;
             }
+            //Debug.Log(this +" : "+ count);
             count--;
         }
         ChangeState((int)EnemyState.Enemy_RepositionState);
@@ -441,7 +451,7 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(poolTracker);
         }
-        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.EnemyBase, gameObject);
+        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }
 
     void EnableDisableCollider(bool b)
@@ -492,6 +502,9 @@ public class EnemyController : MonoBehaviour
                 cara = GetComponent<EnemyCara>();
             }
         }
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
     }
 }
 

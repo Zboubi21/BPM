@@ -29,8 +29,8 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         public float enemyAttackDispersement;
     }
     [Space]
-    public GameObject enemyProjectil;
-    [Space]
+    //public GameObject enemyProjectil;
+    //[Space]
     [Tooltip("Pour que l'ennemies ne tir pas dans les pieds du player")]
     public float YOffset = 1f;
     EnemyController enemyController;
@@ -65,13 +65,14 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     //        yield return new WaitForEndOfFrame();
     //    }
     //}
-
+    Vector3 playerPosOnShoot;
     int countAttacks;
-    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime)
+    public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime, Vector3 lastPlayerPos)
     {
         //yield return StartCoroutine(CheckIfPlayerIsInSight());
 
         countAttacks++;
+        playerPosOnShoot = lastPlayerPos;
         for (int i = 0; i < nbrOfShoot; ++i)
         {
             if (!enemyController.EnemyCantShoot)
@@ -84,7 +85,12 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
 
         }
         audioControl.PlayAppropriateLastFireSound();
-        yield return new WaitForSeconds(UnityEngine.Random.Range(minRechargeTime, maxRechargeTime));
+        float time = UnityEngine.Random.Range(minRechargeTime, maxRechargeTime);
+#if UNITY_EDITOR
+        if(enemyController._debug.useDebugLogs)
+            Debug.Log(this.enemyController + " I'm waiting " + time + " seconds before changing state.");
+#endif
+        yield return new WaitForSeconds(time);
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
             //Debug.Log("Before Throwing Dices");
@@ -167,14 +173,14 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     #region FeedBack Projectile Methods
     public override GameObject InstatiateProj()
     {
-        if(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt] != null)
-        {
-           _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
-        }
-        else
-        {
-            Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-        }
+        _SMG.firePoint.transform.LookAt(OnSearchForLookAt());
+        //if(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt] != null)
+        //{
+        //}
+        //else
+        //{
+        //    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+        //}
         /*Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.Slerp(enemyController.transform.forward, 
@@ -205,9 +211,9 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public override Vector3 OnSearchForLookAt()
     {
         Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
-        return new Vector3(enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].x + dispersion.x, 
-                            (enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].y) + dispersion.y,
-                                enemyController.PlayerController.AllPreviousPos[enemyController.Cara.CurrentIndexInLateLookAt].z );
+        return new Vector3(playerPosOnShoot.x + dispersion.x, 
+                            (playerPosOnShoot.y) + dispersion.y,
+                                playerPosOnShoot.z );
     }
 
     #endregion
