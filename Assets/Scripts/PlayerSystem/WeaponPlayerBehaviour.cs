@@ -142,20 +142,23 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     WaveScreenController ctrler = _hit.collider.GetComponent<WaveScreenController>();
 
-                    int i = (int)ctrler._screenChannel + 1;
+                    if(ctrler != null)
+                    {
+                        int i = (int)ctrler._screenChannel + 1;
 
-                    if (i == (int)ScreenChannel.CocoChannel)
-                    {
-                        i++;
-                    }
+                        if (i == (int)ScreenChannel.CocoChannel)
+                        {
+                            i++;
+                        }
 
-                    if (i <= (int)ScreenChannel.ScoreCountChannel)
-                    {
-                        ctrler.SwitchChannel(i);
-                    }
-                    else
-                    {
-                        ctrler.SwitchChannel(0);
+                        if (i <= (int)ScreenChannel.ScoreCountChannel)
+                        {
+                            ctrler.SwitchChannel(i);
+                        }
+                        else
+                        {
+                            ctrler.SwitchChannel(0);
+                        }
                     }
                 }
             }
