@@ -45,6 +45,73 @@ MonoBehaviour:
     m_Value: 8
     min: 4
     max: 64
+--- !u!114 &-3658530672440771278
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81bcacc415a1f743bfdf703afc52027, type: 3}
+  m_Name: GradientSky
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 1
+    m_Value: 6.49
+  multiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 0
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  top:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  middle:
+    m_OverrideState: 1
+    m_Value: {r: 0.3, g: 0.7, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  bottom:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  gradientDiffusion:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &-2249617754250038658
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -158,7 +225,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   skyType:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 3
   skyAmbientMode:
     m_OverrideState: 1
     m_Value: 0
@@ -180,104 +247,10 @@ MonoBehaviour:
   components:
   - {fileID: -1781829853410641726}
   - {fileID: -2249617754250038658}
-  - {fileID: 4757286800161324090}
   - {fileID: 8942424137582947588}
   - {fileID: -8244922992228325394}
   - {fileID: -1001499786749307315}
-  - {fileID: 5201379713855026371}
---- !u!114 &4757286800161324090
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ddcec8a8eb2d684d833ac8f5d26aebd, type: 3}
-  m_Name: HDShadowSettings
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  maxShadowDistance:
-    m_OverrideState: 1
-    m_Value: 513.6
-    min: 0
-  cascadeShadowSplitCount:
-    m_OverrideState: 1
-    m_Value: 3
-    min: 1
-    max: 4
-  cascadeShadowSplit0:
-    m_OverrideState: 1
-    m_Value: 0.14559856
-  cascadeShadowSplit1:
-    m_OverrideState: 1
-    m_Value: 0.6715666
-  cascadeShadowSplit2:
-    m_OverrideState: 1
-    m_Value: 0.9452406
-  cascadeShadowBorder0:
-    m_OverrideState: 1
-    m_Value: 0
-  cascadeShadowBorder1:
-    m_OverrideState: 1
-    m_Value: 0.3708001
-  cascadeShadowBorder2:
-    m_OverrideState: 1
-    m_Value: 0.15537019
-  cascadeShadowBorder3:
-    m_OverrideState: 1
-    m_Value: 0
---- !u!114 &5201379713855026371
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59b6606ef2548734bb6d11b9d160bc7e, type: 3}
-  m_Name: HDRISky
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  rotation:
-    m_OverrideState: 1
-    m_Value: 11
-    min: 0
-    max: 360
-  skyIntensityMode:
-    m_OverrideState: 1
-    m_Value: 0
-  exposure:
-    m_OverrideState: 1
-    m_Value: -5.38
-  multiplier:
-    m_OverrideState: 1
-    m_Value: 1
-    min: 0
-  upperHemisphereLuxValue:
-    m_OverrideState: 0
-    m_Value: 1.9959868
-    min: 0
-  desiredLuxValue:
-    m_OverrideState: 0
-    m_Value: 20000
-  updateMode:
-    m_OverrideState: 1
-    m_Value: 0
-  updatePeriod:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-  includeSunInBaking:
-    m_OverrideState: 0
-    m_Value: 0
-  hdriSky:
-    m_OverrideState: 1
-    m_Value: {fileID: 8900000, guid: b46c32c0abb6ee449a494d609bc28200, type: 3}
+  - {fileID: -3658530672440771278}
 --- !u!114 &8942424137582947588
 MonoBehaviour:
   m_ObjectHideFlags: 3
