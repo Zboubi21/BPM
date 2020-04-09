@@ -30,6 +30,7 @@ public class EnemyController : MonoBehaviour
     #region State Machine
 
     public StateMachine m_sM = new StateMachine();
+    public float maxTimeInStates;
     public virtual void OnEnable()
     {
         EnemyCantShoot = false;
@@ -185,6 +186,13 @@ public class EnemyController : MonoBehaviour
 
 
     #region NPC motion state methods
+    public IEnumerator MaxTimeInThatState(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ChangeState((int)EnemyState.Enemy_RepositionState);
+    }
+
+
     bool hasFoundACover = false;
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
     {

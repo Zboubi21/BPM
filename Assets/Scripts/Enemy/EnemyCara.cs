@@ -33,6 +33,8 @@ public class EnemyCara : SerializedMonoBehaviour
             public float moveSpeed;
             //[Tooltip("The time needed for the NPC to look directly at the target ( when the target don't move ), it HAS to be less than 5 seconds")]
             //public float timeOfLateLookAt;
+            public float rotationSpeed;
+
         }
 
         public Health _health = new Health();
@@ -53,7 +55,6 @@ public class EnemyCara : SerializedMonoBehaviour
             public float timeOfElectricalStunResistance;
         }
     }
-    public float rotationSpeed;
     EnemyController controller;
     protected float _currentLife;
     int _currentDamage;

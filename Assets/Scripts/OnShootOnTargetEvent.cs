@@ -29,7 +29,7 @@ public class OnShootOnTargetEvent : MonoBehaviour
             {
                 if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision))
                 {
-                    if (_hit.collider.CompareTag("Screen"))
+                    if (_hit.collider.CompareTag("Screen") && _hit.collider == gameObject.GetComponent<Collider>())
                     {
                         if (!hasBeenShooted)
                         {

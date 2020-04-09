@@ -133,7 +133,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 }
                 break;
         }
-
+        /*
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (WeaponForwardRaycast())
@@ -163,7 +163,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 }
             }
         }
-
+        */
         #region Easter Egg
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {

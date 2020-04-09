@@ -25,6 +25,8 @@ public class ChaseState : IState
         playerController = PlayerController.s_instance;
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
         m_enemyController.CurrentTarget = m_enemyController.ChaseATarget(m_enemyController.Player);
+        m_enemyController.StartCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates));
+
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
 #endif
@@ -36,6 +38,7 @@ public class ChaseState : IState
         m_enemyController.DestroyObj(go);
 #endif
         m_enemyController.AudioControl.On_Run(false);
+        m_enemyController.StopCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates));
 
     }
 

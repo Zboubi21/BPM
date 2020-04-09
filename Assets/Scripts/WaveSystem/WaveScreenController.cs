@@ -18,7 +18,7 @@ public class WaveScreenController :  MonoBehaviour
     float currentFontSize;
     float maxFontSize = 0.35f;
 
-    private void Start()
+    private void Awake()
     {
         allWaveScreen = GetComponentsInChildren<WaveScreenReference>();
         //ChangeInformationDisplayed(_screenChannel);

@@ -36,7 +36,7 @@ public class WaveController : MonoBehaviour
     public int maxWave;
     int _nbrOfEnemy;
     int _nbrOfDeadEnemy;
-    int _nbrOfWave;
+    int _nbrOfWave = 0;
     bool hasStarted;
     int nbrOfCocoScreen;
 
@@ -59,6 +59,10 @@ public class WaveController : MonoBehaviour
             }
         }
         _nbrOfWave = 0;
+        NbrOfDeadEnemy = 0;
+        NbrOfEnemy = 0;
+        ChangeAllScreen(ScreenChannel.WaveCountChannel);
+        ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
     }
 
     private void Update()
@@ -85,6 +89,7 @@ public class WaveController : MonoBehaviour
         NbrOfDeadEnemy = 0;
         NbrOfEnemy = 0;
         hasStarted = false;
+        Debug.Log("Has been called (ça devrait pas appel Paul)");
         ChangeAllScreen(ScreenChannel.WaveCountChannel);
         ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
     }
@@ -93,6 +98,7 @@ public class WaveController : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hasStarted)
         {
+            hasStarted = true;
             for (int i = 0, l = allSpawners.Length; i < l; ++i)
             {
                 StartCoroutine(allSpawners[i].WaveSpawner(_nbrOfWave, this));
@@ -102,7 +108,6 @@ public class WaveController : MonoBehaviour
             ChangeAllScreen(ScreenChannel.WaveCountChannel);
             ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
 
-            hasStarted = true;
         }
     }
 

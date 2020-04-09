@@ -1728,7 +1728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -1779,6 +1779,7 @@ MonoBehaviour:
     enemyArchetype: {fileID: 11400000, guid: 67ebe2b48256204429b14e7d49026637, type: 2}
     _move:
       moveSpeed: 8
+      rotationSpeed: 100
     _health:
       maxHealth: 100
       damageMultiplicatorOnWeakSpot: 2
@@ -1792,7 +1793,6 @@ MonoBehaviour:
       - 21
       - 11
       timeOfElectricalStunResistance: 0
-  rotationSpeed: 100
 --- !u!114 &4187508792682329746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1807,7 +1807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _debug:
     useGizmos: 1
-    useDebugLogs: 1
+    useDebugLogs: 0
     m_stateText: {fileID: 9192548192849436041}
     m_lifeText: {fileID: 5070937471344473386}
     stunResistance: {fileID: 6832153417444278926}
@@ -1818,6 +1818,7 @@ MonoBehaviour:
     aimSpine: {fileID: 0}
   m_sM:
     m_currentStateString: 
+  maxTimeInStates: 5
   shockVFX: {fileID: 0}
 --- !u!114 &3833438521590562171
 MonoBehaviour:
