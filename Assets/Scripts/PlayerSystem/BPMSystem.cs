@@ -121,6 +121,11 @@ public class BPMSystem : MonoBehaviour
     {
         public Transform m_indicatorRoot;
     }
+
+    [Header("Heart sound")]
+    public AudioSource m_heartAudioSource;
+    public float m_waitTimeBetweenSound = 0.25f, m_waitTimeAfterSound = 0.33f;
+    public AudioClip m_firstClip, m_secondClip;
     
     float _currentOverdrenalineCooldown;
     bool _canUseFury;
@@ -144,6 +149,21 @@ public class BPMSystem : MonoBehaviour
         FeedBackBPM();
 
         GainBPM(0f);
+
+
+        StartCoroutine(StartFirstSound());
+    }
+    IEnumerator StartFirstSound()
+    {
+        m_heartAudioSource.PlayOneShot(m_firstClip);
+        yield return new WaitForSeconds(m_waitTimeBetweenSound);
+        StartCoroutine(StartSecondSound());
+    }
+    IEnumerator StartSecondSound()
+    {
+        m_heartAudioSource.PlayOneShot(m_secondClip);
+        yield return new WaitForSeconds(m_waitTimeAfterSound);
+        StartCoroutine(StartFirstSound());
     }
 
     private void Update()
