@@ -123,9 +123,9 @@ public class BPMSystem : MonoBehaviour
     }
 
     [Header("Heart sound")]
-    public AudioSource m_heartAudioSource;
-    public float m_waitTimeBetweenSound = 0.25f, m_waitTimeAfterSound = 0.33f;
-    public AudioClip m_firstClip, m_secondClip;
+    // public AudioSource m_heartAudioSource;
+    // public float m_waitTimeBetweenSound = 0.25f, m_waitTimeAfterSound = 0.33f;
+    // public AudioClip m_firstClip, m_secondClip;
     
     float _currentOverdrenalineCooldown;
     bool _canUseFury;
@@ -149,21 +149,6 @@ public class BPMSystem : MonoBehaviour
         FeedBackBPM();
 
         GainBPM(0f);
-
-
-        StartCoroutine(StartFirstSound());
-    }
-    IEnumerator StartFirstSound()
-    {
-        m_heartAudioSource.PlayOneShot(m_firstClip);
-        yield return new WaitForSeconds(m_waitTimeBetweenSound);
-        StartCoroutine(StartSecondSound());
-    }
-    IEnumerator StartSecondSound()
-    {
-        m_heartAudioSource.PlayOneShot(m_secondClip);
-        yield return new WaitForSeconds(m_waitTimeAfterSound);
-        StartCoroutine(StartFirstSound());
     }
 
     private void Update()
@@ -246,12 +231,14 @@ public class BPMSystem : MonoBehaviour
             m_isInCriticalLevelOfBPM = true;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
             _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+            audioControl?.On_CriticalBpm(true);
         }
         else if(_currentBPM > _BPM.criticalLvlOfBPM && m_isInCriticalLevelOfBPM)
         {
             m_isInCriticalLevelOfBPM = false;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
             _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+            audioControl?.On_CriticalBpm(false);
         }
     }
     void CheckCanActivateFury()
@@ -437,24 +424,19 @@ public class BPMSystem : MonoBehaviour
         _currentWeaponState = WeaponState.Fury;
         ChangeBpmShaderGaugeLength();
         ChangeWeaponStats();
-        if (audioControl != null)
-        {
-            audioControl.PlayWeaponUpgradeSound(2);
-        }
+        audioControl?.PlayWeaponUpgradeSound(2);
 
         _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
         var mainOveradrenalineFeedBackParticles = _overdrenaline.m_overadrenalineFeedBackParticles.main;
         mainOveradrenalineFeedBackParticles.loop = true;
         _overdrenaline.m_overadrenalineFeedBackParticles.Play();
+        audioControl?.On_Overadrenaline(true);
 
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
 
         _currentOverdrenalineCooldown = 0;
         ChangeBpmShaderGaugeLength();
-        if (audioControl != null)
-        {
-            audioControl.PlayWeaponDegradeSound(0);
-        }
+        audioControl?.PlayWeaponDegradeSound(0);
 
         _currentWeaponState = WeaponState.Level2;
         ChangeWeaponStats();
@@ -462,6 +444,7 @@ public class BPMSystem : MonoBehaviour
         
         _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
         mainOveradrenalineFeedBackParticles.loop = false;
+        audioControl?.On_Overadrenaline(false);
     }
     ParticleSystem ps;
     void ActivateBool(bool b)

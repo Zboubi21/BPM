@@ -38,6 +38,20 @@ public class PlayerAudioController : AudioController
     [Header("Dash")]
     [SerializeField] Sounds m_dash;
 
+    [Header("BPM")]
+    [SerializeField] BPM m_bpm;
+    [Serializable] class BPM
+    {
+        public Sounds m_sounds;
+
+        [Header("Timers beetween sounds")]
+        public float m_waitTimeBetweenHeart = 0.4f;
+        public float m_waitTimeAfterNextHeart = 0.8f;
+    }
+
+    [Header("Overadrenaline")]
+    [SerializeField] SoundLooper m_overadrenaline;
+
     [Header("WeaponSound")]
     public WeaponSound weaponSound;
     [Serializable]
@@ -123,6 +137,8 @@ public class PlayerAudioController : AudioController
     bool m_isRunning = false;
     float m_targetedFootStepDistance;
 	float m_currentFootStepDistance = 0f;
+    bool m_isOnCriticalBpm = false;
+    bool m_isOnOveradrenaline = false;
 #endregion
 
 #region Event Functions
@@ -130,9 +146,8 @@ public class PlayerAudioController : AudioController
     {
         SetTargetedFootStepDistance();
     }
-	void Update () {
-        if (m_isRunning)
-            CheckFootSteps();
+	void FixedUpdate () {
+        CheckFootSteps();
 	}
     void OnDrawGizmos()
     {
@@ -147,6 +162,9 @@ public class PlayerAudioController : AudioController
 #region Private Functions
     void CheckFootSteps()
     {
+        if (!m_isRunning)
+            return;
+        
         m_currentFootStepDistance += Time.deltaTime;
         if (m_currentFootStepDistance > m_targetedFootStepDistance)
         {
@@ -230,6 +248,32 @@ public class PlayerAudioController : AudioController
         {
             StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
         }
+    }
+
+    public void On_CriticalBpm(bool criticalBpm)
+    {
+        m_isOnCriticalBpm = criticalBpm;
+        if (m_isOnCriticalBpm)
+            StartCoroutine(StartFirstHeartSound());
+    }
+    IEnumerator StartFirstHeartSound()
+    {
+        StartSound(m_bpm.m_sounds.m_audioSource, m_bpm.m_sounds.m_sounds[0], m_bpm.m_sounds.m_volume, m_bpm.m_sounds.m_volumeRandomizer, m_bpm.m_sounds.m_pitch, m_bpm.m_sounds.m_pitchRandomizer);
+        yield return new WaitForSeconds(m_bpm.m_waitTimeBetweenHeart);
+        if (m_isOnCriticalBpm)
+            StartCoroutine(StartSecondHeartSound());
+    }
+    IEnumerator StartSecondHeartSound()
+    {
+        StartSound(m_bpm.m_sounds.m_audioSource, m_bpm.m_sounds.m_sounds[1], m_bpm.m_sounds.m_volume, m_bpm.m_sounds.m_volumeRandomizer, m_bpm.m_sounds.m_pitch, m_bpm.m_sounds.m_pitchRandomizer);
+        yield return new WaitForSeconds(m_bpm.m_waitTimeAfterNextHeart);
+        if (m_isOnCriticalBpm)
+            StartCoroutine(StartFirstHeartSound());
+    }
+
+    public void On_Overadrenaline(bool isActivate)
+    {
+        m_overadrenaline.On_StartLoop(isActivate);
     }
 
     public void PlayAppropriateFireSound(int currentIndex)

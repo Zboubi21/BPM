@@ -22,6 +22,13 @@ public class AudioController : MonoBehaviour
         [Range(0, 1.5f)] public float m_pitchRandomizer = 0.1f;
     }
 
+    [System.Serializable] public class Sound
+    {
+        public AudioClip m_sound;
+        [Range(0, 1)] public float m_volume = 0.75f;
+        [Range(-3, 3)] public float m_pitch = 1;
+    }
+
     protected AudioClip GetAudioFromArray(AudioClip[] audios)
     {
         if (audios.Length == 0)
@@ -55,5 +62,31 @@ public class AudioController : MonoBehaviour
 
         audioSource.PlayOneShot(sound);
     }
-    
+
+    protected void StartSound(AudioSource audioSource, AudioClip audioClip, float volume, float pitch, float delay = 0)
+    {
+        audioSource.volume = volume;
+        audioSource.pitch = pitch;
+
+        if (delay == 0)
+            audioSource.PlayOneShot(audioClip);
+        else
+            StartCoroutine(StartSoundWithDelay(audioSource, audioClip, delay));
+    }
+    IEnumerator StartSoundWithDelay(AudioSource audioSource, AudioClip audioClip, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        audioSource.PlayOneShot(audioClip);
+    }
+    protected void StartSound(AudioSource audioSource, AudioClip audioClip, float volume, float volumeRandomizer, float pitch, float pitchRandomizer)
+    {
+        float volumeValue = GetRandomValue(volume, volumeRandomizer);
+        float pitchValue = GetRandomValue(pitch, pitchRandomizer);
+
+        audioSource.volume = volumeValue;
+        audioSource.pitch = pitchValue;
+
+        audioSource.PlayOneShot(audioClip);
+    }
+
 }
