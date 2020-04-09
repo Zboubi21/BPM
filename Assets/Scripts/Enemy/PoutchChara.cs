@@ -11,6 +11,7 @@ public class PoutchChara : EnemyCara
     [SerializeField] Transform m_canvas;
     [SerializeField] TextMeshProUGUI m_lifepoint;
     [SerializeField] float m_timeToDie = 1;
+    [SerializeField] bool m_dieAt0Lifepoint = false;
     
     Transform m_mainCamera;
     Animator m_animator;
@@ -45,7 +46,15 @@ public class PoutchChara : EnemyCara
 
     protected override void CheckIfDead()
     {
-        if (_currentLife < 0)
+        bool needToDie = false;
+
+        if (m_dieAt0Lifepoint && _currentLife <= 0)
+            needToDie = true;
+
+        if (!m_dieAt0Lifepoint && _currentLife < 0)
+            needToDie = true;
+
+        if (needToDie)
         {
             IsDead = true;
             StartCoroutine(Die());
