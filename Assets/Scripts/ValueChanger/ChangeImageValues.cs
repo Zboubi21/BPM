@@ -24,11 +24,11 @@ public class ChangeImageValues : ChangeValues
     IEnumerator m_currentBlinkAnim;
     bool m_isBlinkOn = true;
 
-    protected override void Start()
+    protected override void Awake()
     {
         m_targetImage = GetComponent<Image>();
 
-        base.Start();
+        base.Awake();
 
         m_distanceFromTargetedColors = GetDistanceFromColors(m_fromColor, m_toColor);
         m_speedToFadeIn = m_distanceFromTargetedColors / m_timeToFadeIn;
