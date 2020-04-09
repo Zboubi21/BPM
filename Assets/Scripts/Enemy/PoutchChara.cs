@@ -52,6 +52,12 @@ public class PoutchChara : EnemyCara
         }
     }
 
+    public void KillPoutch()
+    {
+        _currentLife = 0;
+        CheckIfDead();
+    }
+
     IEnumerator Die()
     {
         m_animator.SetBool("isDead", IsDead);

@@ -9,11 +9,12 @@ public class ChangeImageValues : ChangeValues
     
     [SerializeField] float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
     [SerializeField] Color m_fromColor, m_toColor;
+    [SerializeField] bool m_useCurve = false;
+    [SerializeField] AnimationCurve m_curve;
 
     [Header("Blink")]
     [SerializeField] bool m_useBlink = true;
-    [SerializeField] float m_minAlpha = 0;
-    [SerializeField] float m_maxAlpha = 1;
+    [SerializeField, Range(0, 255)] float m_minAlpha = 0, m_maxAlpha = 255;
     [SerializeField] float m_timeToChangeAlpha = 1;
 
     Image m_targetImage;
@@ -84,7 +85,10 @@ public class ChangeImageValues : ChangeValues
         while (actualColor != toColor)
         {
             fracJourney += (Time.deltaTime) * speed / m_distanceFromTargetedColors;
-            actualColor = Color.Lerp(fromColor, toColor, fracJourney);
+            if (m_useCurve)
+                actualColor = Color.Lerp(fromColor, toColor, m_curve.Evaluate(fracJourney));
+            else
+                actualColor = Color.Lerp(fromColor, toColor, fracJourney);
             SetImageColor(m_targetImage, actualColor);
             yield return null;
         }

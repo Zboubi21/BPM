@@ -16,6 +16,10 @@ public class BPMSystem : MonoBehaviour
         public int startingBPM = 100;
         public int criticalLvlOfBPM = 75;
         public int m_activateFuryBPM = 500;
+
+        [Header("Feedback")]
+        public ChangeImageValues m_criticalBpmFeedBackScreen;
+
         [Space]
         public int BPMGain_OnNoSpot;
         public int BPMGain_OnWeak;
@@ -106,6 +110,9 @@ public class BPMSystem : MonoBehaviour
         public Image _overdrenalineFeedBack;
         public Image _overdrenalineButton;
 
+        [Header("Feedback")]
+        public ChangeImageValues m_overadrenalineFeedBackScreen;
+        public ParticleSystem m_overadrenalineFeedBackParticles;
     }
 
     [Space]
@@ -218,11 +225,13 @@ public class BPMSystem : MonoBehaviour
         {
             m_isInCriticalLevelOfBPM = true;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
+            _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
         }
         else if(_currentBPM > _BPM.criticalLvlOfBPM && m_isInCriticalLevelOfBPM)
         {
             m_isInCriticalLevelOfBPM = false;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
+            _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
         }
     }
     void CheckCanActivateFury()
@@ -412,7 +421,14 @@ public class BPMSystem : MonoBehaviour
         {
             audioControl.PlayWeaponUpgradeSound(2);
         }
+
+        _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
+        var mainOveradrenalineFeedBackParticles = _overdrenaline.m_overadrenalineFeedBackParticles.main;
+        mainOveradrenalineFeedBackParticles.loop = true;
+        _overdrenaline.m_overadrenalineFeedBackParticles.Play();
+
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+
         _currentOverdrenalineCooldown = 0;
         ChangeBpmShaderGaugeLength();
         if (audioControl != null)
@@ -423,7 +439,11 @@ public class BPMSystem : MonoBehaviour
         _currentWeaponState = WeaponState.Level2;
         ChangeWeaponStats();
         ActivateBool(false);
+        
+        _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
+        mainOveradrenalineFeedBackParticles.loop = false;
     }
+    ParticleSystem ps;
     void ActivateBool(bool b)
     {
         _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(b);

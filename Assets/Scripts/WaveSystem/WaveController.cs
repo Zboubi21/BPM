@@ -72,6 +72,22 @@ public class WaveController : MonoBehaviour
         }
 #endif
     }
+    public void ResetWaveSystem()
+    {
+        if (screenController.Length > 0)
+        {
+            for (int i = 0, l = screenController.Length; i < l; ++i)
+            {
+                screenController[i].SetWaveController(this);
+            }
+        }
+        _nbrOfWave = -1;
+        NbrOfDeadEnemy = 0;
+        NbrOfEnemy = 0;
+        hasStarted = false;
+        ChangeAllScreen(ScreenChannel.WaveCountChannel);
+        ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
+    }
 
     private void OnTriggerEnter(Collider other)
     {
