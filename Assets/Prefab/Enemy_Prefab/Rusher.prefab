@@ -1647,6 +1647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _debug:
     useGizmos: 1
+    useDebugLogs: 1
     m_stateText: {fileID: 9192548192849436041}
     m_lifeText: {fileID: 5070937471344473386}
     stunResistance: {fileID: 6832153417444278926}
@@ -1654,7 +1655,7 @@ MonoBehaviour:
     m_destinationImage: {fileID: 3106017927150865168, guid: 34ff92ad5e53f384d8cbae4322b4a9cb,
       type: 3}
     obstacleAvoidance: 3
-    spine: {fileID: 0}
+    aimSpine: {fileID: 0}
   m_sM:
     m_currentStateString: 
   shockVFX: {fileID: 0}
@@ -1716,13 +1717,13 @@ MonoBehaviour:
     damage: 10
     rangeRadius: 10
     rangeOfAttackNoMatterWhat: 5
-    bulletSpeed: 30
+    bulletSpeed: 50
     timeBetweenEachBullet: 0.085714
     nbrOfShootOnRafale: 5
-    minTimeBetweenEachBurst: 1
-    maxTimeBetweenEachBurst: 3
+    minTimeBetweenEachBurst: 0.5
+    maxTimeBetweenEachBurst: 0.75
     _debugGizmos: 1
-    enemyAttackDispersement: 1
+    enemyAttackDispersement: 2
   YOffset: 1
 --- !u!114 &5378848665415633138
 MonoBehaviour:
