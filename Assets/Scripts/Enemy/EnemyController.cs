@@ -196,13 +196,16 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    #region NPC motion state methods
-    public IEnumerator MaxTimeInThatState(float time)
+    public IEnumerator MaxTimeInThatState(float time, EnemyState state)
     {
         yield return new WaitForSeconds(time);
-        ChangeState((int)EnemyState.Enemy_RepositionState);
+        if (m_sM.CompareState((int)state))
+        {
+            ChangeState((int)EnemyState.Enemy_RepositionState);
+        }
     }
 
+    #region NPC motion state methods
 
     bool hasFoundACover = false;
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
