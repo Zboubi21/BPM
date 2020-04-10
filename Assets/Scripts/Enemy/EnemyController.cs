@@ -40,7 +40,8 @@ public class EnemyController : MonoBehaviour
         ChangeState((int)EnemyState.Enemy_IdleState);
     }
     [Header("VFX")]
-    public GameObject shockVFX;
+    public FxType shockVFX;
+    public FxType electricalStunVFX;
 
     public void ChangeState(int i)
     {
@@ -241,7 +242,7 @@ public class EnemyController : MonoBehaviour
             int count = 200;
             hasFoundACover = false;
             bool playerIsOnNavMesh = true;
-            while (count > 0)
+            while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
             {
                 //Choisi un point aléatoire dans un cercle de la taille de la range du NPC
                 Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeRadius;
@@ -284,7 +285,7 @@ public class EnemyController : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target.position);
         Vector3 newPoint = Vector3.Lerp(transform.position, target.position, Cara.EnemyArchetype._rateOfAgressivity /*Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfAgressivity)*/);
         bool playerIsOnNavMesh = true;
-        while (count > 0)
+        while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de la taille de la range du NPC mutliplié par un coefficiant d'agressivité
             Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle /* (weaponBehavior._attack.rangeRadius * (Cara.EnemyArchetype._rateOfAgressivity/2))*/;
@@ -319,7 +320,7 @@ public class EnemyController : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target.position);
         Vector3 newPoint = Vector3.LerpUnclamped(target.position, transform.position, 1 /*+ weaponBehavior._attack.rangeRadius **/+ Cara.EnemyArchetype._rateOfDefensivity);
         bool playerIsOnNavMesh = true;
-        while (count > 0)
+        while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de radius 1;
             Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle /* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
@@ -352,7 +353,7 @@ public class EnemyController : MonoBehaviour
         Vector3 newTarget;
         Vector3 newPoint = target.position;
         bool playerIsOnNavMesh = true;
-        while (count > 0)
+        while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de radius 1;
             Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeOfAttackNoMatterWhat;/* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
@@ -426,6 +427,14 @@ public class EnemyController : MonoBehaviour
     {
         EnemyCantShoot = true;
         debugStunTime = time;
+        if(state == EnemyState.Enemy_StunState)
+        {
+            Level.AddFX(shockVFX, transform.position, Quaternion.identity);
+        }
+        else if(state == EnemyState.Enemy_ElectricalStunState)
+        {
+            Level.AddFX(electricalStunVFX, transform.position, Quaternion.identity);
+        }
         yield return new WaitForSeconds(time);
         EnemyCantShoot = false;
         if (m_sM.CompareState((int)state))
