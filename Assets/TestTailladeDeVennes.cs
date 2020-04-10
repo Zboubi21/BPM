@@ -7,10 +7,14 @@ public class TestTailladeDeVennes : MonoBehaviour
     
     [SerializeField] Transform m_target;
 
+    [SerializeField] float m_followSpeed = 1;
+
     void LateUpdate()
     {
-        transform.position = m_target.position;
         transform.rotation = m_target.rotation;
+
+        // transform.position = m_target.position;
+        transform.position = Vector3.Lerp(transform.position, m_target.position, Time.deltaTime * m_followSpeed);
     }
 
 }

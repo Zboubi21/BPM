@@ -16,6 +16,7 @@ public class ChangeImageValues : ChangeValues
     [SerializeField] bool m_useBlink = true;
     [SerializeField, Range(0, 255)] float m_minAlpha = 0, m_maxAlpha = 255;
     [SerializeField] float m_timeToChangeAlpha = 1;
+    [SerializeField] float m_waitTimeBetweenBlink = 0;
 
     Image m_targetImage;
     float m_distanceFromTargetedColors;
@@ -110,6 +111,9 @@ public class ChangeImageValues : ChangeValues
     IEnumerator BlinkImageColor()
     {
         m_isBlinkOn =! m_isBlinkOn;
+
+        if (m_isBlinkOn)
+            yield return new WaitForSeconds(m_waitTimeBetweenBlink);
 
         Color fromColor = m_targetImage.color;
         Color toColor = m_isBlinkOn ? new Color(fromColor.r, fromColor.g, fromColor.b, m_maxAlpha / 255) : new Color(fromColor.r, fromColor.g, fromColor.b, m_minAlpha / 255);
