@@ -29,7 +29,9 @@
         ImpactLevel2,
         ImpactLevel3,
         ImpactLevel4,
-        ImpactEnemy
+        ImpactEnemy,
+        EnemyStun,
+        EnemyElectricalStun,
     }
     [System.Serializable] public enum ObjectType {
         BpmGuiValues,

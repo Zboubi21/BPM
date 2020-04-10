@@ -13,6 +13,8 @@
         Enemy_ElectricalStunState,                // Numéro 7 (Low Priority)
         Enemy_DieState,                 // Numéro 8
 
+        Enemy_SpawnState,               // Numéro 9
+
         //Enemy_VictoryState,		        // Numéro 8 (Lowest Priority)
 
     }

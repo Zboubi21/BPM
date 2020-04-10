@@ -27,6 +27,13 @@ public class EnemyController : MonoBehaviour
         public Transform aimSpine;
     }
 
+    public Spawn m_spawn;
+    [Serializable] public class Spawn
+    {
+        public float m_timeToSpawn = 3;
+        public bool m_faceToPlayerWhenSpawned = true;
+    }
+
     #region State Machine
 
     public StateMachine m_sM = new StateMachine();
@@ -40,7 +47,8 @@ public class EnemyController : MonoBehaviour
         ChangeState((int)EnemyState.Enemy_IdleState);
     }
     [Header("VFX")]
-    public GameObject shockVFX;
+    public FxType shockVFX;
+    public FxType electricalStunVFX;
 
     public void ChangeState(int i)
     {
@@ -114,6 +122,7 @@ public class EnemyController : MonoBehaviour
             new StunState(this),				// 6 = Stun
             new ElectricalStunState(this),		// 7 = Elec Stun
 			new DieState(this),				    // 8 = Die
+			new SpawnState(this),				// 9 = Spawn
 		});
 
         string[] playerStateNames = System.Enum.GetNames(typeof(EnemyState));
@@ -241,7 +250,7 @@ public class EnemyController : MonoBehaviour
             int count = 200;
             hasFoundACover = false;
             bool playerIsOnNavMesh = true;
-            while (count > 0)
+            while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
             {
                 //Choisi un point aléatoire dans un cercle de la taille de la range du NPC
                 Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeRadius;
@@ -284,7 +293,7 @@ public class EnemyController : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target.position);
         Vector3 newPoint = Vector3.Lerp(transform.position, target.position, Cara.EnemyArchetype._rateOfAgressivity /*Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfAgressivity)*/);
         bool playerIsOnNavMesh = true;
-        while (count > 0)
+        while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de la taille de la range du NPC mutliplié par un coefficiant d'agressivité
             Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle /* (weaponBehavior._attack.rangeRadius * (Cara.EnemyArchetype._rateOfAgressivity/2))*/;
@@ -319,7 +328,7 @@ public class EnemyController : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target.position);
         Vector3 newPoint = Vector3.LerpUnclamped(target.position, transform.position, 1 /*+ weaponBehavior._attack.rangeRadius **/+ Cara.EnemyArchetype._rateOfDefensivity);
         bool playerIsOnNavMesh = true;
-        while (count > 0)
+        while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de radius 1;
             Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle /* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
@@ -352,7 +361,7 @@ public class EnemyController : MonoBehaviour
         Vector3 newTarget;
         Vector3 newPoint = target.position;
         bool playerIsOnNavMesh = true;
-        while (count > 0)
+        while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de radius 1;
             Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeOfAttackNoMatterWhat;/* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
@@ -426,6 +435,14 @@ public class EnemyController : MonoBehaviour
     {
         EnemyCantShoot = true;
         debugStunTime = time;
+        if(state == EnemyState.Enemy_StunState)
+        {
+            Level.AddFX(shockVFX, transform.position, Quaternion.identity);
+        }
+        else if(state == EnemyState.Enemy_ElectricalStunState)
+        {
+            Level.AddFX(electricalStunVFX, transform.position, Quaternion.identity);
+        }
         yield return new WaitForSeconds(time);
         EnemyCantShoot = false;
         if (m_sM.CompareState((int)state))
@@ -511,9 +528,28 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
+        if(_debug.aimSpine != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
+        }
     }
+
+    #region Spawn Enemy
+    public void On_SpawnEnemy()
+    {
+        if (m_spawn.m_faceToPlayerWhenSpawned)
+            FaceToTarget(PlayerController.s_instance.transform.position);
+        ChangeState((int)EnemyState.Enemy_SpawnState);
+    }
+    #endregion
+
+    void FaceToTarget(Vector3 targetPos)
+    {
+        transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }
+
 }
 
 /*

@@ -4191,6 +4191,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rusher
       objectReference: {fileID: 0}
+    - target: {fileID: 4187508792682329746, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
+        type: 3}
+      propertyPath: electricalStunVFX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4187508792682329747, guid: 5c1dc1d1913ea9d4f97348aa3298b540,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -5337,6 +5342,11 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8683629055148470983, guid: afa9eecb96c518548a307d2ca9de695b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afa9eecb96c518548a307d2ca9de695b, type: 3}
 --- !u!1 &1645878086
@@ -5767,7 +5777,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 5fbda587b5d38f84abf3ecc45011c080,
+      objectReference: {fileID: 23800000, guid: 2e66828b84967c6419a254a74d327d8b,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6eefe26e451520488247ee54f62dc72, type: 3}
@@ -6601,6 +6611,7 @@ MonoBehaviour:
     enemyArchetype: {fileID: 0}
     _move:
       moveSpeed: 0
+      rotationSpeed: 0
     _health:
       maxHealth: 5205120
       damageMultiplicatorOnWeakSpot: 1
@@ -6609,7 +6620,6 @@ MonoBehaviour:
       timeOfStun: 0
       allPercentLifeBeforeGettingStuned: []
       timeOfElectricalStunResistance: 0
-  rotationSpeed: 0
 --- !u!1 &1926500146
 GameObject:
   m_ObjectHideFlags: 0
