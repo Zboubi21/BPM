@@ -8,7 +8,6 @@ public class ChangeValues : MonoBehaviour
 
     [Header("Fade In / Fade Off")]
     [SerializeField] StartType m_startValue = StartType.StartWithFromValue;
-    public StartType StartValue { get => m_startValue; set => m_startValue = value; }
 
     protected bool m_needToFadeIn = true;   // Si m_needToFadeIn == false alors c'est qu'il faut FadeOut
     protected bool m_valueIsChanging = false;
@@ -21,7 +20,7 @@ public class ChangeValues : MonoBehaviour
         StartWithToValue,
     }
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         if (m_startValue == StartType.StartWithFromValue)
         {
@@ -66,6 +65,11 @@ public class ChangeValues : MonoBehaviour
     {
         if (image.color != newColor)
             image.color = newColor;
+    }
+
+    public void OverrideStartType(StartType startType)
+    {
+        m_startValue = startType;
     }
     
 }

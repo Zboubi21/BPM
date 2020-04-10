@@ -15,27 +15,27 @@ public class PlayerDelayScene : MonoBehaviour
     {
         if (m_startWithSceneLoader)
         {
-            SetMixerVolume(-80);
+            m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithFromValue);
             // PlayerController.
             // WeaponPlayerBehaviour.
             // BPMSystem.
         }
         else
         {
-            SetMixerVolume(0);
+            m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithToValue);
         }
     }
     void Start()
     {
         if (m_startWithSceneLoader)
         {
-            m_startSceneScreen.StartValue = ChangeValues.StartType.StartWithFromValue;
+            SetMixerVolume(-80);
             m_startSceneScreen.SwitchValue();
             StartCoroutine(WaitToActivatePlayer());
         }
         else
         {
-            m_startSceneScreen.StartValue = ChangeValues.StartType.StartWithToValue;
+            SetMixerVolume(0);
         }
     }
 

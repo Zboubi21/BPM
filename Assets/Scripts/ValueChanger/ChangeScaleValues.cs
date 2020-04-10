@@ -16,11 +16,9 @@ public class ChangeScaleValues : ChangeValues
     Vector3 m_startScale;
     int m_passNbr = 0;
 
-    protected override void Awake()
+    void Awake()
     {
         m_rectTrans = GetComponent<RectTransform>();
-
-        base.Awake();
 
         m_startScale = m_rectTrans.localScale;
         m_distanceToMaxSize = GetDistanceFromVectors(m_startScale, m_maxSizeAnim);
