@@ -27,6 +27,13 @@ public class EnemyController : MonoBehaviour
         public Transform aimSpine;
     }
 
+    public Spawn m_spawn;
+    [Serializable] public class Spawn
+    {
+        public float m_timeToSpawn = 3;
+        public bool m_faceToPlayerWhenSpawned = true;
+    }
+
     #region State Machine
 
     public StateMachine m_sM = new StateMachine();
@@ -115,6 +122,7 @@ public class EnemyController : MonoBehaviour
             new StunState(this),				// 6 = Stun
             new ElectricalStunState(this),		// 7 = Elec Stun
 			new DieState(this),				    // 8 = Die
+			new SpawnState(this),				// 9 = Spawn
 		});
 
         string[] playerStateNames = System.Enum.GetNames(typeof(EnemyState));
@@ -526,6 +534,22 @@ public class EnemyController : MonoBehaviour
             Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
         }
     }
+
+    #region Spawn Enemy
+    public void On_SpawnEnemy()
+    {
+        if (m_spawn.m_faceToPlayerWhenSpawned)
+            FaceToTarget(PlayerController.s_instance.transform.position);
+        ChangeState((int)EnemyState.Enemy_SpawnState);
+    }
+    #endregion
+
+    void FaceToTarget(Vector3 targetPos)
+    {
+        transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }
+
 }
 
 /*

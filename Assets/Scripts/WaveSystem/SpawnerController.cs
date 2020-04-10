@@ -96,8 +96,7 @@ public class SpawnerController : MonoBehaviour
 
                     EnemyController enemyController = go.GetComponent<EnemyController>();
                     yield return new WaitForFixedUpdate();
-                    enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
-
+                    enemyController.On_SpawnEnemy();
                 }
             }
         }
