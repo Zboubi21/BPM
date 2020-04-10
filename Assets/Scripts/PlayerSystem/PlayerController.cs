@@ -89,11 +89,15 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	[SerializeField] CameraController m_cameraControls;
-	[SerializeField] WeaponFollowPlayerCam m_weaponFollowPlayerCam;
-	[SerializeField] TransformFollower m_camPivotPos;
-	[SerializeField] TransformFollower m_camPivotRot;
-	[SerializeField] TransformFollower m_gunPivot;
+	[Space]
+
+	[SerializeField] ScriptOrder m_scriptOrder;
+	[Serializable] class ScriptOrder
+	{
+		public CameraController m_cameraControls;
+		public TransformFollower m_camPivot;
+		public TransformFollower m_gunPivot;
+	}
 
 #endregion
 
@@ -140,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
     float _currentTimefRecord;
 
-    public CameraController CameraControls { get => m_cameraControls; set => m_cameraControls = value; }
+    public CameraController CameraControls { get => m_scriptOrder.m_cameraControls; set => m_scriptOrder.m_cameraControls = value; }
 
     #endregion
 
@@ -177,42 +181,19 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate()
 	{
 		m_sM.FixedUpdate();
-		// m_cameraControls.UpdateScript();
-		// m_camPivotPos.UpdateScript();
-		// m_camPivotRot.UpdateScript();
-		// m_gunPivot.UpdateScript();
-
-		// m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection); // Pour l'instant ça ça marche !
-        //if(maxRecordPositionTime <= _currentTimefRecord)
-        //{
-        //    _currentTimefRecord = maxRecordPositionTime;
-        //    allPreviousPos.RemoveAt(0);
-        //}
-        //else
-        //{
-        //    _currentTimefRecord += Time.deltaTime;
-        //}
-        //allPreviousPos.Add(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
 	}
 
 	void Update()
 	{
 		m_sM.Update();
-		m_cameraControls.UpdateScript();
-		m_camPivotPos.UpdateScript();
-		m_camPivotRot.UpdateScript();
-		m_gunPivot.UpdateScript();
-		// m_weaponFollowPlayerCam.UpdateScript(m_playerMoveInputsDirection);
+		m_scriptOrder.m_cameraControls.UpdateScript();
+		m_scriptOrder.m_camPivot.UpdateScript();
+		m_scriptOrder.m_gunPivot.UpdateScript();
 	}
 
 	void LateUpdate()
 	{
 		m_sM.LateUpdate();
-		// m_cameraControls.UpdateScript();
-		// m_camPivotPos.UpdateScript();
-		// m_camPivotRot.UpdateScript();
-		// m_gunPivot.UpdateScript();
-		// m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection);
 	}
 #endregion
 
