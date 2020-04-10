@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8244922992228325394
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56b145d2b9ee1ac4f846968484e7485a, type: 3}
-  m_Name: ContactShadows
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  enable:
-    m_OverrideState: 1
-    m_Value: 1
-  length:
-    m_OverrideState: 0
-    m_Value: 0.15
-    min: 0
-    max: 1
-  opacity:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 1
-  distanceScaleFactor:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  maxDistance:
-    m_OverrideState: 0
-    m_Value: 50
-    min: 0
-  fadeDistance:
-    m_OverrideState: 0
-    m_Value: 5
-    min: 0
-  sampleCount:
-    m_OverrideState: 0
-    m_Value: 8
-    min: 4
-    max: 64
 --- !u!114 &-3658530672440771278
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -69,7 +24,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 2.61
+    m_Value: -3.16
   multiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -248,7 +203,6 @@ MonoBehaviour:
   - {fileID: -1781829853410641726}
   - {fileID: -2249617754250038658}
   - {fileID: 8942424137582947588}
-  - {fileID: -8244922992228325394}
   - {fileID: -1001499786749307315}
   - {fileID: -3658530672440771278}
 --- !u!114 &8942424137582947588
@@ -267,7 +221,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 3.56
+    m_Value: 1.31
     min: 0
     max: 4
   stepCount:
@@ -277,7 +231,7 @@ MonoBehaviour:
     max: 32
   radius:
     m_OverrideState: 1
-    m_Value: 1.5
+    m_Value: 0.8
     min: 0.25
     max: 5
   fullResolution:
@@ -285,12 +239,12 @@ MonoBehaviour:
     m_Value: 0
   maximumRadiusInPixels:
     m_OverrideState: 1
-    m_Value: 40
+    m_Value: 49
     min: 16
     max: 256
   directLightingStrength:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.334
     min: 0
     max: 1
   enableRaytracing:
