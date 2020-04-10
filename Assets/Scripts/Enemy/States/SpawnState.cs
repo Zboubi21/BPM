@@ -19,6 +19,7 @@ public class SpawnState : IState
     {
         m_timer = 0;
         m_timeIsDone = false;
+        m_enemyController.ActivateEnemyColliders(false);
     }
 
     public void FixedUpdate()
@@ -43,6 +44,7 @@ public class SpawnState : IState
 
     public void Exit()
     {
+        m_enemyController.ActivateEnemyColliders(true);
     }
 
 }

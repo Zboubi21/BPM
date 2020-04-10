@@ -79,6 +79,8 @@ public class EnemyController : MonoBehaviour
     float distanceToPlayer;
     bool _enemyCanShoot;
     bool isInMotion;
+    Collider[] enemyColliders;
+
     #region Get Set
     public NavMeshAgent Agent { get => agent; set => agent = value; }
     public Transform  Player { get => target; set => target = value; }
@@ -96,7 +98,6 @@ public class EnemyController : MonoBehaviour
     public Animator Anim { get => anim; set => anim = value; }
     #endregion
 
-
     public void Awake()
     {
         SetupStateMachine();
@@ -108,6 +109,7 @@ public class EnemyController : MonoBehaviour
         objectPooler = ObjectPooler.Instance;
         playerController = PlayerController.s_instance;
         anim = GetComponent<Animator>();
+        enemyColliders = GetComponentsInChildren<Collider>();
     }
 
     void SetupStateMachine()
@@ -543,6 +545,19 @@ public class EnemyController : MonoBehaviour
         ChangeState((int)EnemyState.Enemy_SpawnState);
     }
     #endregion
+
+    public void ActivateEnemyColliders(bool activate)
+    {
+        if (enemyColliders == null)
+            return;
+        for (int i = 0, l = enemyColliders.Length; i < l; ++i)
+        {
+            if (enemyColliders[i] != null)
+            {   
+                enemyColliders[i].enabled = activate;
+            }
+        }
+    }
 
     void FaceToTarget(Vector3 targetPos)
     {
