@@ -511,8 +511,11 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
+        if(_debug.aimSpine != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
+        }
     }
 }
 
