@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
 		// m_camPivotRot.UpdateScript();
 		// m_gunPivot.UpdateScript();
 
-		m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection); // C'était ça avant !
+		// m_weaponFollowPlayerCam.UpdateScript(m_playerInputsDirection); // Pour l'instant ça ça marche !
         //if(maxRecordPositionTime <= _currentTimefRecord)
         //{
         //    _currentTimefRecord = maxRecordPositionTime;

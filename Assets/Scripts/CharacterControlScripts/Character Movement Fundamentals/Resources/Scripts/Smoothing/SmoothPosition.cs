@@ -23,7 +23,8 @@ public class SmoothPosition : MonoBehaviour {
 	public enum UpdateType
 	{
 		Update,
-		LateUpdate
+		LateUpdate,
+		FixedUpdate
 	}
 	public UpdateType updateType;
 
@@ -63,13 +64,19 @@ public class SmoothPosition : MonoBehaviour {
 	}
 
 	void Update () {
-		if(updateType == UpdateType.LateUpdate)
+		if(updateType != UpdateType.Update)
 			return;
 		SmoothUpdate();
 	}
 
 	void LateUpdate () {
-		if(updateType == UpdateType.Update)
+		if(updateType != UpdateType.LateUpdate)
+			return;
+		SmoothUpdate();
+	}
+
+	void FixedUpdate () {
+		if(updateType != UpdateType.FixedUpdate)
 			return;
 		SmoothUpdate();
 	}
