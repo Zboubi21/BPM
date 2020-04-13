@@ -384,8 +384,8 @@ public class Projectile : MonoBehaviour
             case TypeOfCollision.UpdateRaycasts:
                 pos = _hit.point;
                 break;
-
         }
+        
         Level.AddFX(impactFX, pos, transform.rotation);    //Impact FX
 
         if (collider.GetComponent<Rigidbody>() != null)

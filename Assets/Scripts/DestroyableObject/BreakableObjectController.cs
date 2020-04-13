@@ -11,14 +11,12 @@ public class BreakableObjectController : DestroyableObjectController
     
     protected override void On_ObjectIsBreak()
     {
-        // base.On_ObjectIsBreak();
         m_baseMesh.SetActive(false);
         m_breakMesh.SetActive(true);
         Rigidbody[] rbody = GetComponentsInChildren<Rigidbody>();
         for (int i = 0, l = rbody.Length; i < l; ++i)
         {
-            Vector3 force = (rbody[i].transform.position - transform.position).normalized * m_breakForce;
-            rbody[i].AddForce(force);
+            rbody[i].AddForce(rbody[i].transform.position + (-rbody[i].transform.up * m_breakForce));
         }
     }
 

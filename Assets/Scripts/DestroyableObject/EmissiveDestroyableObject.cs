@@ -10,7 +10,7 @@ public class EmissiveDestroyableObject : DestroyableObjectController
 
     protected override void On_ObjectIsBreak()
     {
-        // base.On_ObjectIsBreak();
+        // base.On_ObjectIsBreak(impactPos);
 
         On_DeactivateShader();
 

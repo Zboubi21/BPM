@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	[Serializable] public class References{
 		public Transform m_cameraPivot;
 		public PlayerAudioController m_playerAudio;
+		public Animator m_weaponAnimator;
 	}
 
 	[Header("Movements")]
@@ -622,6 +623,15 @@ public class PlayerController : MonoBehaviour
 	public void On_OveradrenalineIsActivated(bool isActivated)
 	{
 		m_currentSpeed = isActivated ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
+	}
+
+	public void SetPlayerWeaponAnim(string name)
+	{
+		m_references.m_weaponAnimator?.SetTrigger(name);
+	}
+	public void SetPlayerWeaponAnim(string name, bool b)
+	{
+		m_references.m_weaponAnimator?.SetBool(name, b);
 	}
 
 #endregion

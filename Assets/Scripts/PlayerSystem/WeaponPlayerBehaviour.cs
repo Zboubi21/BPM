@@ -64,6 +64,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     [Serializable]
     public class WeaponRecoil
     {
+        public bool m_useRecoil = false;
         [Header("Recoil_Transform")]
         public Transform RecoilPositionTranform;
         public Transform RecoilRotationTranform;
@@ -252,6 +253,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         CanShoot = false;
 
         m_crosshair.On_Shoot();
+        PlayerController.s_instance.SetPlayerWeaponAnim("Fire");
 
         for (int i = 0; i < nbrOfShoot; ++i)
         {
@@ -279,12 +281,15 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     void FixedUpdate()
     {
-        CurrentPositionRecoil = Vector3.Lerp(CurrentPositionRecoil, Vector3.zero, weaponRecoil.PositionRecoil * Time.deltaTime);
-        CurrentRotationRecoil = Vector3.Lerp(CurrentRotationRecoil, Vector3.zero, weaponRecoil.RotationRecoil * Time.deltaTime);
+        if (weaponRecoil.m_useRecoil)
+        {
+            CurrentPositionRecoil = Vector3.Lerp(CurrentPositionRecoil, Vector3.zero, weaponRecoil.PositionRecoil * Time.deltaTime);
+            CurrentRotationRecoil = Vector3.Lerp(CurrentRotationRecoil, Vector3.zero, weaponRecoil.RotationRecoil * Time.deltaTime);
 
-        weaponRecoil.RecoilPositionTranform.localPosition = Vector3.Slerp(weaponRecoil.RecoilPositionTranform.localPosition, CurrentRotationRecoil, weaponRecoil.PositionDampTime * Time.fixedDeltaTime);
-        weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
-        RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
+            weaponRecoil.RecoilPositionTranform.localPosition = Vector3.Slerp(weaponRecoil.RecoilPositionTranform.localPosition, CurrentRotationRecoil, weaponRecoil.PositionDampTime * Time.fixedDeltaTime);
+            weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
+            RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
+        }
         
         SetPlayerCrosshairColor();
     }
