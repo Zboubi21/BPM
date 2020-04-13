@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3637938276927558255}
   m_Layer: 11
   m_Name: Cover_Mesh
-  m_TagString: Cover
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -304,10 +304,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3637938276967921167}
   - component: {fileID: 3637938276967921160}
-  - component: {fileID: 3637938276967921166}
+  - component: {fileID: 4218043359658775034}
   m_Layer: 11
   m_Name: Coverdestroyable
-  m_TagString: Cover
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -340,7 +340,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 1, z: 0.25505066}
   m_Center: {x: 0, y: 0.5, z: -0.3702774}
---- !u!114 &3637938276967921166
+--- !u!114 &4218043359658775034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -349,6 +349,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3637938276967921161}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ef0c261bf6508b4abe584d11a856d5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1240a8eb78bdaa74f953fc3b4976ab55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_lifePoint: 1

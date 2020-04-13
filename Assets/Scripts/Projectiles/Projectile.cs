@@ -361,12 +361,15 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        // Voir avec Paul pour cette partie car si la cover d'un ennemi est détruite, l'ennemi doit être au courant et réagir en fonction !
-        if (collider.CompareTag("Cover"))
+        if (collider.CompareTag("DestroyableObject"))
         {
             DestroyableObject destroyableObject = collider.GetComponent<DestroyableObject>();
             if (destroyableObject != null)
-                destroyableObject.BreakObject();
+                destroyableObject.TakeDamage(CurrentDamage);
+
+            DestroyableObjectController destroyableObjectController = collider.GetComponent<DestroyableObjectController>();
+            if (destroyableObjectController != null)
+                destroyableObjectController.TakeDamage(CurrentDamage);
         }
 
         Vector3 pos = Vector3.zero;
