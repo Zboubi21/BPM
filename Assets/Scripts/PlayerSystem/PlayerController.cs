@@ -586,6 +586,26 @@ public class PlayerController : MonoBehaviour
 		ResetPlayerMomentum();
 	}
 
+	public void On_BpmLevelChanged(int weaponLvl)
+	{
+		switch (weaponLvl)
+		{
+			case 0:
+        		SetPlayerWeaponAnim("Lvl1");
+			break;
+			case 1:
+        		SetPlayerWeaponAnim("Lvl2");
+			break;
+			case 2:
+        		SetPlayerWeaponAnim("Lvl3");
+			break;
+		}
+	}
+	public void On_ActivateOveradrenaline(bool activate)
+	{
+		SetPlayerWeaponAnim("Fury");
+	}
+
 	public bool PlayerHasToFall()
 	{
 		if(!PlayerIsGrounded() || PlayerIsFalling())
@@ -632,6 +652,10 @@ public class PlayerController : MonoBehaviour
 	public void SetPlayerWeaponAnim(string name, bool b)
 	{
 		m_references.m_weaponAnimator?.SetBool(name, b);
+	}
+	public void SetPlayerWeaponAnim(string name, float value)
+	{
+		m_references.m_weaponAnimator?.SetFloat(name, value);
 	}
 
 #endregion

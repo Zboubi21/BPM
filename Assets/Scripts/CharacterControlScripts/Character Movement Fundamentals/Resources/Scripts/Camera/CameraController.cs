@@ -63,6 +63,8 @@ public class CameraController : MonoBehaviour {
 
     public Vector2 Recoil { get => recoil; set => recoil = value; }
 
+	[SerializeField] float m_minRotationAnim = 1.5f;
+
     #region Event Functions
     //Setup references.
     void Awake () {
@@ -118,6 +120,7 @@ public class CameraController : MonoBehaviour {
 	{
 		//Get user input;
 		Vector2 _inputVector = GetInput();
+		SetPlayerWeaponRotation(_inputVector);
 		
 		//Get input values;
 		float _inputHorizontal = _inputVector.x + Recoil.x;
@@ -137,6 +140,53 @@ public class CameraController : MonoBehaviour {
 		}
 
 		RotateCamera(_inputHorizontal, _inputVertical);
+	}
+
+	[Header("Rotate Player Weapon")]
+	[SerializeField] float m_rotateSpeed = 5;
+	[SerializeField] AnimationCurve m_rotateCurve;
+	[SerializeField] float m_timeToResetRot = 0.25f;
+	float m_rotationValue = 0;
+	float m_currentTimeToResetRot = 0;
+	bool m_needToReset = false;
+	bool m_isReset = false;
+	[Header("Reset Player Weapon Rotation")]
+	[SerializeField] float m_resetRotationSpeed = 10;
+	[SerializeField] AnimationCurve m_resetRotationCurve;
+	void SetPlayerWeaponRotation(Vector2 inputRot)
+	{
+		float rotation = inputRot.x;
+		if (rotation < m_minRotationAnim && rotation > -m_minRotationAnim)
+		{
+			if (m_needToReset)
+				m_currentTimeToResetRot += Time.deltaTime;
+			if (m_currentTimeToResetRot > m_timeToResetRot && m_needToReset)
+			{	
+				// Debug.Log("Start to Reset");
+				m_isReset = true;
+				m_needToReset = false;
+				m_currentTimeToResetRot = 0;
+			}
+			if (m_isReset)
+				m_rotationValue = Mathf.Lerp(m_rotationValue, 0, m_resetRotationCurve.Evaluate(Time.deltaTime * m_resetRotationSpeed));
+		}
+		else if (rotation > m_minRotationAnim)
+		{
+			m_rotationValue = Mathf.Lerp(m_rotationValue, 1, m_rotateCurve.Evaluate(Time.deltaTime * m_rotateSpeed));
+			m_needToReset = true;
+			m_isReset = false;
+			// if (m_rotationValue < 1)
+				// m_rotationValue += m_rotateSpeed * Time.deltaTime;
+		}
+		else if (rotation < -m_minRotationAnim)
+		{
+			m_rotationValue = Mathf.Lerp(m_rotationValue, -1, m_rotateCurve.Evaluate(Time.deltaTime * m_rotateSpeed));
+			m_needToReset = true;
+			m_isReset = false;
+			// if (m_rotationValue > -1)
+				// m_rotationValue -= m_rotateSpeed * Time.deltaTime;
+		}
+		PlayerController.s_instance.SetPlayerWeaponAnim("Rotation", m_rotationValue);
 	}
 
 	//Rotate camera; 
