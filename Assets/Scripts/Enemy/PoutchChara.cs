@@ -74,5 +74,18 @@ public class PoutchChara : EnemyCara
         yield return new WaitForSeconds(m_timeToDie);
         Destroy(gameObject);
     }
-    
+
+    public IEnumerator JusteDie()
+    {
+        IsDead = true;
+        m_animator.SetBool("isDead", IsDead);
+        yield return new WaitForSeconds(m_timeToDie);
+        Destroy(gameObject);
+    }
+
+    public void OnInstantiateNewPoutch()
+    {
+        GameObject.Instantiate(gameObject, transform.position, transform.rotation);
+    }
+
 }
