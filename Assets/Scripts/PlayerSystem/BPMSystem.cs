@@ -21,8 +21,8 @@ public class BPMSystem : MonoBehaviour
         public ChangeImageValues m_criticalBpmFeedBackScreen;
 
         [Space]
-        public int BPMGain_OnNoSpot;
-        public int BPMGain_OnWeak;
+        public float BPMGain_OnNoSpot;
+        public float BPMGain_OnWeak;
         //public int BPMGain_OnArmor;
         //public int BPMGain_OnDestructableEnvironment;
         [Space]
