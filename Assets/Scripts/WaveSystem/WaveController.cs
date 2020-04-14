@@ -265,6 +265,6 @@ public class WaveController : MonoBehaviour
                 allSpawners[i].CountAllEnemy(a, this);
             }
         }
-        _debug.totalOfEnemyText.text = string.Format("Total enemy dans toutes les vagues :{0}", _nbtOfAllEnemy);
+        _debug.totalOfEnemyText.text = string.Format("Total enemy dans toutes les vagues : {0}", _nbtOfAllEnemy);
     }
 }

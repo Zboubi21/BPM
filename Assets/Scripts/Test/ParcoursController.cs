@@ -107,6 +107,10 @@ public class ParcoursController : MonoBehaviour
         if(crossedCollider == startOfParcour)
         {
             crossStarts = true;
+            passingTime = 0;
+            minutes = 0;
+            secondes = 0;
+            microSeconds = 0;
         }
         else if(crossedCollider == endOfParcour)
         {

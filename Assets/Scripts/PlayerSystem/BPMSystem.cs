@@ -187,7 +187,7 @@ public class BPMSystem : MonoBehaviour
         {
             if (_newCurrentBPM > 0)
             {
-                _currentBPM -= BPMLoss;
+                _currentBPM -= Mathf.CeilToInt(BPMLoss);
                 // DeactivateWeaponLevel(_currentBPM);
 
                 CheckCriticalLevelOfBPM();
@@ -216,7 +216,7 @@ public class BPMSystem : MonoBehaviour
         }
         else
         {
-            _currentBPM = _BPM.maxBPM;
+            _currentBPM = Mathf.CeilToInt(_BPM.maxBPM);
         }
         CheckCanActivateFury();
         CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
