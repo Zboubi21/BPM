@@ -63,6 +63,35 @@ public class SpawnerController : MonoBehaviour
         }
     }
 
+    #region CountingDebug
+    public void CountAllEnemy(int wave, WaveController controller)
+    {
+        for (int i = 0, l = Waves.Count; i < l; ++i)
+        {
+            if (Waves[i].waveNbr == wave)
+            {
+                for (int a = 0, f = Waves[wave].enemy.Length; a < f; ++a)
+                {
+                    controller.NbtOfAllEnemy++;
+                }
+            }
+        }
+    }
+    public void CountWantedEnemy(int wave, WaveController controller)
+    {
+        for (int i = 0, l = Waves.Count; i < l; ++i)
+        {
+            if (Waves[i].waveNbr == wave)
+            {
+                for (int a = 0, f = Waves[wave].enemy.Length; a < f; ++a)
+                {
+                    controller.NbrOfWantedEnemy++;
+                }
+            }
+        }
+    }
+    #endregion
+
     public IEnumerator WaveSpawner(int wave, WaveController controller)
     {
         for (int i = 0, l = Waves.Count; i < l; ++i)
