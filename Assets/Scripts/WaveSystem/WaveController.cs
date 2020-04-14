@@ -256,16 +256,15 @@ public class WaveController : MonoBehaviour
                 allSpawners[i].CountWantedEnemy(_debug.waveToCheckOut, this);
             }
             _debug.nbrOfWaveEnemyText.text = string.Format("Nombre d'enemy dans la vague {0} : {1}", _debug.waveToCheckOut, _nbrOfWantedEnemy);
-        }
-
-        _nbtOfAllEnemy = 0;
-        for (int i = 0; i < allSpawners.Length; i++)
-        {
-            for (int a = 0; a < maxWave; a++)
+            _nbtOfAllEnemy = 0;
+            for (int i = 0; i < allSpawners.Length; i++)
             {
-                allSpawners[i].CountAllEnemy(a, this);
+                for (int a = 0; a < maxWave; a++)
+                {
+                    allSpawners[i].CountAllEnemy(a, this);
+                }
             }
+            _debug.totalOfEnemyText.text = string.Format("Total enemy dans toutes les vagues : {0}", _nbtOfAllEnemy);
         }
-        _debug.totalOfEnemyText.text = string.Format("Total enemy dans toutes les vagues : {0}", _nbtOfAllEnemy);
     }
 }

@@ -2559,6 +2559,61 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 333729867}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &343715440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 343715441}
+  - component: {fileID: 343715442}
+  m_Layer: 0
+  m_Name: Spawner (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &343715441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343715440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 481560149}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &343715442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343715440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99290325f2a36dd4dbc46e071668b026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Waves:
+  - waveNbr: 3
+    enemy: 0000000000000000000000000000000000000000
+  - waveNbr: 4
+    enemy: 00000000000000000000000000000000
+  - waveNbr: 5
+    enemy: 000000000000000000000000
+  sizeX: 5
+  sizeZ: 5
+  errorPercentNegative: 10
+  errorPercentPositive: 10
+  overlapRadiusOffset: 0
 --- !u!1 &347516726
 GameObject:
   m_ObjectHideFlags: 0
@@ -3284,6 +3339,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1022963435}
+  - {fileID: 343715441}
   - {fileID: 5433381868586647516}
   m_Father: {fileID: 47347804}
   m_RootOrder: 0
@@ -3315,6 +3371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allSpawners:
   - {fileID: 1022963436}
+  - {fileID: 343715442}
   screenController:
   - {fileID: 1454149702}
   - {fileID: 1773571994}
@@ -3339,12 +3396,12 @@ MonoBehaviour:
           m_Calls: []
   timeBetweenEachWave: 6
   timeBetweenEachSpawn: 0.5
-  maxWave: 3
+  maxWave: 5
   _debug:
     canvas: {fileID: 7495095855897315489}
     nbrOfWaveEnemyText: {fileID: 5507130199764025727}
     totalOfEnemyText: {fileID: 2101268630469249787}
-    waveToCheckOut: 0
+    waveToCheckOut: 5
 --- !u!1 &492024126
 GameObject:
   m_ObjectHideFlags: 0
@@ -5223,6 +5280,82 @@ MonoBehaviour:
   decorativeImages: []
   animator: {fileID: 0}
   anims: []
+--- !u!114 &833768785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df29e7cc05fbec4aa43e06ea875565d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 0
+    m_Value: 0
+  multiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 0
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  sunSize:
+    m_OverrideState: 0
+    m_Value: 0.04
+    min: 0
+    max: 1
+  sunSizeConvergence:
+    m_OverrideState: 0
+    m_Value: 5
+    min: 1
+    max: 10
+  atmosphereThickness:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 5
+  skyTint:
+    m_OverrideState: 0
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  groundColor:
+    m_OverrideState: 0
+    m_Value: {r: 0.369, g: 0.349, b: 0.341, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  enableSunDisk:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!1 &859124431
 GameObject:
   m_ObjectHideFlags: 0
@@ -6459,11 +6592,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Waves:
   - waveNbr: 0
-    enemy: 0000000000000000000000000000000000000000
+    enemy: 00000000
   - waveNbr: 1
-    enemy: 00000000000000000000000000000000
+    enemy: 00000000
   - waveNbr: 2
-    enemy: 000000000000000000000000
+    enemy: 00000000
   sizeX: 5
   sizeZ: 5
   errorPercentNegative: 10
@@ -9430,7 +9563,7 @@ PrefabInstance:
     - target: {fileID: 448285229613320258, guid: 9eab58ad456278f40b3dc3b52f25eeec,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 448285229613320258, guid: 9eab58ad456278f40b3dc3b52f25eeec,
         type: 3}
@@ -12501,7 +12634,7 @@ PrefabInstance:
     - target: {fileID: 448285229613320258, guid: 9eab58ad456278f40b3dc3b52f25eeec,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 448285229613320258, guid: 9eab58ad456278f40b3dc3b52f25eeec,
         type: 3}
@@ -13276,82 +13409,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859133287}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1924959986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df29e7cc05fbec4aa43e06ea875565d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  rotation:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 360
-  skyIntensityMode:
-    m_OverrideState: 0
-    m_Value: 0
-  exposure:
-    m_OverrideState: 0
-    m_Value: 0
-  multiplier:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-  upperHemisphereLuxValue:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-  desiredLuxValue:
-    m_OverrideState: 0
-    m_Value: 20000
-  updateMode:
-    m_OverrideState: 0
-    m_Value: 0
-  updatePeriod:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-  includeSunInBaking:
-    m_OverrideState: 0
-    m_Value: 0
-  sunSize:
-    m_OverrideState: 0
-    m_Value: 0.04
-    min: 0
-    max: 1
-  sunSizeConvergence:
-    m_OverrideState: 0
-    m_Value: 5
-    min: 1
-    max: 10
-  atmosphereThickness:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 5
-  skyTint:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  groundColor:
-    m_OverrideState: 0
-    m_Value: {r: 0.369, g: 0.349, b: 0.341, a: 1}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  enableSunDisk:
-    m_OverrideState: 0
-    m_Value: 1
 --- !u!1 &1932212146
 GameObject:
   m_ObjectHideFlags: 0
@@ -14396,7 +14453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: f2a69eb764f4e6f4e8b5b606e6db4a89, type: 2}
   m_StaticLightingSkyUniqueID: 2
-  m_SkySettings: {fileID: 1924959986}
+  m_SkySettings: {fileID: 833768785}
   m_SkySettingsFromProfile: {fileID: 8232989810861969397, guid: f2a69eb764f4e6f4e8b5b606e6db4a89,
     type: 2}
 --- !u!114 &2007120853
@@ -15524,7 +15581,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Total enemy dans toutes les vagues :12
+  m_text: 'Total enemy dans toutes les vagues : 21'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15593,9 +15650,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2101268630469249787}
-    characterCount: 38
+    characterCount: 39
     spriteCount: 0
-    spaceCount: 6
+    spaceCount: 7
     wordCount: 7
     linkCount: 0
     lineCount: 1
@@ -16097,7 +16154,7 @@ RectTransform:
   - {fileID: 3193681293435684937}
   - {fileID: 1133656147434109310}
   m_Father: {fileID: 481560149}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -16122,7 +16179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Nombre d''enemy dans la vague 0 : 5'
+  m_text: 'Nombre d''enemy dans la vague 5 : 3'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
