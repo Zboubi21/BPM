@@ -40,6 +40,7 @@ public class WaveController : MonoBehaviour
     [Serializable]
     public class DEBUG
     {
+        [Tooltip("Press "+"("+" pour afficher ou désafficher le canvas")]
         public Canvas canvas;
         public TMP_Text nbrOfWaveEnemyText;
         public TMP_Text totalOfEnemyText;
@@ -95,7 +96,7 @@ public class WaveController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            
+            _debug.canvas.gameObject.SetActive(!_debug.canvas.gameObject.activeSelf);
         }
 #endif
     }
