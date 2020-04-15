@@ -603,7 +603,7 @@ public class PlayerController : MonoBehaviour
 	}
 	public void On_ActivateOveradrenaline(bool activate)
 	{
-		SetPlayerWeaponAnim("Fury");
+		SetPlayerWeaponAnim("Fury", activate);
 	}
 
 	public bool PlayerHasToFall()
