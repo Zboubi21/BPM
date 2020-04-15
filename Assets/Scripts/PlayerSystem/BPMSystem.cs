@@ -348,6 +348,7 @@ public class BPMSystem : MonoBehaviour
                     }
                     _currentWeaponState = WeaponState.Level2;
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
+                    PlayerController.s_instance.On_BpmLevelChanged(2);
                     ChangeBpmShaderGaugeLength();
                 }
             }
@@ -373,7 +374,7 @@ public class BPMSystem : MonoBehaviour
                     _currentWeaponState = WeaponState.Level1;
                     ChangeBpmShaderGaugeLength();
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
-
+                    PlayerController.s_instance.On_BpmLevelChanged(1);
                 }
             }
         }
@@ -389,7 +390,7 @@ public class BPMSystem : MonoBehaviour
                 _currentWeaponState = WeaponState.Level0;
                 ChangeBpmShaderGaugeLength();
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
-
+                PlayerController.s_instance.On_BpmLevelChanged(0);
             }
         }
         ChangeWeaponStats();
@@ -454,6 +455,7 @@ public class BPMSystem : MonoBehaviour
         mainOveradrenalineFeedBackParticles.loop = true;
         _overdrenaline.m_overadrenalineFeedBackParticles.Play();
         audioControl?.On_Overadrenaline(true);
+        PlayerController.s_instance.On_ActivateOveradrenaline(true);
 
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
 
@@ -468,6 +470,7 @@ public class BPMSystem : MonoBehaviour
         _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
         mainOveradrenalineFeedBackParticles.loop = false;
         audioControl?.On_Overadrenaline(false);
+        PlayerController.s_instance.On_ActivateOveradrenaline(false);
     }
     ParticleSystem ps;
     void ActivateBool(bool b)

@@ -17,6 +17,7 @@ public class PlayerIdleState : IState
     public void Enter()
     {
         m_playerController.SetPlayerWeaponAnim("isMoving", false);
+        m_playerController.SetPlayerWeaponAnim("Move", 0);
     }
     public void FixedUpdate()
     {
