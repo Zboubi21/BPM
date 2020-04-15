@@ -1728,7 +1728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -1782,7 +1782,7 @@ MonoBehaviour:
       rotationSpeed: 100
     _health:
       maxHealth: 100
-      damageMultiplicatorOnWeakSpot: 2
+      damageMultiplicatorOnWeakSpot: 1
       damageMultiplicatorOnNoSpot: 1
     _stunResistance:
       timeOfStun: 0.5
@@ -1816,10 +1816,14 @@ MonoBehaviour:
       type: 3}
     obstacleAvoidance: 3
     aimSpine: {fileID: 0}
+  m_spawn:
+    m_timeToSpawn: 3
+    m_faceToPlayerWhenSpawned: 1
   m_sM:
     m_currentStateString: 
   maxTimeInStates: 5
-  shockVFX: {fileID: 0}
+  shockVFX: 0
+  electricalStunVFX: 0
 --- !u!114 &3833438521590562171
 MonoBehaviour:
   m_ObjectHideFlags: 0
