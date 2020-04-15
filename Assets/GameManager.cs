@@ -42,17 +42,45 @@ public class GameManager : MonoBehaviour
         waveScreenControllers.Add(controller);
     }
 
-
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            AddScore(100);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            AddScore(10);
+        }
+#endif
+    }
     public void AddScore(int scoreAdded)
     {
         _currentScore += scoreAdded;
+        RefreshAllScreen(scoreAdded, _currentScore);
+    }
+
+    public void ResetScore()
+    {
+        _currentScore = 0;
+        RefreshAllScreen(0, _currentScore);
+    }
+
+    public void RemoveScore(int scoreToRemove)
+    {
+        _currentScore -= scoreToRemove;
+        RefreshAllScreen(scoreToRemove, _currentScore);
+    }
+
+    void RefreshAllScreen(int score, int currentScore)
+    {
         if (waveScreenControllers.Count > 0)
         {
             for (int i = 0, l = waveScreenControllers.Count; i < l; ++i)
             {
-                waveScreenControllers[i].AddScore(scoreAdded, _currentScore);
+                waveScreenControllers[i].RefreshScore(score, _currentScore);
             }
         }
-
     }
 }
