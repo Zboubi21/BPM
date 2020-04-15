@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
 	[Header("Dash")]
 	public Dash m_dash;
 	[Serializable] public class Dash{
+		[Range(0, 1)] public float m_minInputCanDash = 0.5f;
 		public float m_distance = 10;
 		public float m_timeToDash = 0.25f;
 		public float m_dashCooldown = 0.5f;
@@ -181,6 +182,7 @@ public class PlayerController : MonoBehaviour
 
 	void FixedUpdate()
 	{
+		CalculateDashDirection();
 		m_sM.FixedUpdate();
 	}
 
@@ -255,6 +257,38 @@ public class PlayerController : MonoBehaviour
 			_direction.Normalize();
 
 		m_playerMoveInputsDirection = _direction;
+		return _direction;
+	}
+	Vector3 CalculateDashDirection()
+	{
+		float _horizontalInput;
+		float _verticalInput;
+
+		_horizontalInput = Input.GetAxis(m_horizontalInputAxis);
+		_verticalInput = Input.GetAxis(m_verticalInputAxis);
+
+		if (_horizontalInput > 0)
+			_horizontalInput = 1;
+		if (_horizontalInput < 0)
+			_horizontalInput = -1;
+		if (_verticalInput > 0)
+			_verticalInput = 1;
+		if (_verticalInput < 0)
+			_verticalInput = -1;
+
+		// Debug.Log("_horizontalInput = " + _horizontalInput + " | _verticalInput = " + _verticalInput);
+
+		Vector3 _direction = Vector3.zero;
+
+		//Use camera axes to construct movement direction;
+		_direction += m_references.m_cameraPivot.forward * _verticalInput;
+		_direction += m_references.m_cameraPivot.right * _horizontalInput;
+
+        //Clamp movement vector to magnitude of '1f';
+        if (_direction.magnitude > 1f)
+			_direction.Normalize();
+
+		// Debug.Log("_direction = " + _direction);
 		return _direction;
 	}
 
@@ -443,7 +477,14 @@ public class PlayerController : MonoBehaviour
 	}
 	public bool CanDash()
 	{
-		if (CalculateMovementDirection() != Vector3.zero && !m_hasDash)
+		if (PressMovementInput() && !m_hasDash)
+			return true;
+		return false;
+	}
+	bool PressMovementInput()
+	{
+		if (Input.GetAxis(m_horizontalInputAxis) > m_dash.m_minInputCanDash || Input.GetAxis(m_horizontalInputAxis) < -m_dash.m_minInputCanDash 
+		|| Input.GetAxis(m_verticalInputAxis) > m_dash.m_minInputCanDash || Input.GetAxis(m_verticalInputAxis) < -m_dash.m_minInputCanDash)
 			return true;
 		return false;
 	}
@@ -531,6 +572,10 @@ public class PlayerController : MonoBehaviour
 	public Vector3 GetPlayerMoveInputsDirection()
 	{
 		return m_playerMoveInputsDirection;
+	}
+	public Vector3 GetPlayerDashDirection()
+	{
+		return CalculateDashDirection();
 	}
 
 	//Events;

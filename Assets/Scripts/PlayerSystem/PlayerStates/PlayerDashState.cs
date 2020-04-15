@@ -25,7 +25,7 @@ public class PlayerDashState : IState
         m_playerController.On_PlayerHasDash(true);
         m_playerController.On_PlayerStartDash(true);
         m_playerController.GetComponent<WeaponPlayerBehaviour>().CanShoot = false;
-        m_dashDirection = m_playerController.GetPlayerMoveInputsDirection();
+        m_dashDirection = m_playerController.GetPlayerDashDirection();
 
         m_dashTimer = 0;
         m_haseDash = false;
