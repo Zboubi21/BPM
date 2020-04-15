@@ -85,6 +85,15 @@ public class ShootingRangeController : MonoBehaviour
             _currentTime = shootingRangeTime;
             shootingRangeHasStarted = false;
             StartCoroutine(ShootingRangeTime());
+            for (int i = 0, l = shootingRangePoutches.Count; i < l; ++i)
+            {
+                if (shootingRangePoutches[i].GetComponent<PoutchChara>() != null)
+                {
+                    shootingRangePoutches[i].GetComponent<PoutchChara>().OnInstantiateNewPoutch();
+                }
+            }
+            score = 0;
+            scoreText.text = string.Format("{0}", score);
         }
     }
 
@@ -100,15 +109,7 @@ public class ShootingRangeController : MonoBehaviour
         }
         yield return new WaitForSeconds(5f);
         shootingRangeHasStarted = true;
-        for (int i = 0, l = shootingRangePoutches.Count; i < l; ++i)
-        {
-            if (shootingRangePoutches[i].GetComponent<PoutchChara>() != null)
-            {
-                shootingRangePoutches[i].GetComponent<PoutchChara>().OnInstantiateNewPoutch();
-            }
-        }
-        score = 0;
-        scoreText.text = string.Format("{0}", score);
+        
 
     }
 }
