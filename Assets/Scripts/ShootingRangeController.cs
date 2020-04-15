@@ -74,41 +74,38 @@ public class ShootingRangeController : MonoBehaviour
             }
         }
     }
-
+    bool itIsOn = true;
     public void AddScore(int addedScore, GameObject gameObject)
     {
-        score += addedScore;
-        scoreText.text = string.Format("{0}", score);
         ShootingRangePoutches.Remove(gameObject);
-        if (shootingRangeHasStarted)
+        if (itIsOn)
         {
-            _currentTime = shootingRangeTime;
-            shootingRangeHasStarted = false;
-            StartCoroutine(ShootingRangeTime());
+            score += addedScore;
+            scoreText.text = string.Format("{0}", score);
+            if (shootingRangeHasStarted)
+            {
+                _currentTime = shootingRangeTime;
+                shootingRangeHasStarted = false;
+                StartCoroutine(ShootingRangeTime());
+                score = 0;
+                scoreText.text = string.Format("{0}", score);
+            }
         }
     }
 
     IEnumerator ShootingRangeTime()
     {
         yield return new WaitForSeconds(shootingRangeTime);
+        itIsOn = false;
         for (int i = 0, l = shootingRangePoutches.Count; i < l; ++i)
         {
             if (shootingRangePoutches[i].GetComponent<PoutchChara>() != null)
             {
-                shootingRangePoutches[i].GetComponent<PoutchChara>().StartCoroutine(shootingRangePoutches[i].GetComponent<PoutchChara>().JusteDie());
+                shootingRangePoutches[i].GetComponent<PoutchChara>().KillPoutch();
             }
         }
         yield return new WaitForSeconds(5f);
         shootingRangeHasStarted = true;
-        for (int i = 0, l = shootingRangePoutches.Count; i < l; ++i)
-        {
-            if (shootingRangePoutches[i].GetComponent<PoutchChara>() != null)
-            {
-                shootingRangePoutches[i].GetComponent<PoutchChara>().OnInstantiateNewPoutch();
-            }
-        }
-        score = 0;
-        scoreText.text = string.Format("{0}", score);
-
+        itIsOn = true;
     }
 }

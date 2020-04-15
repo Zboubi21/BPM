@@ -200,7 +200,7 @@ public class BPMSystem : MonoBehaviour
         }
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
-        _BPM.m_playerBpmGui.On_PlayerGetBpm(false, BPMLoss);
+        _BPM.m_playerBpmGui.On_PlayerGetBpm(false, Mathf.CeilToInt(BPMLoss));
     }
 
     public void GainBPM(float BPMGain)
@@ -243,7 +243,7 @@ public class BPMSystem : MonoBehaviour
         CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
-        _BPM.m_playerBpmGui.On_PlayerGetBpm(true, BPMGain);
+        _BPM.m_playerBpmGui.On_PlayerGetBpm(true, Mathf.CeilToInt(BPMGain));
     }
     void CheckCriticalLevelOfBPM()
     {

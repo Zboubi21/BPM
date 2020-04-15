@@ -155,6 +155,21 @@ public class WaveController : MonoBehaviour
         {
             if(maxWave == _nbrOfWave+1)
             {
+                if (wavesControl.Length > 0)
+                {
+                    for (int i = 0, l = wavesControl.Length; i < l; ++i)
+                    {
+                        if (_nbrOfWave == wavesControl[i].wave.waveNbr)
+                        {
+                            if (wavesControl[i].wave.eventOnEndOfWave != null)
+                            {
+                                wavesControl[i].wave.eventOnEndOfWave.Invoke();
+                            }
+                            break;
+                        }
+
+                    }
+                }
                 ///Final wave's over
             }
             else

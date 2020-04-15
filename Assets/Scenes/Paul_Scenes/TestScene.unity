@@ -1805,7 +1805,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168921177}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &191571250
+--- !u!114 &189347030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4614,7 +4614,7 @@ MonoBehaviour:
   wavesControl:
   - wave:
       waveNbr: 0
-      timeForNextWave: 2
+      timeForNextWave: 1
       eventOnStartWave:
         m_PersistentCalls:
           m_Calls: []
@@ -4622,15 +4622,15 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
   - wave:
-      waveNbr: 1
-      timeForNextWave: 2
+      waveNbr: 4
+      timeForNextWave: 1
       eventOnStartWave:
         m_PersistentCalls:
           m_Calls: []
       eventOnEndOfWave:
         m_PersistentCalls:
           m_Calls: []
-  timeBetweenEachWave: 6
+  timeBetweenEachWave: 1
   timeBetweenEachSpawn: 0.5
   maxWave: 5
   _debug:
@@ -12053,15 +12053,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352962211}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000019967556}
-  m_LocalPosition: {x: -3.9999998, y: 5, z: -4.0000114}
+  m_LocalRotation: {x: -0, y: -0.9238806, z: -0, w: -0.38268095}
+  m_LocalPosition: {x: -3.15, y: 5, z: -3.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1562763774}
   - {fileID: 509909567}
   m_Father: {fileID: 37557868}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -225, z: 0}
 --- !u!1 &1353856952
 GameObject:
   m_ObjectHideFlags: 0
@@ -18944,7 +18944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: f2a69eb764f4e6f4e8b5b606e6db4a89, type: 2}
   m_StaticLightingSkyUniqueID: 2
-  m_SkySettings: {fileID: 191571250}
+  m_SkySettings: {fileID: 189347030}
   m_SkySettingsFromProfile: {fileID: 8232989810861969397, guid: f2a69eb764f4e6f4e8b5b606e6db4a89,
     type: 2}
 --- !u!114 &2007120853
@@ -20165,15 +20165,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448285231141602269}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000031888485}
-  m_LocalPosition: {x: 10.040001, y: 4.8599997, z: -4.0499706}
+  m_LocalRotation: {x: -0, y: -0.92387855, z: -0, w: 0.38268578}
+  m_LocalPosition: {x: 9.04, y: 4.8599997, z: -3.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 448285230169286954}
   - {fileID: 5212673579035777006}
   m_Father: {fileID: 37557868}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
 --- !u!114 &448285231141602271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20188,7 +20188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minutesAndSeconds: {fileID: 1042844811}
   scoreText: {fileID: 6003500186705497676}
-  shootingRangeTime: 20
+  shootingRangeTime: 10
 --- !u!1 &544544497149203626
 GameObject:
   m_ObjectHideFlags: 0

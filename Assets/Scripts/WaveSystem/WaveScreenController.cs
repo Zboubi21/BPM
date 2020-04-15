@@ -47,21 +47,9 @@ public class WaveScreenController :  MonoBehaviour
     }
 
 
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            AddScore(100, manager.CurrentScore);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            AddScore(10, manager.CurrentScore);
-        }
-#endif
-    }
 
-    public void AddScore(int scoreAdded, int currentScore)
+
+    public void RefreshScore(int scoreAdded, int currentScore)
     {
         StartCoroutine(UpdateScore(allWaveScreen[(int)ScreenChannel.ScoreCountChannel], currentScore, scoreAdded, true));
     }
