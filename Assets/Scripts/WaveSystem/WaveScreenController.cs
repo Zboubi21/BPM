@@ -12,6 +12,7 @@ public class WaveScreenController :  MonoBehaviour
     [Space]
     WaveScreenReference[] allWaveScreen;
     WaveController waveController;
+    GameManager manager;
     [Space]
     public AnimationCurve scoreCurve;
     public float timeOfScoreAnimation;
@@ -39,31 +40,30 @@ public class WaveScreenController :  MonoBehaviour
             }
         }
     }
-    int scoreGain;
-    int currentScore = 200;
+    private void Start()
+    {
+        manager = GameManager.Instance;
+        manager.AddScreen(this);
+    }
+
+
     private void Update()
     {
 #if UNITY_EDITOR
-
-
-
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            scoreGain = 100;
-            currentScore += scoreGain;
-            StartCoroutine(UpdateScore(allWaveScreen[3], currentScore, scoreGain, true));
-
-
+            AddScore(100, manager.CurrentScore);
         }
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            scoreGain = 10;
-            currentScore += scoreGain;
-            StartCoroutine(UpdateScore(allWaveScreen[3], currentScore, scoreGain, true));
-
+            AddScore(10, manager.CurrentScore);
         }
-
 #endif
+    }
+
+    public void AddScore(int scoreAdded, int currentScore)
+    {
+        StartCoroutine(UpdateScore(allWaveScreen[(int)ScreenChannel.ScoreCountChannel], currentScore, scoreAdded, true));
     }
 
     public void SetWaveController(WaveController control)
@@ -127,7 +127,7 @@ public class WaveScreenController :  MonoBehaviour
                         StartCoroutine(UpdateEnemy(screenRef, waveController.NbrOfEnemy, hasToAnimate));
                         break;
                     case ScreenChannel.ScoreCountChannel:
-                        StartCoroutine(UpdateScore(screenRef, 99599, scoreGain, hasToAnimate));
+                        //StartCoroutine(UpdateScore(screenRef, 99599, scoreGain, hasToAnimate));
                         break;
                     default:
                         break;
@@ -259,7 +259,7 @@ public class WaveScreenController :  MonoBehaviour
         {
             screenRef.changingTexts[0].text = string.Format("{0}", current);
 
-            float finalValue = Mathf.Lerp(currentFontSize, maxFontSize, Mathf.InverseLerp(0, 100f, scoreGain));
+            float finalValue = Mathf.Lerp(currentFontSize, maxFontSize, Mathf.InverseLerp(0, 100f, value));
             yield return StartCoroutine(ScoreEvaluateCurve(scoreCurve, screenRef, finalValue));
         }
         else

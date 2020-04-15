@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Sirenix.OdinInspector;
 
-public class GameManager : SerializedMonoBehaviour
+public class GameManager : MonoBehaviour
 {
     #region Singleton
     public static GameManager Instance;
@@ -21,52 +20,39 @@ public class GameManager : SerializedMonoBehaviour
     }
     #endregion
 
-    //public float enemyAttackDispersement;
-    //public float timeMeshShowingUp;
-
-    //[Header("Differents Spots Multiplicator Tweaking")]
-    //public float noSpotDamageMultiplicateur;
-    //public float weakSpotDamageMultiplicateur;
-
-    bool consoleActivated;
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            consoleActivated = !consoleActivated;
-
-        }
-    }
-
-    #region Enemy DataStocking
-    List<GameObject> allUsedCover = new List<GameObject>();
 
     #region get set
     public List<GameObject> AllUsedCover { get => allUsedCover; set => allUsedCover = value; }
+    public List<WaveScreenController> WaveScreenControllers { get => waveScreenControllers; set => waveScreenControllers = value; }
+    public int CurrentScore { get => _currentScore; set => _currentScore = value; }
 
     #endregion
+
+    #region Enemy DataStocking
+    List<GameObject> allUsedCover = new List<GameObject>();
     #endregion
 
+    #region Wave Screen DataStocking
+    List<WaveScreenController> waveScreenControllers = new List<WaveScreenController>();
+    int _currentScore;
+    #endregion
 
-    /*public void Start()
+    public void AddScreen(WaveScreenController controller)
     {
-        StartCoroutine(TestSpawnDispersion());
+        waveScreenControllers.Add(controller);
     }
 
-    IEnumerator TestSpawnDispersion()
-    {
-        Vector2 dispersion = UnityEngine.Random.insideUnitCircle * enemyAttackDispersement;
-        Vector3 pos = transform.position;
-        pos.x = dispersion.x;
-        pos.y = dispersion.y;
-        transform.position = pos;
-        yield return new WaitForSeconds(timeMeshShowingUp);
-        StartCoroutine(TestSpawnDispersion());
-    }
 
-    private void OnDrawGizmosSelected()
+    public void AddScore(int scoreAdded)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(Vector3.zero, enemyAttackDispersement);
-    }*/
+        _currentScore += scoreAdded;
+        if (waveScreenControllers.Count > 0)
+        {
+            for (int i = 0, l = waveScreenControllers.Count; i < l; ++i)
+            {
+                waveScreenControllers[i].AddScore(scoreAdded, _currentScore);
+            }
+        }
+
+    }
 }

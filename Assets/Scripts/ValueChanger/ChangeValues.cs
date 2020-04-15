@@ -57,6 +57,10 @@ public class ChangeValues : MonoBehaviour
     {
         return Mathf.Abs(color1.r - color2.r) + Mathf.Abs(color1.g - color2.g) + Mathf.Abs(color1.b - color2.b) + Mathf.Abs(color1.a - color2.a);
     }
+    protected float GetDistanceFromValues(float v1, float v2)
+    {
+        return Mathf.Abs(v1 - v2);
+    }
     protected float GetDistanceFromVectors(Vector3 v1, Vector3 v2)
     {
         return Vector3.Distance(v1, v2);

@@ -55,7 +55,7 @@ public class SpawnerController : MonoBehaviour
         {
             if (Waves[i].waveNbr == wave)
             {
-                for (int a = 0, f = Waves[wave].enemy.Length; a < f; ++a) 
+                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a) 
                 {
                     controller.NbrOfEnemy++;
                 }
@@ -63,13 +63,45 @@ public class SpawnerController : MonoBehaviour
         }
     }
 
+    #region CountingDebug
+    public void CountAllEnemy(int wave, WaveController controller)
+    {
+        for (int i = 0, l = Waves.Count; i < l; ++i)
+        {
+            //Debug.Log(this + " all my wave nbr " + Waves[i].waveNbr + " lookingWave " + wave);
+            if (Waves[i].waveNbr == wave)
+            {
+                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a)
+                {
+                    controller.NbtOfAllEnemy++;
+                }
+                break;
+            }
+        }
+    }
+    public void CountWantedEnemy(int wave, WaveController controller)
+    {
+        for (int i = 0, l = Waves.Count; i < l; ++i)
+        {
+            if (Waves[i].waveNbr == wave)
+            {
+                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a)
+                {
+                    controller.NbrOfWantedEnemy++;
+                }
+                break;
+            }
+        }
+    }
+    #endregion
+
     public IEnumerator WaveSpawner(int wave, WaveController controller)
     {
         for (int i = 0, l = Waves.Count; i < l; ++i)
         {
             if (Waves[i].waveNbr == wave)  // Verifie si il y a plusieur index avec le meme int, et pour chacun d'eux si ils sont égaux à la wave en cours commence à faire spawn
             {
-                for (int a = 0, f = Waves[wave].enemy.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
+                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
                 {
 
                     yield return new WaitForSeconds(OnCreateTimeBetweenSpawn(controller));
@@ -86,7 +118,7 @@ public class SpawnerController : MonoBehaviour
                         }
                     }
 
-                    GameObject go = m_objectPooler.SpawnEnemyFromPool(Waves[wave].enemy[a], spawnPosition, transform.rotation);
+                    GameObject go = m_objectPooler.SpawnEnemyFromPool(Waves[i].enemy[a], spawnPosition, transform.rotation);
 
                     EnemyCara cara = go.GetComponent<EnemyCara>();
                     //cara.EnemyArchetype = Waves[wave].m_enemyType[a];  // Donne à l'enemy spawned l'archetype "a" de la wave en cours

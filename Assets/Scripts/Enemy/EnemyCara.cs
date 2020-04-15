@@ -42,8 +42,8 @@ public class EnemyCara : SerializedMonoBehaviour
         public class Health
         {
             public float maxHealth;
-            public int damageMultiplicatorOnWeakSpot = 1;
-            public int damageMultiplicatorOnNoSpot = 1;
+            public float damageMultiplicatorOnWeakSpot = 1;
+            public float damageMultiplicatorOnNoSpot = 1;
         }
         public StunResistance _stunResistance = new StunResistance();
         [Serializable]
@@ -190,12 +190,12 @@ public class EnemyCara : SerializedMonoBehaviour
         {
             case 0:
 
-                _currentLife -= damage * _enemyCaractéristique._health.damageMultiplicatorOnNoSpot;
+                _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnNoSpot);
 
                 break;
             case 1:
 
-                _currentLife -= damage * _enemyCaractéristique._health.damageMultiplicatorOnWeakSpot;
+                _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnWeakSpot);
 
                 break;
             default:

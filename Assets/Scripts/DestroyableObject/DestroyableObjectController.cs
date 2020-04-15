@@ -9,7 +9,7 @@ public class DestroyableObjectController : MonoBehaviour
 
     bool m_isBroken = false;
 
-    void Start()
+    protected virtual void Start()
     {
         DestroyableObject[] obj = GetComponentsInChildren<DestroyableObject>();
         for (int i = 0, l = obj.Length; i < l; ++i)
@@ -35,12 +35,10 @@ public class DestroyableObjectController : MonoBehaviour
 
     protected virtual void On_ObjectTakeDamage()
     {
-        
     }
 
     protected virtual void On_ObjectIsBreak()
     {
-        Destroy(gameObject);
     }
 
 }

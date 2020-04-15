@@ -21,8 +21,8 @@ public class BPMSystem : MonoBehaviour
         public ChangeImageValues m_criticalBpmFeedBackScreen;
 
         [Space]
-        public int BPMGain_OnNoSpot;
-        public int BPMGain_OnWeak;
+        public float BPMGain_OnNoSpot;
+        public float BPMGain_OnWeak;
         //public int BPMGain_OnArmor;
         //public int BPMGain_OnDestructableEnvironment;
         [Space]
@@ -134,13 +134,13 @@ public class BPMSystem : MonoBehaviour
     public bool IsCurrentlyOnFury { get => _isCurrentlyOnFury; }
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
-    WeaponBehaviour weapon;
+    WeaponPlayerBehaviour weapon;
     PlayerAudioController audioControl;
 
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
-        weapon = GetComponent<WeaponBehaviour>();
+        weapon = GetComponent<WeaponPlayerBehaviour>();
         audioControl = m_playerController.m_references.m_playerAudio;
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
@@ -187,7 +187,7 @@ public class BPMSystem : MonoBehaviour
         {
             if (_newCurrentBPM > 0)
             {
-                _currentBPM -= BPMLoss;
+                _currentBPM -= Mathf.CeilToInt(BPMLoss);
                 // DeactivateWeaponLevel(_currentBPM);
 
                 CheckCriticalLevelOfBPM();
@@ -200,7 +200,7 @@ public class BPMSystem : MonoBehaviour
         }
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
-        _BPM.m_playerBpmGui.On_PlayerGetBpm(false, BPMLoss);
+        _BPM.m_playerBpmGui.On_PlayerGetBpm(false, Mathf.CeilToInt(BPMLoss));
     }
 
     public void GainBPM(float BPMGain)
@@ -208,11 +208,32 @@ public class BPMSystem : MonoBehaviour
         if (_isCurrentlyOnFury)
             return;
 
+        if (hasLoseAWeaponLevel)
+        {
+            switch (_currentWeaponState)
+            {
+                case WeaponState.Level0:
+                    if(BPMGain == weapon.weaponStats._weaponLevel0.BPMGainOnHit)
+                    {
+                        BPMGain = weapon.weaponStats._weaponLevel1.BPMGainOnHit;
+                    }
+                    break;
+                case WeaponState.Level1:
+                    if (BPMGain == weapon.weaponStats._weaponLevel1.BPMGainOnHit)
+                    {
+                        BPMGain = weapon.weaponStats._weaponLevel2.BPMGainOnHit;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            hasLoseAWeaponLevel = false;
+        }
         float _newCurrentBPM = _currentBPM + BPMGain;
 
         if (_newCurrentBPM < _BPM.maxBPM)
         {
-            _currentBPM += BPMGain;
+            _currentBPM += Mathf.CeilToInt(BPMGain);
         }
         else
         {
@@ -222,7 +243,7 @@ public class BPMSystem : MonoBehaviour
         CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
-        _BPM.m_playerBpmGui.On_PlayerGetBpm(true, BPMGain);
+        _BPM.m_playerBpmGui.On_PlayerGetBpm(true, Mathf.CeilToInt(BPMGain));
     }
     void CheckCriticalLevelOfBPM()
     {
@@ -309,6 +330,7 @@ public class BPMSystem : MonoBehaviour
     #endregion
 
     #region Activate and Deactivate Weapon
+    bool hasLoseAWeaponLevel;
     void ChangeWeaponLevel(float currentBPM)
     {
         if (!m_canChangeWeaponLvl)
@@ -326,6 +348,7 @@ public class BPMSystem : MonoBehaviour
                     }
                     _currentWeaponState = WeaponState.Level2;
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
+                    PlayerController.s_instance.On_BpmLevelChanged(2);
                     ChangeBpmShaderGaugeLength();
                 }
             }
@@ -339,7 +362,7 @@ public class BPMSystem : MonoBehaviour
                         {
                             audioControl.PlayWeaponDegradeSound(1);
                         }
-
+                        hasLoseAWeaponLevel = true;
                     }
                     else if (_currentWeaponState == WeaponState.Level0)
                     {
@@ -351,7 +374,7 @@ public class BPMSystem : MonoBehaviour
                     _currentWeaponState = WeaponState.Level1;
                     ChangeBpmShaderGaugeLength();
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
-
+                    PlayerController.s_instance.On_BpmLevelChanged(1);
                 }
             }
         }
@@ -363,10 +386,11 @@ public class BPMSystem : MonoBehaviour
                 {
                     audioControl.PlayWeaponDegradeSound(2);
                 }
+                hasLoseAWeaponLevel = true;
                 _currentWeaponState = WeaponState.Level0;
                 ChangeBpmShaderGaugeLength();
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
-
+                PlayerController.s_instance.On_BpmLevelChanged(0);
             }
         }
         ChangeWeaponStats();
@@ -431,6 +455,7 @@ public class BPMSystem : MonoBehaviour
         mainOveradrenalineFeedBackParticles.loop = true;
         _overdrenaline.m_overadrenalineFeedBackParticles.Play();
         audioControl?.On_Overadrenaline(true);
+        PlayerController.s_instance.On_ActivateOveradrenaline(true);
 
         yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
 
@@ -445,6 +470,7 @@ public class BPMSystem : MonoBehaviour
         _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
         mainOveradrenalineFeedBackParticles.loop = false;
         audioControl?.On_Overadrenaline(false);
+        PlayerController.s_instance.On_ActivateOveradrenaline(false);
     }
     ParticleSystem ps;
     void ActivateBool(bool b)

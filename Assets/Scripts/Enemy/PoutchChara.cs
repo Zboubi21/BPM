@@ -19,9 +19,12 @@ public class PoutchChara : EnemyCara
     protected override void Start()
     {
         base.Start();
+        gameObject.SetActive(true);
+        IsDead = false;
         m_mainCamera = Camera.main.GetComponent<Transform>();
         m_animator = GetComponent<Animator>();
         UpdateLifebar();
+
     }
     void LateUpdate()
     {
@@ -74,5 +77,6 @@ public class PoutchChara : EnemyCara
         yield return new WaitForSeconds(m_timeToDie);
         Destroy(gameObject);
     }
-    
+
+
 }
