@@ -128,6 +128,18 @@ public class WaveController : MonoBehaviour
                 StartCoroutine(allSpawners[i].WaveSpawner(_nbrOfWave, this));
                 allSpawners[i].CountEnemy(_nbrOfWave, this);
             }
+
+            for (int i = 0, l = wavesControl.Length; i < l; ++i)
+            {
+                if (_nbrOfWave == wavesControl[i].wave.waveNbr)
+                {
+                    if (wavesControl[i].wave.eventOnStartWave != null)
+                    {
+                        wavesControl[i].wave.eventOnStartWave.Invoke();
+                    }
+                    break;
+                }
+            }
             ///Wave Starts
             ChangeAllScreen(ScreenChannel.WaveCountChannel);
             ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
