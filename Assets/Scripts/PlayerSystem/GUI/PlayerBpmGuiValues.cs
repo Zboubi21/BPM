@@ -14,14 +14,14 @@ public class PlayerBpmGuiValues : MonoBehaviour
         m_isStoped = false;
     }
 
-    public void StartToMove(float yPosToReach, float timeToDo)
+    public void StartToMove(float xPosToReach, float timeToDo)
     {
-        StartCoroutine(ChangePos(yPosToReach, timeToDo));
+        StartCoroutine(ChangePos(xPosToReach, timeToDo));
     }
-    IEnumerator ChangePos(float yPosToReach, float timeToDo)
+    IEnumerator ChangePos(float xPosToReach, float timeToDo)
     {
         Vector3 fromPos = transform.localPosition;
-        Vector3 toPos = new Vector3(fromPos.x, yPosToReach, fromPos.z);
+        Vector3 toPos = new Vector3(xPosToReach, fromPos.y, fromPos.z);
         Vector3 actualPos = fromPos;
 
         float fracJourney = 0;

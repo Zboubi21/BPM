@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -85,37 +84,6 @@ public class GameManager : MonoBehaviour
                 waveScreenControllers[i].RefreshScore(score, _currentScore);
             }
         }
-    }
-
-    public void ResetLvl()
-    {
-        // Scene[] scenes = SceneManager.GetAllScenes();
-
-        // List<Scene> scenes = new List<Scene>();
-
-        int sceneNbr = 0;
-
-        for (int i = 0, l = SceneManager.sceneCount; i < l; ++i)
-        {
-            // scenes.Add(SceneManager.GetSceneAt(i));
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name != "SceneLoader")
-            {
-                sceneNbr ++;
-                SceneManager.UnloadSceneAsync(scene.buildIndex);
-                SceneManager.LoadScene(scene.buildIndex, LoadSceneMode.Additive);
-            }
-        }
-        // for (int i = 0, l = sceneNbr; i < l; ++i)
-        // {
-        //     Scene scene = SceneManager.GetSceneAt(i);
-        //     if (scene.name != "SceneLoader")
-        //     {
-        //         sceneNbr ++;
-        //         SceneManager.UnloadSceneAsync(scene.buildIndex);
-        //         SceneManager.LoadScene(scene.buildIndex, LoadSceneMode.Additive);
-        //     }
-        // }
     }
 
     void OnDrawGizmos()
