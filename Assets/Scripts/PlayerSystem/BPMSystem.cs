@@ -7,6 +7,8 @@ using PoolTypes;
 
 public class BPMSystem : MonoBehaviour
 {
+    [SerializeField] bool m_playerCanDie = true;
+    [SerializeField] bool m_playerCanTakeDamage = true;
     [SerializeField] bool m_canChangeWeaponLvl = true;
     public BPM _BPM = new BPM();
     [Serializable]
@@ -16,6 +18,7 @@ public class BPMSystem : MonoBehaviour
         public int startingBPM = 100;
         public int criticalLvlOfBPM = 75;
         public int m_activateFuryBPM = 500;
+        public int m_loseBpmWhenFallIntoTheVoid = 25;
 
         [Header("Feedback")]
         public ChangeImageValues m_criticalBpmFeedBackScreen;
@@ -175,6 +178,9 @@ public class BPMSystem : MonoBehaviour
     #region BPM Gain and Loss
     public void LoseBPM(float BPMLoss, Transform shooter = null)
     {
+        if (!m_playerCanTakeDamage)
+            return;
+        
         if (shooter != null)
             AddDamageIndicator(shooter);
 
@@ -195,7 +201,9 @@ public class BPMSystem : MonoBehaviour
             else
             {
                 _currentBPM = 0;
-                ///Tuer le personnage / Brancher respawn
+                
+                if (m_playerCanDie)
+                    On_PlayerHasNoBpm();
             }
         }
         ChangeWeaponLevel(_currentBPM);
@@ -325,6 +333,16 @@ public class BPMSystem : MonoBehaviour
             break;
         }
         _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Pique", value);
+    }
+
+    void On_PlayerHasNoBpm()
+    {
+        GameManager.Instance.ResetLvl();
+    }
+    public void On_PlayerFallIntoTheVoid()
+    {
+        transform.position = GameManager.Instance.RespawnPos.position;
+        LoseBPM(_BPM.m_loseBpmWhenFallIntoTheVoid);
     }
 
     #endregion

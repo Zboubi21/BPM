@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,11 +20,14 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] bool m_showRespawnPos = true;
+    [SerializeField] Transform m_respawnPos;
 
     #region get set
     public List<GameObject> AllUsedCover { get => allUsedCover; set => allUsedCover = value; }
     public List<WaveScreenController> WaveScreenControllers { get => waveScreenControllers; set => waveScreenControllers = value; }
     public int CurrentScore { get => _currentScore; set => _currentScore = value; }
+    public Transform RespawnPos { get => m_respawnPos; }
 
     #endregion
 
@@ -83,4 +86,45 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void ResetLvl()
+    {
+        // Scene[] scenes = SceneManager.GetAllScenes();
+
+        // List<Scene> scenes = new List<Scene>();
+
+        int sceneNbr = 0;
+
+        for (int i = 0, l = SceneManager.sceneCount; i < l; ++i)
+        {
+            // scenes.Add(SceneManager.GetSceneAt(i));
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "SceneLoader")
+            {
+                sceneNbr ++;
+                SceneManager.UnloadSceneAsync(scene.buildIndex);
+                SceneManager.LoadScene(scene.buildIndex, LoadSceneMode.Additive);
+            }
+        }
+        // for (int i = 0, l = sceneNbr; i < l; ++i)
+        // {
+        //     Scene scene = SceneManager.GetSceneAt(i);
+        //     if (scene.name != "SceneLoader")
+        //     {
+        //         sceneNbr ++;
+        //         SceneManager.UnloadSceneAsync(scene.buildIndex);
+        //         SceneManager.LoadScene(scene.buildIndex, LoadSceneMode.Additive);
+        //     }
+        // }
+    }
+
+    void OnDrawGizmos()
+    {
+        if (m_showRespawnPos)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(m_respawnPos.position, 0.5f);
+        }
+    }
+
 }
