@@ -29,6 +29,7 @@ public class SceneLoader : MonoBehaviour
                     // SceneManager.LoadScene(m_scenesToLoad[i], LoadSceneMode.Additive);
                     SceneManager.LoadSceneAsync(m_scenesToLoad[i], LoadSceneMode.Additive);
             }
+            SceneManager.UnloadSceneAsync("SceneLoader");
         }
     }
     

@@ -19,7 +19,7 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] Color m_getBpmColor = Color.green;
     [SerializeField] Color m_lostBpmColor = Color.red;
     [SerializeField] float m_timeToDo = 0.25f;
-    [SerializeField] float m_targetedYPos = 0.1f;
+    [SerializeField] float m_targetedXPos = 0.02f;
     [SerializeField] float m_delayToHideValue = 0.25f;
 
     [Header("Feedbacks")]
@@ -56,14 +56,15 @@ public class PlayerBpmGui : MonoBehaviour
         {
             guiColor = getBpm ? m_getBpmColor : m_lostBpmColor;
             spawnedText.color = guiColor;
-            string newText = getBpm ? "+" + bpmValue : "-" + bpmValue;
-            spawnedText.text = newText;
+            // string newText = getBpm ? "+" + bpmValue : "-" + bpmValue;
+            // spawnedText.text = newText;
+            spawnedText.text = bpmValue.ToString();
         }
 
         PlayerBpmGuiValues guiValue = spawnedBpm.GetComponent<PlayerBpmGuiValues>();
         if (guiValue != null)
         {
-            float targetedYPos = getBpm ? m_targetedYPos : - m_targetedYPos;
+            float targetedYPos = getBpm ? -m_targetedXPos : m_targetedXPos;
             guiValue.StartToMove(targetedYPos, m_timeToDo);
             guiValue.StartToChangeColor(guiColor, m_timeToDo, m_delayToHideValue);
         }

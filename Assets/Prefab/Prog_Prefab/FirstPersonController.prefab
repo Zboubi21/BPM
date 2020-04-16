@@ -2607,17 +2607,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41697ba670d415469cac1566015790a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerCanDie: 1
+  m_playerCanTakeDamage: 1
   m_canChangeWeaponLvl: 1
   _BPM:
     maxBPM: 600
     startingBPM: 50
     criticalLvlOfBPM: 25
     m_activateFuryBPM: 500
+    m_loseBpmWhenFallIntoTheVoid: 25
     m_criticalBpmFeedBackScreen: {fileID: 99033614028600509}
     BPMGain_OnNoSpot: 1
     BPMGain_OnWeak: 1.7
     BPM_Gauge: {fileID: 823295479828341272}
-    m_playerBpmGui: {fileID: 8982157834547777731}
+    m_playerBpmGui: {fileID: 2095252129363505885}
     m_bpmGauge:
       m_gaugeShader: {fileID: 1640088262123835593}
       m_gaugeSpeed: 10
@@ -2767,6 +2770,7 @@ MonoBehaviour:
     m_height: 1.4
     m_duration: 0.15
   m_dash:
+    m_minInputCanDash: 0.5
     m_distance: 7.5
     m_timeToDash: 0.2
     m_dashCooldown: 0.5
@@ -10320,9 +10324,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6539415814943174965}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8982157834547777731 stripped
+--- !u!114 &2095252129363505885 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2767361912591360502, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
+  m_CorrespondingSourceObject: {fileID: 5175613148678702056, guid: 6b0a1a6ab700f824ca9eb2598130b4a1,
     type: 3}
   m_PrefabInstance: {fileID: 6539415814943174965}
   m_PrefabAsset: {fileID: 0}
