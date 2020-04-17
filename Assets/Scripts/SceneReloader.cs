@@ -22,39 +22,19 @@ public class SceneReloader : MonoBehaviour
     
     public void On_ResetLvl()
     {
-        // Scene[] scenes = SceneManager.GetAllScenes();
-
-        // List<Scene> scenes = new List<Scene>();
-
-        StartCoroutine(Coucou());
-
-        // int sceneNbr = 0;
-        // for (int i = 0, l = SceneManager.sceneCount; i < l; ++i)
-        // {
-        //     // scenes.Add(SceneManager.GetSceneAt(i));
-        //     Scene scene = SceneManager.GetSceneAt(i);
-        //     if (scene.name != "SceneLoader")
-        //     {
-        //         sceneNbr ++;
-        //         SceneManager.UnloadSceneAsync(scene.buildIndex);
-        //         // SceneManager.LoadScene(scene.buildIndex, LoadSceneMode.Additive);
-        //     }
-        // }
-        // for (int i = 0, l = sceneNbr; i < l; ++i)
-        // {
-        //     Scene scene = SceneManager.GetSceneAt(i);
-        //     if (scene.name != "SceneLoader")
-        //     {
-        //         SceneManager.LoadScene(scene.buildIndex, LoadSceneMode.Additive);
-        //     }
-        // }
+        StartCoroutine(LoadLvl());
     }
 
-    IEnumerator Coucou()
+    IEnumerator LoadLvl()
     {
-        SceneManager.UnloadSceneAsync("LD_Gameplay");
-        SceneManager.UnloadSceneAsync("LD_Lighting");
-        yield return new WaitForSeconds(3);
+        AsyncOperation loadGameplay = SceneManager.UnloadSceneAsync("LD_Gameplay");
+        AsyncOperation loadLighting = SceneManager.UnloadSceneAsync("LD_Lighting");
+
+        while(!loadGameplay.isDone && !loadLighting.isDone)
+        {
+            yield return null;
+        }
+
         SceneManager.LoadSceneAsync("LD_Gameplay", LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync("LD_Lighting", LoadSceneMode.Additive);
     }
