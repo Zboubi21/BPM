@@ -151,7 +151,7 @@ public class EnemyController : MonoBehaviour
         m_sM.Update();
 
         #region DEBUG
-        #if UNITY_EDITOR
+        // #if UNITY_EDITOR
         if (_debug.useGizmos)
         {
             _debug.m_stateText.text = string.Format("{0}", m_sM.m_currentStateString);
@@ -171,7 +171,7 @@ public class EnemyController : MonoBehaviour
         }
         _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
         _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);
-        #endif
+        // #endif
         #endregion
 
         DistanceToTarget = GetTargetDistance(currentTarget);
