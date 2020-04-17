@@ -21,6 +21,19 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] float m_timeToDo = 0.25f;
     [SerializeField] float m_targetedXPos = 0.02f;
     [SerializeField] float m_delayToHideValue = 0.25f;
+    [SerializeField] BpmFonts m_getLostFonts;
+    [System.Serializable] class BpmFonts
+    {
+        [Header("Basic")]
+        public float m_basicFontSize = 0.01f;
+        public TMP_FontAsset m_basicGetBpmFont;
+        public TMP_FontAsset m_basicLostBpmFont;
+
+        [Header("Special")]
+        public float m_specialFontSize = 0.0125f;
+        public TMP_FontAsset m_specialGetBpmFont;
+        public TMP_FontAsset m_specialLostBpmFont;
+    }
 
     [Header("Feedbacks")]
     [SerializeField] ChangeImageValues m_criticalLevelOfBPMFeedback;
@@ -41,7 +54,7 @@ public class PlayerBpmGui : MonoBehaviour
     {
         m_bpmValue.text = bpmValue.ToString();
     }
-    public void On_PlayerGetBpm(bool getBpm, float bpmValue)
+    public void On_PlayerGetBpm(bool getBpm, float bpmValue, bool specialBPM = false)
     {
         if (bpmValue == 0)
             return;
@@ -56,6 +69,25 @@ public class PlayerBpmGui : MonoBehaviour
         {
             guiColor = getBpm ? m_getBpmColor : m_lostBpmColor;
             spawnedText.color = guiColor;
+
+            TMP_FontAsset fontAsset;
+            if (getBpm) {
+                if (specialBPM) {
+                    fontAsset = m_getLostFonts.m_specialGetBpmFont;
+                } else {
+                    fontAsset = m_getLostFonts.m_basicGetBpmFont;
+                }
+            } else {
+                if (specialBPM) {
+                    fontAsset = m_getLostFonts.m_specialLostBpmFont;
+                } else {
+                    fontAsset = m_getLostFonts.m_basicLostBpmFont;
+                }
+            }
+            spawnedText.font = fontAsset;
+
+            spawnedText.fontSize = specialBPM ? m_getLostFonts.m_specialFontSize : m_getLostFonts.m_basicFontSize;
+
             // string newText = getBpm ? "+" + bpmValue : "-" + bpmValue;
             // spawnedText.text = newText;
             spawnedText.text = bpmValue.ToString();
