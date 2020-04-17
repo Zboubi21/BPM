@@ -51,7 +51,7 @@ public class SmoothPosition : MonoBehaviour {
 
 		tr = transform;
 		currentPosition = transform.position;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
 
         localPositionOffset = tr.localPosition;
 	}

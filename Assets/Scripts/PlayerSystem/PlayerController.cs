@@ -169,6 +169,8 @@ public class PlayerController : MonoBehaviour
 		m_doubleJumpSpeed = m_doubleJump.m_height / m_doubleJump.m_duration;
 
 		m_currentUseRawInput = m_movements.m_useRawInput;
+
+		m_scriptOrder.m_cameraControls.LockCamera = m_movements.lockCursor;
 	}
 
 	void OnEnable()
@@ -191,7 +193,6 @@ public class PlayerController : MonoBehaviour
 	{
 		m_sM.Update();
 		m_scriptOrder.m_cameraControls.UpdateScript();
-        m_scriptOrder.m_cameraControls.LockCamera = m_movements.lockCursor;
         m_scriptOrder.m_camPivot.UpdateScript();
 		m_scriptOrder.m_gunPivot.UpdateScript();
 	}
