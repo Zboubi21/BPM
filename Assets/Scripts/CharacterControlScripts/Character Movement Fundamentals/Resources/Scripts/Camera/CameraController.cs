@@ -93,10 +93,10 @@ public class CameraController : MonoBehaviour {
         ChangeCursorState(lockCamera);
     }
 
-    public void ChangeCursorState(bool beVisible)
+    public void ChangeCursorState(bool beInvisible)
     {
-        Cursor.visible = beVisible;
-        if (beVisible)
+        Cursor.visible = !beInvisible;
+        if (!beInvisible)
         {
             Cursor.lockState = CursorLockMode.None;
 
@@ -110,7 +110,7 @@ public class CameraController : MonoBehaviour {
 
 	public void UpdateScript()
 	{
-        if(lockCamera)
+        if(Cursor.visible == false)
         {
 		    HandleCameraRotation();
         }

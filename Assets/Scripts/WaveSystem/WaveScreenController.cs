@@ -312,7 +312,7 @@ public class WaveScreenController :  MonoBehaviour
                     _screenChannel = ScreenChannel.CocoChannel;
                     waveController.AddCocoScreen();
                 }
-                else
+                else if (i != (int)ScreenChannel.CocoChannel)
                 {
                     allWaveScreen[i].gameObject.SetActive(false);
                 }

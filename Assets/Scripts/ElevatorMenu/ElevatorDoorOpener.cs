@@ -22,11 +22,11 @@ public class ElevatorDoorOpener : MonoBehaviour
     {
         if(controller != null)
         {
-            if (canvas.gameObject.activeSelf && controller.m_movements.lockCursor)
+            if (canvas.gameObject.activeSelf && Cursor.visible == false)
             {
                 canvas.gameObject.SetActive(false);
             }
-            else if (!canvas.gameObject.activeSelf && !controller.m_movements.lockCursor)
+            else if (!canvas.gameObject.activeSelf && Cursor.visible == true)
             {
                 canvas.gameObject.SetActive(true);
             }
