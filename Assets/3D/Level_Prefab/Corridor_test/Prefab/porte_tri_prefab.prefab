@@ -42,9 +42,7 @@ GameObject:
   - component: {fileID: 1718860407594043250}
   - component: {fileID: 9171807662546265218}
   - component: {fileID: 7306522572220554191}
-  - component: {fileID: 905689540542862710}
-  - component: {fileID: 7737507141200946046}
-  - component: {fileID: 8609199638201097545}
+  - component: {fileID: 6155878198810154243}
   m_Layer: 11
   m_Name: A_portal_short_light_triangle_5
   m_TagString: Untagged
@@ -114,8 +112,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &905689540542862710
-BoxCollider:
+--- !u!64 &6155878198810154243
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -124,32 +122,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.42200324, y: 6, z: 2}
-  m_Center: {x: -0.14665453, y: 3, z: -1}
---- !u!65 &7737507141200946046
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8680962161235288505}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3691379, y: 6, z: 2.0999947}
-  m_Center: {x: -3.8391638, y: 3, z: -0.95000243}
---- !u!65 &8609199638201097545
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8680962161235288505}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.064347, y: 2.6643295, z: 2}
-  m_Center: {x: -1.9678266, y: 4.667835, z: -1}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 6636067379513394997, guid: 509b12562ecc0454ab12630cc549857f, type: 3}
