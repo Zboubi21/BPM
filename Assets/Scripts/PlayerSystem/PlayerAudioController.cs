@@ -67,15 +67,15 @@ public class PlayerAudioController : AudioController
             public Pitch Pitch;
             public Volume Volume;
         }
-        [Space]
-        public AllDifferentLastFireSound[] allDifferentLastFireSound;
-        [Serializable]
-        public class AllDifferentLastFireSound
-        {
-            public AudioClip[] allDifferentClip;
-            public Pitch Pitch;
-            public Volume Volume;
-        }
+        // [Space]
+        // public AllDifferentLastFireSound[] allDifferentLastFireSound;
+        // [Serializable]
+        // public class AllDifferentLastFireSound
+        // {
+        //     public AudioClip[] allDifferentClip;
+        //     public Pitch Pitch;
+        //     public Volume Volume;
+        // }
         [Space]
         public AudioSource morphSource;
         [Space]
@@ -242,13 +242,13 @@ public class PlayerAudioController : AudioController
     {
         StartSoundFromArray(m_dash.m_audioSource, m_dash.m_sounds, m_dash.m_volume, m_dash.m_volumeRandomizer, m_dash.m_pitch, m_dash.m_pitchRandomizer);
     }
-    public void PlayAppropriateLastFireSound(int currentIndex)
-    {
-        if (weaponSound.allDifferentLastFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.fireSource != null)
-        {
-            StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
-        }
-    }
+    // public void PlayAppropriateLastFireSound(int currentIndex)
+    // {
+    //     if (weaponSound.allDifferentLastFireSound.Length == (int)BPMSystem.WeaponState.Fury + 1 && weaponSound.fireSource != null)
+    //     {
+    //         StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
+    //     }
+    // }
 
     public void On_CriticalBpm(bool criticalBpm)
     {

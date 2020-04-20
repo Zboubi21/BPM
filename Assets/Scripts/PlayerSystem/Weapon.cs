@@ -16,6 +16,7 @@ public class Weapon : SerializedScriptableObject
         [Space]
         [Header("Level 0 BPM stats")]
         public float BPMGainOnHit;
+        public float BPMGainOnHitWeakSpot;
         public int BPMCost;
         [Space]
         [Header("Level 0 bullet stats")]
@@ -36,6 +37,7 @@ public class Weapon : SerializedScriptableObject
         [Space]
         [Header("Level 1 BPM stats")]
         public float BPMGainOnHit;
+        public float BPMGainOnHitWeakSpot;
         public int BPMCost;
         [Space]
         [Header("Level 1 bullet stats")]
@@ -56,6 +58,7 @@ public class Weapon : SerializedScriptableObject
         [Space]
         [Header("Level 2 BPM stats")]
         public float BPMGainOnHit;
+        public float BPMGainOnHitWeakSpot;
         public int BPMCost;
         [Space]
         [Header("Level 2 bullet stats")]
@@ -76,6 +79,7 @@ public class Weapon : SerializedScriptableObject
         [Space]
         [Header("Fury BPM stats")]
         public float BPMGainOnHit;
+        public float BPMGainOnHitWeakSpot;
         public int BPMCost;
         [Space]
         [Header("Fury bullet stats")]

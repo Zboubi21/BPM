@@ -59,6 +59,7 @@ public class Projectile : MonoBehaviour
 
     float m_BPMGain;
     float _currentBPMGain;
+    float _currentBPMGainWeakSpot;
     float m_speed = 25;
     int _currentDamage;
     int damage;
@@ -77,6 +78,7 @@ public class Projectile : MonoBehaviour
 
     public int CurrentDamage { get => _currentDamage; set => _currentDamage = value; }
     public float CurrentBPMGain { get => _currentBPMGain; set => _currentBPMGain = value; }
+    public float CurrentBPMGainWeakSpot { get => _currentBPMGainWeakSpot; set => _currentBPMGainWeakSpot = value; }
     public int Damage { get => damage; set => damage = value; }
     public float BPMGain { get => m_BPMGain; set => m_BPMGain = value; }
     public float Speed { get => m_speed; set => m_speed = value; }
@@ -293,7 +295,7 @@ public class Projectile : MonoBehaviour
 
     void SwitchForWeakSpots(Collider collider)
     {
-        if(m_projectileType == ProjectileType.Player)
+        if(m_projectileType == ProjectileType.Player)       
         {
             string tag = collider.tag;
             #region Switch For WeakSpots
@@ -303,7 +305,8 @@ public class Projectile : MonoBehaviour
                 // Le tir du player touche un NoSpot
                 case "NoSpot":
 
-                    BPMGain = BPMSystem._BPM.BPMGain_OnNoSpot * CurrentBPMGain;
+                    // BPMGain = BPMSystem._BPM.BPMGain_OnNoSpot * CurrentBPMGain;
+                    BPMGain = CurrentBPMGain;
 
                     FeedbackPlayerHitMarker(tag);
 
@@ -323,7 +326,8 @@ public class Projectile : MonoBehaviour
                 // Le tir du player touche un WeakSpot
                 case "WeakSpot":
 
-                    BPMGain = BPMSystem._BPM.BPMGain_OnWeak * CurrentBPMGain;
+                    // BPMGain = BPMSystem._BPM.BPMGain_OnWeak * CurrentBPMGainWeakSpot;
+                    BPMGain = CurrentBPMGainWeakSpot;
 
                     FeedbackPlayerHitMarker(tag);
 
@@ -342,7 +346,7 @@ public class Projectile : MonoBehaviour
 
                 default:
 
-                    BPMGain = 0;
+                    // BPMGain = 0;
 
                     break;
             }

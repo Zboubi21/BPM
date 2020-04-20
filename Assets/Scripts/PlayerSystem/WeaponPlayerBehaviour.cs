@@ -12,6 +12,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     [Space]
     public Weapon weaponStats;
     float _currentBPMGain;
+    float _currentBPMGainWeakSpot;
     float _currentBPMCost;
     float _currentTimeOfElctricalStun;
     bool _currentHasToStun;
@@ -129,7 +130,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 }
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
-                    audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
+                    // audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
                     m_crosshair.On_StopShoot();
                 }
                 break;
@@ -188,27 +189,27 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         {
             case BPMSystem.WeaponState.Level0:
 
-                InitiateWeaponVar(weaponStats._weaponLevel0.damage, weaponStats._weaponLevel0.attackCooldown, weaponStats._weaponLevel0.BPMGainOnHit, weaponStats._weaponLevel0.BPMCost, weaponStats._weaponLevel0.bullet, weaponStats._weaponLevel0.bulletSpeed, weaponStats._weaponLevel0.useElectricalBullet, weaponStats._weaponLevel0.timeOfElectricalStun);
+                InitiateWeaponVar(weaponStats._weaponLevel0.damage, weaponStats._weaponLevel0.attackCooldown, weaponStats._weaponLevel0.BPMGainOnHit, weaponStats._weaponLevel0.BPMGainOnHitWeakSpot, weaponStats._weaponLevel0.BPMCost, weaponStats._weaponLevel0.bullet, weaponStats._weaponLevel0.bulletSpeed, weaponStats._weaponLevel0.useElectricalBullet, weaponStats._weaponLevel0.timeOfElectricalStun);
                 weaponLevel = 0;
                 proj = ProjectileType.ProjectileLevel1;
                 break;
             case BPMSystem.WeaponState.Level1:
 
-                InitiateWeaponVar(weaponStats._weaponLevel1.damage, weaponStats._weaponLevel1.attackCooldown, weaponStats._weaponLevel1.BPMGainOnHit, weaponStats._weaponLevel1.BPMCost, weaponStats._weaponLevel1.bullet, weaponStats._weaponLevel1.bulletSpeed, weaponStats._weaponLevel1.useElectricalBullet, weaponStats._weaponLevel1.timeOfElectricalStun);
+                InitiateWeaponVar(weaponStats._weaponLevel1.damage, weaponStats._weaponLevel1.attackCooldown, weaponStats._weaponLevel1.BPMGainOnHit, weaponStats._weaponLevel1.BPMGainOnHitWeakSpot, weaponStats._weaponLevel1.BPMCost, weaponStats._weaponLevel1.bullet, weaponStats._weaponLevel1.bulletSpeed, weaponStats._weaponLevel1.useElectricalBullet, weaponStats._weaponLevel1.timeOfElectricalStun);
                 weaponLevel = 1;
                 proj = ProjectileType.ProjectileLevel2;
 
                 break;
             case BPMSystem.WeaponState.Level2:
 
-                InitiateWeaponVar(weaponStats._weaponLevel2.damage, weaponStats._weaponLevel2.attackCooldown, weaponStats._weaponLevel2.BPMGainOnHit, weaponStats._weaponLevel2.BPMCost, weaponStats._weaponLevel2.bullet, weaponStats._weaponLevel2.bulletSpeed, weaponStats._weaponLevel2.useElectricalBullet, weaponStats._weaponLevel2.timeOfElectricalStun);
+                InitiateWeaponVar(weaponStats._weaponLevel2.damage, weaponStats._weaponLevel2.attackCooldown, weaponStats._weaponLevel2.BPMGainOnHit, weaponStats._weaponLevel2.BPMGainOnHitWeakSpot, weaponStats._weaponLevel2.BPMCost, weaponStats._weaponLevel2.bullet, weaponStats._weaponLevel2.bulletSpeed, weaponStats._weaponLevel2.useElectricalBullet, weaponStats._weaponLevel2.timeOfElectricalStun);
                 weaponLevel = 2;
                 proj = ProjectileType.ProjectileLevel3;
 
                 break;
             case BPMSystem.WeaponState.Fury:
 
-                InitiateWeaponVar(weaponStats._weaponFury.damage, weaponStats._weaponFury.attackCooldown, weaponStats._weaponFury.BPMGainOnHit, weaponStats._weaponFury.BPMCost, weaponStats._weaponFury.bullet, weaponStats._weaponFury.bulletSpeed, weaponStats._weaponFury.useElectricalBullet, weaponStats._weaponFury.timeOfElectricalStun);
+                InitiateWeaponVar(weaponStats._weaponFury.damage, weaponStats._weaponFury.attackCooldown, weaponStats._weaponFury.BPMGainOnHit, weaponStats._weaponFury.BPMGainOnHitWeakSpot, weaponStats._weaponFury.BPMCost, weaponStats._weaponFury.bullet, weaponStats._weaponFury.bulletSpeed, weaponStats._weaponFury.useElectricalBullet, weaponStats._weaponFury.timeOfElectricalStun);
                 weaponLevel = 3;
                 proj = ProjectileType.ProjectileLevel4;
 
@@ -232,12 +233,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         }
     }
 
-    void InitiateWeaponVar(int damage, float attackSpeed, float BPMGain, float BPMCost, GameObject projectileObject, float projectileSpeed, bool hasToStun, float timeOfElctricalStun)
+    void InitiateWeaponVar(int damage, float attackSpeed, float BPMGain, float BPMGainWeakSpot, float BPMCost, GameObject projectileObject, float projectileSpeed, bool hasToStun, float timeOfElctricalStun)
     {
         _currentDamage = damage;
 
         _currentAttackSpeed = attackSpeed;
         _currentBPMGain = BPMGain;
+        _currentBPMGainWeakSpot = BPMGainWeakSpot;
         _currentBPMCost = BPMCost;
 
         _currentProjectil = projectileObject;
@@ -362,6 +364,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 projVar.TransfoPos = playerCamera.transform.position;
                 projVar.TransfoDir = playerCamera.transform.forward;
                 projVar.CurrentBPMGain = _currentBPMGain;
+                projVar.CurrentBPMGainWeakSpot = _currentBPMGainWeakSpot;
                 projVar.CurrentDamage = _currentDamage;
                 projVar.HasToStun = _currentHasToStun;
                 projVar.TimeForElectricalStun = _currentTimeOfElctricalStun;
