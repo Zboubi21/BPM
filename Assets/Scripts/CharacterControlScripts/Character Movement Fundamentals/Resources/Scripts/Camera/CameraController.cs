@@ -56,40 +56,75 @@ public class CameraController : MonoBehaviour {
 	//References to transform and camera components;
 	protected Transform m_trans;
 	protected Camera m_camera;
+    bool lockCamera;
 
     Vector2 recoil;
 
 	IEnumerator m_fovChangerCorout;
 
     public Vector2 Recoil { get => recoil; set => recoil = value; }
+    public bool LockCamera { get => lockCamera; set => lockCamera = value; }
 
-	[SerializeField] float m_minRotationAnim = 1.5f;
+    [SerializeField] float m_minRotationAnim = 1.5f;
 
     #region Event Functions
     //Setup references.
     void Awake () {
-		m_trans = transform;
 
-		m_camera = GetComponentInChildren<Camera>();
+        m_trans = transform;
 
-		// lastPosition = m_trans.position;
+        m_camera = GetComponentInChildren<Camera>();
 
-		//Set angle variables to current rotation angles of this transform;
-		currentXAngle = m_trans.localRotation.eulerAngles.x;
-		currentYAngle = m_trans.localRotation.eulerAngles.y;
+        // lastPosition = m_trans.position;
 
-		//Execute camera rotation code once to calculate facing and upwards direction;
-		RotateCamera(0f, 0f);
+        //Set angle variables to current rotation angles of this transform;
+        currentXAngle = m_trans.localRotation.eulerAngles.x;
+        currentYAngle = m_trans.localRotation.eulerAngles.y;
 
-		Setup();
+        //Execute camera rotation code once to calculate facing and upwards direction;
+        RotateCamera(0f, 0f);
 
-        Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
-	}
+        Setup();
+
+    }
+
+    private void Start()
+    {
+        ChangeCursorState(lockCamera);
+    }
+	// void FixedUpdate()
+	// {
+    //     ChangeCursorState(lockCamera);
+	// }
+	bool m_screenIsFocused = false;
+	void OnApplicationFocus(bool hasFocus)
+    {
+		m_screenIsFocused = hasFocus;
+        if (hasFocus)
+        	ChangeCursorState(lockCamera);
+    }
+    public void ChangeCursorState(bool beInvisible)
+    {
+        Cursor.visible = !beInvisible;
+        if (!beInvisible)
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            
+        }
+    }
 
 	public void UpdateScript()
 	{
-		HandleCameraRotation();
+        // if(Cursor.visible == false)
+        if(m_screenIsFocused)
+        {
+		    HandleCameraRotation();
+        }
 	}
 	// void Update()
 	// {

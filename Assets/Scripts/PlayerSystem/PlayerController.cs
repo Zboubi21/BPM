@@ -23,11 +23,12 @@ public class PlayerController : MonoBehaviour
 	}
 
 	[Header("Movements")]
-	[SerializeField] Movements m_movements;
-	[Serializable] class Movements{
+	public Movements m_movements;
+	[Serializable] public class Movements{
 		public bool m_useRawInput = true;
 		public float m_baseSpeed = 11f;
 		public float m_overadrenalineSpeed = 14f;
+        public bool lockCursor;
 	}
 
 	[Header("Physics")]
@@ -168,6 +169,8 @@ public class PlayerController : MonoBehaviour
 		m_doubleJumpSpeed = m_doubleJump.m_height / m_doubleJump.m_duration;
 
 		m_currentUseRawInput = m_movements.m_useRawInput;
+
+		m_scriptOrder.m_cameraControls.LockCamera = m_movements.lockCursor;
 	}
 
 	void OnEnable()
@@ -190,7 +193,7 @@ public class PlayerController : MonoBehaviour
 	{
 		m_sM.Update();
 		m_scriptOrder.m_cameraControls.UpdateScript();
-		m_scriptOrder.m_camPivot.UpdateScript();
+        m_scriptOrder.m_camPivot.UpdateScript();
 		m_scriptOrder.m_gunPivot.UpdateScript();
 	}
 

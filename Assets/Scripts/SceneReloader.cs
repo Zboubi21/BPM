@@ -27,6 +27,8 @@ public class SceneReloader : MonoBehaviour
 
     IEnumerator LoadLvl()
     {
+        ObjectPooler.Instance?.On_ReturnAllInPool();
+
         AsyncOperation loadGameplay = SceneManager.UnloadSceneAsync("LD_Gameplay");
         AsyncOperation loadLighting = SceneManager.UnloadSceneAsync("LD_Lighting");
 
