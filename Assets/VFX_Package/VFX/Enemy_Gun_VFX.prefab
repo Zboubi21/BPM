@@ -24199,6 +24199,37 @@ MonoBehaviour:
   m_maxLifeTime: 5
   m_colType: 2
   forceBuffer: 50
+--- !u!1 &5122422265533444305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 322496748311772102}
+  m_Layer: 0
+  m_Name: Enemy_Small_Muzzle_Flash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &322496748311772102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122422265533444305}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5236799300544363019}
+  m_Father: {fileID: 5719929577405307182}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5236799300544363018
 GameObject:
   m_ObjectHideFlags: 0
@@ -24230,8 +24261,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5236799300586250365}
-  m_Father: {fileID: 5719929577405307182}
-  m_RootOrder: 1
+  m_Father: {fileID: 322496748311772102}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &5236799300544363017
 ParticleSystem:
@@ -33878,9 +33909,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5719929578334762734}
-  - {fileID: 5236799300544363019}
   - {fileID: 6170765550923828872}
   - {fileID: 6170765552488393884}
+  - {fileID: 322496748311772102}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33944,7 +33975,7 @@ Transform:
   m_Children:
   - {fileID: 5012515379481235858}
   m_Father: {fileID: 5719929577405307182}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6170765552488393885
 GameObject:
@@ -33975,5 +34006,5 @@ Transform:
   m_Children:
   - {fileID: 3959623534803299621}
   m_Father: {fileID: 5719929577405307182}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
