@@ -92,7 +92,17 @@ public class CameraController : MonoBehaviour {
     {
         ChangeCursorState(lockCamera);
     }
-
+	// void FixedUpdate()
+	// {
+    //     ChangeCursorState(lockCamera);
+	// }
+	bool m_screenIsFocused = false;
+	void OnApplicationFocus(bool hasFocus)
+    {
+		m_screenIsFocused = hasFocus;
+        if (hasFocus)
+        	ChangeCursorState(lockCamera);
+    }
     public void ChangeCursorState(bool beInvisible)
     {
         Cursor.visible = !beInvisible;
@@ -110,7 +120,8 @@ public class CameraController : MonoBehaviour {
 
 	public void UpdateScript()
 	{
-        if(Cursor.visible == false)
+        // if(Cursor.visible == false)
+        if(m_screenIsFocused)
         {
 		    HandleCameraRotation();
         }
