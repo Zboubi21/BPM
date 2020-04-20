@@ -8,6 +8,7 @@
 	[System.Serializable] public enum EnemyType {
 		Rusher,
         Sniper,
+        Suicidal,
 	}
     [System.Serializable] public enum ProjectileType {
 
