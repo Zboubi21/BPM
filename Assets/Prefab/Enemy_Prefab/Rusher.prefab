@@ -1736,6 +1736,24 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  "_enemyCaract\xE9ristique":
+    _move:
+      moveSpeed: 8
+      rotationSpeed: 100
+    _health:
+      maxHealth: 100
+      damageMultiplicatorOnWeakSpot: 1.5
+      damageMultiplicatorOnNoSpot: 1
+    _stunResistance:
+      timeOfStun: 0.5
+      allPercentLifeBeforeGettingStuned:
+      - 81
+      - 51
+      - 31
+      - 21
+      - 11
+      timeOfElectricalStunResistance: 0
+  enemyArchetype: {fileID: 11400000, guid: 67ebe2b48256204429b14e7d49026637, type: 2}
   _debug:
     reallyNeedToUseDebug: 1
     weakSpots:
@@ -1775,24 +1793,6 @@ MonoBehaviour:
     - {fileID: 3822076234505880159}
     - {fileID: 8684468555185997151}
     - {fileID: 8684468554716952860}
-  "_enemyCaract\xE9ristique":
-    enemyArchetype: {fileID: 11400000, guid: 67ebe2b48256204429b14e7d49026637, type: 2}
-    _move:
-      moveSpeed: 8
-      rotationSpeed: 100
-    _health:
-      maxHealth: 100
-      damageMultiplicatorOnWeakSpot: 1.5
-      damageMultiplicatorOnNoSpot: 1
-    _stunResistance:
-      timeOfStun: 0.5
-      allPercentLifeBeforeGettingStuned:
-      - 81
-      - 51
-      - 31
-      - 21
-      - 11
-      timeOfElectricalStunResistance: 0
 --- !u!114 &4187508792682329746
 MonoBehaviour:
   m_ObjectHideFlags: 0
