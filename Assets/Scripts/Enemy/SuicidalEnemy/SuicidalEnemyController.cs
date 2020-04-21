@@ -110,9 +110,15 @@ public class SuicidalEnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, m_explosionRange.m_range);
     }
 
+#region Public Functions
     public void ChasePlayer()
     {
         m_agent.SetDestination(PlayerController.s_instance.transform.position);
     }
+    public void GetPlayerDistance()
+    {
+        
+    }
+#endregion
 
 }
