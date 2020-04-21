@@ -260,7 +260,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         for (int i = 0; i < nbrOfShoot; ++i)
         {
             //StartCoroutine(RecoilCurve());
-            _BPMSystem.LoseBPM(_currentBPMCost);
+           // _BPMSystem.LoseBPM(_currentBPMCost);
             if (_currentProjectil != null)
             {
                 InitiateRayCast(InstatiateProj());
@@ -272,6 +272,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             }
 
             Fire();
+            _BPMSystem.LoseBPM(_currentBPMCost);
             yield return new WaitForSeconds(timeEachShoot);
         }
         yield return new WaitForSeconds(recoilTimeEachBurst);
