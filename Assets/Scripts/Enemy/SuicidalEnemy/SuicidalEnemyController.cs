@@ -63,13 +63,15 @@ public class SuicidalEnemyController : MonoBehaviour
         Always,
         NeedSelected,
     }
-
-    public float m_waitTimeToSpawn = 1;
-    public float m_waitTimeToDie = 0.25f;
+    
+    [Space]
 
     public SelfDestruction m_selfDestruction;
     [Serializable] public class SelfDestruction
     {
+        [Tooltip("Time to wait before enter in SelfDestructionState")]
+        public float m_waitTimeToStartSelfDestruction = 0.2f;
+
         [Tooltip("Range when the enemy stop to move and enter in SelfDestructionState")]
         public Range m_startWaitToExplodeRange;
         public float m_waitTimeToExplode = 1;
@@ -93,6 +95,10 @@ public class SuicidalEnemyController : MonoBehaviour
         public float m_range = 1;
         public Color m_color = Color.red;
     }
+
+    [Header("Delay")]
+    public float m_waitTimeToSpawn = 1;
+    public float m_waitTimeToDie = 0.25f;
 
     NavMeshAgent m_agent;
     EnemyCaraBase m_enemyChara;
@@ -122,8 +128,8 @@ public class SuicidalEnemyController : MonoBehaviour
 	void Update()
 	{
 		m_sM.Update();
-        if (Input.GetKeyDown(KeyCode.C))
-            ChangeState(EnemyState.ChaseState);
+        // if (Input.GetKeyDown(KeyCode.C))
+        //     ChangeState(EnemyState.ChaseState);
 	}
 	void LateUpdate()
 	{
@@ -170,6 +176,19 @@ public class SuicidalEnemyController : MonoBehaviour
     public float GetPlayerDistance()
     {
         return Vector3.Distance(transform.position, PlayerController.s_instance.transform.position);
+    }
+    bool m_playerInRange = false;
+    public bool EnemyInRangeOfPlayer()
+    {
+        if (GetPlayerDistance() >= m_selfDestruction.m_startWaitToExplodeRange.m_range && m_playerInRange)
+        {
+            m_playerInRange = false;
+        }
+        else if (GetPlayerDistance() < m_selfDestruction.m_startWaitToExplodeRange.m_range && !m_playerInRange)
+        {
+            m_playerInRange = true;
+        }
+        return m_playerInRange;
     }
     public void On_EnemyExplode()
     {
