@@ -1,9 +1,11 @@
 ﻿namespace SuicidalEnemyStateEnum {
 	[System.Serializable] public enum EnemyState {
-		IdleState,
+		// IdleState,
 		SpawnState,
 		ChaseState,
         SelfDestructionState,
         DieState,
+		StunState,
+		ElectricalStunState,
 	}
 }

@@ -6,9 +6,6 @@ using SuicidalEnemyStateEnum;
 public class SuicidalEnemySpawnState : IState
 {
     
-    float m_timer = 0;
-    bool m_timeIsDone = false;
-
 #region Constructor
     SuicidalEnemyController m_enemyController;
     public SuicidalEnemySpawnState(SuicidalEnemyController enemyController)
@@ -17,22 +14,26 @@ public class SuicidalEnemySpawnState : IState
     }
 #endregion
 
+    float m_timer = 0;
+    bool m_timerIsDone = false;
+
     public void Enter()
     {
         m_timer = 0;
-        m_timeIsDone = false;
+        m_timerIsDone = false;
+        m_enemyController.SetAnimation("Spawn");
     }
 
     public void FixedUpdate()
     {
-        if (!m_timeIsDone)
+        if (!m_timerIsDone)
             m_timer += Time.deltaTime;
         
-        // if (m_timer >m_enemyController.m_spawn.m_timeToSpawn && !m_timeIsDone)
-        // {
-        //     m_timeIsDone = true;
-        //     m_enemyController.ChangeState(SuicidalEnemyState.ChaseState);
-        // }
+        if (m_timer > m_enemyController.m_waitTimeToSpawn && !m_timerIsDone)
+        {
+            m_timerIsDone = true;
+            m_enemyController.ChangeState(EnemyState.ChaseState);
+        }
     }
 
     public void Update()

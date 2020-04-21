@@ -4,45 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using SuicidalEnemyStateEnum;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SuicidalEnemyController : MonoBehaviour
 {
 
-    [SerializeField] DrawGizmosType m_drawGizmosType = DrawGizmosType.NeedSelected;
-    enum DrawGizmosType
-    {
-        Always,
-        NeedSelected,
-    }
-
-    [Header("Range")]
-    [Tooltip("Range when the enemy stop to move and enter ")]
-    public Range m_startWaitToExplodeRange;
-
-    [Tooltip("Range when the enemy explode automatically")]
-    public Range m_automaticExplodeRange;
-
-    [Tooltip("Range of damaged objects by the explosion")]
-    public Range m_explosionRange;
-    [Serializable] public class Range
-    {
-        public float m_range = 1;
-        public Color m_color = Color.red;
-    }
-
-    NavMeshAgent m_agent;
-    
+    [Header("Debug")]
+      
 #region State Machine
     [SerializeField] StateMachine m_sM = new StateMachine();
     void SetupStateMachine()
     {
         m_sM.AddStates(new List<IState> { 
-			new SuicidalEnemyIdleState(this),
+			// new SuicidalEnemyIdleState(this),
+			new SuicidalEnemySpawnState(this),
 			new SuicidalEnemyChaseState(this),
-            new SuicidalEnemyChaseState(this),
             new SuicidalEnemySelfDestructionState(this),
             new SuicidalEnemyDieState(this),
+            new SuicidalEnemyStunState(this),
+            new SuicidalEnemyElectricalStunState(this),
 		});
 
         string[] playerStateNames = System.Enum.GetNames(typeof(EnemyState));
@@ -51,7 +32,8 @@ public class SuicidalEnemyController : MonoBehaviour
             Debug.LogError("You need to have the same number of State in SuicidalEnemyController and SuicidalEnemyState");
         }
 
-        ChangeState((int)EnemyState.IdleState);
+        // ChangeState((int)EnemyState.IdleState);
+        ChangeState((int)EnemyState.SpawnState);
     }
     public void ChangeState(EnemyState newState)
     {
@@ -67,15 +49,75 @@ public class SuicidalEnemyController : MonoBehaviour
     }
 #endregion
 
-#region Unity Events
+    [SerializeField] Debugs m_debug;
+    [Serializable] class Debugs
+    {
+        public Text m_stateTxt;
+        public Text m_lifeTxt;
+    }
+
+    [SerializeField] Transform m_explosionRoot;
+    [SerializeField] DrawGizmosType m_drawGizmosType = DrawGizmosType.NeedSelected;
+    enum DrawGizmosType
+    {
+        Always,
+        NeedSelected,
+    }
+
+    public float m_waitTimeToSpawn = 1;
+    public float m_waitTimeToDie = 0.25f;
+
+    public SelfDestruction m_selfDestruction;
+    [Serializable] public class SelfDestruction
+    {
+        [Tooltip("Range when the enemy stop to move and enter in SelfDestructionState")]
+        public Range m_startWaitToExplodeRange;
+        public float m_waitTimeToExplode = 1;
+    }
+
+    [Tooltip("Range when the enemy explode automatically")]
+    public Range m_automaticExplodeRange;
+
+    public Explosion m_explosion;
+    [Serializable] public class Explosion
+    {
+        [Tooltip("Range of damaged objects by the explosion")]
+        public Range m_explosionRange;
+        public LayerMask m_damagedLayer;
+        public int m_playerDamage = 25;
+        public int m_enemyDamage = 25;
+        public int m_environmentDamage = 1;
+    }
+    [Serializable] public class Range
+    {
+        public float m_range = 1;
+        public Color m_color = Color.red;
+    }
+
+    NavMeshAgent m_agent;
+    EnemyCaraBase m_enemyChara;
+    Animator m_animator;
+
+#region Get / Set
+    public StateMachine SM { get => m_sM; }
+    public EnemyCaraBase EnemyChara { get => m_enemyChara; }
+#endregion
+
+    #region Unity Events
     void Awake()
     {
+        m_animator = GetComponent<Animator>();
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
+    }
+    void Start()
+    {
+        m_enemyChara = GetComponent<EnemyCaraBase>();
     }
     void FixedUpdate()
 	{
 		m_sM.FixedUpdate();
+        ShowDebug();
 	}
 	void Update()
 	{
@@ -102,12 +144,18 @@ public class SuicidalEnemyController : MonoBehaviour
 
     void On_DrawGizmos()
     {
-        Gizmos.color = m_startWaitToExplodeRange.m_color;
-        Gizmos.DrawWireSphere(transform.position, m_startWaitToExplodeRange.m_range);
+        Gizmos.color = m_selfDestruction.m_startWaitToExplodeRange.m_color;
+        Gizmos.DrawWireSphere(m_explosionRoot.position, m_selfDestruction.m_startWaitToExplodeRange.m_range);
         Gizmos.color = m_automaticExplodeRange.m_color;
-        Gizmos.DrawWireSphere(transform.position, m_automaticExplodeRange.m_range);
-        Gizmos.color = m_explosionRange.m_color;
-        Gizmos.DrawWireSphere(transform.position, m_explosionRange.m_range);
+        Gizmos.DrawWireSphere(m_explosionRoot.position, m_automaticExplodeRange.m_range);
+        Gizmos.color = m_explosion.m_explosionRange.m_color;
+        Gizmos.DrawWireSphere(m_explosionRoot.position, m_explosion.m_explosionRange.m_range);
+    }
+
+    void ShowDebug()
+    {
+        m_debug.m_stateTxt.text = string.Format("{0}", m_sM.m_currentStateString);
+        m_debug.m_lifeTxt.text = string.Format("{0}", m_enemyChara.CurrentLife);
     }
 
 #region Public Functions
@@ -115,10 +163,74 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         m_agent.SetDestination(PlayerController.s_instance.transform.position);
     }
-    public void GetPlayerDistance()
+    public void StopEnemyMovement(bool stop)
     {
-        
+        m_agent.isStopped = stop;
     }
+    public float GetPlayerDistance()
+    {
+        return Vector3.Distance(transform.position, PlayerController.s_instance.transform.position);
+    }
+    public void On_EnemyExplode()
+    {
+        List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
+        List<DestroyableObjectController> destroyableObjs = new List<DestroyableObjectController>();
+
+        Collider[] colliders = Physics.OverlapSphere(m_explosionRoot.position, m_explosion.m_explosionRange.m_range, m_explosion.m_damagedLayer);
+        if (colliders != null)
+        {
+            for (int i = 0, l = colliders.Length; i < l; ++i)
+            {
+                if (colliders[i].CompareTag("Player"))
+                {
+                    BPMSystem _BPMSystem = colliders[i].GetComponent<BPMSystem>();
+                    if(_BPMSystem != null)
+                    {
+                        _BPMSystem.LoseBPM(m_explosion.m_playerDamage, transform);
+                    }
+                }
+                else if (colliders[i].CompareTag("DestroyableObject"))
+                {
+                    DestroyableObject destroyableObject = colliders[i].GetComponent<DestroyableObject>();
+                    if (destroyableObject != null && !destroyableObjs.Contains(destroyableObject.Controller))
+                    {
+                        destroyableObjs.Add(destroyableObject.Controller);
+                        destroyableObject.TakeDamage(m_explosion.m_environmentDamage);
+                    }
+
+                    DestroyableObjectController destroyableObjectController = colliders[i].GetComponent<DestroyableObjectController>();
+                    if (destroyableObjectController != null && !destroyableObjs.Contains(destroyableObjectController))
+                    {
+                        destroyableObjs.Add(destroyableObjectController);
+                        destroyableObjectController.TakeDamage(m_explosion.m_environmentDamage);
+                    }
+                }
+                else if (colliders[i].CompareTag("NoSpot") || colliders[i].CompareTag("WeakSpot"))
+                {
+                    ReferenceScipt refScript = colliders[i].GetComponent<ReferenceScipt>();
+                    if(refScript != null)
+                    {
+                        if(refScript.cara != null && !enemies.Contains(refScript.cara))
+                        {
+                            enemies.Add(refScript.cara);
+                            refScript.cara.TakeDamage(m_explosion.m_enemyDamage, 0, false, 0);
+                        }
+                    }
+                }
+            }
+        }
+        gameObject.SetActive(false);
+    }
+    public void On_EnemyDie()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void SetAnimation(string name)
+    {
+        m_animator.SetTrigger(name);
+    }
+
 #endregion
 
 }

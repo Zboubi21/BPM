@@ -24,12 +24,18 @@ public class EnemyCara : EnemyCaraBase
         public Collider[] allCollider;
     }
 
+    EnemyController controller;
+
+    protected override void Awake()
+    {
+        controller = GetComponent<EnemyController>();
+        base.Awake();
+    }
     protected override void OnEnable()
     {
         base.OnEnable();
         GiveArchetypeToTheEnemy();
     }
-
     protected override void Start()
     {
         base.Start();
@@ -48,6 +54,74 @@ public class EnemyCara : EnemyCaraBase
                     _debug.weakSpots[i].SetActive(EnemyArchetype.Spots[i]);
                     _debug.noSpot[i].SetActive(!EnemyArchetype.Spots[i]);
                 }
+            }
+        }
+    }
+
+    public override void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
+    {
+        switch (i)
+        {
+            case 0:
+
+                _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnNoSpot);
+
+                break;
+            case 1:
+
+                _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnWeakSpot);
+
+                break;
+            default:
+                break;
+        }
+
+        if(controller != null)  // pour les dummy
+        {
+            if((!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) || !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState)) && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
+            {
+                if (!hasToBeElectricalStun)
+                {
+                    if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
+                    {
+                        for (int a = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; a < l; ++a)
+                        {
+                            if (_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned[a] > Mathf.InverseLerp(0, _enemyCaractéristique._health.maxHealth, CurrentLife)*100f && !hasBeenStuned[a])
+                            {
+                                _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
+                                hasBeenStuned[a] = true;
+                                controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (_currentTimeForElectricalStunResistance == 0f)
+                    {
+                        _currentTimeForElectricalStun = timeForElectricalStun;
+                        _currentTimeForElectricalStunResistance = _enemyCaractéristique._stunResistance.timeOfElectricalStunResistance;
+                        controller.m_sM.ChangeState((int)EnemyState.Enemy_ElectricalStunState);
+                    }
+                }
+            }
+            CheckIfDead();
+        }
+    }
+
+    protected override void CheckIfDead()
+    {
+        if(controller != null) // pour les dummy
+        {
+            if (_currentLife <= 0)
+            {
+                _isDead = true;
+                controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
+            }
+            else if(!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
+            {
+                controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
             }
         }
     }

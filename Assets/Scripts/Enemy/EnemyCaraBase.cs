@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using EnemyStateEnum;
+using SuicidalEnemyStateEnum;
 using Sirenix.OdinInspector;
 using UnityEngine.AI;
 
@@ -40,18 +40,18 @@ public class EnemyCaraBase : SerializedMonoBehaviour
             public float timeOfElectricalStunResistance;
         }
     }
-    EnemyController controller;
+    SuicidalEnemyController controller;
     protected float _currentLife;
     int _currentDamage;
-    bool _isDead;
-    float _currentTimeForElectricalStun;
-    float _currentTimeForElectricalStunResistance;
+    protected bool _isDead;
+    protected float _currentTimeForElectricalStun;
+    protected float _currentTimeForElectricalStunResistance;
 
-    float _currentTimeForStun;
+    protected float _currentTimeForStun;
     float _currentTimeForStunResistance;
     int _currentIndexInLateLookAt;
 
-    bool[] hasBeenStuned;
+    protected bool[] hasBeenStuned;
 
     #region Get Set
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
@@ -73,9 +73,9 @@ public class EnemyCaraBase : SerializedMonoBehaviour
     }
 
     PlayerController playerController;
-    public void Awake()
+    protected virtual void Awake()
     {
-        controller = GetComponent<EnemyController>();
+        controller = GetComponent<SuicidalEnemyController>();
         playerController = PlayerController.s_instance;
         if (controller != null)
         {
@@ -169,7 +169,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
 
         if(controller != null)  // pour les dummy
         {
-            if((!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) || !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState)) && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
+            if((!controller.SM.CompareState((int)EnemyState.StunState) || !controller.SM.CompareState((int)EnemyState.ElectricalStunState)) && !controller.SM.CompareState((int)EnemyState.DieState))
             {
                 if (!hasToBeElectricalStun)
                 {
@@ -181,7 +181,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
                             {
                                 _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
                                 hasBeenStuned[a] = true;
-                                controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                                controller.SM.ChangeState((int)EnemyState.StunState);
                                 break;
                             }
                         }
@@ -193,7 +193,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
                     {
                         _currentTimeForElectricalStun = timeForElectricalStun;
                         _currentTimeForElectricalStunResistance = _enemyCaractéristique._stunResistance.timeOfElectricalStunResistance;
-                        controller.m_sM.ChangeState((int)EnemyState.Enemy_ElectricalStunState);
+                        controller.SM.ChangeState((int)EnemyState.ElectricalStunState);
                     }
                 }
             }
@@ -208,11 +208,11 @@ public class EnemyCaraBase : SerializedMonoBehaviour
             if (_currentLife <= 0)
             {
                 _isDead = true;
-                controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
+                controller.SM.ChangeState((int)EnemyState.DieState);
             }
-            else if(!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
+            else if(!controller.SM.CompareState((int)EnemyState.StunState) && !controller.SM.CompareState((int)EnemyState.ElectricalStunState))
             {
-                controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
+                // controller.SM.ChangeState((int)EnemyState.Enemy_AttackState);
             }
         }
     }

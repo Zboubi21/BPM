@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SuicidalEnemyStateEnum;
 
 public class SuicidalEnemyChaseState : IState
 {
 
-#region Constructor
+#region Constructorv
     SuicidalEnemyController m_enemyController;
     public SuicidalEnemyChaseState(SuicidalEnemyController enemyController)
     {
@@ -15,11 +16,16 @@ public class SuicidalEnemyChaseState : IState
 
     public void Enter()
     {
+        m_enemyController.SetAnimation("Chase");
     }
 
     public void FixedUpdate()
     {
         m_enemyController.ChasePlayer();
+        if (m_enemyController.GetPlayerDistance() <= m_enemyController.m_selfDestruction.m_startWaitToExplodeRange.m_range)
+        {
+            m_enemyController.ChangeState(EnemyState.SelfDestructionState);
+        }
     }
 
     public void Update()
