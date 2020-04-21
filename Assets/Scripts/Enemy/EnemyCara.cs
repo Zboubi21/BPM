@@ -24,11 +24,11 @@ public class EnemyCara : EnemyCaraBase
         public Collider[] allCollider;
     }
 
-    EnemyController controller;
+    EnemyController enemyController;
 
     protected override void Awake()
     {
-        controller = GetComponent<EnemyController>();
+        enemyController = GetComponent<EnemyController>();
         base.Awake();
     }
     protected override void OnEnable()
@@ -76,9 +76,9 @@ public class EnemyCara : EnemyCaraBase
                 break;
         }
 
-        if(controller != null)  // pour les dummy
+        if(enemyController != null)  // pour les dummy
         {
-            if((!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) || !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState)) && !controller.m_sM.CompareState((int)EnemyState.Enemy_DieState))
+            if((!enemyController.m_sM.CompareState((int)EnemyState.Enemy_StunState) || !enemyController.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState)) && !enemyController.m_sM.CompareState((int)EnemyState.Enemy_DieState))
             {
                 if (!hasToBeElectricalStun)
                 {
@@ -90,7 +90,7 @@ public class EnemyCara : EnemyCaraBase
                             {
                                 _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
                                 hasBeenStuned[a] = true;
-                                controller.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
+                                enemyController.m_sM.ChangeState((int)EnemyState.Enemy_StunState);
                                 break;
                             }
                         }
@@ -102,7 +102,7 @@ public class EnemyCara : EnemyCaraBase
                     {
                         _currentTimeForElectricalStun = timeForElectricalStun;
                         _currentTimeForElectricalStunResistance = _enemyCaractéristique._stunResistance.timeOfElectricalStunResistance;
-                        controller.m_sM.ChangeState((int)EnemyState.Enemy_ElectricalStunState);
+                        enemyController.m_sM.ChangeState((int)EnemyState.Enemy_ElectricalStunState);
                     }
                 }
             }
@@ -112,16 +112,16 @@ public class EnemyCara : EnemyCaraBase
 
     protected override void CheckIfDead()
     {
-        if(controller != null) // pour les dummy
+        if(enemyController != null) // pour les dummy
         {
             if (_currentLife <= 0)
             {
                 _isDead = true;
-                controller.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
+                enemyController.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
             }
-            else if(!controller.m_sM.CompareState((int)EnemyState.Enemy_StunState) && !controller.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
+            else if(!enemyController.m_sM.CompareState((int)EnemyState.Enemy_StunState) && !enemyController.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
             {
-                controller.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
+                enemyController.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
             }
         }
     }
