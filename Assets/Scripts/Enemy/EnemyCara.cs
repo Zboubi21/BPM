@@ -11,6 +11,8 @@ public class EnemyCara : EnemyCaraBase
     [Space]
     public EnemyArchetype enemyArchetype;
     public EnemyArchetype EnemyArchetype { get => enemyArchetype; set => enemyArchetype = value; }
+    public List<bool> CheckWeakSpotHit { get => checkWeakSpotHit; set => checkWeakSpotHit = value; }
+
     [Space]
     public DebugOuvreSurtoutPas _debug = new DebugOuvreSurtoutPas();
     [Serializable] public class DebugOuvreSurtoutPas
@@ -57,20 +59,20 @@ public class EnemyCara : EnemyCaraBase
             }
         }
     }
-
+    List<bool> checkWeakSpotHit = new List<bool>();
     public override void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
     {
         switch (i)
         {
             case 0:
-
+                GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.hitSomething.noSpotHits);
                 _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnNoSpot);
-
+                checkWeakSpotHit.Add(false);
                 break;
             case 1:
-
+                GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.hitSomething.weakSpotHits);
                 _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnWeakSpot);
-
+                checkWeakSpotHit.Add(true);
                 break;
             default:
                 break;
@@ -118,6 +120,7 @@ public class EnemyCara : EnemyCaraBase
             {
                 _isDead = true;
                 enemyController.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
+
             }
             else if(!enemyController.m_sM.CompareState((int)EnemyState.Enemy_StunState) && !enemyController.m_sM.CompareState((int)EnemyState.Enemy_ElectricalStunState))
             {

@@ -21,6 +21,8 @@ public class BreakableObjectController : DestroyableObjectController
     {
         On_BreakObject();
         Rigidbody[] rbody = GetComponentsInChildren<Rigidbody>();
+        //GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.secondCategorie);
+
         for (int i = 0, l = rbody.Length; i < l; ++i)
         {
             // rbody[i].AddForce(rbody[i].transform.position + (-rbody[i].transform.up * m_breakForce));

@@ -182,6 +182,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
 
     ProjectileType proj;
+
+    public BPMSystem BPMSystem { get => _BPMSystem; set => _BPMSystem = value; }
+
     public override void ChangeWeaponStats()
     {
         int weaponLevel;

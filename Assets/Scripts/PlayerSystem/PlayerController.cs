@@ -148,6 +148,7 @@ public class PlayerController : MonoBehaviour
     float _currentTimefRecord;
 
     public CameraController CameraControls { get => m_scriptOrder.m_cameraControls; set => m_scriptOrder.m_cameraControls = value; }
+    public WeaponPlayerBehaviour PlayerWeapon { get => m_playerWeapon; set => m_playerWeapon = value; }
 
     #endregion
 

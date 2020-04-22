@@ -36,4 +36,10 @@ public class MultipleBreakableObjectController : DestroyableObjectController
         m_colliders.RemoveAt(alea);
     }
 
+    protected override void On_ObjectIsBreak()
+    {
+        base.On_ObjectIsBreak();
+        //GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.fourthCategorie);
+    }
+
 }

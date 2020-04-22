@@ -23,6 +23,8 @@ public class EmissiveDestroyableObject : DestroyableObjectController
 
         On_DeactivateShader();
 
+        //GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.firstCategorie);
+
         if (m_hasToFallWhenIsBreak)
             On_ObjectFall();
     }
