@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class ChangeShaderValue : ChangeValues
 {
     
-    [SerializeField] float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
+    [Header("Shader")]
+    [SerializeField] protected string m_shaderParameter;
+
+    [Header("Parameters")]
+    [SerializeField] protected float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
     [SerializeField, Range(0, 1)] float m_fromValue, m_toValue;
+    protected float m_currentFromValue, m_currentToValue;
     [SerializeField] bool m_useCurve = false;
     [SerializeField] AnimationCurve m_curve;
 
@@ -18,17 +23,23 @@ public class ChangeShaderValue : ChangeValues
     [SerializeField] float m_waitTimeBetweenValue = 0;
 
     Image m_targetImage;
-    float m_distanceFromTargetedValues;
-    float m_speedToFadeIn, m_speedToFadeOff;
+    protected float m_distanceFromTargetedValues;
+    protected float m_speedToFadeIn, m_speedToFadeOff;
     bool m_blinkIsActivate = false;
     IEnumerator m_currentBlinkAnim;
     bool m_isBlinkOn = true;
 
-    void Awake()
+    protected virtual void Awake()
     {
         m_targetImage = GetComponent<Image>();
+        SetupVariables();
+    }
+    protected virtual void SetupVariables()
+    {
+        m_currentFromValue = m_fromValue;
+        m_currentToValue = m_toValue;
 
-        m_distanceFromTargetedValues = GetDistanceFromValues(m_fromValue, m_toValue);
+        m_distanceFromTargetedValues = GetDistanceFromValues(m_currentFromValue, m_currentToValue);
         m_speedToFadeIn = m_distanceFromTargetedValues / m_timeToFadeIn;
         m_speedToFadeOff = m_distanceFromTargetedValues / m_timeToFadeOff;
     }
@@ -37,9 +48,9 @@ public class ChangeShaderValue : ChangeValues
         base.SetupChangeValue(startWithFromValue);
 
         if (startWithFromValue)
-            SetShaderValue(m_fromValue);
+            SetShaderValue(m_currentFromValue);
         else
-            SetShaderValue(m_toValue);
+            SetShaderValue(m_currentToValue);
     }
 
     public override void SwitchValue()
@@ -49,7 +60,7 @@ public class ChangeShaderValue : ChangeValues
         {
             if (m_useBlink)
                 m_blinkIsActivate = true;
-            CheckToStartChangeImageColorCoroutine(m_toValue, m_speedToFadeIn);
+            CheckToStartChangeImageColorCoroutine(m_currentToValue, m_speedToFadeIn);
         }
         else
         {
@@ -58,7 +69,7 @@ public class ChangeShaderValue : ChangeValues
                 m_blinkIsActivate = false;
                 StartToBlink(false);
             }
-            CheckToStartChangeImageColorCoroutine(m_fromValue, m_speedToFadeOff);
+            CheckToStartChangeImageColorCoroutine(m_currentFromValue, m_speedToFadeOff);
         }
     }
 
@@ -94,6 +105,10 @@ public class ChangeShaderValue : ChangeValues
             StartToBlink(true);
         else
             m_valueIsChanging = false;
+        On_ChangeShaderValueCoroutIsDone();
+    }
+    protected virtual void On_ChangeShaderValueCoroutIsDone()
+    {
     }
 
     void StartToBlink(bool blink)
@@ -145,13 +160,15 @@ public class ChangeShaderValue : ChangeValues
 
     [Header("Use for Debug")]
     [SerializeField] Image image;
-    float GetShaderValue()
+    protected virtual float GetShaderValue()
     {
         return image.color.a;
     }
-    void SetShaderValue(float newValue)
+    protected virtual void SetShaderValue(float newValue)
     {
-        image.color = new Color(image.color.r, image.color.g, image.color.b, newValue);
+        // Pour plus de réutilisation, mettre le nom de la variable du shader en public !
+        if (image != null)
+            image.color = new Color(image.color.r, image.color.g, image.color.b, newValue);
     }
 
 }

@@ -97,13 +97,23 @@ public class SuicidalEnemyController : MonoBehaviour
         public Color m_color = Color.red;
     }
 
-    [Header("Delay")]
-    public float m_waitTimeToSpawn = 1;
-    public float m_waitTimeToDie = 0.25f;
+    [Header("Spawn")]
+    public Spawn m_spawn;
+    [Serializable] public class Spawn
+    {
+        public bool m_faceToPlayerWhenSpawned = true;
+        public float m_waitTimeToSpawn = 0.5f;
+        public EnemySpawnerShaderController m_shaderController;
+    }
+    
+
+    [Space]
+    public float m_waitTimeToDie = 0.5f;
 
     NavMeshAgent m_agent;
     EnemyCaraBase m_enemyChara;
     Animator m_animator;
+    Collider[] enemyColliders;
 
 #region Get / Set
     public StateMachine SM { get => m_sM; }
@@ -114,6 +124,7 @@ public class SuicidalEnemyController : MonoBehaviour
     void Awake()
     {
         m_animator = GetComponent<Animator>();
+        enemyColliders = GetComponentsInChildren<Collider>();
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
     }
@@ -168,7 +179,12 @@ public class SuicidalEnemyController : MonoBehaviour
 #region Public Functions
     public void On_SpawnEnemy()
     {
+        if (m_spawn.m_faceToPlayerWhenSpawned)
+            FaceToTarget(PlayerController.s_instance.transform.position);
+        
         ChangeState((int)EnemyState.SpawnState);
+        ObjectPooler.Instance.SpawnFXFromPool(FxType.SpawnSuicidalEnemy, transform.position, transform.rotation);
+        m_spawn.m_shaderController.On_StartToSpawn();
     }
     public void ChasePlayer()
     {
@@ -194,6 +210,18 @@ public class SuicidalEnemyController : MonoBehaviour
             m_playerInRange = true;
         }
         return m_playerInRange;
+    }
+    public bool EnemyInClosedRangeOfPlayer()
+    {
+        if (GetPlayerDistance() >= m_automaticExplodeRange.m_range)
+        {
+            return false;
+        }
+        else if (GetPlayerDistance() < m_automaticExplodeRange.m_range)
+        {
+            return true;
+        }
+        return false;
     }
     public void On_EnemyExplode()
     {
@@ -260,6 +288,25 @@ public class SuicidalEnemyController : MonoBehaviour
         m_animator.SetTrigger(name);
     }
 
+    public void ActivateEnemyColliders(bool activate)
+    {
+        if (enemyColliders == null)
+            return;
+        for (int i = 0, l = enemyColliders.Length; i < l; ++i)
+        {
+            if (enemyColliders[i] != null)
+            {   
+                enemyColliders[i].enabled = activate;
+            }
+        }
+    }
+
 #endregion
+
+    void FaceToTarget(Vector3 targetPos)
+    {
+        transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+    }
 
 }
