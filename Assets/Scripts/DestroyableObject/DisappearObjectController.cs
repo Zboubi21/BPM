@@ -10,6 +10,7 @@ public class DisappearObjectController : DestroyableObjectController
     protected override void On_ObjectIsBreak()
     {
         // Faire spawn le FX
+        //GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.thirdCategorie);
         StartCoroutine(WaitTimeToDestroy());
     }
     

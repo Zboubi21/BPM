@@ -79,6 +79,7 @@ public class EnemyController : MonoBehaviour
     float distanceToPlayer;
     bool _enemyCanShoot;
     bool isInMotion;
+    bool hasShoot;
     Collider[] enemyColliders;
 
     #region Get Set
@@ -96,6 +97,7 @@ public class EnemyController : MonoBehaviour
     public float DistanceToPlayer { get => distanceToPlayer; set => distanceToPlayer = value; }
     public PlayerController PlayerController { get => playerController; set => playerController = value; }
     public Animator Anim { get => anim; set => anim = value; }
+    public bool HasShoot { get => hasShoot; set => hasShoot = value; }
     #endregion
 
     public void Awake()
@@ -110,6 +112,7 @@ public class EnemyController : MonoBehaviour
         playerController = PlayerController.s_instance;
         anim = GetComponent<Animator>();
         enemyColliders = GetComponentsInChildren<Collider>();
+        HasShoot = false;
     }
 
     void SetupStateMachine()

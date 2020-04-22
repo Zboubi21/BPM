@@ -70,7 +70,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public IEnumerator OnEnemyShoot(int nbrOfShoot, float timeEachShoot, float minRechargeTime, float maxRechargeTime, Vector3 lastPlayerPos)
     {
         //yield return StartCoroutine(CheckIfPlayerIsInSight());
-
+        enemyController.HasShoot = true;
         countAttacks++;
         playerPosOnShoot = lastPlayerPos;
         for (int i = 0; i < nbrOfShoot; ++i)

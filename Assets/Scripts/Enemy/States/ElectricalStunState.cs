@@ -8,6 +8,8 @@ public class ElectricalStunState : IState
 
     EnemyController m_enemyController;
 
+    bool hasAlreadyBeenStuned;
+
     public ElectricalStunState(EnemyController enemyController)
     {
         m_enemyController = enemyController;
@@ -20,6 +22,11 @@ public class ElectricalStunState : IState
         /// play elec stun FX
         m_enemyController.Agent.isStopped = true;
         m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForElectricalStun, EnemyState.Enemy_ElectricalStunState));
+        if (!hasAlreadyBeenStuned)
+        {
+            GameManager.Instance.CountElectricalyStunEnemy();
+            hasAlreadyBeenStuned = true;
+        }
     }
 
     public void Exit()

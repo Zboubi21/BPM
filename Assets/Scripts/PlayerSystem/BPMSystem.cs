@@ -479,6 +479,7 @@ public class BPMSystem : MonoBehaviour
 
     IEnumerator OnOverADActivate()
     {
+
         ActivateBool(true);
         // play anim fuey
         // play sound fury
@@ -487,6 +488,9 @@ public class BPMSystem : MonoBehaviour
         ChangeBpmShaderGaugeLength();
         ChangeWeaponStats();
         audioControl?.PlayWeaponUpgradeSound(2);
+
+        GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.overAdrenaline.onUsingFury);
+
 
         _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
         var mainOveradrenalineFeedBackParticles = _overdrenaline.m_overadrenalineFeedBackParticles.main;
