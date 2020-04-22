@@ -22,6 +22,7 @@ public class SuicidalEnemySpawnState : IState
         m_timer = 0;
         m_timerIsDone = false;
         m_enemyController.SetAnimation("Spawn");
+        m_enemyController.ActivateEnemyColliders(false);
     }
 
     public void FixedUpdate()
@@ -29,7 +30,7 @@ public class SuicidalEnemySpawnState : IState
         if (!m_timerIsDone)
             m_timer += Time.deltaTime;
         
-        if (m_timer > m_enemyController.m_waitTimeToSpawn && !m_timerIsDone)
+        if (m_timer > m_enemyController.m_spawn.m_waitTimeToSpawn && !m_timerIsDone)
         {
             m_timerIsDone = true;
             m_enemyController.ChangeState(EnemyState.ChaseState);
@@ -46,6 +47,7 @@ public class SuicidalEnemySpawnState : IState
 
     public void Exit()
     {
+        m_enemyController.ActivateEnemyColliders(true);
     }
     
 }
