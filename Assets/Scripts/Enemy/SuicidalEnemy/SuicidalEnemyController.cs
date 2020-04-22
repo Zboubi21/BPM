@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using SuicidalEnemyStateEnum;
 using UnityEngine.UI;
+using PoolTypes;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SuicidalEnemyController : MonoBehaviour
@@ -109,7 +110,7 @@ public class SuicidalEnemyController : MonoBehaviour
     public EnemyCaraBase EnemyChara { get => m_enemyChara; }
 #endregion
 
-    #region Unity Events
+#region Unity Events
     void Awake()
     {
         m_animator = GetComponent<Animator>();
@@ -165,6 +166,10 @@ public class SuicidalEnemyController : MonoBehaviour
     }
 
 #region Public Functions
+    public void On_SpawnEnemy()
+    {
+        ChangeState((int)EnemyState.SpawnState);
+    }
     public void ChasePlayer()
     {
         m_agent.SetDestination(PlayerController.s_instance.transform.position);
@@ -238,11 +243,16 @@ public class SuicidalEnemyController : MonoBehaviour
                 }
             }
         }
-        gameObject.SetActive(false);
+        ReturnToPool();
     }
     public void On_EnemyDie()
     {
-        gameObject.SetActive(false);
+        ReturnToPool();
+    }
+    void ReturnToPool()
+    {
+        // gameObject.SetActive(false);
+        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }
 
     public void SetAnimation(string name)

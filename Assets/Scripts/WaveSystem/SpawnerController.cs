@@ -127,8 +127,10 @@ public class SpawnerController : MonoBehaviour
                     tracker.Controller = controller;
 
                     EnemyController enemyController = go.GetComponent<EnemyController>();
+                    SuicidalEnemyController suicidalEnemyController = go.GetComponent<SuicidalEnemyController>();
                     yield return new WaitForFixedUpdate();
-                    enemyController.On_SpawnEnemy();
+                    enemyController?.On_SpawnEnemy();
+                    suicidalEnemyController?.On_SpawnEnemy();
                 }
             }
         }
