@@ -21,12 +21,14 @@ public class SuicidalEnemySelfDestructionState : IState
     {
         m_timer = 0;
         m_timerIsDone = false;
-        m_enemyController.StopEnemyMovement(true);
         m_enemyController.SetAnimation("SelfDestruction");
+        m_enemyController.SetEnemyAgentSpeed(m_enemyController.m_explosionMoveSpeed);
     }
 
     public void FixedUpdate()
     {
+        m_enemyController.ChasePlayer();
+        
         if (!m_timerIsDone)
             m_timer += Time.deltaTime;
         

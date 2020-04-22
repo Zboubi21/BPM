@@ -77,24 +77,24 @@ public class EnemyCaraBase : SerializedMonoBehaviour
     {
         controller = GetComponent<SuicidalEnemyController>();
         playerController = PlayerController.s_instance;
-        if (controller != null)
-        {
-            controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
-            if(playerController != null)
-            {
-                //if(playerController.maxRecordPositionTime > 0)
-                //{
-                //    if(_enemyCaractéristique._move.timeOfLateLookAt != 0)
-                //    {
-                //        _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
-                //    }
-                //}
-                //else
-                //{
-                //    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-                //}
-            }
-        }
+        // if (controller != null)
+        // {
+        //     controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
+        //     if(playerController != null)
+        //     {
+        //         //if(playerController.maxRecordPositionTime > 0)
+        //         //{
+        //         //    if(_enemyCaractéristique._move.timeOfLateLookAt != 0)
+        //         //    {
+        //         //        _currentIndexInLateLookAt = Mathf.FloorToInt(playerController.maxRecordPositionTime * 50f - _enemyCaractéristique._move.timeOfLateLookAt * 50f);
+        //         //    }
+        //         //}
+        //         //else
+        //         //{
+        //         //    Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
+        //         //}
+        //     }
+        // }
         if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
         {
             hasBeenStuned = new bool[_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length];

@@ -67,6 +67,9 @@ public class SuicidalEnemyController : MonoBehaviour
     
     [Space]
 
+    public float m_basicMoveSpeed = 6;
+    public float m_explosionMoveSpeed = 10;
+
     public SelfDestruction m_selfDestruction;
     [Serializable] public class SelfDestruction
     {
@@ -127,6 +130,7 @@ public class SuicidalEnemyController : MonoBehaviour
         enemyColliders = GetComponentsInChildren<Collider>();
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
+        SetEnemyAgentSpeed(m_basicMoveSpeed);
     }
     void Start()
     {
@@ -184,7 +188,7 @@ public class SuicidalEnemyController : MonoBehaviour
         
         ChangeState((int)EnemyState.SpawnState);
         ObjectPooler.Instance.SpawnFXFromPool(FxType.SpawnSuicidalEnemy, transform.position, transform.rotation);
-        m_spawn.m_shaderController.On_StartToSpawn();
+        m_spawn.m_shaderController.On_StartSpawnShader();
     }
     public void ChasePlayer()
     {
@@ -299,6 +303,11 @@ public class SuicidalEnemyController : MonoBehaviour
                 enemyColliders[i].enabled = activate;
             }
         }
+    }
+
+    public void SetEnemyAgentSpeed(float newSpeed)
+    {
+        m_agent.speed = newSpeed;
     }
 
 #endregion
