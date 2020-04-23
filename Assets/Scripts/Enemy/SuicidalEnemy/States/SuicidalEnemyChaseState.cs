@@ -23,6 +23,7 @@ public class SuicidalEnemyChaseState : IState
         m_timer = 0;
         m_timerIsDone = false;
         m_enemyController.SetAnimation("Chase");
+        m_enemyController.SetEnemyAgentSpeed(m_enemyController.m_basicMoveSpeed);
     }
 
     public void FixedUpdate()

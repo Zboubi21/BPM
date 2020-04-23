@@ -32,6 +32,10 @@ public class EnemyCara : EnemyCaraBase
     {
         enemyController = GetComponent<EnemyController>();
         base.Awake();
+        if (enemyController != null)
+        {
+            enemyController.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
+        }
     }
     protected override void OnEnable()
     {

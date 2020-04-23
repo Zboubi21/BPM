@@ -14,7 +14,7 @@ public class ChangeShaderValue : ChangeValues
     [SerializeField, Range(0, 1)] float m_fromValue, m_toValue;
     protected float m_currentFromValue, m_currentToValue;
     [SerializeField] bool m_useCurve = false;
-    [SerializeField] AnimationCurve m_curve;
+    [SerializeField] protected AnimationCurve m_curve;
 
     [Header("Blink")]
     [SerializeField] bool m_useBlink = true;
@@ -56,6 +56,25 @@ public class ChangeShaderValue : ChangeValues
     public override void SwitchValue()
     {
         base.SwitchValue();
+        if (m_needToFadeIn)
+        {
+            if (m_useBlink)
+                m_blinkIsActivate = true;
+            CheckToStartChangeImageColorCoroutine(m_currentToValue, m_speedToFadeIn);
+        }
+        else
+        {
+            if (m_useBlink)
+            {
+                m_blinkIsActivate = false;
+                StartToBlink(false);
+            }
+            CheckToStartChangeImageColorCoroutine(m_currentFromValue, m_speedToFadeOff);
+        }
+    }
+    public override void SwitchValue(bool newValue)
+    {
+        base.SwitchValue(newValue);
         if (m_needToFadeIn)
         {
             if (m_useBlink)
