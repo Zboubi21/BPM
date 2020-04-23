@@ -580,9 +580,9 @@ MonoBehaviour:
   m_basicMoveSpeed: 6
   m_explosionMoveSpeed: 15
   m_selfDestruction:
-    m_waitTimeToStartSelfDestruction: 0.25
+    m_waitTimeToStartSelfDestruction: 0.15
     m_startWaitToExplodeRange:
-      m_range: 3.75
+      m_range: 5
       m_color: {r: 1, g: 1, b: 1, a: 1}
     m_waitTimeToExplode: 2
   m_automaticExplodeRange:
@@ -595,14 +595,14 @@ MonoBehaviour:
     m_damagedLayer:
       serializedVersion: 2
       m_Bits: 36096
-    m_playerDamage: 25
-    m_enemyDamage: 25
+    m_playerDamage: 50
+    m_enemyDamage: 50
     m_environmentDamage: 1
   m_spawn:
     m_faceToPlayerWhenSpawned: 1
     m_waitTimeToSpawn: 1
     m_shaderController: {fileID: 2720988576816265989}
-  m_waitTimeToDie: 1
+  m_waitTimeToDie: 0.5
 --- !u!95 &7289275432406251833
 Animator:
   serializedVersion: 3
