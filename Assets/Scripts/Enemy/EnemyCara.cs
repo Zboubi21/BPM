@@ -144,4 +144,9 @@ public class EnemyCara : EnemyCaraBase
         }
     }
 
+    public override EnemyController GetEnemyController()
+    {
+        return enemyController;
+    }
+
 }

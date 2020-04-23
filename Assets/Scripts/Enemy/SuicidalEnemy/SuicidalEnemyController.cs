@@ -124,10 +124,12 @@ public class SuicidalEnemyController : MonoBehaviour
     EnemyCaraBase m_enemyChara;
     Animator m_animator;
     Collider[] enemyColliders;
+    bool m_canBeMouseOver = true;
 
 #region Get / Set
     public StateMachine SM { get => m_sM; }
     public EnemyCaraBase EnemyChara { get => m_enemyChara; }
+    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
 #endregion
 
 #region Unity Events
@@ -290,6 +292,9 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
+        m_canBeMouseOver = false;
+        On_EnemyIsMouseOver(false);
+
         m_sM.ChangeState((int)EnemyState.DieState);
 
         if (dieWithElectricalDamage)
@@ -344,10 +349,23 @@ public class SuicidalEnemyController : MonoBehaviour
             }
         }
     }
-
     public void SetEnemyAgentSpeed(float newSpeed)
     {
         m_agent.speed = newSpeed;
+    }
+
+    [SerializeField] GameObject[] m_weakSpots;
+    [SerializeField] GameObject[] m_noWeakSpots;
+    public void On_EnemyIsMouseOver(bool isMouseOver)
+    {
+        for (int i = 0, l = m_weakSpots.Length; i < l; ++i)
+        {
+            m_weakSpots[i].SetActive(isMouseOver);
+        }
+        for (int i = 0, l = m_noWeakSpots.Length; i < l; ++i)
+        {
+            m_noWeakSpots[i].SetActive(!isMouseOver);
+        }
     }
 
 #endregion

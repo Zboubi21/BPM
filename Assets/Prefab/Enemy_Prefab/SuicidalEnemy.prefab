@@ -14384,7 +14384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8754254088871615888
 Transform:
   m_ObjectHideFlags: 0
@@ -33930,7 +33930,6 @@ MonoBehaviour:
   - {fileID: 6959323897070337395}
   - {fileID: 2321131385362219464}
   - {fileID: 8870575028175521427}
-  - {fileID: 7609700599597199095}
   m_spawn:
     m_shaderParameter: _DissolveAmount
     m_meshHeight: 2.5
@@ -34105,7 +34104,7 @@ MonoBehaviour:
     SerializationNodes: []
   "_enemyCaract\xE9ristique":
     _move:
-      moveSpeed: 6
+      moveSpeed: 0
       rotationSpeed: 0
     _health:
       maxHealth: 100
@@ -34164,6 +34163,10 @@ MonoBehaviour:
   m_stunParticles: {fileID: 1591687430608100753}
   m_lowHealthParticles: {fileID: 6260003165854972179}
   m_waitTimeToDie: 1
+  m_weakSpots:
+  - {fileID: 8276744828850718529}
+  m_noWeakSpots:
+  - {fileID: 980365077110338991}
 --- !u!95 &7289275432406251833
 Animator:
   serializedVersion: 3
@@ -54232,7 +54235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5282000999865415740
 Transform:
   m_ObjectHideFlags: 0

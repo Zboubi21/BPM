@@ -398,16 +398,57 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         return Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide);
     }
 
+    EnemyCaraBase m_currentEnemyCharaBase;
+    EnemyCaraBase m_lastEnemyCharaBase;
+    bool m_isTouchEnemy = false;
     void SetCurrentEnemyTargeted()
     {
-        if (!WeaponForwardRaycast())
-            return;
+        // m_isTouchEnemy = false;
         
-        // Debug.Log("hit = " + _hit.collider.gameObject.name);
-        ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
-        if (enemyRef != null)
+        // if (WeaponForwardRaycast())
+        // {
+        //     ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
+        //     if (enemyRef != null)
+        //     {
+        //         m_currentEnemyCharaBase = enemyRef.cara;
+
+        //         SuicidalEnemyController suicidalEnemy = m_currentEnemyCharaBase.GetSuicidalEnemyController();
+        //         if (suicidalEnemy != null)
+        //             if (suicidalEnemy.CanBeMouseOver)
+        //             {
+        //                 suicidalEnemy.On_EnemyIsMouseOver(true);
+        //                 m_isTouchEnemy = true;
+        //                 ResetLastTouchEnemy();
+        //                 m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+        //             }
+
+        //         EnemyController enemy = m_currentEnemyCharaBase.GetEnemyController();
+        //         if (enemy != null)
+        //             if (enemy.CanBeMouseOver)
+        //             {
+        //                 enemy.On_EnemyIsMouseOver(true);
+        //                 m_isTouchEnemy = true;
+        //                 ResetLastTouchEnemy();
+        //                 m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+        //             }
+        //     }
+        // }
+        // if (!m_isTouchEnemy)
+        //     ResetLastTouchEnemy();
+    }
+    void ResetLastTouchEnemy()
+    {
+        if (m_lastEnemyCharaBase != null)
         {
-            // enemyRef.cara
+            SuicidalEnemyController suicidalEnemy = m_lastEnemyCharaBase.GetSuicidalEnemyController();
+                if (suicidalEnemy != null)
+                    if (suicidalEnemy.CanBeMouseOver)
+                        suicidalEnemy.On_EnemyIsMouseOver(false);
+
+            EnemyController enemy = m_lastEnemyCharaBase.GetEnemyController();
+            if (enemy != null)
+                if (enemy.CanBeMouseOver)
+                    enemy.On_EnemyIsMouseOver(false);
         }
     }
 

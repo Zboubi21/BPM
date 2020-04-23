@@ -256,4 +256,13 @@ public class EnemyCaraBase : SerializedMonoBehaviour
     //    }
     //}
     
+    public SuicidalEnemyController GetSuicidalEnemyController()
+    {
+        return controller;
+    }
+    public virtual EnemyController GetEnemyController()
+    {
+        return null;
+    }
+
 }
