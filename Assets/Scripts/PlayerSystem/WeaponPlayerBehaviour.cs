@@ -297,6 +297,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
         }
         
+        SetCurrentEnemyTargeted();
         SetPlayerCrosshairColor();
     }
     public void Fire()
@@ -375,6 +376,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 projVar.Speed = _currentProjectilSpeed;
                 projVar.ProjectileType2 = proj;
 
+                if (_BPMSystem.CurrentWeaponState == BPMSystem.WeaponState.Fury)
+                    projVar.IsElectricalProjectile = true;
+
                 projVar.WeaponPlayerBehaviour = this;
             }
             #endregion
@@ -392,6 +396,60 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     bool WeaponForwardRaycast()
     {
         return Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide);
+    }
+
+    EnemyCaraBase m_currentEnemyCharaBase;
+    EnemyCaraBase m_lastEnemyCharaBase;
+    bool m_isTouchEnemy = false;
+    void SetCurrentEnemyTargeted()
+    {
+        // m_isTouchEnemy = false;
+        
+        // if (WeaponForwardRaycast())
+        // {
+        //     ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
+        //     if (enemyRef != null)
+        //     {
+        //         m_currentEnemyCharaBase = enemyRef.cara;
+
+        //         SuicidalEnemyController suicidalEnemy = m_currentEnemyCharaBase.GetSuicidalEnemyController();
+        //         if (suicidalEnemy != null)
+        //             if (suicidalEnemy.CanBeMouseOver)
+        //             {
+        //                 suicidalEnemy.On_EnemyIsMouseOver(true);
+        //                 m_isTouchEnemy = true;
+        //                 ResetLastTouchEnemy();
+        //                 m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+        //             }
+
+        //         EnemyController enemy = m_currentEnemyCharaBase.GetEnemyController();
+        //         if (enemy != null)
+        //             if (enemy.CanBeMouseOver)
+        //             {
+        //                 enemy.On_EnemyIsMouseOver(true);
+        //                 m_isTouchEnemy = true;
+        //                 ResetLastTouchEnemy();
+        //                 m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+        //             }
+        //     }
+        // }
+        // if (!m_isTouchEnemy)
+        //     ResetLastTouchEnemy();
+    }
+    void ResetLastTouchEnemy()
+    {
+        if (m_lastEnemyCharaBase != null)
+        {
+            SuicidalEnemyController suicidalEnemy = m_lastEnemyCharaBase.GetSuicidalEnemyController();
+                if (suicidalEnemy != null)
+                    if (suicidalEnemy.CanBeMouseOver)
+                        suicidalEnemy.On_EnemyIsMouseOver(false);
+
+            EnemyController enemy = m_lastEnemyCharaBase.GetEnemyController();
+            if (enemy != null)
+                if (enemy.CanBeMouseOver)
+                    enemy.On_EnemyIsMouseOver(false);
+        }
     }
 
     void SetPlayerCrosshairColor()
