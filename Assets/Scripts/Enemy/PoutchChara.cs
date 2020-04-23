@@ -32,13 +32,13 @@ public class PoutchChara : EnemyCara
             m_canvas.transform.LookAt(m_mainCamera);
     }
 
-    public override void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
+    public override void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun, bool isElectricalDamage = false)
     {
         if (IsDead)
             return;
-        base.TakeDamage(damage, i, hasToBeElectricalStun, timeForElectricalStun);
+        base.TakeDamage(damage, i, hasToBeElectricalStun, timeForElectricalStun, isElectricalDamage);
         UpdateLifebar();
-        CheckIfDead();
+        CheckIfDead(isElectricalDamage);
     }
 
     void UpdateLifebar()
@@ -47,7 +47,7 @@ public class PoutchChara : EnemyCara
             m_lifepoint.text =  _currentLife.ToString();
     }
 
-    protected override void CheckIfDead()
+    protected override void CheckIfDead(bool deadWithElectricalDamage = false)
     {
         bool needToDie = false;
 

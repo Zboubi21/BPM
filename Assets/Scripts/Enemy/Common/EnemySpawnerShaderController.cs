@@ -10,6 +10,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     [Space]
     [Header("USE THIS PARAMETERS!")]
 
+    [SerializeField] MeshRenderer[] m_meshesToChangeMat;
+
     [SerializeField] Spawn m_spawn;
     [Serializable] class Spawn
     {
@@ -33,7 +35,6 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public ParticleSystem m_particles;
     }
 
-    MeshRenderer[] m_meshes;
     List<Material> m_startMaterials = new List<Material>();
     Material m_spawnShaderMaterialInstance;
     Material m_disintegrationShaderMaterialInstance;
@@ -53,22 +54,20 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         m_disintegrationShaderMaterialInstance = m_disintegration.m_shaderMaterial;
         m_dissolveShaderMaterialInstance = m_dissolve.m_shaderMaterial;
 
-        m_meshes = GetComponentsInChildren<MeshRenderer>();
-        if (m_meshes == null)
-            return;
-        for (int i = 0, l = m_meshes.Length; i < l; ++i)
+        if (m_meshesToChangeMat != null)
         {
-            m_startMaterials.Add(m_meshes[i].material);
+            for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
+            {
+                m_startMaterials.Add(m_meshesToChangeMat[i].material);
 
-            m_meshes[i].material = m_spawnShaderMaterialInstance;
+                m_meshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
         }
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-            On_StartDisintegrationShader();
-        if (Input.GetKeyDown(KeyCode.B))
-            On_StartDissolveShader();
+        // if (Input.GetKeyDown(KeyCode.V))
+        // if (Input.GetKeyDown(KeyCode.B))
     }
     protected override void SetupVariables()
     {
@@ -91,9 +90,12 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     }
     public void On_StartDisintegrationShader()
     {
-        for (int i = 0, l = m_meshes.Length; i < l; ++i)
+        if (m_meshesToChangeMat != null)
         {
-            m_meshes[i].material = m_disintegrationShaderMaterialInstance;
+            for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
+            {
+                m_meshesToChangeMat[i].material = m_disintegrationShaderMaterialInstance;
+            }
         }
 
         m_currentShaderState = ShaderState.Disintegration;
@@ -113,9 +115,12 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     }
     public void On_StartDissolveShader()
     {
-        for (int i = 0, l = m_meshes.Length; i < l; ++i)
+        if (m_meshesToChangeMat != null)
         {
-            m_meshes[i].material = m_dissolveShaderMaterialInstance;
+            for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
+            {
+                m_meshesToChangeMat[i].material = m_dissolveShaderMaterialInstance;
+            }
         }
 
         m_currentShaderState = ShaderState.Dissolve;
@@ -169,11 +174,12 @@ public class EnemySpawnerShaderController : ChangeShaderValue
 
         if (m_currentShaderState == ShaderState.Spawn)
         {
-            if (m_meshes == null)
-                return;
-            for (int i = 0, l = m_meshes.Length; i < l; ++i)
+            if (m_meshesToChangeMat != null)
             {
-                m_meshes[i].material = m_startMaterials[i];
+                for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
+                {
+                    m_meshesToChangeMat[i].material = m_startMaterials[i];
+                }
             }
         }
     }

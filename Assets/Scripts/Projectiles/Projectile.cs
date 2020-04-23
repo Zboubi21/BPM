@@ -66,6 +66,7 @@ public class Projectile : MonoBehaviour
 
     bool _hasToStun;
     float _timeForElectricalStun;
+    bool _isElectricalProjectile = false;
 
     Transform m_shooter;
 
@@ -93,6 +94,7 @@ public class Projectile : MonoBehaviour
     public float TimeForElectricalStun { get => _timeForElectricalStun; set => _timeForElectricalStun = value; }
     public PoolTypes.ProjectileType ProjectileType2 { get => projectileType; set => projectileType = value; }
     public Transform Shooter { get => m_shooter; set => m_shooter = value; }
+    public bool IsElectricalProjectile { get => _isElectricalProjectile; set => _isElectricalProjectile = value; }
     #endregion
 
     public void Awake()
@@ -316,7 +318,7 @@ public class Projectile : MonoBehaviour
                         {
                             if(refScript.cara != null)
                             {
-                                refScript.cara.TakeDamage(CurrentDamage, 0, HasToStun, TimeForElectricalStun);
+                                refScript.cara.TakeDamage(CurrentDamage, 0, HasToStun, TimeForElectricalStun, IsElectricalProjectile);
                             }
                         }
                     }
@@ -337,7 +339,7 @@ public class Projectile : MonoBehaviour
                         {
                             if (refScript.cara != null)
                             {
-                                refScript.cara.TakeDamage(CurrentDamage, 1, HasToStun, TimeForElectricalStun);
+                                refScript.cara.TakeDamage(CurrentDamage, 1, HasToStun, TimeForElectricalStun, IsElectricalProjectile);
                             }
                         }
                     }

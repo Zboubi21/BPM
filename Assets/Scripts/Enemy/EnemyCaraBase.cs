@@ -38,6 +38,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
             [Range(0,100)]
             public float[] allPercentLifeBeforeGettingStuned;
             public float timeOfElectricalStunResistance;
+            [Range(0, 100)] public float m_lifeWhenLowHealth = 50;
         }
     }
     SuicidalEnemyController controller;
@@ -46,6 +47,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
     protected bool _isDead;
     protected float _currentTimeForElectricalStun;
     protected float _currentTimeForElectricalStunResistance;
+    protected bool m_isLowHealth = false;
 
     protected float _currentTimeForStun;
     float _currentTimeForStunResistance;
@@ -68,6 +70,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
     protected virtual void OnEnable()
     {
         _isDead = false;
+        m_isLowHealth = false;
         playerController = PlayerController.s_instance;
         InitializeEnemyStats();
     }
@@ -149,7 +152,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
 
     }
 
-    public virtual void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
+    public virtual void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun, bool isElectricalDamage = false)
     {
         switch (i)
         {
@@ -197,23 +200,34 @@ public class EnemyCaraBase : SerializedMonoBehaviour
                     }
                 }
             }
-            CheckIfDead();
+
+            if (_currentLife <= _enemyCaractéristique._stunResistance.m_lifeWhenLowHealth && !m_isLowHealth)
+            {
+                m_isLowHealth = true;
+                CheckIfLowHealth();
+            }
+
+            CheckIfDead(isElectricalDamage);
         }
     }
-
-    protected virtual void CheckIfDead()
+    protected virtual void CheckIfLowHealth()
+    {
+        controller.On_EnemyIsLowHealth();
+    }
+    protected virtual void CheckIfDead(bool deadWithElectricalDamage = false)
     {
         if(controller != null) // pour les dummy
         {
-            if (_currentLife <= 0)
+            if (_currentLife <= 0 && !_isDead)
             {
                 _isDead = true;
-                controller.SM.ChangeState((int)EnemyState.DieState);
+                controller.On_EnemyGoingToDie(deadWithElectricalDamage);
+                // controller.SM.ChangeState((int)EnemyState.DieState);
             }
-            else if(!controller.SM.CompareState((int)EnemyState.StunState) && !controller.SM.CompareState((int)EnemyState.ElectricalStunState))
-            {
-                // controller.SM.ChangeState((int)EnemyState.Enemy_AttackState);
-            }
+            // else if(!controller.SM.CompareState((int)EnemyState.StunState) && !controller.SM.CompareState((int)EnemyState.ElectricalStunState))
+            // {
+            //     // controller.SM.ChangeState((int)EnemyState.Enemy_AttackState);
+            // }
         }
     }
 

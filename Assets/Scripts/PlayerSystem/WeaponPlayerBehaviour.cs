@@ -297,6 +297,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
         }
         
+        SetCurrentEnemyTargeted();
         SetPlayerCrosshairColor();
     }
     public void Fire()
@@ -375,6 +376,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 projVar.Speed = _currentProjectilSpeed;
                 projVar.ProjectileType2 = proj;
 
+                if (_BPMSystem.CurrentWeaponState == BPMSystem.WeaponState.Fury)
+                    projVar.IsElectricalProjectile = true;
+
                 projVar.WeaponPlayerBehaviour = this;
             }
             #endregion
@@ -392,6 +396,19 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     bool WeaponForwardRaycast()
     {
         return Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide);
+    }
+
+    void SetCurrentEnemyTargeted()
+    {
+        if (!WeaponForwardRaycast())
+            return;
+        
+        // Debug.Log("hit = " + _hit.collider.gameObject.name);
+        ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
+        if (enemyRef != null)
+        {
+            // enemyRef.cara
+        }
     }
 
     void SetPlayerCrosshairColor()

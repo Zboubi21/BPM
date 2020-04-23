@@ -48,6 +48,10 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         return m_sM.LastStateIndex == (int)state;
     }
+    public EnemyState GetLastState()
+    {
+        return (EnemyState)m_sM.LastStateIndex;
+    }
 #endregion
 
     [SerializeField] Debugs m_debug;
@@ -106,10 +110,13 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         public bool m_faceToPlayerWhenSpawned = true;
         public float m_waitTimeToSpawn = 0.5f;
-        public EnemySpawnerShaderController m_shaderController;
     }
-    
 
+    [Space]
+    [Header("FX & Shaders")]
+    public EnemySpawnerShaderController m_shaderController;
+    public ParticleSystem m_stunParticles;
+    public ParticleSystem m_lowHealthParticles;
     [Space]
     public float m_waitTimeToDie = 0.5f;
 
@@ -131,6 +138,10 @@ public class SuicidalEnemyController : MonoBehaviour
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
         SetEnemyAgentSpeed(m_basicMoveSpeed);
+    }
+    void OnDisable()
+    {
+        m_lowHealthParticles?.Stop(true);
     }
     void Start()
     {
@@ -188,7 +199,7 @@ public class SuicidalEnemyController : MonoBehaviour
         
         ChangeState((int)EnemyState.SpawnState);
         ObjectPooler.Instance.SpawnFXFromPool(FxType.SpawnSuicidalEnemy, transform.position, transform.rotation);
-        m_spawn.m_shaderController.On_StartSpawnShader();
+        m_shaderController.On_StartSpawnShader();
     }
     public void ChasePlayer()
     {
@@ -277,14 +288,43 @@ public class SuicidalEnemyController : MonoBehaviour
         }
         ReturnToPool();
     }
+    public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
+    {
+        m_sM.ChangeState((int)EnemyState.DieState);
+
+        if (dieWithElectricalDamage)
+            m_shaderController?.On_StartDisintegrationShader();
+        else
+            m_shaderController?.On_StartDissolveShader();
+    }
     public void On_EnemyDie()
     {
         ReturnToPool();
     }
     void ReturnToPool()
     {
-        // gameObject.SetActive(false);
         ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
+    }
+
+    public void On_EnemyStartStun(bool startStun)
+    {
+        if (startStun)
+        {
+            var mainStunParticles = m_stunParticles.main;
+            mainStunParticles.loop = true;
+            m_stunParticles.Play(true);
+        }
+        else
+        {
+            var mainStunParticles = m_stunParticles.main;
+            mainStunParticles.loop = false;
+            m_stunParticles.Stop(true);
+        }
+    }
+
+    public void On_EnemyIsLowHealth()
+    {
+        m_lowHealthParticles?.Play(true);
     }
 
     public void SetAnimation(string name)
