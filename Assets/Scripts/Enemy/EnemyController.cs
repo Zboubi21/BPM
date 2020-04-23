@@ -522,7 +522,7 @@ public class EnemyController : MonoBehaviour
                 Gizmos.color = Color.white;
                 Gizmos.DrawWireSphere(transform.position, weaponBehavior._attack.rangeRadius);
                 Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(new Vector3(weaponBehavior._SMG.firePoint.transform.position.x, weaponBehavior._SMG.firePoint.transform.position.y, weaponBehavior._SMG.firePoint.transform.position.z + weaponBehavior._attack.rangeRadius /*- weaponBehavior._attack.enemyAttackDispersement*2)*/* weaponBehavior._attack._debugGizmos), weaponBehavior._attack.enemyAttackDispersement);
+                //Gizmos.DrawWireSphere(new Vector3(weaponBehavior._SMG.firePoint.transform.position.x, weaponBehavior._SMG.firePoint.transform.position.y, weaponBehavior._SMG.firePoint.transform.position.z + weaponBehavior._attack.rangeRadius /*- weaponBehavior._attack.enemyAttackDispersement*2)*/* weaponBehavior._attack._debugGizmos), weaponBehavior._attack.enemyAttackDispersement);
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, weaponBehavior._attack.rangeOfAttackNoMatterWhat);
                 //Gizmos.DrawWireSphere(Vector3.LerpUnclamped(transform.position, Vector3.zero, range), 1f);
