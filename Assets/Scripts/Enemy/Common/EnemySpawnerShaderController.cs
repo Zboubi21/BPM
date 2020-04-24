@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PoolTypes;
 
 public class EnemySpawnerShaderController : ChangeShaderValue
 {
@@ -21,6 +22,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
         public Material m_shaderMaterial;
         public Transform m_shaderPos;
+        public FxType m_fx = FxType.SuicidalEnemy_Spawn;
+        public Transform m_spawnFxTrans;
     }
     
     [SerializeField] BaseShaderModifs m_disintegration;
@@ -30,9 +33,11 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public string m_shaderParameter;
         public float m_fromValue = 0, m_toValue = 1;
         public float m_timeToFadeShader = 1;
+        public float m_waitTimeToDissolve = 0.5f;
         public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
         public Material m_shaderMaterial;
-        public ParticleSystem m_particles;
+        public FxType m_fx = FxType.SuicidalEnemy_Spawn;
+        public Transform m_spawnFxTrans;
     }
 
     List<Material> m_startMaterials = new List<Material>();
@@ -75,6 +80,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
 
     public void On_StartSpawnShader()
     {
+        ObjectPooler.Instance.SpawnFXFromPool(m_spawn.m_fx, m_spawn.m_spawnFxTrans.position, m_spawn.m_spawnFxTrans.rotation);
+
         m_currentShaderState = ShaderState.Spawn;
         SetupChangeValue(true);
 
@@ -111,10 +118,16 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         SetShaderValue(m_currentFromValue);
         SwitchValue(true);
 
-        m_disintegration.m_particles.Play(true);
+        ObjectPooler.Instance.SpawnFXFromPool(m_disintegration.m_fx, m_disintegration.m_spawnFxTrans.position, m_disintegration.m_spawnFxTrans.rotation);
     }
     public void On_StartDissolveShader()
     {
+        StartCoroutine(WaitTimeToStartDissolveShader());
+    }
+    IEnumerator WaitTimeToStartDissolveShader()
+    {
+        yield return new WaitForSeconds(m_dissolve.m_waitTimeToDissolve);
+
         if (m_meshesToChangeMat != null)
         {
             for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
@@ -136,7 +149,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         SetShaderValue(m_currentFromValue);
         SwitchValue(true);
 
-        m_dissolve.m_particles.Play(true);
+        ObjectPooler.Instance.SpawnFXFromPool(m_dissolve.m_fx, m_dissolve.m_spawnFxTrans.position, m_dissolve.m_spawnFxTrans.rotation);
     }
     
     protected override float GetShaderValue()
