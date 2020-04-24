@@ -14,29 +14,16 @@ public class SuicidalEnemySelfDestructionState : IState
     }
 #endregion
 
-    float m_timer = 0;
-    bool m_timerIsDone = false;
-
     public void Enter()
     {
-        m_timer = 0;
-        m_timerIsDone = false;
         m_enemyController.SetAnimation("SelfDestruction");
         m_enemyController.SetEnemyAgentSpeed(m_enemyController.m_explosionMoveSpeed);
+        m_enemyController.On_EnemyEnterInSelfDestructionState();
     }
 
     public void FixedUpdate()
     {
         m_enemyController.ChasePlayer();
-        
-        if (!m_timerIsDone)
-            m_timer += Time.deltaTime;
-        
-        if (m_timer > m_enemyController.m_selfDestruction.m_waitTimeToExplode && !m_timerIsDone)
-        {
-            m_timerIsDone = true;
-            m_enemyController.On_EnemyExplode();
-        }
     }
 
     public void Update()
