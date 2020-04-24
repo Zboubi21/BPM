@@ -74,4 +74,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25623639a04482f41a53f2d530d39954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreSystem:
+    killSomething:
+      killAnEnemy: 100
+      beforeSelfDestructKill: 75
+      suicidalWeakSpotKill: 50
+      rusherWeakSpotKill: 50
+      sniperChestKill: 50
+      midAirKill: 75
+      killedBeforeItShots: 200
+      killWhenRushing: 50
+    hitSomething:
+      weakSpotHits: 16
+      noSpotHits: 3
+    overAdrenaline:
+      timeBetweenEachKillOnFury: 2.5
+      onUsingFury: 1000
+      furyStunEnnemies: 150
+      furyPentaKill: 200
+      furyDecaKill: 500
+    multiKill:
+      timeBetweenEachKillUnderFive: 5
+      timeBetweenEachKillOverFive: 3.5
+      doubleKill: 75
+      tripleKill: 100
+      pentaKill: 200
+      decaKill: 400
+    destroyEnvironements:
+      destroyFirstCategorie: 25
+      destroySecondCategorie: 10
+      destroyThirdCategorie: 5
+      destroyFourthCategorie: 15
+    endOfLevel:
+      upperLevel2: 3000
+      upperLevel3: 5000
+      unKillable: 3000
+  m_showRespawnPos: 1
   m_respawnPos: {fileID: 1075892742879068446}

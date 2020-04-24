@@ -33,7 +33,9 @@
         ImpactEnemy,
         EnemyStun,
         EnemyElectricalStun,
-        SpawnSuicidalEnemy,
+        SuicidalEnemy_Spawn,
+        SuicidalEnemy_Dissolve,
+        SuicidalEnemy_Disintegration,
     }
     [System.Serializable] public enum ObjectType {
         BpmGuiValues,

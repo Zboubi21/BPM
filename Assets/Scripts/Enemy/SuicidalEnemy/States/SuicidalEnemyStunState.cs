@@ -22,6 +22,7 @@ public class SuicidalEnemyStunState : IState
         m_timer = 0;
         m_timerIsDone = false;
         m_enemyController.StopEnemyMovement(true);
+        m_enemyController.On_EnemyStartStun(true);
     }
 
     public void FixedUpdate()
@@ -32,7 +33,10 @@ public class SuicidalEnemyStunState : IState
         if (m_timer > m_enemyController.EnemyChara._enemyCaractéristique._stunResistance.timeOfStun && !m_timerIsDone)
         {
             m_timerIsDone = true;
-            m_enemyController.ChangeState(EnemyState.ChaseState);
+            if (m_enemyController.LastState(EnemyState.ChaseState) || m_enemyController.LastState(EnemyState.SelfDestructionState))
+                m_enemyController.ChangeState(m_enemyController.GetLastState());
+            else
+                m_enemyController.ChangeState(EnemyState.ChaseState);
         }
     }
 
@@ -47,6 +51,7 @@ public class SuicidalEnemyStunState : IState
     public void Exit()
     {
         m_enemyController.StopEnemyMovement(false);
+        m_enemyController.On_EnemyStartStun(false);
     }
     
 }

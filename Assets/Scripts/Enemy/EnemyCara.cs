@@ -64,7 +64,7 @@ public class EnemyCara : EnemyCaraBase
         }
     }
     List<bool> checkWeakSpotHit = new List<bool>();
-    public override void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun)
+    public override void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun, bool isElectricalDamage = false)
     {
         switch (i)
         {
@@ -112,17 +112,28 @@ public class EnemyCara : EnemyCaraBase
                     }
                 }
             }
-            CheckIfDead();
+            
+            if (_currentLife <= _enemyCaractéristique._stunResistance.m_lifeWhenLowHealth && !m_isLowHealth)
+            {
+                m_isLowHealth = true;
+                CheckIfLowHealth();
+            }
+
+            CheckIfDead(isElectricalDamage);
         }
     }
-
-    protected override void CheckIfDead()
+    protected override void CheckIfLowHealth()
+    {
+        // enemyController.On_EnemyIsLowHealth();
+    }
+    protected override void CheckIfDead(bool deadWithElectricalDamage = false)
     {
         if(enemyController != null) // pour les dummy
         {
             if (_currentLife <= 0)
             {
                 _isDead = true;
+
                 enemyController.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
 
             }
@@ -131,6 +142,11 @@ public class EnemyCara : EnemyCaraBase
                 enemyController.m_sM.ChangeState((int)EnemyState.Enemy_AttackState);
             }
         }
+    }
+
+    public override EnemyController GetEnemyController()
+    {
+        return enemyController;
     }
 
 }

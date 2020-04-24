@@ -47,7 +47,9 @@ public class SuicidalEnemySpawnState : IState
 
     public void Exit()
     {
+        // m_enemyController.CanBeMouseOver = true;
         m_enemyController.ActivateEnemyColliders(true);
+        m_enemyController.On_ShowEnemyWeakSpot(true);
     }
     
 }

@@ -18,7 +18,7 @@ public class SuicidalEnemyController : MonoBehaviour
     void SetupStateMachine()
     {
         m_sM.AddStates(new List<IState> { 
-			// new SuicidalEnemyIdleState(this),
+			new SuicidalEnemyIdleState(this),
 			new SuicidalEnemySpawnState(this),
 			new SuicidalEnemyChaseState(this),
             new SuicidalEnemySelfDestructionState(this),
@@ -33,8 +33,8 @@ public class SuicidalEnemyController : MonoBehaviour
             Debug.LogError("You need to have the same number of State in SuicidalEnemyController and SuicidalEnemyState");
         }
 
-        // ChangeState((int)EnemyState.IdleState);
-        ChangeState((int)EnemyState.SpawnState);
+        ChangeState(EnemyState.IdleState);
+        // ChangeState(EnemyState.SpawnState);
     }
     public void ChangeState(EnemyState newState)
     {
@@ -47,6 +47,10 @@ public class SuicidalEnemyController : MonoBehaviour
 	public bool LastState(EnemyState state)
     {
         return m_sM.LastStateIndex == (int)state;
+    }
+    public EnemyState GetLastState()
+    {
+        return (EnemyState)m_sM.LastStateIndex;
     }
 #endregion
 
@@ -106,10 +110,13 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         public bool m_faceToPlayerWhenSpawned = true;
         public float m_waitTimeToSpawn = 0.5f;
-        public EnemySpawnerShaderController m_shaderController;
     }
-    
 
+    [Space]
+    [Header("FX & Shaders")]
+    public EnemySpawnerShaderController m_shaderController;
+    public ParticleSystem m_stunParticles;
+    public ParticleSystem m_lowHealthParticles;
     [Space]
     public float m_waitTimeToDie = 0.5f;
 
@@ -117,10 +124,12 @@ public class SuicidalEnemyController : MonoBehaviour
     EnemyCaraBase m_enemyChara;
     Animator m_animator;
     Collider[] enemyColliders;
+    // bool m_canBeMouseOver = true;
 
 #region Get / Set
     public StateMachine SM { get => m_sM; }
     public EnemyCaraBase EnemyChara { get => m_enemyChara; }
+    // public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
 #endregion
 
 #region Unity Events
@@ -131,6 +140,10 @@ public class SuicidalEnemyController : MonoBehaviour
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
         SetEnemyAgentSpeed(m_basicMoveSpeed);
+    }
+    void OnDisable()
+    {
+        m_lowHealthParticles?.Stop(true);
     }
     void Start()
     {
@@ -186,9 +199,8 @@ public class SuicidalEnemyController : MonoBehaviour
         if (m_spawn.m_faceToPlayerWhenSpawned)
             FaceToTarget(PlayerController.s_instance.transform.position);
         
-        ChangeState((int)EnemyState.SpawnState);
-        ObjectPooler.Instance.SpawnFXFromPool(FxType.SpawnSuicidalEnemy, transform.position, transform.rotation);
-        m_spawn.m_shaderController.On_StartSpawnShader();
+        ChangeState(EnemyState.SpawnState);
+        m_shaderController.On_StartSpawnShader();
     }
     public void ChasePlayer()
     {
@@ -277,14 +289,46 @@ public class SuicidalEnemyController : MonoBehaviour
         }
         ReturnToPool();
     }
+    public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
+    {
+        // m_canBeMouseOver = false;
+        On_ShowEnemyWeakSpot(false);
+
+        m_sM.ChangeState((int)EnemyState.DieState);
+
+        if (dieWithElectricalDamage)
+            m_shaderController?.On_StartDisintegrationShader();
+        else
+            m_shaderController?.On_StartDissolveShader();
+    }
     public void On_EnemyDie()
     {
         ReturnToPool();
     }
     void ReturnToPool()
     {
-        // gameObject.SetActive(false);
         ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
+    }
+
+    public void On_EnemyStartStun(bool startStun)
+    {
+        if (startStun)
+        {
+            var mainStunParticles = m_stunParticles.main;
+            mainStunParticles.loop = true;
+            m_stunParticles.Play(true);
+        }
+        else
+        {
+            var mainStunParticles = m_stunParticles.main;
+            mainStunParticles.loop = false;
+            m_stunParticles.Stop(true);
+        }
+    }
+
+    public void On_EnemyIsLowHealth()
+    {
+        m_lowHealthParticles?.Play(true);
     }
 
     public void SetAnimation(string name)
@@ -304,10 +348,20 @@ public class SuicidalEnemyController : MonoBehaviour
             }
         }
     }
-
     public void SetEnemyAgentSpeed(float newSpeed)
     {
         m_agent.speed = newSpeed;
+    }
+
+    [SerializeField] GameObject[] m_weakSpots;
+    public void On_ShowEnemyWeakSpot(bool show)
+    {
+        if (m_weakSpots == null)
+            return;
+        for (int i = 0, l = m_weakSpots.Length; i < l; ++i)
+        {
+            m_weakSpots[i]?.SetActive(show);
+        }
     }
 
 #endregion
