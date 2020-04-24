@@ -438,18 +438,18 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
     void ResetLastTouchEnemy()
     {
-        if (m_lastEnemyCharaBase != null)
-        {
-            SuicidalEnemyController suicidalEnemy = m_lastEnemyCharaBase.GetSuicidalEnemyController();
-                if (suicidalEnemy != null)
-                    if (suicidalEnemy.CanBeMouseOver)
-                        suicidalEnemy.On_EnemyIsMouseOver(false);
+        // if (m_lastEnemyCharaBase != null)
+        // {
+        //     SuicidalEnemyController suicidalEnemy = m_lastEnemyCharaBase.GetSuicidalEnemyController();
+        //         if (suicidalEnemy != null)
+        //             if (suicidalEnemy.CanBeMouseOver)
+        //                 suicidalEnemy.On_EnemyIsMouseOver(false);
 
-            EnemyController enemy = m_lastEnemyCharaBase.GetEnemyController();
-            if (enemy != null)
-                if (enemy.CanBeMouseOver)
-                    enemy.On_EnemyIsMouseOver(false);
-        }
+        //     EnemyController enemy = m_lastEnemyCharaBase.GetEnemyController();
+        //     if (enemy != null)
+        //         if (enemy.CanBeMouseOver)
+        //             enemy.On_EnemyIsMouseOver(false);
+        // }
     }
 
     void SetPlayerCrosshairColor()

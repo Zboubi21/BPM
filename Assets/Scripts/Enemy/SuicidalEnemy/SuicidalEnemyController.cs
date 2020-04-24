@@ -18,7 +18,7 @@ public class SuicidalEnemyController : MonoBehaviour
     void SetupStateMachine()
     {
         m_sM.AddStates(new List<IState> { 
-			// new SuicidalEnemyIdleState(this),
+			new SuicidalEnemyIdleState(this),
 			new SuicidalEnemySpawnState(this),
 			new SuicidalEnemyChaseState(this),
             new SuicidalEnemySelfDestructionState(this),
@@ -33,8 +33,8 @@ public class SuicidalEnemyController : MonoBehaviour
             Debug.LogError("You need to have the same number of State in SuicidalEnemyController and SuicidalEnemyState");
         }
 
-        // ChangeState((int)EnemyState.IdleState);
-        ChangeState((int)EnemyState.SpawnState);
+        ChangeState(EnemyState.IdleState);
+        // ChangeState(EnemyState.SpawnState);
     }
     public void ChangeState(EnemyState newState)
     {
@@ -124,12 +124,12 @@ public class SuicidalEnemyController : MonoBehaviour
     EnemyCaraBase m_enemyChara;
     Animator m_animator;
     Collider[] enemyColliders;
-    bool m_canBeMouseOver = true;
+    // bool m_canBeMouseOver = true;
 
 #region Get / Set
     public StateMachine SM { get => m_sM; }
     public EnemyCaraBase EnemyChara { get => m_enemyChara; }
-    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
+    // public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
 #endregion
 
 #region Unity Events
@@ -199,8 +199,7 @@ public class SuicidalEnemyController : MonoBehaviour
         if (m_spawn.m_faceToPlayerWhenSpawned)
             FaceToTarget(PlayerController.s_instance.transform.position);
         
-        ChangeState((int)EnemyState.SpawnState);
-        ObjectPooler.Instance.SpawnFXFromPool(FxType.SpawnSuicidalEnemy, transform.position, transform.rotation);
+        ChangeState(EnemyState.SpawnState);
         m_shaderController.On_StartSpawnShader();
     }
     public void ChasePlayer()
@@ -292,8 +291,8 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
-        m_canBeMouseOver = false;
-        On_EnemyIsMouseOver(false);
+        // m_canBeMouseOver = false;
+        On_ShowEnemyWeakSpot(false);
 
         m_sM.ChangeState((int)EnemyState.DieState);
 
@@ -355,16 +354,13 @@ public class SuicidalEnemyController : MonoBehaviour
     }
 
     [SerializeField] GameObject[] m_weakSpots;
-    [SerializeField] GameObject[] m_noWeakSpots;
-    public void On_EnemyIsMouseOver(bool isMouseOver)
+    public void On_ShowEnemyWeakSpot(bool show)
     {
+        if (m_weakSpots == null)
+            return;
         for (int i = 0, l = m_weakSpots.Length; i < l; ++i)
         {
-            m_weakSpots[i].SetActive(isMouseOver);
-        }
-        for (int i = 0, l = m_noWeakSpots.Length; i < l; ++i)
-        {
-            m_noWeakSpots[i].SetActive(!isMouseOver);
+            m_weakSpots[i]?.SetActive(show);
         }
     }
 
