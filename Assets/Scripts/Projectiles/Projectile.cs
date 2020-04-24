@@ -322,6 +322,7 @@ public class Projectile : MonoBehaviour
                             }
                         }
                     }
+                    BPMSystem.GainBPM(BPMGain);
 
                     break;
 
@@ -343,17 +344,18 @@ public class Projectile : MonoBehaviour
                             }
                         }
                     }
+                    BPMSystem.GainBPM(BPMGain);
 
                     break;
 
                 default:
 
-                    // BPMGain = 0;
+                    BPMGain = 0;
+                    BPMSystem.GainBPM(BPMGain);
 
                     break;
             }
             #endregion
-            BPMSystem.GainBPM(BPMGain);
         }
         else if(m_projectileType == ProjectileType.Enemy)
         {
@@ -411,7 +413,6 @@ public class Projectile : MonoBehaviour
 
     void DestroyProj()
     {
-
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
     }
 
