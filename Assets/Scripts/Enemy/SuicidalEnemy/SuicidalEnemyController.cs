@@ -286,6 +286,7 @@ public class SuicidalEnemyController : MonoBehaviour
                     }
                 }
             }
+            GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.suicidalBotFriendlyFire + (GameManager.Instance.scoreSystem.killSomething.bonusScoreOnFriendlyFire * enemies.Count-1));
         }
         ReturnToPool();
     }
@@ -295,6 +296,8 @@ public class SuicidalEnemyController : MonoBehaviour
         On_ShowEnemyWeakSpot(false);
 
         m_sM.ChangeState((int)EnemyState.DieState);
+
+        GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.beforeSelfDestructKill);
 
         if (dieWithElectricalDamage)
             m_shaderController?.On_StartDisintegrationShader();
