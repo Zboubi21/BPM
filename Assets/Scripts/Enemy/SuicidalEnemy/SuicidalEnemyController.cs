@@ -71,8 +71,11 @@ public class SuicidalEnemyController : MonoBehaviour
     
     [Space]
 
+    [Header("Move Speeds")]
     public float m_basicMoveSpeed = 6;
     public float m_explosionMoveSpeed = 10;
+
+    [Space]
 
     public SelfDestruction m_selfDestruction;
     [Serializable] public class SelfDestruction
@@ -113,6 +116,9 @@ public class SuicidalEnemyController : MonoBehaviour
     }
 
     [Space]
+
+    public SuicidalEnemyAudioController m_audioController;
+
     [Header("FX & Shaders")]
     public EnemySpawnerShaderController m_shaderController;
     public ParticleSystem m_stunParticles;
@@ -153,6 +159,7 @@ public class SuicidalEnemyController : MonoBehaviour
 	{
 		m_sM.FixedUpdate();
         ShowDebug();
+        // Debug.Log("Velocity = " + m_agent.velocity);
 	}
 	void Update()
 	{
@@ -239,8 +246,26 @@ public class SuicidalEnemyController : MonoBehaviour
         }
         return false;
     }
-    public void On_EnemyExplode()
+    bool m_isWaitingToExplode = false;
+    public void On_EnemyEnterInSelfDestructionState()
     {
+        if (!m_isWaitingToExplode)
+        {
+            m_isWaitingToExplode = true;
+            m_audioController?.On_SelfDestructionIsActivated();
+            StartCoroutine(WaitTimeToExplode());
+        }
+    }
+    IEnumerator WaitTimeToExplode()
+    {
+        yield return new WaitForSeconds(m_selfDestruction.m_waitTimeToExplode);
+        On_EnemyExplode();
+        m_isWaitingToExplode = false;
+    }
+    void On_EnemyExplode()
+    {
+        m_audioController?.On_EnemyExplode();
+
         List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
         List<DestroyableObjectController> destroyableObjs = new List<DestroyableObjectController>();
 
@@ -300,9 +325,15 @@ public class SuicidalEnemyController : MonoBehaviour
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.beforeSelfDestructKill);
 
         if (dieWithElectricalDamage)
+        {
             m_shaderController?.On_StartDisintegrationShader();
+            m_audioController?.On_EnemyIsDisintegrate();
+        }
         else
+        {
             m_shaderController?.On_StartDissolveShader();
+            m_audioController?.On_EnemyDie();
+        }
     }
     public void On_EnemyDie()
     {
@@ -310,6 +341,8 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void ReturnToPool()
     {
+        m_isWaitingToExplode = false;
+        StopAllCoroutines();
         ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }
 
