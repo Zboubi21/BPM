@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2704721083811871730}
-  - component: {fileID: 8279970472507863147}
+  - component: {fileID: 109081810365073288}
   m_Layer: 10
   m_Name: AudioController
   m_TagString: Untagged
@@ -271,7 +271,7 @@ Transform:
   m_Father: {fileID: 3188681421917180601}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8279970472507863147
+--- !u!114 &109081810365073288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,31 +280,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1389082532835326024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7278e2d421bf61b4391a95edcd1483c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f7098e7812f0464083bd5760e0bc71f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_movements: {fileID: 2587070198626022432}
   m_activateSelfDestruction:
     m_audioSource: {fileID: 815276051817718052}
-    m_sounds:
-    - {fileID: 8300000, guid: e6a192b7819762c4a8bad326f3f68e77, type: 3}
+    m_sounds: []
     m_volume: 0.75
     m_volumeRandomizer: 0.2
     m_pitch: 1
     m_pitchRandomizer: 0.1
   m_selfDestructionBIP:
-    m_startDelay: 0.25
-    m_minDelay: 0.1
-    m_operations: 7
+    m_startDelay: 1
+    m_minDelay: 0.25
+    m_operations: 5
     m_audioSource: {fileID: 6967018464566067641}
     m_sound:
-      m_sound: {fileID: 8300000, guid: 5f9780bf8d51e0e408d199e45de96297, type: 3}
-      m_volume: 1
+      m_sound: {fileID: 0}
+      m_volume: 0.75
       m_pitch: 1
   m_explode:
     m_audioSource: {fileID: 8162669452723589504}
-    m_sounds:
-    - {fileID: 8300000, guid: e6a192b7819762c4a8bad326f3f68e77, type: 3}
+    m_sounds: []
     m_volume: 0.75
     m_volumeRandomizer: 0.2
     m_pitch: 1
@@ -318,9 +316,7 @@ MonoBehaviour:
     m_pitchRandomizer: 0.1
   m_disintegrate:
     m_audioSource: {fileID: 7098049519184632693}
-    m_sounds:
-    - {fileID: 8300000, guid: e270bcef6eaeaea46bc0d8aa500f9d7b, type: 3}
-    - {fileID: 8300000, guid: e6a192b7819762c4a8bad326f3f68e77, type: 3}
+    m_sounds: []
     m_volume: 0.75
     m_volumeRandomizer: 0.2
     m_pitch: 1
@@ -1048,7 +1044,7 @@ MonoBehaviour:
     m_startWaitToExplodeRange:
       m_range: 5
       m_color: {r: 1, g: 1, b: 1, a: 1}
-    m_waitTimeToExplode: 20
+    m_waitTimeToExplode: 2
   m_explosion:
     m_explosionRange:
       m_range: 5
@@ -1062,7 +1058,7 @@ MonoBehaviour:
   m_spawn:
     m_faceToPlayerWhenSpawned: 1
     m_waitTimeToSpawn: 1
-  m_audioController: {fileID: 8279970472507863147}
+  m_audioController: {fileID: 109081810365073288}
   m_shaderController: {fileID: 8712656998367102804}
   m_stunParticles: {fileID: 2564862354204197320}
   m_lowHealthParticles: {fileID: 4556308549753673916}

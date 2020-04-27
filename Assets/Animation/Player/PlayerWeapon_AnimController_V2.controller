@@ -84,7 +84,8 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7aa18f7c14884fe41983b4b0a52b70d9, type: 2}
+    m_Motion: {fileID: -3580816392445279193, guid: 7e26b81669204f84d95106717e1a75e2,
+      type: 3}
     m_Threshold: -1
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -92,7 +93,8 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 0d3a5b98c21a26c4482e9c3a3401fca1, type: 2}
+    m_Motion: {fileID: -3580816392445279193, guid: 8029393666620384fb72cdf699fe9583,
+      type: 3}
     m_Threshold: 1
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -982,6 +984,33 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &4711474349173966852
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jump
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -3580816392445279193, guid: de7a8c9af95f5054187a4dae96e5d7f0,
+    type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &4753561628500573546
 AnimatorState:
   serializedVersion: 5
@@ -1063,6 +1092,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 4650916928900703253}
     m_Position: {x: 142.40363, y: 757.9936, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4711474349173966852}
+    m_Position: {x: 66.58832, y: 524.41876, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
