@@ -57,8 +57,11 @@ public class EnemyCara : EnemyCaraBase
             {
                 for (int i = 0, l = EnemyArchetype.Spots.Count; i < l; ++i)
                 {
-                    _debug.weakSpots[i].SetActive(EnemyArchetype.Spots[i]);
-                    _debug.noSpot[i].SetActive(!EnemyArchetype.Spots[i]);
+                    if(_debug.weakSpots.Length > 0)
+                    {
+                        _debug.weakSpots[i]?.SetActive(EnemyArchetype.Spots[i]);
+                        _debug.noSpot[i]?.SetActive(!EnemyArchetype.Spots[i]);
+                    }
                 }
             }
         }
