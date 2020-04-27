@@ -14,20 +14,20 @@ public class FX : MonoBehaviour {
     public Transform Parent { get => parent; set => parent = value; }
 
     ParticleSystem ps;
-    AudioSource audio;
+    AudioSource m_audio;
     void Awake(){
 		ps = GetComponent<ParticleSystem>();		// On récupère le composant ParticleSystem et on le "met" dans une variable (ps) de type ParticleSystem 
-		audio = GetComponent<AudioSource>();		// De même pour l'AudioSource
+		m_audio = GetComponent<AudioSource>();		// De même pour l'AudioSource
         objectPooler = ObjectPooler.Instance;
 
         if (!IsCallFromPool)
         {
-		    if( (audio != null) && (ps != null) ){					// Si le FX possède du son et un effet de particule alors : 
+		    if( (m_audio != null) && (ps != null) ){					// Si le FX possède du son et un effet de particule alors : 
 
-			    if(audio.clip.length >= ps.main.duration){			// Si la duré du son est plus longue ou égale à la duré de l'effet de particule alors :
-				    Destroy(this.gameObject, audio.clip.length);	// On détruit le FX lorsque l'audio est fini
+			    if(m_audio.clip.length >= ps.main.duration){			// Si la duré du son est plus longue ou égale à la duré de l'effet de particule alors :
+				    Destroy(this.gameObject, m_audio.clip.length);	// On détruit le FX lorsque l'audio est fini
 
-			    }else if(ps.main.duration >= audio.clip.length){	// Sinon si la duré de l'effet de particule est plus longue ou égale à la duré du son alors :
+			    }else if(ps.main.duration >= m_audio.clip.length){	// Sinon si la duré de l'effet de particule est plus longue ou égale à la duré du son alors :
 				    if(!ps.main.loop){
 					    Destroy(this.gameObject, ps.main.duration);		// On détruit le FX lorsque l'effet de particule se termine
 				    }
@@ -35,8 +35,8 @@ public class FX : MonoBehaviour {
 
 		    }else{													// S'il manque ou en effet de particule ou du son alors :
 
-			    if(audio != null){									// Si le FX possède un "AudioSource" alors :
-				    Destroy(this.gameObject, audio.clip.length);	// On détruit le FX à la fin du son 
+			    if(m_audio != null){									// Si le FX possède un "AudioSource" alors :
+				    Destroy(this.gameObject, m_audio.clip.length);	// On détruit le FX à la fin du son 
 			    }
 			    if(ps != null){	
 				    if(!ps.main.loop){									// Si le FX possède un "ParticleSystem" alors :
@@ -51,13 +51,13 @@ public class FX : MonoBehaviour {
     {
         if(IsCallFromPool)
         {
-            if ((audio != null) && (ps != null) && audio.clip != null)
+            if ((m_audio != null) && (ps != null) && m_audio.clip != null)
             {
-                if (audio.clip.length >= ps.main.duration)
+                if (m_audio.clip.length >= ps.main.duration)
                 {
-                    StartCoroutine(ReturnToPoolAfterATime(audio.clip.length));
+                    StartCoroutine(ReturnToPoolAfterATime(m_audio.clip.length));
                 }
-                else if (ps.main.duration >= audio.clip.length)
+                else if (ps.main.duration >= m_audio.clip.length)
                 {
                     if (!ps.main.loop)
                     {
@@ -68,11 +68,11 @@ public class FX : MonoBehaviour {
             }
             else
             {
-                if (audio != null && audio.clip != null)
+                if (m_audio != null && m_audio.clip != null)
                 {
-                    if(audio.clip != null)
+                    if(m_audio.clip != null)
                     {
-                        StartCoroutine(ReturnToPoolAfterATime(audio.clip.length));
+                        StartCoroutine(ReturnToPoolAfterATime(m_audio.clip.length));
                     }
                 }
                 if (ps != null)

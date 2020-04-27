@@ -5,7 +5,7 @@ using UnityEngine;
 public class SuicidalEnemyAudioController : AudioController
 {
 
-    [SerializeField] SoundLooper m_movements;
+    [SerializeField] MovementSoundLooper m_movements;
     [SerializeField] Sounds m_activateSelfDestruction;
 
     [SerializeField] SelfDestructionBIP m_selfDestructionBIP;
@@ -34,6 +34,13 @@ public class SuicidalEnemyAudioController : AudioController
         m_deltaSpeed = (m_selfDestructionBIP.m_startDelay - m_selfDestructionBIP.m_minDelay) / (m_selfDestructionBIP.m_operations - 1);
     }
 
+    public void On_StartToMoveFast(bool moveFast)
+    {
+        if (moveFast)
+            m_movements.SwitchPitch();
+        else
+            m_movements.SetStartPitch();
+    }
     public void On_StartToMove(bool isMoving)
     {
         m_movements.On_StartLoop(isMoving);

@@ -5,10 +5,10 @@ using UnityEngine;
 public class SoundLooper : AudioController
 {
     
-    [SerializeField] AudioSource m_loopSource;
+    [SerializeField] protected AudioSource m_loopSource;
 
     [Header("Before Loop")]
-    [SerializeField] LoopSound m_beforeLoop;
+    [SerializeField] protected LoopSound m_beforeLoop;
 
     [Header("Loop")]
     [SerializeField] float m_delayToStartLoop = 1;
@@ -17,9 +17,9 @@ public class SoundLooper : AudioController
     [SerializeField] float m_delayToStartNextSound = 1;
 
     [Header("After Loop")]
-    [SerializeField] LoopSound m_afterLoop;
+    [SerializeField] protected LoopSound m_afterLoop;
 
-    [System.Serializable] class LoopSound
+    [System.Serializable] protected class LoopSound
     {
         public bool m_useSound = false;
         public AudioSource m_audioSource;

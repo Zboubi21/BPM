@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7278e2d421bf61b4391a95edcd1483c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movements: {fileID: 8598363106950258463}
+  m_movements: {fileID: 2587070198626022432}
   m_activateSelfDestruction:
     m_audioSource: {fileID: 815276051817718052}
     m_sounds:
@@ -1048,10 +1048,7 @@ MonoBehaviour:
     m_startWaitToExplodeRange:
       m_range: 5
       m_color: {r: 1, g: 1, b: 1, a: 1}
-    m_waitTimeToExplode: 2
-  m_automaticExplodeRange:
-    m_range: 1.5
-    m_color: {r: 1, g: 0.5019608, b: 0, a: 1}
+    m_waitTimeToExplode: 20
   m_explosion:
     m_explosionRange:
       m_range: 5
@@ -7252,7 +7249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5195607982086600136}
-  - component: {fileID: 8598363106950258463}
+  - component: {fileID: 2587070198626022432}
   m_Layer: 10
   m_Name: Movements
   m_TagString: Untagged
@@ -7276,7 +7273,7 @@ Transform:
   m_Father: {fileID: 2704721083811871730}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8598363106950258463
+--- !u!114 &2587070198626022432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7285,7 +7282,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6996316871915411765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c586203f7d35e2479701313d9930c64, type: 3}
+  m_Script: {fileID: 11500000, guid: ba0589f48735bed4386c4756558f70d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_loopSource: {fileID: 2377656347309190146}
@@ -7345,6 +7342,87 @@ MonoBehaviour:
       m_sound: {fileID: 0}
       m_volume: 0.75
       m_pitch: 1
+  m_beforeLoopPitch:
+    m_pitchValue: 1.25
+    m_timeToChange: 0.5
+    m_changeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_loopPitch:
+    m_pitchValue: 1.25
+    m_timeToChange: 0.5
+    m_changeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_afterLoopPitch:
+    m_pitchValue: 1.25
+    m_timeToChange: 0.5
+    m_changeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &7238720106112140965
 GameObject:
   m_ObjectHideFlags: 0

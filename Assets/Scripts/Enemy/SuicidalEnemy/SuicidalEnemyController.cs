@@ -88,8 +88,8 @@ public class SuicidalEnemyController : MonoBehaviour
         public float m_waitTimeToExplode = 1;
     }
 
-    [Tooltip("Range when the enemy explode automatically")]
-    public Range m_automaticExplodeRange;
+    // [Tooltip("Range when the enemy explode automatically")]
+    // public Range m_automaticExplodeRange;
 
     public Explosion m_explosion;
     [Serializable] public class Explosion
@@ -193,8 +193,8 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         Gizmos.color = m_selfDestruction.m_startWaitToExplodeRange.m_color;
         Gizmos.DrawWireSphere(m_explosionRoot.position, m_selfDestruction.m_startWaitToExplodeRange.m_range);
-        Gizmos.color = m_automaticExplodeRange.m_color;
-        Gizmos.DrawWireSphere(m_explosionRoot.position, m_automaticExplodeRange.m_range);
+        // Gizmos.color = m_automaticExplodeRange.m_color;
+        // Gizmos.DrawWireSphere(m_explosionRoot.position, m_automaticExplodeRange.m_range);
         Gizmos.color = m_explosion.m_explosionRange.m_color;
         Gizmos.DrawWireSphere(m_explosionRoot.position, m_explosion.m_explosionRange.m_range);
     }
@@ -261,18 +261,18 @@ public class SuicidalEnemyController : MonoBehaviour
         }
         return m_playerInRange;
     }
-    public bool EnemyInClosedRangeOfPlayer()
-    {
-        if (GetPlayerDistance() >= m_automaticExplodeRange.m_range)
-        {
-            return false;
-        }
-        else if (GetPlayerDistance() < m_automaticExplodeRange.m_range)
-        {
-            return true;
-        }
-        return false;
-    }
+    // public bool EnemyInClosedRangeOfPlayer()
+    // {
+    //     if (GetPlayerDistance() >= m_automaticExplodeRange.m_range)
+    //     {
+    //         return false;
+    //     }
+    //     else if (GetPlayerDistance() < m_automaticExplodeRange.m_range)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
     bool m_isWaitingToExplode = false;
     public void On_EnemyEnterInSelfDestructionState()
     {
@@ -280,6 +280,7 @@ public class SuicidalEnemyController : MonoBehaviour
         {
             m_isWaitingToExplode = true;
             m_audioController?.On_SelfDestructionIsActivated();
+            m_audioController?.On_StartToMoveFast(true);
             StartCoroutine(WaitTimeToExplode());
         }
     }
@@ -388,6 +389,7 @@ public class SuicidalEnemyController : MonoBehaviour
     void ReturnToPool()
     {
         m_isWaitingToExplode = false;
+        m_audioController?.On_StartToMoveFast(false);
         StopAllCoroutines();
         ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }

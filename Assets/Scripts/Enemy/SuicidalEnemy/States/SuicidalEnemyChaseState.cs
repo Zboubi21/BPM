@@ -30,8 +30,8 @@ public class SuicidalEnemyChaseState : IState
     {
         m_enemyController.ChasePlayer();
 
-        if (m_enemyController.EnemyInClosedRangeOfPlayer())
-                m_enemyController.ChangeState(EnemyState.SelfDestructionState);
+        // if (m_enemyController.EnemyInClosedRangeOfPlayer())
+        //         m_enemyController.ChangeState(EnemyState.SelfDestructionState);
 
         if (m_enemyController.EnemyInRangeOfPlayer())
         {
