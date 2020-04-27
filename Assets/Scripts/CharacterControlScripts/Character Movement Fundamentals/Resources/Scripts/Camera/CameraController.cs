@@ -91,6 +91,7 @@ public class CameraController : MonoBehaviour {
     private void Start()
     {
         ChangeCursorState(lockCamera);
+		OnApplicationFocus(true);
     }
 	// void FixedUpdate()
 	// {
