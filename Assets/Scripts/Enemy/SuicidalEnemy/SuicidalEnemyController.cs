@@ -71,8 +71,11 @@ public class SuicidalEnemyController : MonoBehaviour
     
     [Space]
 
+    [Header("Move Speeds")]
     public float m_basicMoveSpeed = 6;
     public float m_explosionMoveSpeed = 10;
+
+    [Space]
 
     public SelfDestruction m_selfDestruction;
     [Serializable] public class SelfDestruction
@@ -85,8 +88,8 @@ public class SuicidalEnemyController : MonoBehaviour
         public float m_waitTimeToExplode = 1;
     }
 
-    [Tooltip("Range when the enemy explode automatically")]
-    public Range m_automaticExplodeRange;
+    // [Tooltip("Range when the enemy explode automatically")]
+    // public Range m_automaticExplodeRange;
 
     public Explosion m_explosion;
     [Serializable] public class Explosion
@@ -113,12 +116,20 @@ public class SuicidalEnemyController : MonoBehaviour
     }
 
     [Space]
+
+    public SuicidalEnemyAudioController m_audioController;
+
     [Header("FX & Shaders")]
     public EnemySpawnerShaderController m_shaderController;
     public ParticleSystem m_stunParticles;
     public ParticleSystem m_lowHealthParticles;
     [Space]
     public float m_waitTimeToDie = 0.5f;
+    [Space]
+    [SerializeField] GameObject[] m_weakSpots;
+    [Space]
+    [SerializeField] GameObject[] m_goToHideWhenExplode;
+    [SerializeField] float m_waitTimeToReturnToPoolWhenExplode = 2;
 
     NavMeshAgent m_agent;
     EnemyCaraBase m_enemyChara;
@@ -153,6 +164,7 @@ public class SuicidalEnemyController : MonoBehaviour
 	{
 		m_sM.FixedUpdate();
         ShowDebug();
+        CheckMovements();
 	}
 	void Update()
 	{
@@ -181,8 +193,8 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         Gizmos.color = m_selfDestruction.m_startWaitToExplodeRange.m_color;
         Gizmos.DrawWireSphere(m_explosionRoot.position, m_selfDestruction.m_startWaitToExplodeRange.m_range);
-        Gizmos.color = m_automaticExplodeRange.m_color;
-        Gizmos.DrawWireSphere(m_explosionRoot.position, m_automaticExplodeRange.m_range);
+        // Gizmos.color = m_automaticExplodeRange.m_color;
+        // Gizmos.DrawWireSphere(m_explosionRoot.position, m_automaticExplodeRange.m_range);
         Gizmos.color = m_explosion.m_explosionRange.m_color;
         Gizmos.DrawWireSphere(m_explosionRoot.position, m_explosion.m_explosionRange.m_range);
     }
@@ -193,12 +205,34 @@ public class SuicidalEnemyController : MonoBehaviour
         m_debug.m_lifeTxt.text = string.Format("{0}", m_enemyChara.CurrentLife);
     }
 
+    bool m_isMoving = false;
+    void CheckMovements()
+    {
+        Vector2 vel = new Vector2(m_agent.velocity.x, m_agent.velocity.z);
+        // Debug.Log("Velocity = " + vel.normalized);
+        // Debug.Log("Velocity = " + vel);
+        if (vel != Vector2.zero && !m_isMoving)
+        {
+            m_isMoving = true;
+            m_audioController?.On_StartToMove(true);
+            // Debug.Log("Start to move");
+        }
+        else if (vel == Vector2.zero && m_isMoving)
+        {
+            m_isMoving = false;
+            m_audioController?.On_StartToMove(false);
+            // Debug.Log("Stop to move");
+        }
+    }
+
 #region Public Functions
     public void On_SpawnEnemy()
     {
         if (m_spawn.m_faceToPlayerWhenSpawned)
             FaceToTarget(PlayerController.s_instance.transform.position);
         
+        ActivateGOToHideWhenExplode(true);
+
         ChangeState(EnemyState.SpawnState);
         m_shaderController.On_StartSpawnShader();
     }
@@ -227,20 +261,41 @@ public class SuicidalEnemyController : MonoBehaviour
         }
         return m_playerInRange;
     }
-    public bool EnemyInClosedRangeOfPlayer()
+    // public bool EnemyInClosedRangeOfPlayer()
+    // {
+    //     if (GetPlayerDistance() >= m_automaticExplodeRange.m_range)
+    //     {
+    //         return false;
+    //     }
+    //     else if (GetPlayerDistance() < m_automaticExplodeRange.m_range)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    bool m_isWaitingToExplode = false;
+    public void On_EnemyEnterInSelfDestructionState()
     {
-        if (GetPlayerDistance() >= m_automaticExplodeRange.m_range)
+        if (!m_isWaitingToExplode)
         {
-            return false;
+            m_isWaitingToExplode = true;
+            m_audioController?.On_SelfDestructionIsActivated();
+            m_audioController?.On_StartToMoveFast(true);
+            StartCoroutine(WaitTimeToExplode());
         }
-        else if (GetPlayerDistance() < m_automaticExplodeRange.m_range)
-        {
-            return true;
-        }
-        return false;
     }
-    public void On_EnemyExplode()
+    IEnumerator WaitTimeToExplode()
     {
+        m_audioController?.On_EnemyWaitToExplode(m_selfDestruction.m_waitTimeToExplode);
+        yield return new WaitForSeconds(m_selfDestruction.m_waitTimeToExplode);
+        On_EnemyExplode();
+        m_isWaitingToExplode = false;
+    }
+    void On_EnemyExplode()
+    {
+        m_audioController?.On_EnemyExplode();
+        StopEnemyMovement(true);
+
         List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
         List<DestroyableObjectController> destroyableObjs = new List<DestroyableObjectController>();
 
@@ -286,9 +341,27 @@ public class SuicidalEnemyController : MonoBehaviour
                     }
                 }
             }
+            GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.suicidalBotFriendlyFire + (GameManager.Instance.scoreSystem.killSomething.bonusScoreOnFriendlyFire * enemies.Count-1));
         }
+        StartCoroutine(WaitTimeToReturnToPoolWhenExplode());
+    }
+    IEnumerator WaitTimeToReturnToPoolWhenExplode()
+    {
+        ActivateGOToHideWhenExplode(false);
+        yield return new WaitForSeconds(m_waitTimeToReturnToPoolWhenExplode);
         ReturnToPool();
     }
+    void ActivateGOToHideWhenExplode(bool activate)
+    {
+        if (m_goToHideWhenExplode == null)
+            return;
+        for (int i = 0, l = m_goToHideWhenExplode.Length; i < l; ++i)
+        {
+            if (m_goToHideWhenExplode != null)
+                m_goToHideWhenExplode[i].SetActive(activate);
+        }
+    }
+
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
         // m_canBeMouseOver = false;
@@ -296,10 +369,18 @@ public class SuicidalEnemyController : MonoBehaviour
 
         m_sM.ChangeState((int)EnemyState.DieState);
 
+        GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.beforeSelfDestructKill);
+
         if (dieWithElectricalDamage)
+        {
             m_shaderController?.On_StartDisintegrationShader();
+            m_audioController?.On_EnemyIsDisintegrate();
+        }
         else
+        {
             m_shaderController?.On_StartDissolveShader();
+            m_audioController?.On_EnemyDie();
+        }
     }
     public void On_EnemyDie()
     {
@@ -307,6 +388,9 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void ReturnToPool()
     {
+        m_isWaitingToExplode = false;
+        m_audioController?.On_StartToMoveFast(false);
+        StopAllCoroutines();
         ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }
 
@@ -353,7 +437,6 @@ public class SuicidalEnemyController : MonoBehaviour
         m_agent.speed = newSpeed;
     }
 
-    [SerializeField] GameObject[] m_weakSpots;
     public void On_ShowEnemyWeakSpot(bool show)
     {
         if (m_weakSpots == null)

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -22,7 +21,7 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] float m_targetedXPos = 0.02f;
     [SerializeField] float m_delayToHideValue = 0.25f;
     [SerializeField] BpmFonts m_getLostFonts;
-    [System.Serializable] class BpmFonts
+    [Serializable] class BpmFonts
     {
         [Header("Basic")]
         public float m_basicFontSize = 0.01f;
@@ -41,13 +40,34 @@ public class PlayerBpmGui : MonoBehaviour
     [SerializeField] Color m_normalBpmValueColor = Color.yellow;
     [SerializeField] Color m_criticalBpmValueColor = Color.red;
     [SerializeField] Color m_overadrenalineBpmValueColor = Color.blue;
+    [Space]
+    [SerializeField] BPMLogo m_bpmLogo;
+    [Serializable] class BPMLogo
+    {
+        public Transform m_logoTrans;
+
+        [Header("Scales")]
+        public float m_minScale = 0.75f;
+        public float m_maxScale = 1.25f;
+
+        [Header("Speeds")]
+        public float m_minSpeed = 1;
+        public float m_maxSpeed = 3;
+    }
 
     ObjectPooler m_objectPooler;
+    BPMSystem m_bpmSystem;
     int m_lastWeaponLvl;
 
     void Start()
     {
         m_objectPooler = ObjectPooler.Instance;
+        m_bpmSystem = PlayerController.s_instance.GetComponent<BPMSystem>();
+        SetLogoScaleDistance();
+    }
+    void FixedUpdate()
+    {
+        SetBPMLogoScale();
     }
 
     public void SetPlayerBpm(float bpmValue)
@@ -144,4 +164,17 @@ public class PlayerBpmGui : MonoBehaviour
         }
     }
     
+    float m_logoScaleDistance;
+    void SetLogoScaleDistance()
+    {
+        m_logoScaleDistance = Mathf.Abs(m_bpmLogo.m_minScale - m_bpmLogo.m_maxScale);
+    }
+    void SetBPMLogoScale()
+    {
+        float deltaBPM = Mathf.InverseLerp(0, m_bpmSystem._BPM.maxBPM, m_bpmSystem.CurrentBPM);
+        float deltaSpeed = Mathf.Lerp(m_bpmLogo.m_minSpeed, m_bpmLogo.m_maxSpeed, deltaBPM);
+        float scale = m_bpmLogo.m_minScale + Mathf.PingPong(Time.time * deltaSpeed, m_logoScaleDistance);
+        m_bpmLogo.m_logoTrans.localScale = new Vector3(scale, scale, 1);
+    }
+
 }

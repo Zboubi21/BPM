@@ -151,20 +151,21 @@ public class EnemyCaraBase : SerializedMonoBehaviour
         }
 
     }
-
+    bool hasShotWeakSpot;
     public virtual void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun, bool isElectricalDamage = false)
     {
+        hasShotWeakSpot = false;
         switch (i)
         {
             case 0:
 
                 _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnNoSpot);
-
+                hasShotWeakSpot = false;
                 break;
             case 1:
 
                 _currentLife -= Mathf.CeilToInt(damage * _enemyCaractéristique._health.damageMultiplicatorOnWeakSpot);
-
+                hasShotWeakSpot = true;
                 break;
             default:
                 break;
@@ -222,6 +223,10 @@ public class EnemyCaraBase : SerializedMonoBehaviour
             {
                 _isDead = true;
                 controller.On_EnemyGoingToDie(deadWithElectricalDamage);
+                if (hasShotWeakSpot)
+                {
+                    GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.suicidalWeakSpotKill);
+                }
                 // controller.SM.ChangeState((int)EnemyState.DieState);
             }
             // else if(!controller.SM.CompareState((int)EnemyState.StunState) && !controller.SM.CompareState((int)EnemyState.ElectricalStunState))

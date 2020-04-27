@@ -274,6 +274,11 @@ public class KillSomething
     public int beforeSelfDestructKill;
     [Header("Kill a SuicidalBot in the weakspot")]
     public int suicidalWeakSpotKill;
+    [Header("Makes a SuicidalBot kills an other enemy")]
+    public int suicidalBotFriendlyFire;
+    [Header("Score bonus for each enemy killed by friendly fire")]
+    [Tooltip("Ce bonus est mutliplié par le nombre d'enemy touché")]
+    public int bonusScoreOnFriendlyFire;
     [Header("Kill a Rusher only in weakspot")]
     public int rusherWeakSpotKill;
     [Header("Kill a sniper only in his chest (firezone)")]

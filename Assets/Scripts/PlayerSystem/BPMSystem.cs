@@ -143,6 +143,8 @@ public class BPMSystem : MonoBehaviour
     bool _furyCoolDownOver = true;
     bool _isCurrentlyOnFury;
     public bool IsCurrentlyOnFury { get => _isCurrentlyOnFury; }
+    public float CurrentBPM { get => _currentBPM; }
+
     bool m_isInCriticalLevelOfBPM = false;
     PlayerController m_playerController;
     WeaponPlayerBehaviour weapon;
