@@ -633,6 +633,8 @@ public class PlayerController : MonoBehaviour
 
 		// ResetPlayerVelocity();
 		ResetPlayerMomentum();
+
+        SetPlayerWeaponAnim("OnLand");
 	}
 
 	public void On_BpmLevelChanged(int weaponLvl)
