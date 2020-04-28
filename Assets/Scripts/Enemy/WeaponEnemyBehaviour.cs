@@ -133,7 +133,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                             break;
                     }
                 }
-                else if((enemyController.DistanceToTarget > _attack.rangeRadius || enemyController.DistanceToPlayer > _attack.rangeOfAttackNoMatterWhat) && Physics.Linecast(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(PlayerController.s_instance.transform.position.x, PlayerController.s_instance.transform.position.y + 1f, PlayerController.s_instance.transform.position.z), out _hit, hittedLayer))
+                else if((enemyController.DistanceToTarget > _attack.rangeRadius || enemyController.DistanceToPlayer > _attack.rangeOfAttackNoMatterWhat) || Physics.Linecast(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(PlayerController.s_instance.transform.position.x, PlayerController.s_instance.transform.position.y + 1f, PlayerController.s_instance.transform.position.z), out _hit, hittedLayer))
                 {
                     enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
                 }
