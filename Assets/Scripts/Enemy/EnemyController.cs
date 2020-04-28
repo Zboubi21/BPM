@@ -148,9 +148,9 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         Player = PlayerController.s_instance.gameObject.transform;
-        //_debug.aimConstraint.data.sourceObjects.Add(_debug.aimConstraint.data.sourceObjects.SetTransform(0, PlayerController.s_instance.transform));
-        Debug.Log(_debug.aimConstraint.data.sourceObjects[0].transform);
-        
+        //WeightedTransformArray sourceObjects = _debug.aimConstraint.data.sourceObjects;
+        //sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
+        //_debug.aimConstraint.data.sourceObjects = sourceObjects;
 
         //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
