@@ -29,6 +29,7 @@ public class AttackState : IState
 
         ///Play attack animation
         m_enemyController.Anim.SetTrigger("Aim");
+        m_enemyController.RigBuilder.layers[0].rig.weight = 1;
 
         ///Play attack sound (enter state not shoot)
 
@@ -48,6 +49,7 @@ public class AttackState : IState
     {
         m_weaponEnemyBehaviour.StopCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
         m_enemyController.Agent.isStopped = false;
+        m_enemyController.RigBuilder.layers[0].rig.weight = 0;
         //m_enemyController.Agent.updateRotation = true;
     }
 

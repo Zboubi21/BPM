@@ -55,5 +55,8 @@ public class DefensiveState : IState
             m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
         }
         m_enemyController.gameObject.transform.LookAt(m_enemyController.Player);
+
+        m_enemyController.AnimationBlendTree();
+
     }
 }

@@ -56,6 +56,7 @@ public class RepositionState : IState
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
         }
+        m_enemyController.AnimationBlendTree();
     }
 
     

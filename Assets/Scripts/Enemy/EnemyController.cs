@@ -6,6 +6,7 @@ using EnemyStateEnum;
 using System;
 using UnityEngine.UI;
 using PoolTypes;
+using UnityEngine.Animations.Rigging;
 
 public class EnemyController : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class EnemyController : MonoBehaviour
         public GameObject m_destinationImage;
 
         public float obstacleAvoidance = 3f;
-        public Transform aimSpine;
+        public MultiAimConstraint aimConstraint;
     }
 
     public Spawn m_spawn;
@@ -74,6 +75,7 @@ public class EnemyController : MonoBehaviour
     ObjectPooler objectPooler;
     PlayerController playerController;
     Animator anim;
+    RigBuilder rigBuilder;
 
     float distanceToTarget;
     float distanceToPlayer;
@@ -98,6 +100,9 @@ public class EnemyController : MonoBehaviour
     public PlayerController PlayerController { get => playerController; set => playerController = value; }
     public Animator Anim { get => anim; set => anim = value; }
     public bool HasShoot { get => hasShoot; set => hasShoot = value; }
+
+    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
+    public RigBuilder RigBuilder { get => rigBuilder; set => rigBuilder = value; }
     #endregion
 
     public void Awake()
@@ -112,6 +117,7 @@ public class EnemyController : MonoBehaviour
         playerController = PlayerController.s_instance;
         anim = GetComponent<Animator>();
         enemyColliders = GetComponentsInChildren<Collider>();
+        rigBuilder = GetComponent<RigBuilder>();
         HasShoot = false;
     }
 
@@ -142,6 +148,9 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         Player = PlayerController.s_instance.gameObject.transform;
+        //_debug.aimConstraint.data.sourceObjects.Add(_debug.aimConstraint.data.sourceObjects.SetTransform(0, PlayerController.s_instance.transform));
+        Debug.Log(_debug.aimConstraint.data.sourceObjects[0].transform);
+        
 
         //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
@@ -399,6 +408,13 @@ public class EnemyController : MonoBehaviour
         return transform.position; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
     }
 
+
+    public void AnimationBlendTree()
+    {
+        anim.SetFloat("VelocityX", transform.right.normalized.x);
+        anim.SetFloat("VelocityY", transform.forward.normalized.y);
+    }
+
     #endregion
 
     #region Random methods
@@ -535,12 +551,6 @@ public class EnemyController : MonoBehaviour
                 cara = GetComponent<EnemyCara>();
             }
         }
-
-        if(_debug.aimSpine != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
-        }
     }
 
     #region Spawn Enemy
@@ -566,7 +576,8 @@ public class EnemyController : MonoBehaviour
     }
 
     bool m_canBeMouseOver = true;
-    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
+    
+
     public void On_EnemyIsMouseOver(bool isMouseOver)
     {
         // for (int i = 0, l = m_weakSpots.Length; i < l; ++i)

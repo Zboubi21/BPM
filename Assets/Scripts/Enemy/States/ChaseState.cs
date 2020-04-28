@@ -72,7 +72,9 @@ public class ChaseState : IState
         //{
         //    //Debug.DrawLine(new Vector3(weapon.transform.position.x, weapon.transform.position.y + 1f, weapon.transform.position.z), new Vector3(playerController.transform.position.x, playerController.transform.position.y + 1f, playerController.transform.position.z), Color.red);
         //}
+        m_enemyController.AnimationBlendTree();
+
     }
 
-    
+
 }

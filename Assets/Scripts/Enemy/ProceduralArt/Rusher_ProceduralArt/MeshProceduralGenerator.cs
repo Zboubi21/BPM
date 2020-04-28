@@ -15,26 +15,26 @@ public class MeshProceduralGenerator : MonoBehaviour
     {
         for (int i = 0, l = allPossibleMeshs.allArmsArray.Length; i < l; ++i)
         {
-            allPossibleMeshs.allArmsArray[i].gameObject.SetActive(false);
+            //allPossibleMeshs.allArmsArray[i].gameObject.SetActive(false);
             maxArmsIndex++;
         }
         for (int i = 0, l = allPossibleMeshs.allTorsoArray.Length; i < l; ++i)
         {
-            allPossibleMeshs.allTorsoArray[i].gameObject.SetActive(false);
+            //allPossibleMeshs.allTorsoArray[i].gameObject.SetActive(false);
             maxTorsoIndex++;
         }
         for (int i = 0, l = allPossibleMeshs.allBottomHeadArray.Length; i < l; ++i)
         {
-            allPossibleMeshs.allBottomHeadArray[i].gameObject.SetActive(false);
+           // allPossibleMeshs.allBottomHeadArray[i].gameObject.SetActive(false);
             maxBottomHeadIndex++;
         }
         for (int i = 0, l = allPossibleMeshs.allTopHeadArray.Length; i < l; ++i)
         {
-            allPossibleMeshs.allTopHeadArray[i].gameObject.SetActive(false);
+            //allPossibleMeshs.allTopHeadArray[i].gameObject.SetActive(false);
             maxTopHeadIndex++;
         }
 
-        StartCoroutine(ShowCaseGeneration());
+        //StartCoroutine(ShowCaseGeneration());
     }
 
     IEnumerator ShowCaseGeneration()

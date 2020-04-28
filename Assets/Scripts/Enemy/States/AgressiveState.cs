@@ -43,11 +43,7 @@ public class AgressiveState : IState
 
     public void FixedUpdate()
     {
-        m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if ((m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeOfAttackNoMatterWhat) && !m_enemyController.Cara.IsDead)
-        {
-            m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
-        }
+       
     }
 
     public void LateUpdate()
@@ -56,5 +52,11 @@ public class AgressiveState : IState
 
     public void Update()
     {
+        m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
+        if ((m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeOfAttackNoMatterWhat) && !m_enemyController.Cara.IsDead)
+        {
+            m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
+        }
+        m_enemyController.AnimationBlendTree();
     }
 }
