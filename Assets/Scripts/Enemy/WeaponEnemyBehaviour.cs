@@ -97,7 +97,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
             if(countAttacks > enemyController.Cara.EnemyArchetype._nbrOfRafaleBeforeRepositionning)
             {
                 countAttacks = 0;
-                if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack))
+                if (enemyController.ThrowBehaviorDice(enemyController.Cara.EnemyArchetype._chanceToRepositionAfterAnAttack) && enemyController.DistanceToPlayer > _attack.rangeOfAttackNoMatterWhat)
                 {
                     float[] chances;
                     if (!enemyController.Cara.EnemyArchetype.useDependencyForDefensive || Mathf.InverseLerp(0, enemyController.Cara._enemyCaractéristique._health.maxHealth, enemyController.Cara.CurrentLife) <= (enemyController.Cara.EnemyArchetype.percentLifeBeforeDefensive/100f))
@@ -117,16 +117,19 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                         case 0:
 
                                 enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+                                //enemyController.RigBuilder.layers[0].rig.weight = 0;
 
                             break;
                         case 1:
 
                                 enemyController.ChangeState((int)EnemyState.Enemy_AgressiveState);
+                                //enemyController.RigBuilder.layers[0].rig.weight = 0;
 
                             break;
                         case 2:
 
                                 enemyController.ChangeState((int)EnemyState.Enemy_DefensiveState);
+                                //enemyController.RigBuilder.layers[0].rig.weight = 0;
 
                             break;
                         default:
@@ -136,11 +139,19 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
                 else if((enemyController.DistanceToTarget > _attack.rangeRadius || enemyController.DistanceToPlayer > _attack.rangeOfAttackNoMatterWhat) || Physics.Linecast(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(PlayerController.s_instance.transform.position.x, PlayerController.s_instance.transform.position.y + 1f, PlayerController.s_instance.transform.position.z), out _hit, hittedLayer))
                 {
                     enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+                    //enemyController.RigBuilder.layers[0].rig.weight = 0;
+
                 }
                 else
                 {
                     enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
                 }
+            }
+            else if ((enemyController.DistanceToTarget > _attack.rangeRadius && enemyController.DistanceToPlayer > _attack.rangeOfAttackNoMatterWhat) || Physics.Linecast(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(PlayerController.s_instance.transform.position.x, PlayerController.s_instance.transform.position.y + 1f, PlayerController.s_instance.transform.position.z), out _hit, hittedLayer))
+            {
+                enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+                //enemyController.RigBuilder.layers[0].rig.weight = 0;
+
             }
             else
             {
@@ -194,7 +205,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
             rotation.eulerAngles.y + (enemyController.Player.position.y + YOffset) + dispersion.y, 
             _SMG.firePoint.transform.eulerAngles.z + enemyController.Player.position.z);*/
 
-        GameObject go = enemyController.ObjectPooler.SpawnProjectileFromPool(ProjectileType.EnemyProjectile, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation);
+        GameObject go = ObjectPooler.Instance.SpawnProjectileFromPool(ProjectileType.EnemyProjectile, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation);
         InitiateProjVar(go.GetComponent<Projectile>());
         return go;
     }
