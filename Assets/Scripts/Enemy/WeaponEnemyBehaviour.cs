@@ -91,6 +91,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
             Debug.Log(this.enemyController + " I'm waiting " + time + " seconds before changing state.");
 #endif
         yield return new WaitForSeconds(time);
+        //Debug.LogError("hipla");
         if (!enemyController.Cara.IsDead && !enemyController.EnemyCantShoot)
         {
             //Debug.Log("Before Throwing Dices");

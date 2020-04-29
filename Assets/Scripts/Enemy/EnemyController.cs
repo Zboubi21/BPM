@@ -86,6 +86,8 @@ public class EnemyController : MonoBehaviour
     bool isInMotion;
     bool hasShoot;
     Collider[] enemyColliders;
+    public Quaternion finalStateOfTheBoneRotation;
+    public float YOffset;
 
     #region Get Set
     public NavMeshAgent Agent { get => agent; set => agent = value; }
@@ -121,12 +123,12 @@ public class EnemyController : MonoBehaviour
         enemyColliders = GetComponentsInChildren<Collider>();
         rigBuilder = GetComponent<RigBuilder>();
         HasShoot = false;
-        if (_debug.aimConstraint != null)
-        {
-            WeightedTransformArray sourceObjects = _debug.aimConstraint.data.sourceObjects;
-            sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
-            _debug.aimConstraint.data.sourceObjects = sourceObjects;
-        }
+        //if (_debug.aimConstraint != null)
+        //{
+        //    WeightedTransformArray sourceObjects = _debug.aimConstraint.data.sourceObjects;
+        //    sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
+        //    _debug.aimConstraint.data.sourceObjects = sourceObjects;
+        //}
     }
 
     void SetupStateMachine()
@@ -206,6 +208,10 @@ public class EnemyController : MonoBehaviour
 
     void LateUpdate()
     {
+        if(finalStateOfTheBoneRotation.eulerAngles != Vector3.zero)
+        {
+            _debug.boneToMove.transform.rotation = finalStateOfTheBoneRotation;
+        }
         m_sM.LateUpdate();
     }
 

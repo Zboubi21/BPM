@@ -36,7 +36,7 @@ public class AttackState : IState
 
         relativePos = m_enemyController.Player.position - m_enemyController.transform.position;
         initForward = m_enemyController.transform.forward;
-        lastFrameTargetPos = new Vector3(m_enemyController.Player.position.x, m_enemyController.Player.position.y + 1.5f, m_enemyController.Player.position.z);
+        lastFrameTargetPos = new Vector3(m_enemyController.Player.position.x, m_enemyController.Player.position.y + m_enemyController.YOffset, m_enemyController.Player.position.z);
         m_enemyController.Agent.isStopped = true;
         agentSpeed = m_enemyController.Agent.speed;
         m_enemyController.Agent.speed = 0;
@@ -66,26 +66,19 @@ public class AttackState : IState
         //m_enemyController._debug.boneToMove.transform.LookAt(PlayerController.s_instance.m_references.m_cameraPivot.transform);
     }
     bool go;
-    Transform finalStateOfTheBone;
+    
     public void LateUpdate()
     {
-        //if (go)
-        //{
-            m_enemyController._debug.boneToMove.transform.LookAt(PlayerController.s_instance.m_references.targetForEnnemies);
-        //}
         if (RotateTowards(lastFrameTargetPos) && go)
         {
             go = false;
-           // finalStateOfTheBone = m_enemyController._debug.boneToMove.transform;
+            //finalStateOfTheBonePosition = m_enemyController._debug.boneToMove.transform.position;
+            //Debug.LogError("hohoho");
             m_weaponEnemyBehaviour.StartCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
             //m_enemyController._debug.aimConstraint.weight = 0;
         }
 
-        //if (!go)
-        //{
-        //    m_enemyController._debug.boneToMove.transform.position = finalStateOfTheBone.position;
-        //    m_enemyController._debug.boneToMove.transform.rotation = finalStateOfTheBone.rotation;
-        //}
+        
         /*if (m_enemyController.DistanceToTarget > m_enemyController.Agent.stoppingDistance)
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
@@ -150,9 +143,9 @@ public class AttackState : IState
             lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             angularDistance = Quaternion.Angle(m_enemyController.transform.rotation, lookRotation);
 
-            //torsoDirection = (target - m_enemyController._debug.boneToMove.transform.position).normalized;
-            //torsoLookRotation = Quaternion.LookRotation(new Vector3(torsoDirection.x, torsoDirection.y, torsoDirection.z));
-            //torsoAngularDistance = Quaternion.Angle(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation);
+            torsoDirection = (target - m_enemyController._debug.boneToMove.transform.position).normalized;
+            torsoLookRotation = Quaternion.LookRotation(new Vector3(torsoDirection.x, torsoDirection.y, torsoDirection.z));
+            torsoAngularDistance = Quaternion.Angle(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation);
 
             maxTime = angularDistance / (m_enemyController.Cara._enemyCaractéristique._move.rotationSpeed);
             if (maxTime == 0)
@@ -172,9 +165,17 @@ public class AttackState : IState
         {
             time += Time.deltaTime /* (m_enemyController.Cara.rotationSpeed/100)*/;
             m_enemyController.transform.rotation = Quaternion.Slerp(m_enemyController.transform.rotation, lookRotation, Mathf.InverseLerp(0, maxTime, time));
+            //Debug.Log(m_enemyController._debug.boneToMove.transform.rotation);
+            SlerpSpineRotation(Quaternion.Slerp(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation, Mathf.InverseLerp(0, maxTime, time)));
             //m_enemyController._debug.boneToMove.transform.rotation = Quaternion.Slerp(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation, Mathf.InverseLerp(0, maxTime, time));
             return false;
         }
+    }
+
+    void SlerpSpineRotation(Quaternion value)
+    {
+        m_enemyController._debug.boneToMove.transform.rotation = value;
+        m_enemyController.finalStateOfTheBoneRotation = m_enemyController._debug.boneToMove.transform.rotation;
     }
 
 }
