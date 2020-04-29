@@ -289,7 +289,7 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     IEnumerator WaitTimeToExplode()
     {
-        m_audioController?.On_EnemyWaitToExplode(m_selfDestruction.m_waitTimeToExplode);
+        m_audioController?.On_EnemyWaitToExplode();
         yield return new WaitForSeconds(m_selfDestruction.m_waitTimeToExplode);
         On_EnemyExplode();
         m_isWaitingToExplode = false;
