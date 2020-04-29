@@ -49,6 +49,9 @@ public class PlayerAudioController : AudioController
         public float m_waitTimeAfterNextHeart = 0.8f;
     }
 
+    [Header("Cant Activate Overadrenaline")]
+    [SerializeField] Sounds m_cantActivateOveradrenaline;
+
     [Header("Overadrenaline")]
     [SerializeField] SoundLooper m_overadrenaline;
 
@@ -249,6 +252,11 @@ public class PlayerAudioController : AudioController
     //         StartSoundFromArray(weaponSound.fireSource, weaponSound.allDifferentLastFireSound[currentIndex].allDifferentClip, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volume, weaponSound.allDifferentLastFireSound[currentIndex].Volume.volumeRandomizer, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitch, weaponSound.allDifferentLastFireSound[currentIndex].Pitch.pitchRandomizer);
     //     }
     // }
+
+    public void On_CantActivateOverFeedback()
+    {
+        StartSoundFromArray(m_cantActivateOveradrenaline.m_audioSource, m_cantActivateOveradrenaline.m_sounds, m_cantActivateOveradrenaline.m_volume, m_cantActivateOveradrenaline.m_volumeRandomizer, m_cantActivateOveradrenaline.m_pitch, m_cantActivateOveradrenaline.m_pitchRandomizer);
+    }
 
     public void On_CriticalBpm(bool criticalBpm)
     {
