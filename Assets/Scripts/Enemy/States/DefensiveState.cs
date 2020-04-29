@@ -50,10 +50,20 @@ public class DefensiveState : IState
     public void Update()
     {
         m_enemyController.Agent.SetDestination(m_enemyController.CurrentTarget);
-        if ((m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance || m_enemyController.DistanceToPlayer <= m_enemyController.WeaponBehavior._attack.rangeOfAttackNoMatterWhat) && !m_enemyController.Cara.IsDead)
+        m_enemyController.AnimationBlendTree();
+        if (!m_enemyController.Cara.IsDead)
         {
-            m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
+            if ((m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance && m_enemyController.DistanceToPlayer > m_enemyController.WeaponBehavior._attack.rangeOfAttackNoMatterWhat))
+            {
+                m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
+            }
+            else
+            {
+                m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
+            }
         }
         m_enemyController.gameObject.transform.LookAt(m_enemyController.Player);
+
+
     }
 }

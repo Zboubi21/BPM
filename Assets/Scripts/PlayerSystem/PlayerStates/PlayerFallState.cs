@@ -17,6 +17,7 @@ public class PlayerFallState : IState
     public void Enter()
     {
         // m_playerController.On_GroundContactLost();
+        m_playerController.SetPlayerWeaponAnim("isFalling", true);
 
         if (m_playerController.LastState(PlayerState.Idle) || m_playerController.LastState(PlayerState.Run))
         {
@@ -63,7 +64,7 @@ public class PlayerFallState : IState
     }
     public void Exit()
     {
-
+        m_playerController.SetPlayerWeaponAnim("isFalling", false);
     }
 
 }

@@ -21,16 +21,17 @@ public class EnemyCara : EnemyCaraBase
         [ShowIf("reallyNeedToUseDebug")]
         public GameObject[] weakSpots;
         [ShowIf("reallyNeedToUseDebug")]
-        public GameObject[] noSpot;
-        [ShowIf("reallyNeedToUseDebug")]
         public Collider[] allCollider;
     }
 
     EnemyController enemyController;
+    MeshProceduralGenerator proceduralGenerator;
 
     protected override void Awake()
     {
         enemyController = GetComponent<EnemyController>();
+        proceduralGenerator = GetComponent<MeshProceduralGenerator>();
+        proceduralGenerator?.BuildCharaMesh();
         base.Awake();
         if (enemyController != null)
         {
@@ -60,7 +61,7 @@ public class EnemyCara : EnemyCaraBase
                     if(_debug.weakSpots.Length > 0)
                     {
                         _debug.weakSpots[i]?.SetActive(EnemyArchetype.Spots[i]);
-                        _debug.noSpot[i]?.SetActive(!EnemyArchetype.Spots[i]);
+                        //_debug.noSpot[i]?.SetActive(!EnemyArchetype.Spots[i]);
                     }
                 }
             }

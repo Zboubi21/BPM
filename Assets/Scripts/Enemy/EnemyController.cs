@@ -6,11 +6,13 @@ using EnemyStateEnum;
 using System;
 using UnityEngine.UI;
 using PoolTypes;
+using UnityEngine.Animations.Rigging;
 
 public class EnemyController : MonoBehaviour
 {
     public DEBUG _debug = new DEBUG();
-    [Serializable] public class DEBUG
+    [Serializable]
+    public class DEBUG
     {
         public bool useGizmos;
         public bool useDebugLogs;
@@ -24,11 +26,12 @@ public class EnemyController : MonoBehaviour
         public GameObject m_destinationImage;
 
         public float obstacleAvoidance = 3f;
-        public Transform aimSpine;
+        public MultiAimConstraint aimConstraint;
     }
 
     public Spawn m_spawn;
-    [Serializable] public class Spawn
+    [Serializable]
+    public class Spawn
     {
         public float m_timeToSpawn = 3;
         public bool m_faceToPlayerWhenSpawned = true;
@@ -74,6 +77,7 @@ public class EnemyController : MonoBehaviour
     ObjectPooler objectPooler;
     PlayerController playerController;
     Animator anim;
+    RigBuilder rigBuilder;
 
     float distanceToTarget;
     float distanceToPlayer;
@@ -84,7 +88,7 @@ public class EnemyController : MonoBehaviour
 
     #region Get Set
     public NavMeshAgent Agent { get => agent; set => agent = value; }
-    public Transform  Player { get => target; set => target = value; }
+    public Transform Player { get => target; set => target = value; }
 
     public float DistanceToTarget { get => distanceToTarget; set => distanceToTarget = value; }
     public EnemyCara Cara { get => cara; set => cara = value; }
@@ -98,6 +102,9 @@ public class EnemyController : MonoBehaviour
     public PlayerController PlayerController { get => playerController; set => playerController = value; }
     public Animator Anim { get => anim; set => anim = value; }
     public bool HasShoot { get => hasShoot; set => hasShoot = value; }
+
+    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
+    public RigBuilder RigBuilder { get => rigBuilder; set => rigBuilder = value; }
     #endregion
 
     public void Awake()
@@ -112,12 +119,13 @@ public class EnemyController : MonoBehaviour
         playerController = PlayerController.s_instance;
         anim = GetComponent<Animator>();
         enemyColliders = GetComponentsInChildren<Collider>();
+        rigBuilder = GetComponent<RigBuilder>();
         HasShoot = false;
     }
 
     void SetupStateMachine()
     {
-        m_sM.AddStates(new List<IState> { 
+        m_sM.AddStates(new List<IState> {
             new ChaseState(this),				// 0 = Chase
             new IdleState(this),				// 1 = Idle
 			new AttackState(this),				// 2 = Attack
@@ -142,6 +150,9 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         Player = PlayerController.s_instance.gameObject.transform;
+        WeightedTransformArray sourceObjects = _debug.aimConstraint.data.sourceObjects;
+        sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
+        _debug.aimConstraint.data.sourceObjects = sourceObjects;
 
         //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
@@ -164,7 +175,7 @@ public class EnemyController : MonoBehaviour
                 //_debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.percentLifeBeforeGettingStuned, 0, Cara.CurrentTimeForStunResistance);
                 _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForStun);
             }
-            else if(!m_sM.CompareState((int)EnemyState.Enemy_StunState))
+            else if (!m_sM.CompareState((int)EnemyState.Enemy_StunState))
             {
                 _debug.stunResistance.fillAmount = Mathf.InverseLerp(Cara._enemyCaractéristique._stunResistance.timeOfElectricalStunResistance, 0, Cara.CurrentTimeForElectricalStun);
                 _debug.stunTime.fillAmount = Mathf.InverseLerp(0, debugStunTime, cara.CurrentTimeForElectricalStun);
@@ -217,7 +228,7 @@ public class EnemyController : MonoBehaviour
         Vector3 newTarget;
         float distance = Vector3.Distance(transform.position, target.position);
         Vector3 lastPoint = Vector3.Lerp(target.position, transform.position, Mathf.InverseLerp(0, distance, weaponBehavior._attack.rangeRadius));
-        if(hasFoundACover && manager.AllUsedCover.Count > 0) 
+        if (hasFoundACover && manager.AllUsedCover.Count > 0)
         {
             manager.AllUsedCover.RemoveAt(choosenCover); // -1 pour retomber sur l'index exacte (on fait +1 plus loin pour avoir choosenCover =0 : " je n'ai pas trouvé de cover")
             hasFoundACover = false;
@@ -227,16 +238,16 @@ public class EnemyController : MonoBehaviour
         Collider[] allColInSphere = Physics.OverlapSphere(lastPoint, weaponBehavior._attack.rangeRadius);
         List<GameObject> allCoverInSphere = new List<GameObject>();
 
-        for (int i = 0, l= allColInSphere.Length; i < l; ++i)
+        for (int i = 0, l = allColInSphere.Length; i < l; ++i)
         {
             if (allColInSphere[i].CompareTag("PointChaud"))
             {
                 bool denied = false;
-                if(manager.AllUsedCover.Count > 0)
+                if (manager.AllUsedCover.Count > 0)
                 {
                     for (int a = 0, m = manager.AllUsedCover.Count; a < m; ++a)
                     {
-                        if(allColInSphere[i].gameObject == manager.AllUsedCover[a])
+                        if (allColInSphere[i].gameObject == manager.AllUsedCover[a])
                         {
                             denied = true;
                             break;
@@ -286,7 +297,7 @@ public class EnemyController : MonoBehaviour
         }
         else // The NPC has found a cover
         {
-            int randomIndex = UnityEngine.Random.Range(0, allCoverInSphere.Count-1);
+            int randomIndex = UnityEngine.Random.Range(0, allCoverInSphere.Count - 1);
             newTarget = allCoverInSphere[randomIndex].transform.position;
             manager.AllUsedCover.Add(allCoverInSphere[randomIndex]);
             choosenCover = randomIndex; // +1 pour avoir 0 = je n'ai pas trouvé de cover
@@ -399,13 +410,20 @@ public class EnemyController : MonoBehaviour
         return transform.position; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
     }
 
+
+    public void AnimationBlendTree()
+    {
+        anim.SetFloat("VelocityX", transform.right.normalized.x);
+        anim.SetFloat("VelocityY", transform.forward.normalized.y);
+    }
+
     #endregion
 
     #region Random methods
     public bool ThrowBehaviorDice(float value)
     {
         float random = UnityEngine.Random.Range(0f, 100f);
-        if(random < value)
+        if (random < value)
         {
             return true;
         }
@@ -443,11 +461,11 @@ public class EnemyController : MonoBehaviour
     {
         EnemyCantShoot = true;
         debugStunTime = time;
-        if(state == EnemyState.Enemy_StunState)
+        if (state == EnemyState.Enemy_StunState)
         {
             Level.AddFX(shockVFX, transform.position, Quaternion.identity);
         }
-        else if(state == EnemyState.Enemy_ElectricalStunState)
+        else if (state == EnemyState.Enemy_ElectricalStunState)
         {
             Level.AddFX(electricalStunVFX, transform.position, Quaternion.identity);
         }
@@ -503,7 +521,7 @@ public class EnemyController : MonoBehaviour
     }
     public GameObject OnInstantiate(GameObject obj, Vector3 trans, Transform parent)
     {
-        return Instantiate(obj, trans, Quaternion.identity ,parent);
+        return Instantiate(obj, trans, Quaternion.identity, parent);
     }
     public void DestroyObj(GameObject obj)
     {
@@ -514,8 +532,8 @@ public class EnemyController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         if (_debug.useGizmos)
-        { 
-            if(agent != null && weaponBehavior != null && cara != null)
+        {
+            if (agent != null && weaponBehavior != null && cara != null)
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, agent.stoppingDistance);
@@ -535,12 +553,6 @@ public class EnemyController : MonoBehaviour
                 cara = GetComponent<EnemyCara>();
             }
         }
-
-        if(_debug.aimSpine != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_debug.aimSpine.position, 0.1f);
-        }
     }
 
     #region Spawn Enemy
@@ -559,14 +571,15 @@ public class EnemyController : MonoBehaviour
         for (int i = 0, l = enemyColliders.Length; i < l; ++i)
         {
             if (enemyColliders[i] != null)
-            {   
+            {
                 enemyColliders[i].enabled = activate;
             }
         }
     }
 
     bool m_canBeMouseOver = true;
-    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
+
+
     public void On_EnemyIsMouseOver(bool isMouseOver)
     {
         // for (int i = 0, l = m_weakSpots.Length; i < l; ++i)
@@ -577,7 +590,7 @@ public class EnemyController : MonoBehaviour
         // {
         //     m_noWeakSpots[i].SetActive(!isMouseOver);
         // }
-    } 
+    }
 
     void FaceToTarget(Vector3 targetPos)
     {

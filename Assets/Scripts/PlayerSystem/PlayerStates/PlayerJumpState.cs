@@ -22,6 +22,8 @@ public class PlayerJumpState : IState
     {
         // m_playerController.m_useGravity = false;
 
+        m_playerController.SetPlayerWeaponAnim("Jump");
+
         m_timer = 0;
         m_haseJump = false;
         m_jumpDuration = m_playerController.LastState(PlayerState.Jump) ? m_playerController.m_doubleJump.m_duration : m_playerController.m_jump.m_duration;

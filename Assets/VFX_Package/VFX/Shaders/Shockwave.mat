@@ -8,13 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shockwave
-  m_Shader: {fileID: -6465566751694194690, guid: 4aec6d42f25afbd4bb4a94dffcbb1616,
+  m_Shader: {fileID: -6465566751694194690, guid: 6b93e3d6d8a4e2d43854c02033c9f7b4,
     type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _BLENDMODE_ADD _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
+  m_ShaderKeywords: _BLENDMODE_ADD _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
     RenderType: Transparent
@@ -26,39 +26,24 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_23DD87FD:
-        m_Texture: {fileID: 2800000, guid: be3afc3c0ecb4694388d60c04abb26c6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_4FE78F63:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_7D173D4F:
         m_Texture: {fileID: 2800000, guid: a50bef42f6d04c44dbe1177f4d394408, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_947C8A07:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_C9305A9:
-        m_Texture: {fileID: 2800000, guid: a50bef42f6d04c44dbe1177f4d394408, type: 3}
+    - Texture2D_D1349F11:
+        m_Texture: {fileID: 2800000, guid: 365bd2c163061d3428ea528c81e8d001, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_993E4220: 0.5
-    - Vector1_A7226C0C: 0
-    - Vector1_AAFC22FB: 0
-    - Vector1_D4B7591E: 1
-    - Vector1_DBEF6975: 0
+    - Vector1_4664B72E: 1
+    - Vector1_CB02A382: 0.5
     - _AlphaCutoff: 0.5
-    - _AlphaCutoffEnable: 1
+    - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 1
     - _AlphaSrcBlend: 1
     - _BlendMode: 1
-    - _CullMode: 0
-    - _CullModeForward: 0
-    - _DoubleSidedEnable: 1
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 1
     - _ReceivesSSR: 0
@@ -73,7 +58,7 @@ Material:
     - _StencilWriteMask: 3
     - _StencilWriteMaskDepth: 48
     - _StencilWriteMaskDistortionVec: 64
-    - _StencilWriteMaskGBuffer: 51
+    - _StencilWriteMaskGBuffer: 3
     - _StencilWriteMaskMV: 176
     - _SurfaceType: 1
     - _TransparentBackfaceEnable: 0
@@ -81,15 +66,9 @@ Material:
     - _TransparentSortPriority: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 4
-    - _ZTestGBuffer: 3
+    - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - Color_224AFD35: {r: 1, g: 1, b: 1, a: 0}
-    - Color_F4DA48C8: {r: 23.968628, g: 23.968628, b: 23.968628, a: 0}
-    - Vector2_2D7B2CD5: {r: 0, g: 0, b: 0, a: 0}
-    - Vector2_9E067025: {r: 0, g: 2, b: 0, a: 0}
-    - Vector2_A91E371B: {r: 1, g: 1, b: 0, a: 0}
-    - Vector2_B2C17A37: {r: 0, g: 2, b: 0, a: 0}
-    - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

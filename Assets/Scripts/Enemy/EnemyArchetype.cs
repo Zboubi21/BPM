@@ -17,13 +17,13 @@ public class EnemyArchetype : SerializedScriptableObject
     public enum TypeOfSpot
     {
         Head = 1 << 1,
-        RightShoulder = 1 << 2,
-        LeftShoulder = 1 << 3,
-        Torso = 1 << 4,
-        Backo = 1 << 5,
-        RightKnee = 1 << 6,
-        LeftKnee = 1 << 7,
-        All = Head | RightShoulder | LeftShoulder | Torso | Backo | RightKnee | LeftKnee,
+        //RightShoulder = 1 << 2,
+        //LeftShoulder = 1 << 3,
+        //Torso = 1 << 4,
+        Backo = 1 << 2,
+        //RightKnee = 1 << 6,
+        //LeftKnee = 1 << 7,
+        All = Head | Backo,
     }
     List<bool> spots;
 

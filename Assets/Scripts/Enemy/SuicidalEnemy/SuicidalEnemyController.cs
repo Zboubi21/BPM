@@ -274,6 +274,7 @@ public class SuicidalEnemyController : MonoBehaviour
     //     return false;
     // }
     bool m_isWaitingToExplode = false;
+    IEnumerator m_waitTimeToExplodeCorout;
     public void On_EnemyEnterInSelfDestructionState()
     {
         if (!m_isWaitingToExplode)
@@ -281,12 +282,14 @@ public class SuicidalEnemyController : MonoBehaviour
             m_isWaitingToExplode = true;
             m_audioController?.On_SelfDestructionIsActivated();
             m_audioController?.On_StartToMoveFast(true);
-            StartCoroutine(WaitTimeToExplode());
+
+            m_waitTimeToExplodeCorout = WaitTimeToExplode();
+            StartCoroutine(m_waitTimeToExplodeCorout);
         }
     }
     IEnumerator WaitTimeToExplode()
     {
-        m_audioController?.On_EnemyWaitToExplode(m_selfDestruction.m_waitTimeToExplode);
+        m_audioController?.On_EnemyWaitToExplode();
         yield return new WaitForSeconds(m_selfDestruction.m_waitTimeToExplode);
         On_EnemyExplode();
         m_isWaitingToExplode = false;
@@ -364,6 +367,8 @@ public class SuicidalEnemyController : MonoBehaviour
 
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
+        if (m_waitTimeToExplodeCorout != null)
+            StopCoroutine(m_waitTimeToExplodeCorout);
         // m_canBeMouseOver = false;
         On_ShowEnemyWeakSpot(false);
 

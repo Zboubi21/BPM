@@ -633,6 +633,8 @@ public class PlayerController : MonoBehaviour
 
 		// ResetPlayerVelocity();
 		ResetPlayerMomentum();
+
+        SetPlayerWeaponAnim("OnLand");
 	}
 
 	public void On_BpmLevelChanged(int weaponLvl)
@@ -652,7 +654,10 @@ public class PlayerController : MonoBehaviour
 	}
 	public void On_ActivateOveradrenaline(bool activate)
 	{
-		SetPlayerWeaponAnim("Fury", activate);
+		if (activate)
+			SetPlayerWeaponAnim("StartFury");
+		else
+			SetPlayerWeaponAnim("EndFury");
 	}
 
 	public bool PlayerHasToFall()

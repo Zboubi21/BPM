@@ -30,20 +30,18 @@ public class BPMSystem : MonoBehaviour
         [Header("Feedback")]
         public ChangeImageValues m_criticalBpmFeedBackScreen;
 
-        [Space]
         // public float BPMGain_OnNoSpot;
         // public float BPMGain_OnWeak;
         //public int BPMGain_OnArmor;
         //public int BPMGain_OnDestructableEnvironment;
-        [Space]
-        public Image BPM_Gauge;
+
         public PlayerBpmGui m_playerBpmGui;
-        //public Image Electra_Gauge;
 
         public Gauge m_bpmGauge;
         [Serializable] public class Gauge
         {
-            public MeshRenderer m_gaugeShader;
+            public SkinnedMeshRenderer m_gaugeShader;
+            public int m_matNbr = 0;
 
             [Header("General Speed")]
             public float m_gaugeSpeed = 1;
@@ -79,7 +77,24 @@ public class BPMSystem : MonoBehaviour
                 public float m_changeHeightSpeed = 10;
             }
         }
+    
+        public Eyelet m_eyelet;
+        [Serializable] public class Eyelet
+        {
+            public EyeletSettings m_firstEyeletMesh;
+            public EyeletSettings m_secondEyeletMesh;
+            public EyeletSettings m_thirdEyeletMesh;
+        }
+        [Serializable] public class EyeletSettings
+        {
+            public MeshRenderer[] m_mesh;
+            public Color m_fromColor = Color.black;
+            public Color m_toColor = Color.white;
+            public float m_timeToChangeColor = 0.5f;
+            public AnimationCurve m_changeColorCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
+        }
     }
+
     float m_targetedGaugeValue;
     float m_currentBpmGaugeValue;
     float m_currentCardioSpeed;
@@ -116,14 +131,15 @@ public class BPMSystem : MonoBehaviour
         [Tooltip("In seconds")]
         public float overdrenalineCooldown = 60f;
         public float timeOfOverAdrenaline = 15f;
-        [Space]
-        public Image _overadrenalineCoolDownGauge;
-        public Image _overdrenalineFeedBack;
-        public Image _overdrenalineButton;
 
         [Header("Feedback")]
         public ChangeImageValues m_overadrenalineFeedBackScreen;
         public ParticleSystem m_overadrenalineFeedBackParticles;
+
+        [Header("Shader")]
+        public SkinnedMeshRenderer m_mesh;
+        public int m_matNbr = 0;
+        public float m_timeToShowCantActivateFury = 0.5f;
     }
 
     [Space]
@@ -152,13 +168,13 @@ public class BPMSystem : MonoBehaviour
 
     private void Start()
     {
+        ActivateEyeletEmissive();
         m_playerController = GetComponent<PlayerController>();
         weapon = GetComponent<WeaponPlayerBehaviour>();
         audioControl = m_playerController.m_references.m_playerAudio;
         _currentBPM = _BPM.startingBPM;
         _currentOverdrenalineCooldown = _overdrenaline.overdrenalineCooldown;
 
-        // _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
         FeedBackBPM();
 
         GainBPM(0f);
@@ -170,13 +186,9 @@ public class BPMSystem : MonoBehaviour
 
         #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.T))
-        {
             GainBPM(25);
-        }
         if (Input.GetKeyDown(KeyCode.Y))
-        {
             LoseBPM(25);
-        }
         // if (Input.GetKey(KeyCode.B))
         #endif
     }
@@ -206,7 +218,7 @@ public class BPMSystem : MonoBehaviour
                 _currentBPM -= Mathf.CeilToInt(BPMLoss);
                 // DeactivateWeaponLevel(_currentBPM);
 
-                CheckCriticalLevelOfBPM();
+                // CheckCriticalLevelOfBPM();
             }
             else
             {
@@ -215,6 +227,7 @@ public class BPMSystem : MonoBehaviour
                 if (m_playerCanDie)
                     On_PlayerHasNoBpm();
             }
+            CheckCriticalLevelOfBPM();
         }
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
@@ -265,7 +278,7 @@ public class BPMSystem : MonoBehaviour
     }
     void CheckCriticalLevelOfBPM()
     {
-        if (_currentBPM < _BPM.criticalLvlOfBPM && !m_isInCriticalLevelOfBPM)
+        if (_currentBPM <= _BPM.criticalLvlOfBPM && !m_isInCriticalLevelOfBPM)
         {
             m_isInCriticalLevelOfBPM = true;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
@@ -284,14 +297,13 @@ public class BPMSystem : MonoBehaviour
     {
         if (_currentBPM >= _BPM.m_activateFuryBPM && _furyCoolDownOver && !_canUseFury && !_isCurrentlyOnFury)
         {
-            _overdrenaline._overdrenalineButton.gameObject.SetActive(true);
+            _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 1);
             _canUseFury = true;
         }
     }
 
     void FeedBackBPM()
     {
-        _BPM.BPM_Gauge.fillAmount = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
         _BPM.m_playerBpmGui.SetPlayerBpm(_currentBPM);
         m_targetedGaugeValue = Mathf.InverseLerp(0, _BPM.maxBPM, _currentBPM);
     }
@@ -305,8 +317,8 @@ public class BPMSystem : MonoBehaviour
         float deltaSpeed = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minMoveDeltaSpeed, _BPM.m_bpmGauge.m_gaugePolish.m_maxMoveDeltaSpeed, deltaBPM);
         float delta = Mathf.PingPong(Time.time * deltaSpeed, deltaValue);
         m_currentBpmGaugeValue = Mathf.Lerp(m_currentBpmGaugeValue, m_targetedGaugeValue + delta, Time.deltaTime * _BPM.m_bpmGauge.m_gaugeSpeed);
-        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
-        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
+        _BPM.m_bpmGauge.m_gaugeShader.materials[_BPM.m_bpmGauge.m_matNbr].SetFloat("_Silder_BPM", m_currentBpmGaugeValue);
+        _BPM.m_bpmGauge.m_gaugeShader.materials[_BPM.m_bpmGauge.m_matNbr].SetFloat("_Slide_BPM_Arriere", m_currentBpmGaugeValue);
 
         // float cardioLengthTarget = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minCardioLength, _BPM.m_bpmGauge.m_gaugePolish.m_maxCardioLength, deltaBPM);
         // m_currentCardioLength = Mathf.Lerp(m_currentCardioLength, cardioLengthTarget, Time.deltaTime * _BPM.m_bpmGauge.m_gaugePolish.m_changeLengthSpeed);
@@ -314,14 +326,14 @@ public class BPMSystem : MonoBehaviour
 
         float cardioHeightTarget = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minCardioHeight, _BPM.m_bpmGauge.m_gaugePolish.m_maxCardioHeight, deltaBPM);
         m_currentCardioHeight = Mathf.Lerp(m_currentCardioHeight, cardioHeightTarget, Time.deltaTime * _BPM.m_bpmGauge.m_gaugePolish.m_changeHeightSpeed);
-        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_Anim_pic", m_currentCardioHeight);
+        _BPM.m_bpmGauge.m_gaugeShader.materials[_BPM.m_bpmGauge.m_matNbr].SetFloat("_Anim_pic", m_currentCardioHeight);
         
 
         float cardioSpeedTarget = Mathf.Lerp(_BPM.m_bpmGauge.m_gaugePolish.m_minCardioSpeed, _BPM.m_bpmGauge.m_gaugePolish.m_maxCardioSpeed, deltaBPM);
         m_currentCardioSpeed = Mathf.Lerp(m_currentCardioSpeed, cardioSpeedTarget, Time.deltaTime * _BPM.m_bpmGauge.m_gaugePolish.m_changeCardioSpeed);
 
         m_currentBpmShaderGauge = m_currentBpmShaderGauge + 1 * m_currentCardioSpeed * Time.deltaTime;
-        _BPM.m_bpmGauge.m_gaugeShader.material.SetFloat("_CurrentPos", m_currentBpmShaderGauge);
+        _BPM.m_bpmGauge.m_gaugeShader.materials[_BPM.m_bpmGauge.m_matNbr].SetFloat("_CurrentPos", m_currentBpmShaderGauge);
     }
 
     void ChangeBpmShaderGaugeLength()
@@ -378,6 +390,7 @@ public class BPMSystem : MonoBehaviour
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
                     PlayerController.s_instance.On_BpmLevelChanged(2);
                     ChangeBpmShaderGaugeLength();
+                    On_LevelChanged(2);
 
                     if (_lastWeaponState == WeaponState.Level1)
                         GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl3Bpm, true);
@@ -406,6 +419,7 @@ public class BPMSystem : MonoBehaviour
                     ChangeBpmShaderGaugeLength();
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
                     PlayerController.s_instance.On_BpmLevelChanged(1);
+                    On_LevelChanged(1);
 
                     if (_lastWeaponState == WeaponState.Level0)
                         GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl2Bpm, true);
@@ -425,6 +439,7 @@ public class BPMSystem : MonoBehaviour
                 ChangeBpmShaderGaugeLength();
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
                 PlayerController.s_instance.On_BpmLevelChanged(0);
+                On_LevelChanged(0);
             }
         }
         ChangeWeaponStats();
@@ -466,22 +481,35 @@ public class BPMSystem : MonoBehaviour
 
     void FuryHandeler()
     {
-        if (HasUsedFury())
+        if (Input.GetButtonDown("OverAdrenaline") && CanUsedFury())
         {
             //Set le BPM au max quand on active l'overadrénaline
             GainBPM(_BPM.maxBPM - _currentBPM); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
 
             _canUseFury = false;
 
-            _overdrenaline._overdrenalineButton.gameObject.SetActive(false);
+            _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 0);
             StartCoroutine(OnOverADActivate());
         }
+        else if (Input.GetButtonDown("OverAdrenaline") && !CanUsedFury() && !m_showCanActivateOverFeedback)
+        {
+            StartCoroutine(ShowCanActivateOverFeedback());
+        }
         FuryCoolDownHandeler();
+    }
+    
+    bool m_showCanActivateOverFeedback = false;
+    IEnumerator ShowCanActivateOverFeedback()
+    {
+        m_showCanActivateOverFeedback = true;
+        _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_NotReady", 1);
+        yield return new WaitForSeconds(_overdrenaline.m_timeToShowCantActivateFury);
+        _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_NotReady", 0);
+        m_showCanActivateOverFeedback = false;
     }
 
     IEnumerator OnOverADActivate()
     {
-
         ActivateBool(true);
         // play anim fuey
         // play sound fury
@@ -493,7 +521,6 @@ public class BPMSystem : MonoBehaviour
 
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.overAdrenaline.onUsingFury);
 
-
         _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
         var mainOveradrenalineFeedBackParticles = _overdrenaline.m_overadrenalineFeedBackParticles.main;
         mainOveradrenalineFeedBackParticles.loop = true;
@@ -501,8 +528,20 @@ public class BPMSystem : MonoBehaviour
         audioControl?.On_Overadrenaline(true);
         PlayerController.s_instance.On_ActivateOveradrenaline(true);
 
-        yield return new WaitForSeconds(_overdrenaline.timeOfOverAdrenaline);
+        _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_FuryActivated", 1);
 
+        // ------ Wait the OverAdrenaline Timer ------
+        float timer = 0;
+        while (timer < _overdrenaline.timeOfOverAdrenaline)
+        {
+            timer += Time.deltaTime;
+            float cooldownValue = Mathf.InverseLerp(_overdrenaline.timeOfOverAdrenaline, 0, timer);
+            _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetFloat("_CooldownValue", cooldownValue);
+            yield return null;
+        }
+        // -------------------------------------------
+
+        _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_FuryActivated", 0);
         _currentOverdrenalineCooldown = 0;
         ChangeBpmShaderGaugeLength();
         audioControl?.PlayWeaponDegradeSound(0);
@@ -519,7 +558,6 @@ public class BPMSystem : MonoBehaviour
     ParticleSystem ps;
     void ActivateBool(bool b)
     {
-        _overdrenaline._overdrenalineFeedBack.gameObject.SetActive(b);
         _isCurrentlyOnFury = b;
         _BPM.m_playerBpmGui.On_OverAdrenalineActivated(b);
         m_playerController.On_OveradrenalineIsActivated(b);
@@ -531,7 +569,9 @@ public class BPMSystem : MonoBehaviour
         {
             _currentOverdrenalineCooldown += Time.deltaTime;
 
-            _overdrenaline._overadrenalineCoolDownGauge.fillAmount = Mathf.InverseLerp(0, _overdrenaline.overdrenalineCooldown, _currentOverdrenalineCooldown);
+            // _overdrenaline._overadrenalineCoolDownGauge.fillAmount = Mathf.InverseLerp(0, _overdrenaline.overdrenalineCooldown, _currentOverdrenalineCooldown);
+            float cooldownValue = Mathf.InverseLerp(0, _overdrenaline.overdrenalineCooldown, _currentOverdrenalineCooldown);
+            _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetFloat("_CooldownValue", cooldownValue);
 
             if (_currentOverdrenalineCooldown >= _overdrenaline.overdrenalineCooldown)
             {
@@ -549,9 +589,9 @@ public class BPMSystem : MonoBehaviour
         }
     }
 
-    bool HasUsedFury()
+    bool CanUsedFury()
     {
-        return (_canUseFury && Input.GetButtonDown("OverAdrenaline") && _furyCoolDownOver);
+        return (_canUseFury && _furyCoolDownOver);
     }
 
     void AddDamageIndicator(Transform shooter)
@@ -559,5 +599,50 @@ public class BPMSystem : MonoBehaviour
         DamageIndicator di = ObjectPooler.Instance.SpawnObjectFromPool(ObjectType.DamageIndicator, m_damageIndicator.m_indicatorRoot.position, Quaternion.identity, m_damageIndicator.m_indicatorRoot).GetComponent<DamageIndicator>();
         di.SetupIndicator(m_playerController.m_references.m_cameraPivot, shooter);
     }
+
+    void ActivateEyeletEmissive()
+    {
+        if (_BPM.m_eyelet.m_firstEyeletMesh != null)
+            for (int i = 0, l = _BPM.m_eyelet.m_firstEyeletMesh.m_mesh.Length; i < l; ++i)
+                _BPM.m_eyelet.m_firstEyeletMesh.m_mesh[i]?.material.EnableKeyword("_EMISSION");
+        if (_BPM.m_eyelet.m_secondEyeletMesh != null)
+            for (int i = 0, l = _BPM.m_eyelet.m_secondEyeletMesh.m_mesh.Length; i < l; ++i)
+                _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[i]?.material.EnableKeyword("_EMISSION");
+        if (_BPM.m_eyelet.m_thirdEyeletMesh != null)
+            for (int i = 0, l = _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh.Length; i < l; ++i)
+                _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[i]?.material.EnableKeyword("_EMISSION");
+    }
+    void On_LevelChanged(int level)
+    {
+        // if (_BPM.m_eyelet.m_firstEyeletMesh != null)
+        //     for (int i = 0, l = _BPM.m_eyelet.m_firstEyeletMesh.m_mesh.Length; i < l; ++i)
+        //         _BPM.m_eyelet.m_firstEyeletMesh.m_mesh[i].material.SetColor("_EmissionColor", m_startEmissiveColor);
+        // if (_BPM.m_eyelet.m_secondEyeletMesh != null)
+        //     for (int i = 0, l = _BPM.m_eyelet.m_secondEyeletMesh.m_mesh.Length; i < l; ++i)
+        //         _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[i].material.SetColor("_EmissionColor", m_startEmissiveColor);
+        // if (_BPM.m_eyelet.m_thirdEyeletMesh != null)
+        //     for (int i = 0, l = _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh.Length; i < l; ++i)
+        //         _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[i].material.SetColor("_EmissionColor", m_startEmissiveColor);
+    }
+    // IEnumerator ChangeEmissive(Material material, )
+    // {
+    //     Color fromColor = m_targetImage.color;
+    //     Color toColor = m_isBlinkOn ? new Color(fromColor.r, fromColor.g, fromColor.b, m_maxAlpha / 255) : new Color(fromColor.r, fromColor.g, fromColor.b, m_minAlpha / 255);
+
+    //     float distance = GetDistanceFromColors(fromColor, toColor);
+    //     float speed = distance / m_timeToChangeAlpha;
+
+    //     Color actualColor = fromColor;
+    //     float fracJourney = 0;
+
+    //     while (actualColor != toColor && m_useBlink && m_blinkIsActivate)
+    //     {
+    //         fracJourney += (Time.deltaTime) * speed / distance;
+    //         actualColor = Color.Lerp(fromColor, toColor, fracJourney);
+    //         SetImageColor(m_targetImage, actualColor);
+    //         yield return null;
+    //     }
+    // }
+
     #endregion
 }

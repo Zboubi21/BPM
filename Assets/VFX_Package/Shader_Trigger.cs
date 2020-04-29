@@ -15,14 +15,11 @@ public class Shader_Trigger : MonoBehaviour
 
     private float t = 0.0f;
 
-    ParticleSystem[] childrenVFX;
-
     // Start is called before the first frame update
     void Start()
     {
         lerpValue = start_Lerp_Value;
         renderer = GetComponent<Renderer> ();
-        ParticleSystem childrenVFX = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
