@@ -319,11 +319,12 @@ public class Projectile : MonoBehaviour
                             if(refScript.cara != null)
                             {
                                 refScript.cara.TakeDamage(CurrentDamage, 0, HasToStun, TimeForElectricalStun, IsElectricalProjectile);
+                                refScript.cara.GetComponent<EnemyCara>().HitPosition = _hit.point;
                             }
                         }
                     }
                     BPMSystem.GainBPM(BPMGain);
-
+                    
                     break;
 
                 // Le tir du player touche un WeakSpot
@@ -341,6 +342,7 @@ public class Projectile : MonoBehaviour
                             if (refScript.cara != null)
                             {
                                 refScript.cara.TakeDamage(CurrentDamage, 1, HasToStun, TimeForElectricalStun, IsElectricalProjectile);
+                                refScript.cara.GetComponent<EnemyCara>().HitPosition = _hit.point;
                             }
                         }
                     }

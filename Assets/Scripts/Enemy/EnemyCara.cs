@@ -12,6 +12,7 @@ public class EnemyCara : EnemyCaraBase
     public EnemyArchetype enemyArchetype;
     public EnemyArchetype EnemyArchetype { get => enemyArchetype; set => enemyArchetype = value; }
     public List<bool> CheckWeakSpotHit { get => checkWeakSpotHit; set => checkWeakSpotHit = value; }
+    public Vector3 HitPosition { get => hitPosition; set => hitPosition = value; }
 
     [Space]
     public DebugOuvreSurtoutPas _debug = new DebugOuvreSurtoutPas();
@@ -26,6 +27,8 @@ public class EnemyCara : EnemyCaraBase
 
     EnemyController enemyController;
     MeshProceduralGenerator proceduralGenerator;
+
+    Vector3 hitPosition;
 
     protected override void Awake()
     {

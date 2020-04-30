@@ -11,11 +11,11 @@ public class DieState : IState
     {
         m_enemyController = enemyController;
     }
-
     public void Enter()
     {
         /// play dying animation
         /// play dying sound
+        m_enemyController.Anim.SetTrigger("Dead");
         m_enemyController.Agent.isStopped = true;
         m_enemyController.KillNPC(2f);   //Send back to pool with animation time
         AddRightScore();
@@ -69,5 +69,10 @@ public class DieState : IState
         }
 
         GameManager.Instance.CountTheKill();
+    }
+
+    Vector2 CalculateHitPoint()
+    {
+        return Vector2.down;
     }
 }
