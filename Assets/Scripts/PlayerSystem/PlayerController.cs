@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
 
 		[Header("Feedback")]
 		public ChangeImageValues m_dashFeedbackScreen;
+		public ChangeRotationValue m_dashAnim;
 	}
 
 	[Header("Field Of View")]
@@ -711,6 +712,10 @@ public class PlayerController : MonoBehaviour
 	public void SetPlayerWeaponAnim(string name, float value)
 	{
 		m_references.m_weaponAnimator?.SetFloat(name, value);
+	}
+	public void SetPlayerWeaponLayerLength(int layerIndex, float weight)
+	{
+		m_references.m_weaponAnimator?.SetLayerWeight(layerIndex, weight);
 	}
 
 #endregion

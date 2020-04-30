@@ -82,8 +82,15 @@ public class BPMSystem : MonoBehaviour
         [Serializable] public class Eyelet
         {
             public EyeletSettings m_firstEyeletMesh;
+            [Space]
             public EyeletSettings m_secondEyeletMesh;
+            [Space]
             public EyeletSettings m_thirdEyeletMesh;
+
+            [Header("Strips")]
+            public SkinnedMeshRenderer m_stripMesh;
+            public int m_stripMaterialNbr = 4;
+            public EyeletSettings m_weaponStrip;
         }
         [Serializable] public class EyeletSettings
         {
@@ -607,10 +614,10 @@ public class BPMSystem : MonoBehaviour
 #endregion
 
 #region Eyelet
-    IEnumerator[] m_changeEyeletEmissiveCorout = new IEnumerator[3];
+    IEnumerator[] m_changeEyeletEmissiveCorout = new IEnumerator[4];
     void SetupEyeletEmissive()
     {
-        // Setup
+        // Setup Eyelet
         if (_BPM.m_eyelet.m_firstEyeletMesh != null)
             for (int i = 0, l = _BPM.m_eyelet.m_firstEyeletMesh.m_mesh.Length; i < l; ++i)
             {
@@ -656,6 +663,21 @@ public class BPMSystem : MonoBehaviour
         _BPM.m_eyelet.m_firstEyeletMesh.m_speed = GetDistanceFromColors(_BPM.m_eyelet.m_firstEyeletMesh.m_fromColor, _BPM.m_eyelet.m_firstEyeletMesh.m_toColor) / _BPM.m_eyelet.m_firstEyeletMesh.m_timeToChangeColor;
         _BPM.m_eyelet.m_secondEyeletMesh.m_speed = GetDistanceFromColors(_BPM.m_eyelet.m_secondEyeletMesh.m_fromColor, _BPM.m_eyelet.m_secondEyeletMesh.m_toColor) / _BPM.m_eyelet.m_secondEyeletMesh.m_timeToChangeColor;
         _BPM.m_eyelet.m_thirdEyeletMesh.m_speed = GetDistanceFromColors(_BPM.m_eyelet.m_thirdEyeletMesh.m_fromColor, _BPM.m_eyelet.m_thirdEyeletMesh.m_toColor) / _BPM.m_eyelet.m_thirdEyeletMesh.m_timeToChangeColor;
+    
+        // Setup Strip
+        if (_BPM.m_eyelet.m_stripMesh != null)
+        {
+            Material mat = _BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr];
+            if (mat != null)
+            {
+                mat.EnableKeyword("_EMISSION");
+                if (CurrentWeaponState == WeaponState.Level0)
+                    SetEmissiveMaterialColor(mat, _BPM.m_eyelet.m_weaponStrip.m_fromColor);
+                else
+                    SetEmissiveMaterialColor(mat, _BPM.m_eyelet.m_weaponStrip.m_toColor);
+            }
+        }
+        _BPM.m_eyelet.m_weaponStrip.m_speed = GetDistanceFromColors(_BPM.m_eyelet.m_weaponStrip.m_fromColor, _BPM.m_eyelet.m_weaponStrip.m_toColor) / _BPM.m_eyelet.m_weaponStrip.m_timeToChangeColor;
     }
     void SetEmissiveMaterialColor(Material mat, Color color)
     {
@@ -672,25 +694,31 @@ public class BPMSystem : MonoBehaviour
         {
             if (_BPM.m_eyelet.m_firstEyeletMesh != null)
                 StartChangeEyeletEmissiveCorout(true, 0, ChangeEyeletEmissive(_BPM.m_eyelet.m_firstEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_firstEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_firstEyeletMesh.m_toColor, _BPM.m_eyelet.m_firstEyeletMesh.m_speed, _BPM.m_eyelet.m_firstEyeletMesh.m_changeColorCurve));
+            
+            if (_BPM.m_eyelet.m_stripMesh != null)
+                StartChangeEyeletEmissiveCorout(true, 3, ChangeEyeletEmissive(_BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_weaponStrip.m_toColor, _BPM.m_eyelet.m_weaponStrip.m_speed, _BPM.m_eyelet.m_weaponStrip.m_changeColorCurve));
         }
         // Level DOWN to lvl 0
         else if (CurrentWeaponState == WeaponState.Level0 && _lastWeaponState == WeaponState.Level1)
         {
             if (_BPM.m_eyelet.m_firstEyeletMesh != null)
                 StartChangeEyeletEmissiveCorout(true, 0, ChangeEyeletEmissive(_BPM.m_eyelet.m_firstEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_firstEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_firstEyeletMesh.m_fromColor, _BPM.m_eyelet.m_firstEyeletMesh.m_speed, _BPM.m_eyelet.m_firstEyeletMesh.m_changeColorCurve));
+        
+            if (_BPM.m_eyelet.m_stripMesh != null)
+                StartChangeEyeletEmissiveCorout(true, 3, ChangeEyeletEmissive(_BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_weaponStrip.m_fromColor, _BPM.m_eyelet.m_weaponStrip.m_speed, _BPM.m_eyelet.m_weaponStrip.m_changeColorCurve));
         }
         // Level UP to lvl 2
         else if (CurrentWeaponState == WeaponState.Level2 && _lastWeaponState == WeaponState.Level1)
         {
             if (_BPM.m_eyelet.m_secondEyeletMesh != null)
-                StartChangeEyeletEmissiveCorout(true, 0, ChangeEyeletEmissive(_BPM.m_eyelet.m_secondEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_secondEyeletMesh.m_toColor, _BPM.m_eyelet.m_secondEyeletMesh.m_speed, _BPM.m_eyelet.m_secondEyeletMesh.m_changeColorCurve));
+                StartChangeEyeletEmissiveCorout(true, 1, ChangeEyeletEmissive(_BPM.m_eyelet.m_secondEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_secondEyeletMesh.m_toColor, _BPM.m_eyelet.m_secondEyeletMesh.m_speed, _BPM.m_eyelet.m_secondEyeletMesh.m_changeColorCurve));
 
         }
         // Level DOWN to lvl 1
         else if (CurrentWeaponState == WeaponState.Level1 && _lastWeaponState == WeaponState.Level2)
         {
             if (_BPM.m_eyelet.m_secondEyeletMesh != null)
-                StartChangeEyeletEmissiveCorout(true, 0, ChangeEyeletEmissive(_BPM.m_eyelet.m_secondEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_secondEyeletMesh.m_fromColor, _BPM.m_eyelet.m_secondEyeletMesh.m_speed, _BPM.m_eyelet.m_secondEyeletMesh.m_changeColorCurve));
+                StartChangeEyeletEmissiveCorout(true, 1, ChangeEyeletEmissive(_BPM.m_eyelet.m_secondEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_secondEyeletMesh.m_fromColor, _BPM.m_eyelet.m_secondEyeletMesh.m_speed, _BPM.m_eyelet.m_secondEyeletMesh.m_changeColorCurve));
         }
     }
     bool m_haveBpmFury = false;
@@ -701,14 +729,14 @@ public class BPMSystem : MonoBehaviour
         {
             m_haveBpmFury = true;
             if (_BPM.m_eyelet.m_thirdEyeletMesh != null)
-                StartChangeEyeletEmissiveCorout(true, 0, ChangeEyeletEmissive(_BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_toColor, _BPM.m_eyelet.m_thirdEyeletMesh.m_speed, _BPM.m_eyelet.m_thirdEyeletMesh.m_changeColorCurve));
+                StartChangeEyeletEmissiveCorout(true, 2, ChangeEyeletEmissive(_BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_toColor, _BPM.m_eyelet.m_thirdEyeletMesh.m_speed, _BPM.m_eyelet.m_thirdEyeletMesh.m_changeColorCurve));
         }
         // Level DOWN to lvl 2
         else if (_currentBPM < _BPM.m_activateFuryBPM && m_haveBpmFury)
         {
             m_haveBpmFury = false;
             if (_BPM.m_eyelet.m_thirdEyeletMesh != null)
-                StartChangeEyeletEmissiveCorout(true, 0, ChangeEyeletEmissive(_BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_fromColor, _BPM.m_eyelet.m_thirdEyeletMesh.m_speed, _BPM.m_eyelet.m_thirdEyeletMesh.m_changeColorCurve));
+                StartChangeEyeletEmissiveCorout(true, 2, ChangeEyeletEmissive(_BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_thirdEyeletMesh.m_fromColor, _BPM.m_eyelet.m_thirdEyeletMesh.m_speed, _BPM.m_eyelet.m_thirdEyeletMesh.m_changeColorCurve));
         }
     }
     void StartChangeEyeletEmissiveCorout(bool start, int arrayIndex, IEnumerator coroutine = null)
