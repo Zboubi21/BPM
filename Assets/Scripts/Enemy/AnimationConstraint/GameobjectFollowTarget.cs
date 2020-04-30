@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GameobjectFollowTarget : MonoBehaviour
 {
-    float posY;
-    private void Start()
+    Transform target;
+    private void Awake()
     {
-        posY = PlayerController.s_instance.GetComponent<CapsuleCollider>().center.y;
+        target = PlayerController.s_instance.m_references.m_cameraPivot.transform;
     }
-    private void Update()
+    private void LateUpdate()
     {
-        transform.position = new Vector3(PlayerController.s_instance.transform.position.x, PlayerController.s_instance.transform.position.y + posY, PlayerController.s_instance.transform.position.z);
+        transform.LookAt(target);
     }
 }

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 		public Transform m_cameraPivot;
 		public PlayerAudioController m_playerAudio;
 		public Animator m_weaponAnimator;
+        public Transform targetForEnnemies;
 	}
 
 	[Header("Movements")]

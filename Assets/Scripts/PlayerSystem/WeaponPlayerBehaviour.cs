@@ -127,10 +127,12 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 if (Input.GetKey(KeyCode.Mouse0) && CanShoot)
                 {
                     StartCoroutine(OnShoot(1, _currentAttackSpeed, 0));
+                    PlayerController.s_instance.SetPlayerWeaponAnim("Fire", true);
                 }
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     // audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
+                    PlayerController.s_instance.SetPlayerWeaponAnim("Fire", false);
                     m_crosshair.On_StopShoot();
                 }
                 break;
@@ -258,7 +260,6 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         CanShoot = false;
 
         m_crosshair.On_Shoot();
-        PlayerController.s_instance.SetPlayerWeaponAnim("Fire");
 
         for (int i = 0; i < nbrOfShoot; ++i)
         {

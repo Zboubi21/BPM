@@ -29,7 +29,7 @@ public class SmoothRotation : MonoBehaviour {
 
 		//If no target has been selected, choose this transform's parent as target;
 		if(target == null)
-			target = this.transform.parent;
+			target = PlayerController.s_instance.m_references.m_cameraPivot.transform;
 
 		tr = transform;
 		currentRotation = transform.rotation;

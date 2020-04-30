@@ -179,6 +179,7 @@ public class BPMSystem : MonoBehaviour
 
         GainBPM(0f);
         SetupEyeletEmissive();
+        // Debug.LogError("Coucou Hugo et Quentin, je fais ça juste pour faire chier J :) ");
     }
 
     private void Update()
@@ -504,6 +505,7 @@ public class BPMSystem : MonoBehaviour
     bool m_showCanActivateOverFeedback = false;
     IEnumerator ShowCanActivateOverFeedback()
     {
+        audioControl?.On_CantActivateOverFeedback();
         m_showCanActivateOverFeedback = true;
         _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_NotReady", 1);
         yield return new WaitForSeconds(_overdrenaline.m_timeToShowCantActivateFury);
