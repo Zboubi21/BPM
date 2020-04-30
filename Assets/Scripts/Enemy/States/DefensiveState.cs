@@ -19,6 +19,7 @@ public class DefensiveState : IState
     {
         ///play run animation
         m_enemyController.Anim.SetBool("isMoving", true);
+        m_enemyController.Anim.SetTrigger("Run");
 
 
         m_enemyController.AudioControl.On_Run(true);
@@ -27,7 +28,7 @@ public class DefensiveState : IState
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.CurrentTarget);
 #endif
-        m_enemyController.StartCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates, EnemyState.Enemy_AgressiveState));
+        m_enemyController.StartCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates, EnemyState.Enemy_DefensiveState));
     }
 
     public void Exit()
@@ -36,7 +37,7 @@ public class DefensiveState : IState
         m_enemyController.DestroyObj(go);
 #endif
         m_enemyController.AudioControl.On_Run(false);
-        m_enemyController.StopCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates, EnemyState.Enemy_AgressiveState));
+        m_enemyController.StopCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates, EnemyState.Enemy_DefensiveState));
 
     }
 

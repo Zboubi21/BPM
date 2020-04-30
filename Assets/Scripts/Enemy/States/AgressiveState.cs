@@ -20,6 +20,7 @@ public class AgressiveState : IState
     {
         ///play run animation
         m_enemyController.Anim.SetBool("isMoving", true);
+        m_enemyController.Anim.SetTrigger("Run");
 
 
         m_enemyController.AudioControl.On_Run(true);

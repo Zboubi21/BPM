@@ -29,14 +29,15 @@ public class AttackState : IState
         ///Play attack animation
         
         m_enemyController.Anim.SetBool("isMoving", false);
+        m_enemyController.Anim.SetTrigger("Shoot");
         //m_enemyController.RigBuilder.layers[0].rig.weight = 1;
         //m_enemyController._debug.aimConstraint.weight = 1;
 
         ///Play attack sound (enter state not shoot)
 
-        relativePos = m_enemyController.Player.position - m_enemyController.transform.position;
+        relativePos = PlayerController.s_instance.gameObject.transform.position - m_enemyController.transform.position;
         initForward = m_enemyController.transform.forward;
-        lastFrameTargetPos = new Vector3(m_enemyController.Player.position.x, m_enemyController.Player.position.y + m_enemyController.YOffset, m_enemyController.Player.position.z);
+        lastFrameTargetPos = new Vector3(PlayerController.s_instance.gameObject.transform.position.x, PlayerController.s_instance.gameObject.transform.position.y + m_enemyController.YOffset, PlayerController.s_instance.gameObject.transform.position.z);
         m_enemyController.Agent.isStopped = true;
         agentSpeed = m_enemyController.Agent.speed;
         m_enemyController.Agent.speed = 0;
