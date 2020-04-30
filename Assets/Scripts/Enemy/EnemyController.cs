@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
 
         public float obstacleAvoidance = 3f;
         public MultiAimConstraint aimConstraint;
+        public GameObject boneToMove;
     }
 
     public Spawn m_spawn;
@@ -85,6 +86,8 @@ public class EnemyController : MonoBehaviour
     bool isInMotion;
     bool hasShoot;
     Collider[] enemyColliders;
+    public Quaternion finalStateOfTheBoneRotation;
+    public float YOffset;
 
     #region Get Set
     public NavMeshAgent Agent { get => agent; set => agent = value; }
@@ -116,11 +119,16 @@ public class EnemyController : MonoBehaviour
         audioControl = GetComponent<EnemyAudioController>();
         manager = GameManager.Instance;
         objectPooler = ObjectPooler.Instance;
-        playerController = PlayerController.s_instance;
         anim = GetComponent<Animator>();
         enemyColliders = GetComponentsInChildren<Collider>();
         rigBuilder = GetComponent<RigBuilder>();
         HasShoot = false;
+        //if (_debug.aimConstraint != null)
+        //{
+        //    WeightedTransformArray sourceObjects = _debug.aimConstraint.data.sourceObjects;
+        //    sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
+        //    _debug.aimConstraint.data.sourceObjects = sourceObjects;
+        //}
     }
 
     void SetupStateMachine()
@@ -150,9 +158,8 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         Player = PlayerController.s_instance.gameObject.transform;
-        WeightedTransformArray sourceObjects = _debug.aimConstraint.data.sourceObjects;
-        sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
-        _debug.aimConstraint.data.sourceObjects = sourceObjects;
+        playerController = PlayerController.s_instance;
+        
 
         //currentTarget = FindBestSpotsInRangeOfTarget(Player);
 
@@ -201,6 +208,10 @@ public class EnemyController : MonoBehaviour
 
     void LateUpdate()
     {
+        if(finalStateOfTheBoneRotation.eulerAngles != Vector3.zero)
+        {
+            _debug.boneToMove.transform.rotation = finalStateOfTheBoneRotation;
+        }
         m_sM.LateUpdate();
     }
 
@@ -594,8 +605,10 @@ public class EnemyController : MonoBehaviour
 
     void FaceToTarget(Vector3 targetPos)
     {
+        
         transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        
     }
 
 }

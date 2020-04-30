@@ -19,7 +19,9 @@ public class ChaseState : IState
     public void Enter()
     {
         ///Play run animation
-        m_enemyController.Anim.SetTrigger("Run");
+        m_enemyController.Anim.SetBool("isMoving", true);
+
+
 
         m_enemyController.AudioControl.On_Run(true);
         playerController = PlayerController.s_instance;
@@ -29,7 +31,7 @@ public class ChaseState : IState
 
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
-        Debug.Log("Entering chaseState");
+
 #endif
     }
 
