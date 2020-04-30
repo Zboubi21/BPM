@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerStateEnum;
+using EZCameraShake;
 
 public class PlayerController : MonoBehaviour
 {
@@ -57,6 +58,14 @@ public class PlayerController : MonoBehaviour
 		public float m_duration = 0.2f;
 	}
 
+	[Header("On Land")]
+	[SerializeField] LandCameraShaking[] m_onLandCameraShakes;
+	[Serializable] class LandCameraShaking
+	{
+		public float m_triggerHeight = 1;
+		public CameraShake m_cameraShake;
+	}
+
 	[Header("Dash")]
 	public Dash m_dash;
 	[Serializable] public class Dash{
@@ -102,6 +111,14 @@ public class PlayerController : MonoBehaviour
 		public CameraController m_cameraControls;
 		public TransformFollower m_camPivot;
 		public TransformFollower m_gunPivot;
+	}
+
+	[Serializable] public class CameraShake
+	{
+		public float m_magnitude = 1;
+		public float m_roughness = 1;
+		public float m_fadeInTime = 1;
+		public float m_fadeOutTime = 1;
 	}
 
 #endregion
@@ -154,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Event Functions
+#region Event Functions
     void Awake()
     {
         SetupSingleton();
@@ -397,7 +414,7 @@ public class PlayerController : MonoBehaviour
     
     #endregion
 
-    #region Public Functions
+#region Public Functions
     public void ChangeState(PlayerState newPlayerState){
 		m_sM.ChangeState((int)newPlayerState);
 	}
@@ -701,6 +718,7 @@ public class PlayerController : MonoBehaviour
 		m_currentSpeed = isActivated ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
 	}
 
+#region Anims
 	public void SetPlayerWeaponAnim(string name)
 	{
 		m_references.m_weaponAnimator?.SetTrigger(name);
@@ -717,6 +735,13 @@ public class PlayerController : MonoBehaviour
 	{
 		m_references.m_weaponAnimator?.SetLayerWeight(layerIndex, weight);
 	}
+#endregion
+
+	public void AddCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
+	{
+		CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+	}
 
 #endregion
+
 }
