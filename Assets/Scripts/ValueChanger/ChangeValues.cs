@@ -65,6 +65,10 @@ public class ChangeValues : MonoBehaviour
     {
         return Vector3.Distance(v1, v2);
     }
+    protected float GetDistanceFromQuaternion(Quaternion q1, Quaternion q2)
+    {
+        return Quaternion.Angle(q1, q2);
+    }
     protected void SetImageColor(Image image, Color newColor)
     {
         if (image.color != newColor)

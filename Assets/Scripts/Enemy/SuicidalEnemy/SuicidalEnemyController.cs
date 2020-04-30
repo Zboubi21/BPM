@@ -393,6 +393,9 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void ReturnToPool()
     {
+        Spawned_Tracker spawnTracker = GetComponent<Spawned_Tracker>();
+        if (spawnTracker != null)
+            spawnTracker.CallDead();
         m_isWaitingToExplode = false;
         m_audioController?.On_StartToMoveFast(false);
         StopAllCoroutines();

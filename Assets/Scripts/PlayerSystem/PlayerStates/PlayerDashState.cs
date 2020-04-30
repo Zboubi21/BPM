@@ -22,6 +22,10 @@ public class PlayerDashState : IState
 
     public void Enter()
     {
+        m_playerController.SetPlayerWeaponLayerLength(1, 1);
+        m_playerController.SetPlayerWeaponAnim("Dash");
+        m_playerController.m_dash.m_dashAnim?.SwitchValue();
+
         m_playerController.On_PlayerHasDash(true);
         m_playerController.On_PlayerStartDash(true);
         m_playerController.GetComponent<WeaponPlayerBehaviour>().CanShoot = false;
@@ -82,6 +86,7 @@ public class PlayerDashState : IState
         }
 
         m_playerController.StartRawInputAfterDash();
+        m_playerController.SetPlayerWeaponLayerLength(1, 0);
     }
 
     void ExitStateAfterDash()

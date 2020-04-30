@@ -123,7 +123,11 @@ public class SpawnerController : MonoBehaviour
                     EnemyCara cara = go.GetComponent<EnemyCara>();
                     //cara.EnemyArchetype = Waves[wave].m_enemyType[a];  // Donne à l'enemy spawned l'archetype "a" de la wave en cours
                     //cara.GiveArchetypeToTheEnemy();
-                    Spawned_Tracker tracker = go.AddComponent<Spawned_Tracker>();
+                    Spawned_Tracker tracker = go.GetComponent<Spawned_Tracker>();
+                    if(tracker == null)
+                    {
+                        tracker = go.AddComponent<Spawned_Tracker>();
+                    }
                     tracker.Controller = controller;
 
                     EnemyController enemyController = go.GetComponent<EnemyController>();
