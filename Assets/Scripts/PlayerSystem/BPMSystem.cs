@@ -179,7 +179,7 @@ public class BPMSystem : MonoBehaviour
 
         GainBPM(0f);
         SetupEyeletEmissive();
-        Debug.LogError("Coucou Hugo et Quentin, je fais ça juste pour faire chier J :) ");
+        // Debug.LogError("Coucou Hugo et Quentin, je fais ça juste pour faire chier J :) ");
     }
 
     private void Update()
