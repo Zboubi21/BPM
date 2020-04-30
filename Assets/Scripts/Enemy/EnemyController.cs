@@ -87,7 +87,8 @@ public class EnemyController : MonoBehaviour
     bool hasShoot;
     Collider[] enemyColliders;
     public Quaternion finalStateOfTheBoneRotation;
-    public float YOffset;
+    [Tooltip("Pour que l'ennemies ne tir pas dans les pieds du player")]
+    public float YOffset = 1f;
 
     #region Get Set
     public NavMeshAgent Agent { get => agent; set => agent = value; }
@@ -506,7 +507,6 @@ public class EnemyController : MonoBehaviour
         if (spawnTracker != null)
         {
             spawnTracker.CallDead();
-            Destroy(spawnTracker);
         }
         PoolTracker poolTracker = GetComponent<PoolTracker>();
         if (poolTracker != null)
