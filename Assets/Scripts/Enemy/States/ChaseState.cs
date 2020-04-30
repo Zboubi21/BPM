@@ -20,6 +20,7 @@ public class ChaseState : IState
     {
         ///Play run animation
         m_enemyController.Anim.SetBool("isMoving", true);
+        m_enemyController.Anim.SetTrigger("Run");
 
 
 
@@ -27,7 +28,7 @@ public class ChaseState : IState
         playerController = PlayerController.s_instance;
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
         m_enemyController.CurrentTarget = m_enemyController.ChaseATarget(m_enemyController.Player);
-        m_enemyController.StartCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates , EnemyState.Enemy_AgressiveState));
+        m_enemyController.StartCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates , EnemyState.Enemy_ChaseState));
 
 #if UNITY_EDITOR
         go = m_enemyController.OnInstantiate(m_enemyController._debug.m_destinationImage, m_enemyController.Player.transform.position);
@@ -41,7 +42,7 @@ public class ChaseState : IState
         m_enemyController.DestroyObj(go);
 #endif
         m_enemyController.AudioControl.On_Run(false);
-        m_enemyController.StopCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates, EnemyState.Enemy_AgressiveState));
+        m_enemyController.StopCoroutine(m_enemyController.MaxTimeInThatState(m_enemyController.maxTimeInStates, EnemyState.Enemy_ChaseState));
 
     }
 
@@ -72,7 +73,7 @@ public class ChaseState : IState
             m_enemyController.Agent.SetDestination(m_enemyController.transform.position);
             m_enemyController.ChangeState((int)EnemyState.Enemy_AttackState);
         }
-        else if(m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance)
+        else if(m_enemyController.DistanceToTarget <= m_enemyController.Agent.stoppingDistance )
         {
             m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
         }

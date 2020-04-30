@@ -208,7 +208,7 @@ public class EnemyController : MonoBehaviour
 
     void LateUpdate()
     {
-        if(finalStateOfTheBoneRotation.eulerAngles != Vector3.zero)
+        if(finalStateOfTheBoneRotation.eulerAngles != Vector3.zero && m_sM.CompareState((int)EnemyState.Enemy_AttackState))
         {
             _debug.boneToMove.transform.rotation = finalStateOfTheBoneRotation;
         }
