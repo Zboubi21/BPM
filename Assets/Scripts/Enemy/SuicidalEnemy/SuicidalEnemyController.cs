@@ -399,7 +399,7 @@ public class SuicidalEnemyController : MonoBehaviour
         m_isWaitingToExplode = false;
         m_audioController?.On_StartToMoveFast(false);
         StopAllCoroutines();
-        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
+        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Suicidal, gameObject);
     }
 
     public void On_EnemyStartStun(bool startStun)
