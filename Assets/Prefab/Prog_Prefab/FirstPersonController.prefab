@@ -2239,6 +2239,35 @@ MonoBehaviour:
   rayCastCollision:
     serializedVersion: 2
     m_Bits: 35840
+  m_animations:
+    m_fireAnimValue: 0
+    m_fireLayer: 2
+    m_fireLayerToValue: 0.65
+    m_timeToChange: 0.1
+    m_changeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   m_crosshair: {fileID: 3413262821866006350}
   m_hitmarkers:
     m_img: {fileID: 7726750260758177193}
@@ -2302,6 +2331,7 @@ MonoBehaviour:
   m_doubleJump:
     m_height: 1.4
     m_duration: 0.15
+  m_onLandCameraShakes: []
   m_dash:
     m_minInputCanDash: 0.5
     m_distance: 7.5

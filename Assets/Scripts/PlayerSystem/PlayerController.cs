@@ -540,7 +540,7 @@ public class PlayerController : MonoBehaviour
 
 	public void On_PlayerStartDash(bool hasDash)
 	{
-		m_playerWeapon.CanShoot = !hasDash;
+		m_playerWeapon?.On_PlayerDash(hasDash);
 		m_dash.m_dashFeedbackScreen.SwitchValue();
 		if (hasDash)
 			m_references.m_playerAudio.On_Dash();
@@ -734,6 +734,10 @@ public class PlayerController : MonoBehaviour
 	public void SetPlayerWeaponLayerLength(int layerIndex, float weight)
 	{
 		m_references.m_weaponAnimator?.SetLayerWeight(layerIndex, weight);
+	}
+	public float GetPlayerWeaponLayerLength(int layerIndex)
+	{
+		return m_references.m_weaponAnimator.GetLayerWeight(layerIndex);
 	}
 #endregion
 

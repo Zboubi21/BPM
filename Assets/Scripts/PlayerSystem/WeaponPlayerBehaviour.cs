@@ -26,6 +26,19 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public Camera playerCamera;
     public LayerMask rayCastCollision;
 
+    [Header("Anims")]
+    [SerializeField] Animations m_animations;
+    [Serializable] class Animations
+    {
+        public float m_fireAnimValue = 0.75f;
+
+        [Header("Anims")]
+        public int m_fireLayer = 2;
+        public float m_fireLayerToValue = 0.7f;
+        public float m_timeToChange = 0.1f;
+        public AnimationCurve m_changeCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
+    }
+
     [Header("Feedback")]
     [SerializeField] PlayerBpmCrosshairController m_crosshair;
     [SerializeField] Hitmarker m_hitmarkers;
@@ -99,6 +112,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         _BPMSystem = GetComponent<BPMSystem>();
         objectPooler = ObjectPooler.Instance;
         ChangeWeaponStats();
+
+        m_fireAnimationDistance = m_animations.m_fireLayerToValue;
+        m_fireAnimationSpeed = m_fireAnimationDistance / m_animations.m_timeToChange;
     }
 
     public override void Update()
@@ -124,19 +140,24 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 break;
             case TypeOfFire.Auto:
 
-                if (Input.GetKey(KeyCode.Mouse0) && CanShoot)
+                if (Input.GetKey(KeyCode.Mouse0) && CanShoot && !m_playerIsDashing)
                 {
                     StartCoroutine(OnShoot(1, _currentAttackSpeed, 0));
                     PlayerController.s_instance.SetPlayerWeaponAnim("Fire", true);
+                    PlayerController.s_instance.SetPlayerWeaponAnim("FireValue", m_animations.m_fireAnimValue);
+                    StartChangeFireLayerValueCorout(m_animations.m_fireLayerToValue);
                 }
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     // audioControl.PlayAppropriateLastFireSound((int)_BPMSystem.CurrentWeaponState);
                     PlayerController.s_instance.SetPlayerWeaponAnim("Fire", false);
+                    PlayerController.s_instance.SetPlayerWeaponAnim("FireValue", 0);
+                    StartChangeFireLayerValueCorout(0);
                     m_crosshair.On_StopShoot();
                 }
                 break;
         }
+        #region Comments
         /*
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -168,6 +189,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             }
         }
         */
+        #endregion
         #region Easter Egg
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -180,7 +202,38 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             }
         }
         #endregion
+    }
 
+    IEnumerator m_changeFireLayerValueCorout;
+    float m_fireAnimationSpeed;
+    float m_fireAnimationDistance;
+    void StartChangeFireLayerValueCorout(float toValue)
+    {
+        if (m_changeFireLayerValueCorout != null)
+            StopCoroutine(m_changeFireLayerValueCorout);
+        m_changeFireLayerValueCorout = ChangeFireLayerValueCorout(toValue);
+        StartCoroutine(m_changeFireLayerValueCorout);
+    }
+    IEnumerator ChangeFireLayerValueCorout(float toValue)
+    {
+        float fromValue = PlayerController.s_instance.GetPlayerWeaponLayerLength(m_animations.m_fireLayer);
+        float actualValue = fromValue;
+        float fracJourney = 0;
+        while (actualValue != toValue)
+        {
+            fracJourney += (Time.deltaTime) * m_fireAnimationSpeed / m_fireAnimationDistance;
+            actualValue = Mathf.Lerp(fromValue, toValue, m_animations.m_changeCurve.Evaluate(fracJourney));
+            PlayerController.s_instance.SetPlayerWeaponLayerLength(m_animations.m_fireLayer, actualValue);
+            yield return null;
+        }
+    }
+
+    bool m_playerIsDashing;
+    public void On_PlayerDash(bool hasDash)
+    {
+        m_playerIsDashing = hasDash;
+        if (hasDash)
+            StartChangeFireLayerValueCorout(0);
     }
 
     ProjectileType proj;
