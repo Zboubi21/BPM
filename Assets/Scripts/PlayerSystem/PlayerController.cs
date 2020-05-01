@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
 		public PlayerAudioController m_playerAudio;
 		public Animator m_weaponAnimator;
         public Transform targetForEnnemies;
+
+		[Header("Camera shake")]
+		public CameraShaker m_worldCamera;
+		public CameraShaker m_gunCamera;
 	}
 
 	[Header("Movements")]
@@ -59,11 +63,14 @@ public class PlayerController : MonoBehaviour
 	}
 
 	[Header("On Land")]
+	[SerializeField] float m_minMagnitudeToAddCameraShake = 10;
+	[SerializeField] bool m_debugOnLandMagnitude = false;
 	[SerializeField] LandCameraShaking[] m_onLandCameraShakes;
 	[Serializable] class LandCameraShaking
 	{
-		public float m_triggerHeight = 1;
-		public CameraShake m_cameraShake;
+		public float m_magnitude = 1;
+		public CameraShake m_cameraShakeWorld;
+		public CameraShake m_cameraShakeWeapon;
 	}
 
 	[Header("Dash")]
@@ -117,8 +124,8 @@ public class PlayerController : MonoBehaviour
 	{
 		public float m_magnitude = 1;
 		public float m_roughness = 1;
-		public float m_fadeInTime = 1;
-		public float m_fadeOutTime = 1;
+		public float m_fadeInTime = 0.25f;
+		public float m_fadeOutTime = 0.25f;
 	}
 
 #endregion
@@ -127,6 +134,7 @@ public class PlayerController : MonoBehaviour
     //References to attached components;
 	Transform m_trans;
 	Mover m_mover;
+	Rigidbody m_rbody;
 
 	//Names of input axes used for horizontal and vertical input;
 	string m_horizontalInputAxis = "Horizontal";
@@ -179,6 +187,7 @@ public class PlayerController : MonoBehaviour
 
         m_mover = GetComponent<Mover>();
 		m_trans = GetComponent<Transform>();
+		m_rbody = GetComponent<Rigidbody>();
 
 		m_cameraController = GetComponentInChildren<CameraController>();
 		m_playerWeapon = GetComponent<WeaponPlayerBehaviour>();
@@ -654,7 +663,32 @@ public class PlayerController : MonoBehaviour
 		ResetPlayerMomentum();
 
         SetPlayerWeaponAnim("OnLand");
+		On_LandCameraShaking();
 	}
+
+    void On_LandCameraShaking()
+    {
+        float magnitude = m_rbody.velocity.magnitude;
+#if UNITY_EDITOR
+        if (m_debugOnLandMagnitude)
+            Debug.Log("magnitude = " + magnitude);
+#endif
+
+        if (m_onLandCameraShakes != null)
+            for (int i = 0, l = m_onLandCameraShakes.Length; i < l; ++i)
+            {
+                if ((magnitude < m_onLandCameraShakes[i].m_magnitude && magnitude > m_minMagnitudeToAddCameraShake) || i == m_onLandCameraShakes.Length - 1)
+                {
+                    AddWorldCameraShake(m_onLandCameraShakes[i].m_cameraShakeWorld.m_magnitude, m_onLandCameraShakes[i].m_cameraShakeWorld.m_roughness, m_onLandCameraShakes[i].m_cameraShakeWorld.m_fadeInTime, m_onLandCameraShakes[i].m_cameraShakeWorld.m_fadeOutTime);
+                    AddPlayerWeaponCameraShake(m_onLandCameraShakes[i].m_cameraShakeWeapon.m_magnitude, m_onLandCameraShakes[i].m_cameraShakeWeapon.m_roughness, m_onLandCameraShakes[i].m_cameraShakeWeapon.m_fadeInTime, m_onLandCameraShakes[i].m_cameraShakeWeapon.m_fadeOutTime);
+#if UNITY_EDITOR
+                    if (m_debugOnLandMagnitude)
+                        Debug.Log("CameraShakeNbr: " + i);
+#endif
+                    return;
+                }
+            }
+    }
 
 	public void On_BpmLevelChanged(int weaponLvl)
 	{
@@ -741,9 +775,13 @@ public class PlayerController : MonoBehaviour
 	}
 #endregion
 
-	public void AddCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
+	public void AddWorldCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
 	{
-		CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+		m_references.m_worldCamera?.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+	}
+	public void AddPlayerWeaponCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
+	{
+		m_references.m_gunCamera?.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
 	}
 
 #endregion
