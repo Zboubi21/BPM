@@ -513,6 +513,7 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(poolTracker);
         }
+        anim.SetLayerWeight(1, 0);
         ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
     }
 
