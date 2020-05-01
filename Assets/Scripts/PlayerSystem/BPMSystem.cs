@@ -484,7 +484,7 @@ public class BPMSystem : MonoBehaviour
 
     void ChangeWeaponStats()
     {
-        weapon.ChangeWeaponStats();
+        weapon?.ChangeWeaponStats();
     }
     #endregion
 

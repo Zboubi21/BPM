@@ -103,13 +103,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     public override void Awake()
     {
         base.Awake();
+        _BPMSystem = GetComponent<BPMSystem>();
     }
 
     public override void Start()
     {
         base.Start();
         audioControl = PlayerController.s_instance.m_references.m_playerAudio;
-        _BPMSystem = GetComponent<BPMSystem>();
         objectPooler = ObjectPooler.Instance;
         ChangeWeaponStats();
 
@@ -280,7 +280,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
         for (int i = 0, l = _insideLaser.Length; i < l; ++i)
         {
-            if (i != weaponLevel)
+            if (i != weaponLevel-1)
             {
                 _insideLaser[i].SetActive(false);
             }
