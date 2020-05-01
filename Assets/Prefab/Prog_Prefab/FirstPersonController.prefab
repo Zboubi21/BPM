@@ -2350,9 +2350,9 @@ MonoBehaviour:
     m_height: 1.4
     m_duration: 0.15
   m_minMagnitudeToAddCameraShake: 5
-  m_debugOnLandMagnitude: 1
+  m_debugOnLandMagnitude: 0
   m_onLandCameraShakes:
-  - m_magnitude: 15
+  - m_magnitude: 17.5
     m_cameraShakeWorld:
       m_magnitude: 0.5
       m_roughness: 4
@@ -2365,26 +2365,26 @@ MonoBehaviour:
       m_fadeOutTime: 0.2
   - m_magnitude: 25
     m_cameraShakeWorld:
+      m_magnitude: 1.5
+      m_roughness: 1.5
+      m_fadeInTime: 0.25
+      m_fadeOutTime: 0.25
+    m_cameraShakeWeapon:
+      m_magnitude: 0.5
+      m_roughness: 0.75
+      m_fadeInTime: 0.2
+      m_fadeOutTime: 0.2
+  - m_magnitude: 30
+    m_cameraShakeWorld:
       m_magnitude: 2
       m_roughness: 2
       m_fadeInTime: 0.25
       m_fadeOutTime: 0.25
     m_cameraShakeWeapon:
-      m_magnitude: 0.66
+      m_magnitude: 0.75
       m_roughness: 1
-      m_fadeInTime: 0.25
-      m_fadeOutTime: 0.25
-  - m_magnitude: 30
-    m_cameraShakeWorld:
-      m_magnitude: 3
-      m_roughness: 3
-      m_fadeInTime: 0.25
-      m_fadeOutTime: 0.25
-    m_cameraShakeWeapon:
-      m_magnitude: 1
-      m_roughness: 2
-      m_fadeInTime: 0.25
-      m_fadeOutTime: 0.25
+      m_fadeInTime: 0.2
+      m_fadeOutTime: 0.2
   m_dash:
     m_minInputCanDash: 0.5
     m_distance: 7.5
