@@ -572,7 +572,6 @@ public class BPMSystem : MonoBehaviour
     {
         _isCurrentlyOnFury = b;
         _BPM.m_playerBpmGui.On_OverAdrenalineActivated(b);
-        m_playerController.On_OveradrenalineIsActivated(b);
     }
 
     void FuryCoolDownHandeler()

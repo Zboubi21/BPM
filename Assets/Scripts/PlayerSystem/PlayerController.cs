@@ -91,17 +91,24 @@ public class PlayerController : MonoBehaviour
 	}
 
 	[Header("Field Of View")]
-	public FieldOfView m_fov;
+	public FieldOfView m_fieldOfView;
 	[Serializable] public class FieldOfView
 	{
 		[Header("Values")]
-		public float m_normalFov = 90f;
-		public float m_normalDashFov = 100f;
-		public float m_backwardDashFov = 95f;
+		public FieldOfViewParameters m_normalFov;
+		public FieldOfViewParameters m_overadrenialineFov;
+		[Serializable] public class FieldOfViewParameters
+		{
+			public float m_fov = 90f;
+			public float m_normalDashFov = 100f;
+			public float m_backwardDashFov = 95f;
+		}
 
 		[Header("Anims")]
 		public FovChanger m_startDash;
 		public FovChanger m_endDash;
+		public FovChanger m_startOveradrenaline;
+		public FovChanger m_endOveradrenaline;
 
 		[Serializable] public class FovChanger
 		{
@@ -173,6 +180,8 @@ public class PlayerController : MonoBehaviour
 	WeaponPlayerBehaviour m_playerWeapon;
 
     float _currentTimefRecord;
+
+	bool m_isInOveradrenaline = false;
 
     public CameraController CameraControls { get => m_scriptOrder.m_cameraControls; set => m_scriptOrder.m_cameraControls = value; }
     public WeaponPlayerBehaviour PlayerWeapon { get => m_playerWeapon; set => m_playerWeapon = value; }
@@ -707,10 +716,18 @@ public class PlayerController : MonoBehaviour
 	}
 	public void On_ActivateOveradrenaline(bool activate)
 	{
+		m_isInOveradrenaline = activate;
 		if (activate)
+		{
 			SetPlayerWeaponAnim("StartFury");
+			ChangeCameraFov(m_fieldOfView.m_overadrenialineFov.m_fov, m_fieldOfView.m_startOveradrenaline.m_timeToChangeFov, m_fieldOfView.m_startOveradrenaline.m_changeFovCurve);
+		}
 		else
+		{
 			SetPlayerWeaponAnim("EndFury");
+			ChangeCameraFov(m_fieldOfView.m_normalFov.m_fov, m_fieldOfView.m_endOveradrenaline.m_timeToChangeFov, m_fieldOfView.m_endOveradrenaline.m_changeFovCurve);
+		}
+		m_currentSpeed = activate ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
 	}
 
 	public bool PlayerHasToFall()
@@ -742,14 +759,21 @@ public class PlayerController : MonoBehaviour
 	public event VectorEvent OnJump;
 	public event VectorEvent OnLand;
 
+	public float GetTargetedDashForwardCameraFOV()
+	{
+		return m_isInOveradrenaline ? m_fieldOfView.m_overadrenialineFov.m_normalDashFov : m_fieldOfView.m_normalFov.m_normalDashFov;
+	}
+	public float GetTargetedDashBackardCameraFOV()
+	{
+		return m_isInOveradrenaline ? m_fieldOfView.m_overadrenialineFov.m_backwardDashFov : m_fieldOfView.m_normalFov.m_backwardDashFov;
+	}
+	public float GetTargetedCameraFOV()
+	{
+		return m_isInOveradrenaline ? m_fieldOfView.m_overadrenialineFov.m_fov : m_fieldOfView.m_normalFov.m_fov;
+	}
 	public void ChangeCameraFov(float newFov, float timeToChangeFov, AnimationCurve changeFovCurve)
 	{
 		m_cameraController.ChangeCameraFov(newFov, timeToChangeFov, changeFovCurve);
-	}
-
-	public void On_OveradrenalineIsActivated(bool isActivated)
-	{
-		m_currentSpeed = isActivated ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
 	}
 
 #region Anims
