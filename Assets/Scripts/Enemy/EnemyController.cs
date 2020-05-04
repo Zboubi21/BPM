@@ -475,17 +475,19 @@ public class EnemyController : MonoBehaviour
         debugStunTime = time;
         if (state == EnemyState.Enemy_StunState)
         {
+            Anim.SetBool("IsLifeLow", true);
             Level.AddFX(shockVFX, transform.position, Quaternion.identity);
         }
         else if (state == EnemyState.Enemy_ElectricalStunState)
         {
+            Anim.SetBool("IsStun", true);
             Level.AddFX(electricalStunVFX, transform.position, Quaternion.identity);
         }
         yield return new WaitForSeconds(time);
         EnemyCantShoot = false;
         if (m_sM.CompareState((int)state))
         {
-            ChangeState((int)EnemyState.Enemy_ChaseState);
+            ChangeState((int)m_sM.LastStateIndex);
         }
     }
     #endregion
