@@ -376,6 +376,10 @@ public class SuicidalEnemyController : MonoBehaviour
         // m_canBeMouseOver = false;
         On_ShowEnemyWeakSpot(false);
 
+        m_stunParticles?.Stop(true);
+        m_lowHealthParticles?.Stop(true);
+        m_detonationParticles?.Stop(true);
+
         m_sM.ChangeState((int)EnemyState.DieState);
 
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.beforeSelfDestructKill);
