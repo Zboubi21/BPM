@@ -31,6 +31,7 @@ public class ElectricalStunState : IState
 
     public void Exit()
     {
+        m_enemyController.Anim.SetBool("IsStun", false);
         m_enemyController.Agent.isStopped = false;
     }
 
