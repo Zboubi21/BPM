@@ -394,6 +394,7 @@ public class SuicidalEnemyController : MonoBehaviour
             m_shaderController?.On_StartDissolveShader();
             m_audioController?.On_EnemyDie();
         }
+        m_audioController?.On_StartToMoveFast(false);
     }
     public void On_EnemyDie()
     {
