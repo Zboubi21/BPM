@@ -12,6 +12,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     [Header("USE THIS PARAMETERS!")]
 
     [SerializeField] MeshRenderer[] m_meshesToChangeMat;
+    [SerializeField] SkinnedMeshRenderer[] m_skinnedMeshesToChangeMat;
 
     [SerializeField] Spawn m_spawn;
     [Serializable] class Spawn
@@ -68,6 +69,15 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                 m_meshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
             }
         }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_startMaterials.Add(m_skinnedMeshesToChangeMat[i].material);
+
+                m_skinnedMeshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
+        }
     }
     void Update()
     {
@@ -104,6 +114,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                 m_meshesToChangeMat[i].material = m_disintegrationShaderMaterialInstance;
             }
         }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_skinnedMeshesToChangeMat[i].material = m_disintegrationShaderMaterialInstance;
+            }
+        }
 
         m_currentShaderState = ShaderState.Disintegration;
         SetupChangeValue(true);
@@ -133,6 +150,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
             for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
             {
                 m_meshesToChangeMat[i].material = m_dissolveShaderMaterialInstance;
+            }
+        }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_skinnedMeshesToChangeMat[i].material = m_dissolveShaderMaterialInstance;
             }
         }
 
@@ -192,6 +216,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                 for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
                 {
                     m_meshesToChangeMat[i].material = m_startMaterials[i];
+                }
+            }
+            if (m_skinnedMeshesToChangeMat != null)
+            {
+                for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+                {
+                    m_skinnedMeshesToChangeMat[i].material = m_startMaterials[i];
                 }
             }
         }

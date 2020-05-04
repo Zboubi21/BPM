@@ -140,7 +140,7 @@ public class EnemyCara : EnemyCaraBase
             if (_currentLife <= 0)
             {
                 _isDead = true;
-
+                enemyController.On_EnemyGoingToDie(deadWithElectricalDamage);
                 enemyController.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
 
             }

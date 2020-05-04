@@ -53,6 +53,7 @@ public class EnemyController : MonoBehaviour
     [Header("VFX")]
     public FxType shockVFX;
     public FxType electricalStunVFX;
+    [SerializeField] EnemySpawnerShaderController m_shaderController;
 
     public void ChangeState(int i)
     {
@@ -569,14 +570,28 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    #region Spawn Enemy
+#region Enemy
     public void On_SpawnEnemy()
     {
         if (m_spawn.m_faceToPlayerWhenSpawned)
             FaceToTarget(PlayerController.s_instance.transform.position);
         ChangeState((int)EnemyState.Enemy_SpawnState);
+        m_shaderController.On_StartSpawnShader();
     }
-    #endregion
+    public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
+    {
+        if (dieWithElectricalDamage)
+        {
+            m_shaderController?.On_StartDisintegrationShader();
+            audioControl?.On_EnemyIsDisintegrate();
+        }
+        else
+        {
+            m_shaderController?.On_StartDissolveShader();
+            audioControl?.On_EnemyDie();
+        }
+    }
+#endregion
 
     public void ActivateEnemyColliders(bool activate)
     {
