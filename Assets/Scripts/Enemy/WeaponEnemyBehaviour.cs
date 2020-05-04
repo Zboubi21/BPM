@@ -31,8 +31,7 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     [Space]
     //public GameObject enemyProjectil;
     //[Space]
-    [Tooltip("Pour que l'ennemies ne tir pas dans les pieds du player")]
-    public float YOffset = 1f;
+    
     EnemyController enemyController;
     EnemyAudioController audioControl;
 

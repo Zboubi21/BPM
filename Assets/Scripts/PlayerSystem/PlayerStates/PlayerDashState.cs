@@ -40,13 +40,9 @@ public class PlayerDashState : IState
         m_dashSpeed = m_playerController.m_dash.m_distance / m_playerController.m_dash.m_timeToDash;
 
         if (m_playerController.GetPlayerInputsDirection() == new Vector2(-1, 0))
-        {
-            m_playerController.ChangeCameraFov(m_playerController.m_fov.m_backwardDashFov, m_playerController.m_fov.m_startDash.m_timeToChangeFov, m_playerController.m_fov.m_startDash.m_changeFovCurve);
-        }
+            m_playerController.ChangeCameraFov(m_playerController.GetTargetedDashBackardCameraFOV(), m_playerController.m_fieldOfView.m_startDash.m_timeToChangeFov, m_playerController.m_fieldOfView.m_startDash.m_changeFovCurve);
         else
-        {
-            m_playerController.ChangeCameraFov(m_playerController.m_fov.m_normalDashFov, m_playerController.m_fov.m_startDash.m_timeToChangeFov, m_playerController.m_fov.m_startDash.m_changeFovCurve);
-        }
+            m_playerController.ChangeCameraFov(m_playerController.GetTargetedDashForwardCameraFOV(), m_playerController.m_fieldOfView.m_startDash.m_timeToChangeFov, m_playerController.m_fieldOfView.m_startDash.m_changeFovCurve);
     }
     public void FixedUpdate()
     {
@@ -71,7 +67,7 @@ public class PlayerDashState : IState
     {
         m_playerController.GetComponent<WeaponPlayerBehaviour>().CanShoot = true;
 
-        m_playerController.ChangeCameraFov(m_playerController.m_fov.m_normalFov, m_playerController.m_fov.m_endDash.m_timeToChangeFov, m_playerController.m_fov.m_endDash.m_changeFovCurve);
+        m_playerController.ChangeCameraFov(m_playerController.GetTargetedCameraFOV(), m_playerController.m_fieldOfView.m_endDash.m_timeToChangeFov, m_playerController.m_fieldOfView.m_endDash.m_changeFovCurve);
 
         m_playerController.On_PlayerStartDash(false);
 

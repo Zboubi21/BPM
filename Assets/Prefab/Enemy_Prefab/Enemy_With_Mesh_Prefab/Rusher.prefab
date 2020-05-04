@@ -1329,7 +1329,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4511994800859806095}
-  - component: {fileID: 1380708071}
   m_Layer: 10
   m_Name: mixamorig:Spine
   m_TagString: Untagged
@@ -1352,18 +1351,6 @@ Transform:
   m_Father: {fileID: 4518555740168338473}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1380708071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3003207054869859158}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd89003f8c06a04a97be8192bb5a533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3216810375362096163
 GameObject:
   m_ObjectHideFlags: 0
@@ -3373,7 +3360,7 @@ MonoBehaviour:
     aimConstraint: {fileID: 8112106729660643507}
     boneToMove: {fileID: 3003207054869859158}
   m_spawn:
-    m_timeToSpawn: 0.1
+    m_timeToSpawn: 5
     m_faceToPlayerWhenSpawned: 1
   m_sM:
     m_currentStateString: 
@@ -3437,7 +3424,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   _attack:
-    damage: 10
+    damage: 5
     rangeRadius: 10
     rangeOfAttackNoMatterWhat: 7
     bulletSpeed: 50
@@ -3446,8 +3433,7 @@ MonoBehaviour:
     minTimeBetweenEachBurst: 0.5
     maxTimeBetweenEachBurst: 0.75
     _debugGizmos: 1
-    enemyAttackDispersement: 1
-  YOffset: 1
+    enemyAttackDispersement: 0.5
 --- !u!114 &4194676766685212466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3471,7 +3457,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: e16c17b1e916e4b4d8f9c5b928897567, type: 3}
       - {fileID: 8300000, guid: 6ada02aacf4ba914584d6e06870ee1a4, type: 3}
       - {fileID: 8300000, guid: b2bb5ffdba085fd41abafc35b6c50314, type: 3}
-      m_volume: 1
+      m_volume: 0.25
       m_volumeRandomizer: 0
       m_pitch: 1
       m_pitchRandomizer: 0
@@ -3483,7 +3469,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 9de9d1cc7da463e469941e446cfdc7b0, type: 3}
       - {fileID: 8300000, guid: f38c1010f6eff084993d9b9caa8badcf, type: 3}
       - {fileID: 8300000, guid: d1d0c2b0f8e50184fac7fe1f8ce38bd2, type: 3}
-      m_volume: 1
+      m_volume: 0.25
       m_volumeRandomizer: 0
       m_pitch: 1
       m_pitchRandomizer: 0
@@ -3495,7 +3481,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 276e6aff9be89234cbe587d2f167e96b, type: 3}
       - {fileID: 8300000, guid: 7d2a4ce86e699c2489b7b24ba5bdc39c, type: 3}
       - {fileID: 8300000, guid: 625bb7846fec1a548bc4840f727a4f9a, type: 3}
-      m_volume: 1
+      m_volume: 0.25
       m_volumeRandomizer: 0
       m_pitch: 1
       m_pitchRandomizer: 0
@@ -3508,7 +3494,7 @@ MonoBehaviour:
         pitch: 1
         pitchRandomizer: 0
       Volume:
-        volume: 1
+        volume: 0.25
         volumeRandomizer: 0
     LastFireSounds:
       allDifferentClip:
@@ -3517,7 +3503,7 @@ MonoBehaviour:
         pitch: 1
         pitchRandomizer: 0
       Volume:
-        volume: 1
+        volume: 0.25
         volumeRandomizer: 0
   m_raycastTrans: {fileID: 2972395777472029386}
   m_raycastMaxDistance: 0.25
@@ -5337,9 +5323,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 216c4cc681b9bd241b8096c72e25910a, type: 3}
---- !u!1 &1647716707587028029 stripped
+--- !u!1 &1219713044622840803 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2348754712471328301, guid: 216c4cc681b9bd241b8096c72e25910a,
+  m_CorrespondingSourceObject: {fileID: 2785728053202137587, guid: 216c4cc681b9bd241b8096c72e25910a,
     type: 3}
   m_PrefabInstance: {fileID: 3910723625679036944}
   m_PrefabAsset: {fileID: 0}
@@ -5349,9 +5335,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3910723625679036944}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1219713044622840803 stripped
+--- !u!1 &1647716707587028029 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2785728053202137587, guid: 216c4cc681b9bd241b8096c72e25910a,
+  m_CorrespondingSourceObject: {fileID: 2348754712471328301, guid: 216c4cc681b9bd241b8096c72e25910a,
     type: 3}
   m_PrefabInstance: {fileID: 3910723625679036944}
   m_PrefabAsset: {fileID: 0}

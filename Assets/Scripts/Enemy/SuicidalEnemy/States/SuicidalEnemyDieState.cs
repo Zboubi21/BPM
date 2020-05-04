@@ -19,6 +19,8 @@ public class SuicidalEnemyDieState : IState
 
     public void Enter()
     {
+        m_timer = 0;
+        m_timerIsDone = false;
         m_enemyController.StopEnemyMovement(true);
         m_enemyController.SetAnimation("Die");
     }

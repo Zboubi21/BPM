@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerStateEnum;
+using EZCameraShake;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class PlayerController : MonoBehaviour
 		public PlayerAudioController m_playerAudio;
 		public Animator m_weaponAnimator;
         public Transform targetForEnnemies;
+
+		[Header("Camera shake")]
+		public CameraShaker m_worldCamera;
+		public CameraShaker m_gunCamera;
 	}
 
 	[Header("Movements")]
@@ -57,6 +62,17 @@ public class PlayerController : MonoBehaviour
 		public float m_duration = 0.2f;
 	}
 
+	[Header("On Land")]
+	[SerializeField] float m_minMagnitudeToAddCameraShake = 10;
+	[SerializeField] bool m_debugOnLandMagnitude = false;
+	[SerializeField] LandCameraShaking[] m_onLandCameraShakes;
+	[Serializable] class LandCameraShaking
+	{
+		public float m_magnitude = 1;
+		public CameraShake m_cameraShakeWorld;
+		public CameraShake m_cameraShakeWeapon;
+	}
+
 	[Header("Dash")]
 	public Dash m_dash;
 	[Serializable] public class Dash{
@@ -75,17 +91,24 @@ public class PlayerController : MonoBehaviour
 	}
 
 	[Header("Field Of View")]
-	public FieldOfView m_fov;
+	public FieldOfView m_fieldOfView;
 	[Serializable] public class FieldOfView
 	{
 		[Header("Values")]
-		public float m_normalFov = 90f;
-		public float m_normalDashFov = 100f;
-		public float m_backwardDashFov = 95f;
+		public FieldOfViewParameters m_normalFov;
+		public FieldOfViewParameters m_overadrenialineFov;
+		[Serializable] public class FieldOfViewParameters
+		{
+			public float m_fov = 90f;
+			public float m_normalDashFov = 100f;
+			public float m_backwardDashFov = 95f;
+		}
 
 		[Header("Anims")]
 		public FovChanger m_startDash;
 		public FovChanger m_endDash;
+		public FovChanger m_startOveradrenaline;
+		public FovChanger m_endOveradrenaline;
 
 		[Serializable] public class FovChanger
 		{
@@ -104,12 +127,21 @@ public class PlayerController : MonoBehaviour
 		public TransformFollower m_gunPivot;
 	}
 
+	[Serializable] public class CameraShake
+	{
+		public float m_magnitude = 1;
+		public float m_roughness = 1;
+		public float m_fadeInTime = 0.25f;
+		public float m_fadeOutTime = 0.25f;
+	}
+
 #endregion
 
 #region Private Variables
     //References to attached components;
 	Transform m_trans;
 	Mover m_mover;
+	Rigidbody m_rbody;
 
 	//Names of input axes used for horizontal and vertical input;
 	string m_horizontalInputAxis = "Horizontal";
@@ -149,12 +181,14 @@ public class PlayerController : MonoBehaviour
 
     float _currentTimefRecord;
 
+	bool m_isInOveradrenaline = false;
+
     public CameraController CameraControls { get => m_scriptOrder.m_cameraControls; set => m_scriptOrder.m_cameraControls = value; }
     public WeaponPlayerBehaviour PlayerWeapon { get => m_playerWeapon; set => m_playerWeapon = value; }
 
     #endregion
 
-    #region Event Functions
+#region Event Functions
     void Awake()
     {
         SetupSingleton();
@@ -162,6 +196,7 @@ public class PlayerController : MonoBehaviour
 
         m_mover = GetComponent<Mover>();
 		m_trans = GetComponent<Transform>();
+		m_rbody = GetComponent<Rigidbody>();
 
 		m_cameraController = GetComponentInChildren<CameraController>();
 		m_playerWeapon = GetComponent<WeaponPlayerBehaviour>();
@@ -397,7 +432,7 @@ public class PlayerController : MonoBehaviour
     
     #endregion
 
-    #region Public Functions
+#region Public Functions
     public void ChangeState(PlayerState newPlayerState){
 		m_sM.ChangeState((int)newPlayerState);
 	}
@@ -523,7 +558,7 @@ public class PlayerController : MonoBehaviour
 
 	public void On_PlayerStartDash(bool hasDash)
 	{
-		m_playerWeapon.CanShoot = !hasDash;
+		m_playerWeapon?.On_PlayerDash(hasDash);
 		m_dash.m_dashFeedbackScreen.SwitchValue();
 		if (hasDash)
 			m_references.m_playerAudio.On_Dash();
@@ -637,7 +672,32 @@ public class PlayerController : MonoBehaviour
 		ResetPlayerMomentum();
 
         SetPlayerWeaponAnim("OnLand");
+		On_LandCameraShaking();
 	}
+
+    void On_LandCameraShaking()
+    {
+        float magnitude = m_rbody.velocity.magnitude;
+#if UNITY_EDITOR
+        if (m_debugOnLandMagnitude)
+            Debug.Log("magnitude = " + magnitude);
+#endif
+
+        if (m_onLandCameraShakes != null)
+            for (int i = 0, l = m_onLandCameraShakes.Length; i < l; ++i)
+            {
+                if ((magnitude < m_onLandCameraShakes[i].m_magnitude && magnitude > m_minMagnitudeToAddCameraShake) || i == m_onLandCameraShakes.Length - 1)
+                {
+                    AddWorldCameraShake(m_onLandCameraShakes[i].m_cameraShakeWorld.m_magnitude, m_onLandCameraShakes[i].m_cameraShakeWorld.m_roughness, m_onLandCameraShakes[i].m_cameraShakeWorld.m_fadeInTime, m_onLandCameraShakes[i].m_cameraShakeWorld.m_fadeOutTime);
+                    AddPlayerWeaponCameraShake(m_onLandCameraShakes[i].m_cameraShakeWeapon.m_magnitude, m_onLandCameraShakes[i].m_cameraShakeWeapon.m_roughness, m_onLandCameraShakes[i].m_cameraShakeWeapon.m_fadeInTime, m_onLandCameraShakes[i].m_cameraShakeWeapon.m_fadeOutTime);
+#if UNITY_EDITOR
+                    if (m_debugOnLandMagnitude)
+                        Debug.Log("CameraShakeNbr: " + i);
+#endif
+                    return;
+                }
+            }
+    }
 
 	public void On_BpmLevelChanged(int weaponLvl)
 	{
@@ -656,10 +716,18 @@ public class PlayerController : MonoBehaviour
 	}
 	public void On_ActivateOveradrenaline(bool activate)
 	{
+		m_isInOveradrenaline = activate;
 		if (activate)
+		{
 			SetPlayerWeaponAnim("StartFury");
+			ChangeCameraFov(m_fieldOfView.m_overadrenialineFov.m_fov, m_fieldOfView.m_startOveradrenaline.m_timeToChangeFov, m_fieldOfView.m_startOveradrenaline.m_changeFovCurve);
+		}
 		else
+		{
 			SetPlayerWeaponAnim("EndFury");
+			ChangeCameraFov(m_fieldOfView.m_normalFov.m_fov, m_fieldOfView.m_endOveradrenaline.m_timeToChangeFov, m_fieldOfView.m_endOveradrenaline.m_changeFovCurve);
+		}
+		m_currentSpeed = activate ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
 	}
 
 	public bool PlayerHasToFall()
@@ -691,16 +759,24 @@ public class PlayerController : MonoBehaviour
 	public event VectorEvent OnJump;
 	public event VectorEvent OnLand;
 
+	public float GetTargetedDashForwardCameraFOV()
+	{
+		return m_isInOveradrenaline ? m_fieldOfView.m_overadrenialineFov.m_normalDashFov : m_fieldOfView.m_normalFov.m_normalDashFov;
+	}
+	public float GetTargetedDashBackardCameraFOV()
+	{
+		return m_isInOveradrenaline ? m_fieldOfView.m_overadrenialineFov.m_backwardDashFov : m_fieldOfView.m_normalFov.m_backwardDashFov;
+	}
+	public float GetTargetedCameraFOV()
+	{
+		return m_isInOveradrenaline ? m_fieldOfView.m_overadrenialineFov.m_fov : m_fieldOfView.m_normalFov.m_fov;
+	}
 	public void ChangeCameraFov(float newFov, float timeToChangeFov, AnimationCurve changeFovCurve)
 	{
 		m_cameraController.ChangeCameraFov(newFov, timeToChangeFov, changeFovCurve);
 	}
 
-	public void On_OveradrenalineIsActivated(bool isActivated)
-	{
-		m_currentSpeed = isActivated ? m_movements.m_overadrenalineSpeed : m_movements.m_baseSpeed;
-	}
-
+#region Anims
 	public void SetPlayerWeaponAnim(string name)
 	{
 		m_references.m_weaponAnimator?.SetTrigger(name);
@@ -717,6 +793,21 @@ public class PlayerController : MonoBehaviour
 	{
 		m_references.m_weaponAnimator?.SetLayerWeight(layerIndex, weight);
 	}
+	public float GetPlayerWeaponLayerLength(int layerIndex)
+	{
+		return m_references.m_weaponAnimator.GetLayerWeight(layerIndex);
+	}
+#endregion
+
+	public void AddWorldCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
+	{
+		m_references.m_worldCamera?.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+	}
+	public void AddPlayerWeaponCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
+	{
+		m_references.m_gunCamera?.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+	}
 
 #endregion
+
 }

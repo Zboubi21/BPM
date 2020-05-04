@@ -11,11 +11,15 @@ public class DieState : IState
     {
         m_enemyController = enemyController;
     }
-
     public void Enter()
     {
         /// play dying animation
         /// play dying sound
+        Vector3 direction = (PlayerController.s_instance.transform.position - m_enemyController.transform.position).normalized;
+        m_enemyController.Anim.SetLayerWeight(1, 1);
+        m_enemyController.Anim.SetTrigger("Dead");
+        m_enemyController.Anim.SetFloat("DeadlyHitValueX", direction.x);
+        m_enemyController.Anim.SetFloat("DeadlyHitValueY", direction.z);
         m_enemyController.Agent.isStopped = true;
         m_enemyController.KillNPC(2f);   //Send back to pool with animation time
         AddRightScore();

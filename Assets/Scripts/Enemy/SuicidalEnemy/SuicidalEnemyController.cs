@@ -123,6 +123,8 @@ public class SuicidalEnemyController : MonoBehaviour
     public EnemySpawnerShaderController m_shaderController;
     public ParticleSystem m_stunParticles;
     public ParticleSystem m_lowHealthParticles;
+    public ParticleSystem m_detonationParticles;
+    public ParticleSystem m_explosionParticles;
     [Space]
     public float m_waitTimeToDie = 0.5f;
     [Space]
@@ -282,6 +284,7 @@ public class SuicidalEnemyController : MonoBehaviour
             m_isWaitingToExplode = true;
             m_audioController?.On_SelfDestructionIsActivated();
             m_audioController?.On_StartToMoveFast(true);
+            m_detonationParticles?.Play(true);
 
             m_waitTimeToExplodeCorout = WaitTimeToExplode();
             StartCoroutine(m_waitTimeToExplodeCorout);
@@ -298,6 +301,8 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         m_audioController?.On_EnemyExplode();
         StopEnemyMovement(true);
+
+        m_explosionParticles?.Play(true);
 
         List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
         List<DestroyableObjectController> destroyableObjs = new List<DestroyableObjectController>();
@@ -360,8 +365,7 @@ public class SuicidalEnemyController : MonoBehaviour
             return;
         for (int i = 0, l = m_goToHideWhenExplode.Length; i < l; ++i)
         {
-            if (m_goToHideWhenExplode != null)
-                m_goToHideWhenExplode[i].SetActive(activate);
+            m_goToHideWhenExplode[i]?.SetActive(activate);
         }
     }
 
@@ -393,10 +397,13 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void ReturnToPool()
     {
+        Spawned_Tracker spawnTracker = GetComponent<Spawned_Tracker>();
+        if (spawnTracker != null)
+            spawnTracker.CallDead();
         m_isWaitingToExplode = false;
         m_audioController?.On_StartToMoveFast(false);
         StopAllCoroutines();
-        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Rusher, gameObject);
+        ObjectPooler.Instance.ReturnEnemyToPool(EnemyType.Suicidal, gameObject);
     }
 
     public void On_EnemyStartStun(bool startStun)
