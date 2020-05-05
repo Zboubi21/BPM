@@ -80,6 +80,7 @@ public class WaveController : MonoBehaviour
         NbrOfEnemy = 0;
         ChangeAllScreen(ScreenChannel.WaveCountChannel);
         ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
+        _debug.canvas.gameObject.SetActive(!_debug.canvas.gameObject.activeSelf);
     }
 
     private void Update()
