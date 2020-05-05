@@ -322,7 +322,10 @@ public class Projectile : MonoBehaviour
                                 // refScript.cara.GetComponent<EnemyCara>().HitPosition = _hit.point;
                                 EnemyCara enemyCara = refScript.cara.GetComponent<EnemyCara>();
                                 if (enemyCara != null)
+                                {
                                     enemyCara.HitPosition = _hit.point;
+                                    enemyCara.ImpactPosition = refScript.positionImpact;
+                                }
                             }
                         }
                     }
@@ -348,7 +351,10 @@ public class Projectile : MonoBehaviour
                                 // refScript.cara.GetComponent<EnemyCara>().HitPosition = _hit.point;
                                 EnemyCara enemyCara = refScript.cara.GetComponent<EnemyCara>();
                                 if (enemyCara != null)
+                                {
                                     enemyCara.HitPosition = _hit.point;
+                                    enemyCara.ImpactPosition = refScript.positionImpact;
+                                }
                             }
                         }
                     }

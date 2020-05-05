@@ -92,6 +92,21 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     {
         ObjectPooler.Instance.SpawnFXFromPool(m_spawn.m_fx, m_spawn.m_spawnFxTrans.position, m_spawn.m_spawnFxTrans.rotation);
 
+        if (m_meshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
+            {
+                m_meshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
+        }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_skinnedMeshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
+        }
+
         m_currentShaderState = ShaderState.Spawn;
         SetupChangeValue(true);
 
