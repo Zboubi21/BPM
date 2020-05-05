@@ -88,6 +88,11 @@ public class PlayerController : MonoBehaviour
 		[Header("Feedback")]
 		public ChangeImageValues m_dashFeedbackScreen;
 		public ChangeRotationValue m_dashAnim;
+
+		[Header("Anim")]
+		public int m_dashLayer = 1;
+		public float m_timeToChangeLayer = 0.1f;
+		public AnimationCurve m_changeLayerCurve;
 	}
 
 	[Header("Field Of View")]
@@ -809,5 +814,33 @@ public class PlayerController : MonoBehaviour
 	}
 
 #endregion
+
+	IEnumerator m_changeDashLayerValueCorout;
+	public void StartChangeDashLayerValueCorout(float toValue, bool startCorout = true)
+    {
+        if (m_changeDashLayerValueCorout != null)
+            StopCoroutine(m_changeDashLayerValueCorout);
+		
+		if (startCorout)
+		{
+			m_changeDashLayerValueCorout = ChangeDashLayerValueCorout(toValue);
+			StartCoroutine(m_changeDashLayerValueCorout);
+		}
+    }
+    IEnumerator ChangeDashLayerValueCorout(float toValue)
+    {
+        float fromValue = GetPlayerWeaponLayerLength(m_dash.m_dashLayer);
+        float actualValue = fromValue;
+        float fracJourney = 0;
+		float distance = 1;
+		float speed = distance / m_dash.m_timeToChangeLayer;
+        while (actualValue != toValue)
+        {
+            fracJourney += (Time.deltaTime) * speed / distance;
+            actualValue = Mathf.Lerp(fromValue, toValue, m_dash.m_changeLayerCurve.Evaluate(fracJourney));
+            SetPlayerWeaponLayerLength(m_dash.m_dashLayer, actualValue);
+            yield return null;
+        }
+    }
 
 }

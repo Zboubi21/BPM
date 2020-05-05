@@ -21,6 +21,12 @@ public class AudioController : MonoBehaviour
         [Range(0, 1.5f)] public float m_pitchRandomizer = 0.1f;
     }
 
+    [System.Serializable] public class SoundsWithDelay
+    {
+        public float m_delayToStartSound = 0.25f;
+        public Sounds m_sounds;
+    }
+
     [System.Serializable] public class Sound
     {
         public AudioClip m_sound;
@@ -60,6 +66,16 @@ public class AudioController : MonoBehaviour
         audioSource.pitch = pitchValue;
 
         audioSource.PlayOneShot(sound);
+    }
+
+    protected void StartSoundFromArrayWithDelay(AudioSource audioSource, AudioClip[] audioClip, float volume, float volumeRandomizer, float pitch, float pitchRandomizer, float delay)
+    {
+        StartCoroutine(StartSoundFromArrayWithDelayCorout(audioSource, audioClip, volume, volumeRandomizer, pitch, pitchRandomizer, delay));
+    }
+    IEnumerator StartSoundFromArrayWithDelayCorout(AudioSource audioSource, AudioClip[] audioClip, float volume, float volumeRandomizer, float pitch, float pitchRandomizer, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StartSoundFromArray(audioSource, audioClip, volume, volumeRandomizer, pitch, pitchRandomizer);
     }
 
     protected void StartSound(AudioSource audioSource, AudioClip audioClip, float volume, float pitch, float delay = 0)

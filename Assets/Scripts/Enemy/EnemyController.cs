@@ -575,6 +575,7 @@ public class EnemyController : MonoBehaviour
             FaceToTarget(PlayerController.s_instance.transform.position);
         ChangeState((int)EnemyState.Enemy_SpawnState);
         m_shaderController.On_StartSpawnShader();
+        audioControl?.On_Spawn();
     }
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {

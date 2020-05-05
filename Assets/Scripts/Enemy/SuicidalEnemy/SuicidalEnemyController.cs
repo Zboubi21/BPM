@@ -237,6 +237,7 @@ public class SuicidalEnemyController : MonoBehaviour
 
         ChangeState(EnemyState.SpawnState);
         m_shaderController.On_StartSpawnShader();
+        m_audioController?.On_Spawn();
     }
     public void ChasePlayer()
     {

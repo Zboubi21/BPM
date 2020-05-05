@@ -7,6 +7,9 @@ using System;
 public class EnemyAudioController : AudioController
 {
     #region SerializeField Functions
+    [Header("Spawn")]
+    [SerializeField] Sounds m_spawn;
+
     [Header("Steps")]
     [SerializeField] Steps m_steps;
     [System.Serializable]
@@ -75,8 +78,8 @@ public class EnemyAudioController : AudioController
     [SerializeField] LayerMask m_groundMask;
 
     [Header("Die")]
-    [SerializeField] Sounds m_die;
-    [SerializeField] Sounds m_disintegrate;
+    [SerializeField] SoundsWithDelay m_die;
+    [SerializeField] SoundsWithDelay m_disintegrate;
     
     [Header("Gizmos")]
     [SerializeField] bool m_showGizmos = false;
@@ -153,6 +156,10 @@ public class EnemyAudioController : AudioController
     #endregion
 
     #region Public Functions
+    public void On_Spawn()
+    {
+        StartSoundFromArray(m_spawn.m_audioSource, m_spawn.m_sounds, m_spawn.m_volume, m_spawn.m_volumeRandomizer, m_spawn.m_pitch, m_spawn.m_pitchRandomizer);
+    }
     public void On_Run(bool isRunning)
     {
         m_isRunning = isRunning;
@@ -180,11 +187,11 @@ public class EnemyAudioController : AudioController
 
     public void On_EnemyDie()
     {
-        StartSoundFromArray(m_die.m_audioSource, m_die.m_sounds, m_die.m_volume, m_die.m_volumeRandomizer, m_die.m_pitch, m_die.m_pitchRandomizer);
+        StartSoundFromArrayWithDelay(m_die.m_sounds.m_audioSource, m_die.m_sounds.m_sounds, m_die.m_sounds.m_volume, m_die.m_sounds.m_volumeRandomizer, m_die.m_sounds.m_pitch, m_die.m_sounds.m_pitchRandomizer, m_die.m_delayToStartSound);
     }
     public void On_EnemyIsDisintegrate()
     {
-        StartSoundFromArray(m_disintegrate.m_audioSource, m_disintegrate.m_sounds, m_disintegrate.m_volume, m_disintegrate.m_volumeRandomizer, m_disintegrate.m_pitch, m_disintegrate.m_pitchRandomizer);
+        StartSoundFromArrayWithDelay(m_disintegrate.m_sounds.m_audioSource, m_disintegrate.m_sounds.m_sounds, m_disintegrate.m_sounds.m_volume, m_disintegrate.m_sounds.m_volumeRandomizer, m_disintegrate.m_sounds.m_pitch, m_disintegrate.m_sounds.m_pitchRandomizer, m_disintegrate.m_delayToStartSound);
     }
     #endregion
 }
