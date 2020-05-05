@@ -21,6 +21,8 @@ public class ElectricalStunState : IState
         /// play elec stun sound
         /// play elec stun FX
         m_enemyController.Agent.isStopped = true;
+        m_enemyController.Anim.SetBool("IsStun", true);
+        m_enemyController.Anim.SetFloat("WhichPart", 5);
         m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForElectricalStun, EnemyState.Enemy_ElectricalStunState));
         if (!hasAlreadyBeenStuned)
         {
