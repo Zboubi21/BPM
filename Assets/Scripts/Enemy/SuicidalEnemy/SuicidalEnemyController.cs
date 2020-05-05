@@ -148,7 +148,7 @@ public class SuicidalEnemyController : MonoBehaviour
 #region Unity Events
     void Awake()
     {
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
         enemyColliders = GetComponentsInChildren<Collider>();
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
@@ -299,6 +299,8 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void On_EnemyExplode()
     {
+        SetAnimation("Explode");
+
         m_audioController?.On_EnemyExplode();
         StopEnemyMovement(true);
 
