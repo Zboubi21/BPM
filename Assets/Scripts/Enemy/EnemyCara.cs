@@ -133,7 +133,7 @@ public class EnemyCara : EnemyCaraBase
     }
     protected override void CheckIfLowHealth()
     {
-        // enemyController.On_EnemyIsLowHealth();
+        enemyController.On_EnemyIsLowHealth();
     }
     protected override void CheckIfDead(bool deadWithElectricalDamage = false)
     {

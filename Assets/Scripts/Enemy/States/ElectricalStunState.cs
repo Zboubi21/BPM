@@ -20,6 +20,8 @@ public class ElectricalStunState : IState
         /// play elec stun animation
         /// play elec stun sound
         /// play elec stun FX
+        m_enemyController.On_EnemyIsStunned(true);
+
         m_enemyController.Agent.isStopped = true;
         m_enemyController.Anim.SetBool("IsStun", true);
         m_enemyController.Anim.SetFloat("WhichPart", 5);
@@ -35,6 +37,7 @@ public class ElectricalStunState : IState
     {
         m_enemyController.Anim.SetBool("IsStun", false);
         m_enemyController.Agent.isStopped = false;
+        m_enemyController.On_EnemyIsStunned(false);
     }
 
     public void FixedUpdate()

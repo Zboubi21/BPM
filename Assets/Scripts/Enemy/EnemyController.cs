@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
 
     public StateMachine m_sM = new StateMachine();
     public float maxTimeInStates;
+    public float m_waitTimeToDie = 2;
     public virtual void OnEnable()
     {
         EnemyCantShoot = false;
@@ -53,6 +54,8 @@ public class EnemyController : MonoBehaviour
     [Header("VFX")]
     public FxType shockVFX;
     public FxType electricalStunVFX;
+    [SerializeField] ParticleSystem m_stunPS;
+    [SerializeField] ParticleSystem m_lowHealthPS;
     [SerializeField] EnemySpawnerShaderController m_shaderController;
 
     public void ChangeState(int i)
@@ -579,6 +582,7 @@ public class EnemyController : MonoBehaviour
     }
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
+        m_lowHealthPS?.Stop(true);
         if (dieWithElectricalDamage)
         {
             m_shaderController?.On_StartDisintegrationShader();
@@ -618,6 +622,26 @@ public class EnemyController : MonoBehaviour
         // {
         //     m_noWeakSpots[i].SetActive(!isMouseOver);
         // }
+    }
+
+    public void On_EnemyIsLowHealth()
+    {
+        m_lowHealthPS?.Play(true);
+    }
+    public void On_EnemyIsStunned(bool isStun)
+    {
+        if (isStun)
+        {
+            var mainStunParticles = m_stunPS.main;
+            mainStunParticles.loop = true;
+            m_stunPS.Play(true);
+        }
+        else
+        {
+            var mainStunParticles = m_stunPS.main;
+            mainStunParticles.loop = false;
+            m_stunPS.Stop(true);
+        }
     }
 
     void FaceToTarget(Vector3 targetPos)

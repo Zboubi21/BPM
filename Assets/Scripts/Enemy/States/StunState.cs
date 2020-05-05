@@ -18,6 +18,8 @@ public class StunState : IState
         /// play stun animation
         /// play stun sound
         /// play stun FX
+        m_enemyController.On_EnemyIsStunned(true);
+        
         m_enemyController.Agent.isStopped = true;
         m_enemyController.Anim.SetBool("IsStun", true);
         m_enemyController.Anim.SetFloat("WhichPart", m_enemyController.Cara.ImpactPosition);
@@ -32,6 +34,7 @@ public class StunState : IState
     {
         m_enemyController.Agent.isStopped = false;
         //m_enemyController.Anim.SetLayerWeight(2, 0);
+        m_enemyController.On_EnemyIsStunned(false);
         
         m_enemyController.Anim.SetBool("IsStun", false);
     }
