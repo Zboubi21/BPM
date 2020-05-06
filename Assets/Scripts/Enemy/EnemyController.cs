@@ -177,7 +177,8 @@ public class EnemyController : MonoBehaviour
         m_sM.Update();
 
         #region DEBUG
-        // #if UNITY_EDITOR
+#if UNITY_EDITOR
+        _debug.useGizmos = true;
         if (_debug.useGizmos)
         {
             _debug.m_stateText.text = string.Format("{0}", m_sM.m_currentStateString);
@@ -195,9 +196,13 @@ public class EnemyController : MonoBehaviour
 
             //_debug.spine.LookAt(Player.position);
         }
+
+#else
+        _debug.useGizmos = false;
+
+#endif
         _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
         _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);
-        // #endif
         #endregion
 
         DistanceToTarget = GetTargetDistance(currentTarget);
@@ -235,7 +240,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    #region NPC motion state methods
+#region NPC motion state methods
 
     bool hasFoundACover = false;
     public Vector3 FindBestSpotsInRangeOfTarget(Transform target)
@@ -250,7 +255,7 @@ public class EnemyController : MonoBehaviour
             hasFoundACover = false;
         }
 
-        #region Find all cover around the player
+#region Find all cover around the player
         Collider[] allColInSphere = Physics.OverlapSphere(lastPoint, weaponBehavior._attack.rangeRadius);
         List<GameObject> allCoverInSphere = new List<GameObject>();
 
@@ -278,7 +283,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        #endregion
+#endregion
 
         if (allCoverInSphere.Count == 0 || !hasFoundACover)  // The NPC hasn't found a cover
         {
@@ -433,9 +438,9 @@ public class EnemyController : MonoBehaviour
         anim.SetFloat("VelocityY", transform.forward.normalized.y);
     }
 
-    #endregion
+#endregion
 
-    #region Random methods
+#region Random methods
     public bool ThrowBehaviorDice(float value)
     {
         float random = UnityEngine.Random.Range(0f, 100f);
@@ -469,9 +474,9 @@ public class EnemyController : MonoBehaviour
         }
         return allChances.Length - 1;
     }
-    #endregion
+#endregion
 
-    #region Is Stun State
+#region Is Stun State
     float debugStunTime;
     public IEnumerator IsStun(float time, EnemyState state)
     {
@@ -492,9 +497,9 @@ public class EnemyController : MonoBehaviour
             ChangeState((int)m_sM.LastStateIndex);
         }
     }
-    #endregion
+#endregion
 
-    #region NPC is dead methods
+#region NPC is dead methods
 
     public void KillNPC(float time)
     {
@@ -528,9 +533,9 @@ public class EnemyController : MonoBehaviour
             Cara._debug.allCollider[i].enabled = b;
         }
     }
-    #endregion
+#endregion
 
-    #region Instantiate and destroy object
+#region Instantiate and destroy object
     public GameObject OnInstantiate(GameObject obj, Vector3 trans)
     {
         return Instantiate(obj, trans, Quaternion.identity);
@@ -543,7 +548,7 @@ public class EnemyController : MonoBehaviour
     {
         Destroy(obj);
     }
-    #endregion
+#endregion
 
     private void OnDrawGizmosSelected()
     {
