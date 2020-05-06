@@ -572,12 +572,15 @@ public class PlayerController : MonoBehaviour
 	{
 		m_hasDash = hasDash;
 	}
-	public void StartDashCooldown()
+	public void StartDashCooldown(bool justStopCorout = false)
 	{
         if (m_dashCooldownCorout != null)
             StopCoroutine(m_dashCooldownCorout);
-        m_dashCooldownCorout = StartDashCooldownCorout();
-        StartCoroutine(m_dashCooldownCorout);
+		if (!justStopCorout)
+		{
+			m_dashCooldownCorout = StartDashCooldownCorout();
+			StartCoroutine(m_dashCooldownCorout);
+		}
 	}
 	public void StartRawInputAfterDash()
 	{
