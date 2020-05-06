@@ -156,8 +156,23 @@ public class BPMSystem : MonoBehaviour
     {
         public Transform m_indicatorRoot;
     }
+    
+    [Space]
+    [SerializeField] OnChangeLevelWeaponFeedback m_changeLvlFeedback;
+    [Serializable] class OnChangeLevelWeaponFeedback
+    {
+        [Header("Level UP")]
+        public ParticleSystem m_upLvl2;
+        public ParticleSystem m_upLvl3;
+        public ParticleSystem m_startFury;
 
-    [Header("Heart sound")]
+        [Header("Level Down")]
+        public ParticleSystem m_downLvl2;
+        public ParticleSystem m_downLvl3;
+        public ParticleSystem m_endFury;
+    }
+
+    // [Header("Heart sound")]
     // public AudioSource m_heartAudioSource;
     // public float m_waitTimeBetweenSound = 0.25f, m_waitTimeAfterSound = 0.33f;
     // public AudioClip m_firstClip, m_secondClip;
@@ -244,7 +259,7 @@ public class BPMSystem : MonoBehaviour
         UpdateEyeletFuryFeedback();
     }
 
-    public void GainBPM(float BPMGain, bool specialGain = false)
+    public void GainBPM(float BPMGain, bool specialGain = false, bool gainOnActivateFury = false)
     {
         if (_isCurrentlyOnFury)
             return;
@@ -282,7 +297,9 @@ public class BPMSystem : MonoBehaviour
         }
         CheckCanActivateFury();
         CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
-        ChangeWeaponLevel(_currentBPM);
+
+        ChangeWeaponLevel(_currentBPM, gainOnActivateFury);
+
         FeedBackBPM();
         _BPM.m_playerBpmGui.On_PlayerGetBpm(true, Mathf.CeilToInt(BPMGain), specialGain);
         UpdateEyeletFuryFeedback();
@@ -382,7 +399,7 @@ public class BPMSystem : MonoBehaviour
 
     #region Activate and Deactivate Weapon
     bool hasLoseAWeaponLevel;
-    void ChangeWeaponLevel(float currentBPM)
+    void ChangeWeaponLevel(float currentBPM, bool gainOnActivateFury = false)
     {
         if (!m_canChangeWeaponLvl)
             return;
@@ -397,14 +414,17 @@ public class BPMSystem : MonoBehaviour
                     {
                         audioControl.PlayWeaponUpgradeSound(1);
                     }
-                    ChangeWeaponState(WeaponState.Level2);
-                    _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
-                    PlayerController.s_instance.On_BpmLevelChanged(2);
-                    ChangeBpmShaderGaugeLength();
-                    UpdateEyeletLvlFeedback();
+                    if (!gainOnActivateFury)
+                    {
+                        ChangeWeaponState(WeaponState.Level2);
+                        _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
+                        PlayerController.s_instance.On_BpmLevelChanged(2);
+                        ChangeBpmShaderGaugeLength();
+                        UpdateWeaponLvlFeedback();
 
-                    if (_lastWeaponState == WeaponState.Level1)
-                        GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl3Bpm, true);
+                        if (_lastWeaponState == WeaponState.Level1)
+                            GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl3Bpm, true);
+                    }
                 }
             }
             else
@@ -430,7 +450,7 @@ public class BPMSystem : MonoBehaviour
                     ChangeBpmShaderGaugeLength();
                     _BPM.m_playerBpmGui.On_WeaponLvlChanged(1);
                     PlayerController.s_instance.On_BpmLevelChanged(1);
-                    UpdateEyeletLvlFeedback();
+                    UpdateWeaponLvlFeedback();
 
                     if (_lastWeaponState == WeaponState.Level0)
                         GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl2Bpm, true);
@@ -450,7 +470,7 @@ public class BPMSystem : MonoBehaviour
                 ChangeBpmShaderGaugeLength();
                 _BPM.m_playerBpmGui.On_WeaponLvlChanged(0);
                 PlayerController.s_instance.On_BpmLevelChanged(0);
-                UpdateEyeletLvlFeedback();
+                UpdateWeaponLvlFeedback();
             }
         }
         ChangeWeaponStats();
@@ -495,14 +515,14 @@ public class BPMSystem : MonoBehaviour
         if (Input.GetButtonDown("OverAdrenaline") && CanUsedFury())
         {
             //Set le BPM au max quand on active l'overadrénaline
-            GainBPM(_BPM.maxBPM - _currentBPM); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
+            GainBPM(_BPM.maxBPM - _currentBPM, true, true); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
 
             _canUseFury = false;
 
             _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 0);
             StartCoroutine(OnOverADActivate());
         }
-        else if (Input.GetButtonDown("OverAdrenaline") && !CanUsedFury() && !m_showCanActivateOverFeedback)
+        else if (Input.GetButtonDown("OverAdrenaline") && !CanUsedFury() && !m_showCanActivateOverFeedback && !_isCurrentlyOnFury)
         {
             StartCoroutine(ShowCanActivateOverFeedback());
         }
@@ -541,6 +561,7 @@ public class BPMSystem : MonoBehaviour
         PlayerController.s_instance.On_ActivateOveradrenaline(true);
 
         _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_FuryActivated", 1);
+        m_changeLvlFeedback.m_startFury?.Play(true);
 
         // ------ Wait the OverAdrenaline Timer ------
         float timer = 0;
@@ -553,6 +574,7 @@ public class BPMSystem : MonoBehaviour
         }
         // -------------------------------------------
 
+        m_changeLvlFeedback.m_endFury?.Play(true);
         _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_FuryActivated", 0);
         _currentOverdrenalineCooldown = 0;
         ChangeBpmShaderGaugeLength();
@@ -686,7 +708,7 @@ public class BPMSystem : MonoBehaviour
     {
         return mat.GetColor("_EmissiveColor");
     }
-    void UpdateEyeletLvlFeedback()
+    void UpdateWeaponLvlFeedback()
     {
         // Level UP to lvl 1
         if (CurrentWeaponState == WeaponState.Level1 && _lastWeaponState == WeaponState.Level0)
@@ -696,6 +718,8 @@ public class BPMSystem : MonoBehaviour
             
             if (_BPM.m_eyelet.m_stripMesh != null)
                 StartChangeEyeletEmissiveCorout(true, 3, ChangeEyeletEmissive(_BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_weaponStrip.m_toColor, _BPM.m_eyelet.m_weaponStrip.m_speed, _BPM.m_eyelet.m_weaponStrip.m_changeColorCurve));
+        
+            m_changeLvlFeedback.m_upLvl2?.Play(true);
         }
         // Level DOWN to lvl 0
         else if (CurrentWeaponState == WeaponState.Level0 && _lastWeaponState == WeaponState.Level1)
@@ -705,6 +729,8 @@ public class BPMSystem : MonoBehaviour
         
             if (_BPM.m_eyelet.m_stripMesh != null)
                 StartChangeEyeletEmissiveCorout(true, 3, ChangeEyeletEmissive(_BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_stripMesh.materials[_BPM.m_eyelet.m_stripMaterialNbr], _BPM.m_eyelet.m_weaponStrip.m_fromColor, _BPM.m_eyelet.m_weaponStrip.m_speed, _BPM.m_eyelet.m_weaponStrip.m_changeColorCurve));
+        
+            m_changeLvlFeedback.m_downLvl2?.Play(true);
         }
         // Level UP to lvl 2
         else if (CurrentWeaponState == WeaponState.Level2 && _lastWeaponState == WeaponState.Level1)
@@ -712,12 +738,16 @@ public class BPMSystem : MonoBehaviour
             if (_BPM.m_eyelet.m_secondEyeletMesh != null)
                 StartChangeEyeletEmissiveCorout(true, 1, ChangeEyeletEmissive(_BPM.m_eyelet.m_secondEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_secondEyeletMesh.m_toColor, _BPM.m_eyelet.m_secondEyeletMesh.m_speed, _BPM.m_eyelet.m_secondEyeletMesh.m_changeColorCurve));
 
+            m_changeLvlFeedback.m_upLvl3?.Play(true);
+
         }
         // Level DOWN to lvl 1
         else if (CurrentWeaponState == WeaponState.Level1 && _lastWeaponState == WeaponState.Level2)
         {
             if (_BPM.m_eyelet.m_secondEyeletMesh != null)
                 StartChangeEyeletEmissiveCorout(true, 1, ChangeEyeletEmissive(_BPM.m_eyelet.m_secondEyeletMesh.m_mesh[0].material, _BPM.m_eyelet.m_secondEyeletMesh.m_mesh[1].material, _BPM.m_eyelet.m_secondEyeletMesh.m_fromColor, _BPM.m_eyelet.m_secondEyeletMesh.m_speed, _BPM.m_eyelet.m_secondEyeletMesh.m_changeColorCurve));
+            
+            m_changeLvlFeedback.m_downLvl3?.Play(true);
         }
     }
     bool m_haveBpmFury = false;

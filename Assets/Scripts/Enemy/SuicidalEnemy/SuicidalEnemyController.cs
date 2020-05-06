@@ -148,7 +148,7 @@ public class SuicidalEnemyController : MonoBehaviour
 #region Unity Events
     void Awake()
     {
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
         enemyColliders = GetComponentsInChildren<Collider>();
         SetupStateMachine();
         m_agent = GetComponent<NavMeshAgent>();
@@ -237,6 +237,7 @@ public class SuicidalEnemyController : MonoBehaviour
 
         ChangeState(EnemyState.SpawnState);
         m_shaderController.On_StartSpawnShader();
+        m_audioController?.On_Spawn();
     }
     public void ChasePlayer()
     {
@@ -299,9 +300,12 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void On_EnemyExplode()
     {
+        SetAnimation("Explode");
+
         m_audioController?.On_EnemyExplode();
         StopEnemyMovement(true);
 
+        On_ShowEnemyWeakSpot(false);
         m_explosionParticles?.Play(true);
 
         List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
@@ -376,6 +380,10 @@ public class SuicidalEnemyController : MonoBehaviour
         // m_canBeMouseOver = false;
         On_ShowEnemyWeakSpot(false);
 
+        m_stunParticles?.Stop(true);
+        m_lowHealthParticles?.Stop(true);
+        m_detonationParticles?.Stop(true);
+
         m_sM.ChangeState((int)EnemyState.DieState);
 
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.killSomething.beforeSelfDestructKill);
@@ -390,6 +398,7 @@ public class SuicidalEnemyController : MonoBehaviour
             m_shaderController?.On_StartDissolveShader();
             m_audioController?.On_EnemyDie();
         }
+        m_audioController?.On_StartToMoveFast(false);
     }
     public void On_EnemyDie()
     {

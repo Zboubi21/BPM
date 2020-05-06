@@ -22,7 +22,9 @@ public class PlayerDashState : IState
 
     public void Enter()
     {
+        m_playerController.StartChangeDashLayerValueCorout(1, false);
         m_playerController.SetPlayerWeaponLayerLength(1, 1);
+
         m_playerController.SetPlayerWeaponAnim("Dash");
         m_playerController.m_dash.m_dashAnim?.SwitchValue();
 
@@ -82,7 +84,7 @@ public class PlayerDashState : IState
         }
 
         m_playerController.StartRawInputAfterDash();
-        m_playerController.SetPlayerWeaponLayerLength(1, 0);
+        m_playerController.StartChangeDashLayerValueCorout(0, true);
     }
 
     void ExitStateAfterDash()

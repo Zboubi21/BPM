@@ -20,7 +20,11 @@ public class ElectricalStunState : IState
         /// play elec stun animation
         /// play elec stun sound
         /// play elec stun FX
+        m_enemyController.On_EnemyIsStunned(true);
+
         m_enemyController.Agent.isStopped = true;
+        m_enemyController.Anim.SetBool("IsStun", true);
+        m_enemyController.Anim.SetFloat("WhichPart", 5);
         m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForElectricalStun, EnemyState.Enemy_ElectricalStunState));
         if (!hasAlreadyBeenStuned)
         {
@@ -31,7 +35,9 @@ public class ElectricalStunState : IState
 
     public void Exit()
     {
+        m_enemyController.Anim.SetBool("IsStun", false);
         m_enemyController.Agent.isStopped = false;
+        m_enemyController.On_EnemyIsStunned(false);
     }
 
     public void FixedUpdate()

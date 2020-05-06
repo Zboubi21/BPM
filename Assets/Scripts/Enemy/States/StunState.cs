@@ -18,20 +18,24 @@ public class StunState : IState
         /// play stun animation
         /// play stun sound
         /// play stun FX
+        m_enemyController.On_EnemyIsStunned(true);
+        
         m_enemyController.Agent.isStopped = true;
-        Vector3 direction = (PlayerController.s_instance.transform.position - m_enemyController.transform.position).normalized;
-        m_enemyController.Anim.SetLayerWeight(2, 1);
-        m_enemyController.Anim.SetFloat("DeadlyHitValueX", direction.x);
-        m_enemyController.Anim.SetFloat("DeadlyHitValueY", direction.z);
+        m_enemyController.Anim.SetBool("IsStun", true);
+        m_enemyController.Anim.SetFloat("WhichPart", m_enemyController.Cara.ImpactPosition);
+        //Vector3 direction = (PlayerController.s_instance.transform.position - m_enemyController.transform.position).normalized;
+        //m_enemyController.Anim.SetLayerWeight(2, 1);
+
         m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForStun, EnemyState.Enemy_StunState));
+
     }
 
     public void Exit()
     {
         m_enemyController.Agent.isStopped = false;
-        m_enemyController.Anim.SetFloat("DeadlyHitValueX", 0);
-        m_enemyController.Anim.SetFloat("DeadlyHitValueY", 0);
-        m_enemyController.Anim.SetBool("IsLifeLow", false);
+        //m_enemyController.Anim.SetLayerWeight(2, 0);
+        m_enemyController.On_EnemyIsStunned(false);
+        
         m_enemyController.Anim.SetBool("IsStun", false);
     }
 

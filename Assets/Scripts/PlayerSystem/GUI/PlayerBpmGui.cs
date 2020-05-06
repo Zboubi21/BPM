@@ -156,11 +156,13 @@ public class PlayerBpmGui : MonoBehaviour
         {
             m_bpmValue.color = m_overadrenalineBpmValueColor;
             m_bpmValue.font = m_bpmLvl[3];
+            m_textAnim.SwitchValue(true);
         }
         else
         {
             m_bpmValue.color = m_normalBpmValueColor;
             m_bpmValue.font = m_bpmLvl[2];
+            m_textAnim.SwitchValue(false);
         }
     }
     

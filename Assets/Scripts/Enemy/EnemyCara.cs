@@ -13,6 +13,7 @@ public class EnemyCara : EnemyCaraBase
     public EnemyArchetype EnemyArchetype { get => enemyArchetype; set => enemyArchetype = value; }
     public List<bool> CheckWeakSpotHit { get => checkWeakSpotHit; set => checkWeakSpotHit = value; }
     public Vector3 HitPosition { get => hitPosition; set => hitPosition = value; }
+    public int ImpactPosition { get => _impactPosition; set => _impactPosition = value; }
 
     [Space]
     public DebugOuvreSurtoutPas _debug = new DebugOuvreSurtoutPas();
@@ -27,6 +28,7 @@ public class EnemyCara : EnemyCaraBase
 
     EnemyController enemyController;
     MeshProceduralGenerator proceduralGenerator;
+    int _impactPosition;
 
     Vector3 hitPosition;
 
@@ -131,7 +133,7 @@ public class EnemyCara : EnemyCaraBase
     }
     protected override void CheckIfLowHealth()
     {
-        // enemyController.On_EnemyIsLowHealth();
+        enemyController.On_EnemyIsLowHealth();
     }
     protected override void CheckIfDead(bool deadWithElectricalDamage = false)
     {
@@ -140,7 +142,7 @@ public class EnemyCara : EnemyCaraBase
             if (_currentLife <= 0)
             {
                 _isDead = true;
-
+                enemyController.On_EnemyGoingToDie(deadWithElectricalDamage);
                 enemyController.m_sM.ChangeState((int)EnemyState.Enemy_DieState);
 
             }

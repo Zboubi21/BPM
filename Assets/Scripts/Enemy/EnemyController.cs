@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
 
     public StateMachine m_sM = new StateMachine();
     public float maxTimeInStates;
+    public float m_waitTimeToDie = 2;
     public virtual void OnEnable()
     {
         EnemyCantShoot = false;
@@ -53,6 +54,9 @@ public class EnemyController : MonoBehaviour
     [Header("VFX")]
     public FxType shockVFX;
     public FxType electricalStunVFX;
+    [SerializeField] ParticleSystem m_stunPS;
+    [SerializeField] ParticleSystem m_lowHealthPS;
+    [SerializeField] EnemySpawnerShaderController m_shaderController;
 
     public void ChangeState(int i)
     {
@@ -475,12 +479,10 @@ public class EnemyController : MonoBehaviour
         debugStunTime = time;
         if (state == EnemyState.Enemy_StunState)
         {
-            Anim.SetBool("IsLifeLow", true);
             Level.AddFX(shockVFX, transform.position, Quaternion.identity);
         }
         else if (state == EnemyState.Enemy_ElectricalStunState)
         {
-            Anim.SetBool("IsStun", true);
             Level.AddFX(electricalStunVFX, transform.position, Quaternion.identity);
         }
         yield return new WaitForSeconds(time);
@@ -569,14 +571,30 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    #region Spawn Enemy
+#region Enemy
     public void On_SpawnEnemy()
     {
         if (m_spawn.m_faceToPlayerWhenSpawned)
             FaceToTarget(PlayerController.s_instance.transform.position);
         ChangeState((int)EnemyState.Enemy_SpawnState);
+        m_shaderController.On_StartSpawnShader();
+        audioControl?.On_Spawn();
     }
-    #endregion
+    public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
+    {
+        m_lowHealthPS?.Stop(true);
+        if (dieWithElectricalDamage)
+        {
+            m_shaderController?.On_StartDisintegrationShader();
+            audioControl?.On_EnemyIsDisintegrate();
+        }
+        else
+        {
+            m_shaderController?.On_StartDissolveShader();
+            audioControl?.On_EnemyDie();
+        }
+    }
+#endregion
 
     public void ActivateEnemyColliders(bool activate)
     {
@@ -604,6 +622,26 @@ public class EnemyController : MonoBehaviour
         // {
         //     m_noWeakSpots[i].SetActive(!isMouseOver);
         // }
+    }
+
+    public void On_EnemyIsLowHealth()
+    {
+        m_lowHealthPS?.Play(true);
+    }
+    public void On_EnemyIsStunned(bool isStun)
+    {
+        if (isStun)
+        {
+            var mainStunParticles = m_stunPS.main;
+            mainStunParticles.loop = true;
+            m_stunPS.Play(true);
+        }
+        else
+        {
+            var mainStunParticles = m_stunPS.main;
+            mainStunParticles.loop = false;
+            m_stunPS.Stop(true);
+        }
     }
 
     void FaceToTarget(Vector3 targetPos)

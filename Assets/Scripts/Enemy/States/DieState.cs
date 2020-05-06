@@ -21,7 +21,7 @@ public class DieState : IState
         m_enemyController.Anim.SetFloat("DeadlyHitValueX", direction.x);
         m_enemyController.Anim.SetFloat("DeadlyHitValueY", direction.z);
         m_enemyController.Agent.isStopped = true;
-        m_enemyController.KillNPC(2f);   //Send back to pool with animation time
+        m_enemyController.KillNPC(m_enemyController.m_waitTimeToDie);   //Send back to pool with animation time
         AddRightScore();
     }
 

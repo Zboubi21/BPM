@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4822,6 +4822,7 @@ GameObject:
   - component: {fileID: 4404213394683918256}
   - component: {fileID: 7144310832711318166}
   - component: {fileID: 7005074025112693597}
+  - component: {fileID: 6661727407132208020}
   m_Layer: 0
   m_Name: Enemy_Dissolve_VFX
   m_TagString: Untagged
@@ -4861,7 +4862,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -9633,6 +9634,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: -315175166769488228, guid: b49d8a7c8cb2963459e2d084c35f3508, type: 3}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6661727407132208020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3860732732000722953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788986cc75506c041a152a8384195b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_waitTimeToReset: 2
 --- !u!1 &6726217722096821084
 GameObject:
   m_ObjectHideFlags: 0
@@ -9681,7 +9695,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

@@ -12,6 +12,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     [Header("USE THIS PARAMETERS!")]
 
     [SerializeField] MeshRenderer[] m_meshesToChangeMat;
+    [SerializeField] MeshRenderer[] m_alternativeMeshesToChangeMat;
+    [SerializeField] SkinnedMeshRenderer[] m_skinnedMeshesToChangeMat;
 
     [SerializeField] Spawn m_spawn;
     [Serializable] class Spawn
@@ -21,6 +23,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public float m_timeToFadeShader = 1;
         public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
         public Material m_shaderMaterial;
+        public Material m_alternativeShaderMaterial;
         public Transform m_shaderPos;
         public FxType m_fx = FxType.SuicidalEnemy_Spawn;
         public Transform m_spawnFxTrans;
@@ -36,14 +39,19 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public float m_waitTimeToDissolve = 0.5f;
         public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
         public Material m_shaderMaterial;
+        public Material m_alternativeShaderMaterial;
         public FxType m_fx = FxType.SuicidalEnemy_Spawn;
         public Transform m_spawnFxTrans;
     }
 
     List<Material> m_startMaterials = new List<Material>();
+    List<Material> m_alternativeStartMaterials = new List<Material>();
     Material m_spawnShaderMaterialInstance;
+    Material m_alternativeSpawnShaderMaterialInstance;
     Material m_disintegrationShaderMaterialInstance;
+    Material m_alternativeDisintegrationShaderMaterialInstance;
     Material m_dissolveShaderMaterialInstance;
+    Material m_alternativeDissolveShaderMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
     enum ShaderState
@@ -56,8 +64,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     protected override void Awake()
     {
         m_spawnShaderMaterialInstance = m_spawn.m_shaderMaterial;
+        m_alternativeSpawnShaderMaterialInstance = m_spawn.m_alternativeShaderMaterial;
+
         m_disintegrationShaderMaterialInstance = m_disintegration.m_shaderMaterial;
+        m_alternativeDisintegrationShaderMaterialInstance = m_disintegration.m_alternativeShaderMaterial;
+
         m_dissolveShaderMaterialInstance = m_dissolve.m_shaderMaterial;
+        m_alternativeDissolveShaderMaterialInstance = m_dissolve.m_alternativeShaderMaterial;
 
         if (m_meshesToChangeMat != null)
         {
@@ -66,6 +79,24 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                 m_startMaterials.Add(m_meshesToChangeMat[i].material);
 
                 m_meshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
+        }
+        if (m_alternativeMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_alternativeStartMaterials.Add(m_alternativeMeshesToChangeMat[i].material);
+
+                m_alternativeMeshesToChangeMat[i].material = m_alternativeSpawnShaderMaterialInstance;
+            }
+        }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_startMaterials.Add(m_skinnedMeshesToChangeMat[i].material);
+
+                m_skinnedMeshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
             }
         }
     }
@@ -81,6 +112,28 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     public void On_StartSpawnShader()
     {
         ObjectPooler.Instance.SpawnFXFromPool(m_spawn.m_fx, m_spawn.m_spawnFxTrans.position, m_spawn.m_spawnFxTrans.rotation);
+
+        if (m_meshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
+            {
+                m_meshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
+        }
+        if (m_alternativeMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_alternativeMeshesToChangeMat[i].material = m_alternativeSpawnShaderMaterialInstance;
+            }
+        }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_skinnedMeshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
+            }
+        }
 
         m_currentShaderState = ShaderState.Spawn;
         SetupChangeValue(true);
@@ -102,6 +155,20 @@ public class EnemySpawnerShaderController : ChangeShaderValue
             for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
             {
                 m_meshesToChangeMat[i].material = m_disintegrationShaderMaterialInstance;
+            }
+        }
+        if (m_alternativeMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_alternativeMeshesToChangeMat[i].material = m_alternativeDisintegrationShaderMaterialInstance;
+            }
+        }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_skinnedMeshesToChangeMat[i].material = m_disintegrationShaderMaterialInstance;
             }
         }
 
@@ -133,6 +200,20 @@ public class EnemySpawnerShaderController : ChangeShaderValue
             for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
             {
                 m_meshesToChangeMat[i].material = m_dissolveShaderMaterialInstance;
+            }
+        }
+        if (m_alternativeMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_alternativeMeshesToChangeMat[i].material = m_alternativeDissolveShaderMaterialInstance;
+            }
+        }
+        if (m_skinnedMeshesToChangeMat != null)
+        {
+            for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+            {
+                m_skinnedMeshesToChangeMat[i].material = m_dissolveShaderMaterialInstance;
             }
         }
 
@@ -171,12 +252,15 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         {
             case ShaderState.Spawn:
                 m_spawnShaderMaterialInstance.SetFloat(m_spawn.m_shaderParameter, newValue);
+                m_alternativeSpawnShaderMaterialInstance.SetFloat(m_spawn.m_shaderParameter, newValue);
             break;
             case ShaderState.Disintegration:
                 m_disintegrationShaderMaterialInstance.SetFloat(m_disintegration.m_shaderParameter, newValue);
+                m_alternativeDisintegrationShaderMaterialInstance.SetFloat(m_disintegration.m_shaderParameter, newValue);
             break;
             case ShaderState.Dissolve:
                 m_dissolveShaderMaterialInstance.SetFloat(m_dissolve.m_shaderParameter, newValue);
+                m_alternativeDissolveShaderMaterialInstance.SetFloat(m_dissolve.m_shaderParameter, newValue);
             break;
         }
     }
@@ -192,6 +276,20 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                 for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
                 {
                     m_meshesToChangeMat[i].material = m_startMaterials[i];
+                }
+            }
+            if (m_alternativeMeshesToChangeMat != null)
+            {
+                for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
+                {
+                    m_alternativeMeshesToChangeMat[i].material = m_alternativeStartMaterials[i];
+                }
+            }
+            if (m_skinnedMeshesToChangeMat != null)
+            {
+                for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
+                {
+                    m_skinnedMeshesToChangeMat[i].material = m_startMaterials[i];
                 }
             }
         }
