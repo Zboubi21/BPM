@@ -143,6 +143,7 @@ public class BPMSystem : MonoBehaviour
         [Header("Feedback")]
         public ChangeImageValues m_overadrenalineFeedBackScreen;
         public ParticleSystem m_overadrenalineFeedBackParticles;
+        public GameObject m_furyGUIFeedback;
 
         [Header("Shader")]
         public SkinnedMeshRenderer m_mesh;
@@ -326,6 +327,7 @@ public class BPMSystem : MonoBehaviour
         if (_currentBPM >= _BPM.m_activateFuryBPM && _furyCoolDownOver && !_canUseFury && !_isCurrentlyOnFury)
         {
             _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 1);
+            On_ShowFuryGUIFeedback(true);
             _canUseFury = true;
         }
     }
@@ -520,6 +522,7 @@ public class BPMSystem : MonoBehaviour
             _canUseFury = false;
 
             _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 0);
+            On_ShowFuryGUIFeedback(false);
             StartCoroutine(OnOverADActivate());
         }
         else if (Input.GetButtonDown("OverAdrenaline") && !CanUsedFury() && !m_showCanActivateOverFeedback && !_isCurrentlyOnFury)
@@ -594,6 +597,10 @@ public class BPMSystem : MonoBehaviour
     {
         _isCurrentlyOnFury = b;
         _BPM.m_playerBpmGui.On_OverAdrenalineActivated(b);
+    }
+    void On_ShowFuryGUIFeedback(bool show)
+    {
+        _overdrenaline.m_furyGUIFeedback?.SetActive(show);
     }
 
     void FuryCoolDownHandeler()
