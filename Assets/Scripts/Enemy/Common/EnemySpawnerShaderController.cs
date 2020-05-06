@@ -40,8 +40,9 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
         public Material m_shaderMaterial;
         public Material m_alternativeShaderMaterial;
-        public FxType m_fx = FxType.SuicidalEnemy_Spawn;
-        public Transform m_spawnFxTrans;
+        // public FxType m_fx = FxType.SuicidalEnemy_Spawn;
+        public ParticleSystem m_ps;
+        // public Transform m_spawnFxTrans;
     }
 
     List<Material> m_startMaterials = new List<Material>();
@@ -185,7 +186,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         SetShaderValue(m_currentFromValue);
         SwitchValue(true);
 
-        ObjectPooler.Instance.SpawnFXFromPool(m_disintegration.m_fx, m_disintegration.m_spawnFxTrans.position, m_disintegration.m_spawnFxTrans.rotation);
+        // ObjectPooler.Instance.SpawnFXFromPool(m_disintegration.m_fx, m_disintegration.m_spawnFxTrans.position, m_disintegration.m_spawnFxTrans.rotation);
+        m_disintegration.m_ps?.Play(true);
     }
     public void On_StartDissolveShader()
     {
@@ -230,7 +232,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         SetShaderValue(m_currentFromValue);
         SwitchValue(true);
 
-        ObjectPooler.Instance.SpawnFXFromPool(m_dissolve.m_fx, m_dissolve.m_spawnFxTrans.position, m_dissolve.m_spawnFxTrans.rotation);
+        // ObjectPooler.Instance.SpawnFXFromPool(m_dissolve.m_fx, m_dissolve.m_spawnFxTrans.position, m_dissolve.m_spawnFxTrans.rotation);
+        m_dissolve.m_ps?.Play(true);
     }
     
     protected override float GetShaderValue()
