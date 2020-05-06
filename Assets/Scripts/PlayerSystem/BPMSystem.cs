@@ -259,7 +259,7 @@ public class BPMSystem : MonoBehaviour
         UpdateEyeletFuryFeedback();
     }
 
-    public void GainBPM(float BPMGain, bool specialGain = false)
+    public void GainBPM(float BPMGain, bool specialGain = false, bool gainOnActivateFury = false)
     {
         if (_isCurrentlyOnFury)
             return;
@@ -297,7 +297,9 @@ public class BPMSystem : MonoBehaviour
         }
         CheckCanActivateFury();
         CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
-        ChangeWeaponLevel(_currentBPM);
+
+        ChangeWeaponLevel(_currentBPM, gainOnActivateFury);
+
         FeedBackBPM();
         _BPM.m_playerBpmGui.On_PlayerGetBpm(true, Mathf.CeilToInt(BPMGain), specialGain);
         UpdateEyeletFuryFeedback();
@@ -397,7 +399,7 @@ public class BPMSystem : MonoBehaviour
 
     #region Activate and Deactivate Weapon
     bool hasLoseAWeaponLevel;
-    void ChangeWeaponLevel(float currentBPM)
+    void ChangeWeaponLevel(float currentBPM, bool gainOnActivateFury = false)
     {
         if (!m_canChangeWeaponLvl)
             return;
@@ -412,14 +414,17 @@ public class BPMSystem : MonoBehaviour
                     {
                         audioControl.PlayWeaponUpgradeSound(1);
                     }
-                    ChangeWeaponState(WeaponState.Level2);
-                    _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
-                    PlayerController.s_instance.On_BpmLevelChanged(2);
-                    ChangeBpmShaderGaugeLength();
-                    UpdateWeaponLvlFeedback();
+                    if (!gainOnActivateFury)
+                    {
+                        ChangeWeaponState(WeaponState.Level2);
+                        _BPM.m_playerBpmGui.On_WeaponLvlChanged(2);
+                        PlayerController.s_instance.On_BpmLevelChanged(2);
+                        ChangeBpmShaderGaugeLength();
+                        UpdateWeaponLvlFeedback();
 
-                    if (_lastWeaponState == WeaponState.Level1)
-                        GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl3Bpm, true);
+                        if (_lastWeaponState == WeaponState.Level1)
+                            GainBPM(_BPM.m_bpmGainedWhendLvlUp.m_getLvl3Bpm, true);
+                    }
                 }
             }
             else
@@ -510,14 +515,14 @@ public class BPMSystem : MonoBehaviour
         if (Input.GetButtonDown("OverAdrenaline") && CanUsedFury())
         {
             //Set le BPM au max quand on active l'overadrénaline
-            GainBPM(_BPM.maxBPM - _currentBPM); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
+            GainBPM(_BPM.maxBPM - _currentBPM, true, true); // Le problème quand on fait ça c'est que on peut relancer l'overadrénaline
 
             _canUseFury = false;
 
             _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 0);
             StartCoroutine(OnOverADActivate());
         }
-        else if (Input.GetButtonDown("OverAdrenaline") && !CanUsedFury() && !m_showCanActivateOverFeedback)
+        else if (Input.GetButtonDown("OverAdrenaline") && !CanUsedFury() && !m_showCanActivateOverFeedback && !_isCurrentlyOnFury)
         {
             StartCoroutine(ShowCanActivateOverFeedback());
         }

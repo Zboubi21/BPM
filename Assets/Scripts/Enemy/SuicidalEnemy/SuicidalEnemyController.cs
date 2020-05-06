@@ -305,6 +305,7 @@ public class SuicidalEnemyController : MonoBehaviour
         m_audioController?.On_EnemyExplode();
         StopEnemyMovement(true);
 
+        On_ShowEnemyWeakSpot(false);
         m_explosionParticles?.Play(true);
 
         List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
