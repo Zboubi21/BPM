@@ -78,22 +78,22 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     [Serializable]
     public class WeaponRecoil
     {
-        [Header("Weapon Recoil")]
-        public bool m_useRecoil = false;
-        [Header("Recoil_Transform")]
-        public Transform RecoilPositionTranform;
-        public Transform RecoilRotationTranform;
-        [Space(10)]
-        [Header("Recoil_Settings")]
-        public float PositionDampTime;
-        public float RotationDampTime;
-        [Space(10)]
-        public float PositionRecoil;
-        public float RotationRecoil;
-        [Space(10)]
-        public Vector3 RecoilRotation;
-        public Vector3 RecoilKickBack;
-        [Space(15)]
+        //[Header("Weapon Recoil")]
+        //public bool m_useRecoil = false;
+        //[Header("Recoil_Transform")]
+        //public Transform RecoilPositionTranform;
+        //public Transform RecoilRotationTranform;
+        //[Space(10)]
+        //[Header("Recoil_Settings")]
+        //public float PositionDampTime;
+        //public float RotationDampTime;
+        //[Space(10)]
+        //public float PositionRecoil;
+        //public float RotationRecoil;
+        //[Space(10)]
+        //public Vector3 RecoilRotation;
+        //public Vector3 RecoilKickBack;
+        //[Space(15)]
         [Header("Camera Recoil")]
         public bool m_useCameraRecoil = false;
         [Header("Recoil Settings")]
@@ -353,15 +353,15 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     void FixedUpdate()
     {
-        if (weaponRecoil.m_useRecoil)
-        {
-            CurrentPositionRecoil = Vector3.Lerp(CurrentPositionRecoil, Vector3.zero, weaponRecoil.PositionRecoil * Time.deltaTime);
-            CurrentRotationRecoil = Vector3.Lerp(CurrentRotationRecoil, Vector3.zero, weaponRecoil.RotationRecoil * Time.deltaTime);
+        //if (weaponRecoil.m_useRecoil)
+        //{
+        //    CurrentPositionRecoil = Vector3.Lerp(CurrentPositionRecoil, Vector3.zero, weaponRecoil.PositionRecoil * Time.deltaTime);
+        //    CurrentRotationRecoil = Vector3.Lerp(CurrentRotationRecoil, Vector3.zero, weaponRecoil.RotationRecoil * Time.deltaTime);
 
-            weaponRecoil.RecoilPositionTranform.localPosition = Vector3.Slerp(weaponRecoil.RecoilPositionTranform.localPosition, CurrentRotationRecoil, weaponRecoil.PositionDampTime * Time.fixedDeltaTime);
-            weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
-            RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
-        }
+        //    weaponRecoil.RecoilPositionTranform.localPosition = Vector3.Slerp(weaponRecoil.RecoilPositionTranform.localPosition, CurrentRotationRecoil, weaponRecoil.PositionDampTime * Time.fixedDeltaTime);
+        //    weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
+        //    RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
+        //}
 
         if (weaponRecoil.m_useCameraRecoil)
         {
@@ -378,8 +378,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
     public void Fire()
     {
-        CurrentPositionRecoil += new Vector3(weaponRecoil.RecoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.y, weaponRecoil.RecoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.z, weaponRecoil.RecoilRotation.z));
-        CurrentRotationRecoil += new Vector3(UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.x, weaponRecoil.RecoilKickBack.x), UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.y, weaponRecoil.RecoilKickBack.y), weaponRecoil.RecoilKickBack.z);
+        //CurrentPositionRecoil += new Vector3(weaponRecoil.RecoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.y, weaponRecoil.RecoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.z, weaponRecoil.RecoilRotation.z));
+        //CurrentRotationRecoil += new Vector3(UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.x, weaponRecoil.RecoilKickBack.x), UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.y, weaponRecoil.RecoilKickBack.y), weaponRecoil.RecoilKickBack.z);
         currentRotation += new Vector3(-weaponRecoil.recoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.recoilRotation.y, weaponRecoil.recoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.recoilRotation.z, weaponRecoil.recoilRotation.z));
     }
 
