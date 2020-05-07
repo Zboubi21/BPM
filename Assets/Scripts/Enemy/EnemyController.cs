@@ -134,6 +134,8 @@ public class EnemyController : MonoBehaviour
         //    sourceObjects.SetTransform(0, PlayerController.s_instance.m_references.m_cameraPivot);
         //    _debug.aimConstraint.data.sourceObjects = sourceObjects;
         //}
+
+
     }
 
     void SetupStateMachine()
@@ -170,6 +172,13 @@ public class EnemyController : MonoBehaviour
 
         DistanceToTarget = GetTargetDistance(currentTarget);
         DistanceToPlayer = GetTargetDistance(Player.position);
+
+#if UNITY_EDITOR
+        _debug.useGizmos = true;
+#else
+        _debug.useGizmos = false;
+
+#endif
     }
 
     private void Update()

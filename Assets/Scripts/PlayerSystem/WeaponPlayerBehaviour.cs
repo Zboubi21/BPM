@@ -367,7 +367,10 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         {
             currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, weaponRecoil.returnSpeed * Time.deltaTime);
             rot = Vector3.Slerp(rot, currentRotation, weaponRecoil.rotationSpeed * Time.deltaTime);
-            PlayerController.s_instance.m_references.m_cameraControl.transform.localRotation = Quaternion.Euler(rot);
+            if(PlayerController.s_instance.m_references.m_cameraControl != null)
+            {
+                PlayerController.s_instance.m_references.m_cameraControl.transform.localRotation = Quaternion.Euler(rot);
+            }
         }
         
         SetCurrentEnemyTargeted();
@@ -377,6 +380,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         CurrentPositionRecoil += new Vector3(weaponRecoil.RecoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.y, weaponRecoil.RecoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.z, weaponRecoil.RecoilRotation.z));
         CurrentRotationRecoil += new Vector3(UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.x, weaponRecoil.RecoilKickBack.x), UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.y, weaponRecoil.RecoilKickBack.y), weaponRecoil.RecoilKickBack.z);
+        currentRotation += new Vector3(-weaponRecoil.recoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.recoilRotation.y, weaponRecoil.recoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.recoilRotation.z, weaponRecoil.recoilRotation.z));
     }
 
     /*public override IEnumerator RecoilCurve()
