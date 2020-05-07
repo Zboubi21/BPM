@@ -2219,7 +2219,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 61239
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 0
+  antialiasing: 1
   SMAAQuality: 2
   dithering: 1
   stopNaNs: 0
@@ -2815,15 +2815,6 @@ MonoBehaviour:
   - {fileID: 7216562146316704920}
   - {fileID: 1941078970842361919}
   weaponRecoil:
-    m_useRecoil: 0
-    RecoilPositionTranform: {fileID: 5322551062949514320}
-    RecoilRotationTranform: {fileID: 4814906131607140059}
-    PositionDampTime: 6
-    RotationDampTime: 9
-    PositionRecoil: 40
-    RotationRecoil: 40
-    RecoilRotation: {x: -10, y: 4, z: 6}
-    RecoilKickBack: {x: 0.015, y: 0.01, z: -0.075}
     m_useCameraRecoil: 1
     rotationSpeed: 7.5
     returnSpeed: 30
@@ -10426,6 +10417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: near clip plane
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311337433675181117, guid: f60187228616aba43b8dd53151dd7d4d,
+        type: 3}
+      propertyPath: antialiasing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5807419651765283140, guid: f60187228616aba43b8dd53151dd7d4d,
         type: 3}
