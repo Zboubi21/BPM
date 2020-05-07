@@ -144,6 +144,7 @@ public class BPMSystem : MonoBehaviour
         public ChangeImageValues m_overadrenalineFeedBackScreen;
         public ParticleSystem m_overadrenalineFeedBackParticles;
         public GameObject m_furyGUIFeedback;
+        public ParticleSystem m_onOveradrenalineCanBeActivate;
 
         [Header("Shader")]
         public SkinnedMeshRenderer m_mesh;
