@@ -826,11 +826,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.75
-  m_Speed: 6
-  m_Acceleration: 10
+  m_Speed: 10
+  m_Acceleration: 25
   avoidancePriority: 50
-  m_AngularSpeed: 3600
-  m_StoppingDistance: 2
+  m_AngularSpeed: 14400
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -892,7 +892,7 @@ MonoBehaviour:
     m_lifeTxt: {fileID: 8766474615014461572}
   m_explosionRoot: {fileID: 7372710111473146470}
   m_drawGizmosType: 1
-  m_basicMoveSpeed: 6
+  m_basicMoveSpeed: 10
   m_explosionMoveSpeed: 15
   m_selfDestruction:
     m_waitTimeToStartSelfDestruction: 0.15
@@ -3099,9 +3099,7 @@ MonoBehaviour:
     m_shaderMaterial: {fileID: 2100000, guid: 449dde2b90c9dd54a938e43c35d30127, type: 2}
     m_alternativeShaderMaterial: {fileID: 2100000, guid: 4afa940096b419a4da584986bddd596a,
       type: 2}
-    m_fx: 17
     m_ps: {fileID: 1812321819111513290}
-    m_spawnFxTrans: {fileID: 675604974902409033}
   m_dissolve:
     m_shaderParameter: Vector1_73673D0C
     m_fromValue: -0.6
@@ -3135,9 +3133,7 @@ MonoBehaviour:
     m_shaderMaterial: {fileID: 2100000, guid: f1f74ff3a0975a243b66eff54194259a, type: 2}
     m_alternativeShaderMaterial: {fileID: 2100000, guid: 12654ae885ef4a64c8ad8800564269a7,
       type: 2}
-    m_fx: 16
     m_ps: {fileID: 4893143064608330547}
-    m_spawnFxTrans: {fileID: 675604974902409033}
 --- !u!1 &8776988891622611637
 GameObject:
   m_ObjectHideFlags: 0
