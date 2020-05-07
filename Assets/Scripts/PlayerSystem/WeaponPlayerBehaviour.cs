@@ -542,11 +542,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         {
             SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyNoSpot);
             m_hitmarkers.m_img.sprite = m_hitmarkers.m_noSpotMarker;
+            audioControl?.On_HitMarkerNoSpot();
         }
         else if (colliderTag == "WeakSpot")
         {
             SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyWeakspot);
             m_hitmarkers.m_img.sprite = m_hitmarkers.m_weakSpotMarker;
+            audioControl?.On_HitMarkerWeakSpot();
         }
         
         if (m_showPlayerHitMarker != null)

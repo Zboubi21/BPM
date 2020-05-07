@@ -7,11 +7,13 @@ public class ChangeShaderValue : ChangeValues
 {
     
     [Header("Shader")]
+    [SerializeField] bool m_isImageShader = true;
     [SerializeField] protected string m_shaderParameter;
 
     [Header("Parameters")]
-    [SerializeField] protected float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
-    [SerializeField, Range(0, 1)] float m_fromValue, m_toValue;
+    [SerializeField] protected float m_timeToFadeIn = 0.25f;
+    [SerializeField] protected float m_timeToFadeOff = 0.5f;
+    [SerializeField] float m_fromValue, m_toValue;
     protected float m_currentFromValue, m_currentToValue;
     [SerializeField] bool m_useCurve = false;
     [SerializeField] protected AnimationCurve m_curve;
@@ -22,7 +24,7 @@ public class ChangeShaderValue : ChangeValues
     [SerializeField] float m_timeToChangeValue = 1;
     [SerializeField] float m_waitTimeBetweenValue = 0;
 
-    Image m_targetImage;
+    Material m_shader;
     protected float m_distanceFromTargetedValues;
     protected float m_speedToFadeIn, m_speedToFadeOff;
     bool m_blinkIsActivate = false;
@@ -31,7 +33,22 @@ public class ChangeShaderValue : ChangeValues
 
     protected virtual void Awake()
     {
-        m_targetImage = GetComponent<Image>();
+        if (m_isImageShader)
+        {
+            Image image = GetComponent<Image>();
+            if (image != null)
+                m_shader = image.material;
+
+            RawImage rawImage = GetComponent<RawImage>();
+            if (rawImage != null)
+                m_shader = rawImage.material;
+        }
+        else
+        {
+            MeshRenderer mesh = GetComponent<MeshRenderer>();
+            if (mesh != null)
+                m_shader = mesh.material;
+        }
         SetupVariables();
     }
     protected virtual void SetupVariables()
@@ -177,17 +194,16 @@ public class ChangeShaderValue : ChangeValues
         base.StopChangingValues();
     }
 
-    [Header("Use for Debug")]
-    [SerializeField] Image image;
+    // [Header("Use for Debug")]
+    // [SerializeField] Image image;
     protected virtual float GetShaderValue()
     {
-        return image.color.a;
+        return m_shader.GetFloat(m_shaderParameter);
     }
     protected virtual void SetShaderValue(float newValue)
     {
         // Pour plus de réutilisation, mettre le nom de la variable du shader en public !
-        if (image != null)
-            image.color = new Color(image.color.r, image.color.g, image.color.b, newValue);
+        m_shader?.SetFloat(m_shaderParameter, newValue);
     }
 
 }

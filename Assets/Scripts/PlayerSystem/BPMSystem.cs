@@ -143,8 +143,9 @@ public class BPMSystem : MonoBehaviour
         [Header("Feedback")]
         public ChangeImageValues m_overadrenalineFeedBackScreen;
         public ParticleSystem m_overadrenalineFeedBackParticles;
-        public GameObject m_furyGUIFeedback;
-        public ParticleSystem m_onOveradrenalineCanBeActivate;
+        public ParticleSystem m_onOveradrenalineCanBeActivatePS;
+        public ChangeShaderValue[] m_onOveradrenalineCanBeActivateShader;
+        public ChangeImageValues m_onOveradrenalineCanBeActivateImage;
 
         [Header("Shader")]
         public SkinnedMeshRenderer m_mesh;
@@ -601,7 +602,15 @@ public class BPMSystem : MonoBehaviour
     }
     void On_ShowFuryGUIFeedback(bool show)
     {
-        _overdrenaline.m_furyGUIFeedback?.SetActive(show);
+        if (show)
+            _overdrenaline.m_onOveradrenalineCanBeActivatePS?.Play(true);
+
+        if (_overdrenaline.m_onOveradrenalineCanBeActivateShader != null)
+            for (int i = 0, l = _overdrenaline.m_onOveradrenalineCanBeActivateShader.Length; i < l; ++i)
+            {
+                _overdrenaline.m_onOveradrenalineCanBeActivateShader[i]?.SwitchValue(show);
+            }
+        _overdrenaline.m_onOveradrenalineCanBeActivateImage?.SwitchValue(show);
     }
 
     void FuryCoolDownHandeler()
