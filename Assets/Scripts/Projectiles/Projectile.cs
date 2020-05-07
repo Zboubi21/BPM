@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
     public FxType muzzleFX;
     public FxType impactFX;
     [Space]
-    public LayerMask layer;
+    public int layer;
 
     [Space]
     public float m_maxLifeTime = 2;
