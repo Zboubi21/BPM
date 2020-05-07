@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
     public FxType muzzleFX;
     public FxType impactFX;
     [Space]
-    
+    public int layer;
 
     [Space]
     public float m_maxLifeTime = 2;
@@ -107,12 +107,14 @@ public class Projectile : MonoBehaviour
                 col = gameObject.AddComponent<SphereCollider>();
 
                 rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                rb.interpolation = RigidbodyInterpolation.Extrapolate;
+                rb.interpolation = RigidbodyInterpolation.None;
                 rb.constraints = RigidbodyConstraints.FreezeRotation;
                 rb.useGravity = false;
 
                 col.isTrigger = true;
                 col.radius = 0.05f;
+
+
 
 
                 break;
@@ -137,6 +139,7 @@ public class Projectile : MonoBehaviour
 
                 break;
         }
+        gameObject.layer = layer;
 
         StartCoroutine(DestroyAnyway());
 
@@ -178,7 +181,7 @@ public class Projectile : MonoBehaviour
 
                 break;
         }
-
+        gameObject.layer = layer;
         StartCoroutine(DestroyAnyway());
     }
 
@@ -436,5 +439,5 @@ public class Projectile : MonoBehaviour
             _WeaponPlayerBehaviour.SetPlayerHitmarker(tag);
     }
 
-    
+
 }

@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	public References m_references;
 	[Serializable] public class References{
 		public Transform m_cameraPivot;
+        public Transform m_cameraControl;
 		public PlayerAudioController m_playerAudio;
 		public Animator m_weaponAnimator;
         public Transform targetForEnnemies;
@@ -572,12 +573,15 @@ public class PlayerController : MonoBehaviour
 	{
 		m_hasDash = hasDash;
 	}
-	public void StartDashCooldown()
+	public void StartDashCooldown(bool justStopCorout = false)
 	{
         if (m_dashCooldownCorout != null)
             StopCoroutine(m_dashCooldownCorout);
-        m_dashCooldownCorout = StartDashCooldownCorout();
-        StartCoroutine(m_dashCooldownCorout);
+		if (!justStopCorout)
+		{
+			m_dashCooldownCorout = StartDashCooldownCorout();
+			StartCoroutine(m_dashCooldownCorout);
+		}
 	}
 	public void StartRawInputAfterDash()
 	{

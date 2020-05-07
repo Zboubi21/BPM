@@ -22,6 +22,8 @@ public class PlayerDashState : IState
 
     public void Enter()
     {
+        m_playerController.StartDashCooldown(true);
+
         m_playerController.StartChangeDashLayerValueCorout(1, false);
         m_playerController.SetPlayerWeaponLayerLength(1, 1);
 

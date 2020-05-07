@@ -35,8 +35,7 @@ public class EnemyCara : EnemyCaraBase
     protected override void Awake()
     {
         enemyController = GetComponent<EnemyController>();
-        proceduralGenerator = GetComponent<MeshProceduralGenerator>();
-        proceduralGenerator?.BuildCharaMesh();
+        
         base.Awake();
         if (enemyController != null)
         {

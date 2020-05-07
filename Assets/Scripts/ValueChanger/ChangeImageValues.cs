@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
 public class ChangeImageValues : ChangeValues
 {
     
+    [SerializeField] bool m_useImage = true;
     [SerializeField] float m_timeToFadeIn = 0.25f, m_timeToFadeOff = 0.5f;
     [SerializeField] Color m_fromColor, m_toColor;
     [SerializeField] bool m_useCurve = false;
@@ -19,6 +19,7 @@ public class ChangeImageValues : ChangeValues
     [SerializeField] float m_waitTimeBetweenBlink = 0;
 
     Image m_targetImage;
+    RawImage m_targetRawImage;
     float m_distanceFromTargetedColors;
     float m_speedToFadeIn, m_speedToFadeOff;
     bool m_blinkIsActivate = false;
@@ -28,6 +29,7 @@ public class ChangeImageValues : ChangeValues
     void Awake()
     {
         m_targetImage = GetComponent<Image>();
+        m_targetRawImage = GetComponent<RawImage>();
 
         m_distanceFromTargetedColors = GetDistanceFromColors(m_fromColor, m_toColor);
         m_speedToFadeIn = m_distanceFromTargetedColors / m_timeToFadeIn;
@@ -38,14 +40,39 @@ public class ChangeImageValues : ChangeValues
         base.SetupChangeValue(startWithFromValue);
 
         if (startWithFromValue)
+        {
             SetImageColor(m_targetImage, m_fromColor);
+            SetRawImageColor(m_targetRawImage, m_fromColor);
+        }
         else
+        {
             SetImageColor(m_targetImage, m_toColor);
+            SetRawImageColor(m_targetRawImage, m_toColor);
+        }
     }
 
     public override void SwitchValue()
     {
         base.SwitchValue();
+        if (m_needToFadeIn)
+        {
+            if (m_useBlink)
+                m_blinkIsActivate = true;
+            CheckToStartChangeImageColorCoroutine(m_toColor, m_speedToFadeIn);
+        }
+        else
+        {
+            if (m_useBlink)
+            {
+                m_blinkIsActivate = false;
+                StartToBlink(false);
+            }
+            CheckToStartChangeImageColorCoroutine(m_fromColor, m_speedToFadeOff);
+        }
+    }
+    public override void SwitchValue(bool newValue)
+    {
+        base.SwitchValue(newValue);
         if (m_needToFadeIn)
         {
             if (m_useBlink)
@@ -76,7 +103,7 @@ public class ChangeImageValues : ChangeValues
     {
         m_valueIsChanging = true;
 
-        Color fromColor = m_targetImage.color;
+        Color fromColor = m_useImage ? m_targetImage.color : m_targetRawImage.color;
 
         Color actualColor = fromColor;
         float fracJourney = 0;
@@ -89,6 +116,7 @@ public class ChangeImageValues : ChangeValues
             else
                 actualColor = Color.Lerp(fromColor, toColor, fracJourney);
             SetImageColor(m_targetImage, actualColor);
+            SetRawImageColor(m_targetRawImage, actualColor);
             yield return null;
         }
         if (m_useBlink && m_blinkIsActivate)
@@ -115,7 +143,7 @@ public class ChangeImageValues : ChangeValues
         if (m_isBlinkOn)
             yield return new WaitForSeconds(m_waitTimeBetweenBlink);
 
-        Color fromColor = m_targetImage.color;
+        Color fromColor = m_useImage ? m_targetImage.color : m_targetRawImage.color;
         Color toColor = m_isBlinkOn ? new Color(fromColor.r, fromColor.g, fromColor.b, m_maxAlpha / 255) : new Color(fromColor.r, fromColor.g, fromColor.b, m_minAlpha / 255);
 
         float distance = GetDistanceFromColors(fromColor, toColor);
@@ -129,6 +157,7 @@ public class ChangeImageValues : ChangeValues
             fracJourney += (Time.deltaTime) * speed / distance;
             actualColor = Color.Lerp(fromColor, toColor, fracJourney);
             SetImageColor(m_targetImage, actualColor);
+            SetRawImageColor(m_targetRawImage, actualColor);
             yield return null;
         }
         if (m_useBlink && m_blinkIsActivate)

@@ -71,8 +71,15 @@ public class ChangeValues : MonoBehaviour
     }
     protected void SetImageColor(Image image, Color newColor)
     {
-        if (image.color != newColor)
-            image.color = newColor;
+        if (image != null)
+            if (image.color != newColor)
+                image.color = newColor;
+    }
+    protected void SetRawImageColor(RawImage image, Color newColor)
+    {
+        if (image != null)
+            if (image.color != newColor)
+                image.color = newColor;
     }
 
     public void OverrideStartType(StartType startType)

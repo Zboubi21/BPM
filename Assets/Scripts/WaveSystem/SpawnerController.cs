@@ -132,7 +132,11 @@ public class SpawnerController : MonoBehaviour
 
                     EnemyController enemyController = go.GetComponent<EnemyController>();
                     SuicidalEnemyController suicidalEnemyController = go.GetComponent<SuicidalEnemyController>();
+
+
                     yield return new WaitForFixedUpdate();
+                    MeshProceduralGenerator proceduralGenerator = enemyController.gameObject.GetComponent<MeshProceduralGenerator>();
+                    proceduralGenerator?.BuildCharaMesh();
                     enemyController?.On_SpawnEnemy();
                     suicidalEnemyController?.On_SpawnEnemy();
                 }

@@ -101,6 +101,9 @@ public class PlayerAudioController : AudioController
         
     }
 
+    [SerializeField] Sounds m_hitMarkerNoSpot;
+    [SerializeField] Sounds m_hitMarkerWeakSpot;
+
     #region Serializable class
     [Serializable]
     public class Pitch
@@ -277,6 +280,15 @@ public class PlayerAudioController : AudioController
         yield return new WaitForSeconds(m_bpm.m_waitTimeAfterNextHeart);
         if (m_isOnCriticalBpm)
             StartCoroutine(StartFirstHeartSound());
+    }
+
+    public void On_HitMarkerNoSpot()
+    {
+        StartSoundFromArray(m_hitMarkerNoSpot.m_audioSource, m_hitMarkerNoSpot.m_sounds, m_hitMarkerNoSpot.m_volume, m_hitMarkerNoSpot.m_volumeRandomizer, m_hitMarkerNoSpot.m_pitch, m_hitMarkerNoSpot.m_pitchRandomizer);
+    }
+    public void On_HitMarkerWeakSpot()
+    {
+        StartSoundFromArray(m_hitMarkerWeakSpot.m_audioSource, m_hitMarkerWeakSpot.m_sounds, m_hitMarkerWeakSpot.m_volume, m_hitMarkerWeakSpot.m_volumeRandomizer, m_hitMarkerWeakSpot.m_pitch, m_hitMarkerWeakSpot.m_pitchRandomizer);
     }
 
     public void On_Overadrenaline(bool isActivate)
