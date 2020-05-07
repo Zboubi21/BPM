@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	public References m_references;
 	[Serializable] public class References{
 		public Transform m_cameraPivot;
+        public Transform m_cameraControl;
 		public PlayerAudioController m_playerAudio;
 		public Animator m_weaponAnimator;
         public Transform targetForEnnemies;

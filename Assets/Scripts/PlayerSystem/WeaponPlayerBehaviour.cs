@@ -78,6 +78,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     [Serializable]
     public class WeaponRecoil
     {
+        [Header("Weapon Recoil")]
         public bool m_useRecoil = false;
         [Header("Recoil_Transform")]
         public Transform RecoilPositionTranform;
@@ -92,8 +93,19 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         [Space(10)]
         public Vector3 RecoilRotation;
         public Vector3 RecoilKickBack;
+        [Space(15)]
+        [Header("Camera Recoil")]
+        public bool m_useCameraRecoil = false;
+        [Header("Recoil Settings")]
+        public float rotationSpeed = 6;
+        public float returnSpeed = 25;
+        [Space]
+        [Header("Recoil Strength")]
+        public Vector3 recoilRotation = new Vector3(2f, 2f, 2f);
 
     }
+    Vector3 currentRotation;
+    Vector3 rot;
     Vector3 CurrentPositionRecoil;
     Vector3 CurrentRotationRecoil;
 
@@ -349,6 +361,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             weaponRecoil.RecoilPositionTranform.localPosition = Vector3.Slerp(weaponRecoil.RecoilPositionTranform.localPosition, CurrentRotationRecoil, weaponRecoil.PositionDampTime * Time.fixedDeltaTime);
             weaponRecoil.RecoilRotationTranform.localRotation = Quaternion.Euler(RotationOutput);
             RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
+        }
+
+        if (weaponRecoil.m_useCameraRecoil)
+        {
+            currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, weaponRecoil.returnSpeed * Time.deltaTime);
+            rot = Vector3.Slerp(rot, currentRotation, weaponRecoil.rotationSpeed * Time.deltaTime);
+            PlayerController.s_instance.m_references.m_cameraControl.transform.localRotation = Quaternion.Euler(rot);
         }
         
         SetCurrentEnemyTargeted();

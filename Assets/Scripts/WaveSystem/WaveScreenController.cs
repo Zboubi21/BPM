@@ -247,7 +247,7 @@ public class WaveScreenController :  MonoBehaviour
         {
             screenRef.changingTexts[0].text = string.Format("{0}", current);
 
-            float finalValue = Mathf.Lerp(currentFontSize, maxFontSize, Mathf.InverseLerp(0, 100f, value));
+            float finalValue = Mathf.Lerp(currentFontSize, maxFontSize, Mathf.InverseLerp(0, 1000f, value));
             yield return StartCoroutine(ScoreEvaluateCurve(scoreCurve, screenRef, finalValue));
         }
         else
