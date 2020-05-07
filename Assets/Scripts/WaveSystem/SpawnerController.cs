@@ -135,8 +135,12 @@ public class SpawnerController : MonoBehaviour
 
 
                     yield return new WaitForFixedUpdate();
-                    MeshProceduralGenerator proceduralGenerator = enemyController.gameObject.GetComponent<MeshProceduralGenerator>();
-                    proceduralGenerator?.BuildCharaMesh();
+                    MeshProceduralGenerator proceduralGenerator = new MeshProceduralGenerator();
+                    if (enemyController != null)
+                    {
+                        proceduralGenerator = enemyController.gameObject.GetComponent<MeshProceduralGenerator>();
+                        proceduralGenerator?.BuildCharaMesh();
+                    }
                     enemyController?.On_SpawnEnemy();
                     suicidalEnemyController?.On_SpawnEnemy();
                 }
