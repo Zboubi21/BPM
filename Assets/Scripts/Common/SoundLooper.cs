@@ -106,7 +106,7 @@ public class SoundLooper : AudioController
     
     public void ResetAudioSource()
     {
-        
+        SetAudioSource(m_loopSource, 0, true);
     }
 
 }

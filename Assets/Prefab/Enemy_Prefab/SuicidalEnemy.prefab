@@ -830,7 +830,7 @@ NavMeshAgent:
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 14400
-  m_StoppingDistance: 1
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -2979,6 +2979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_startValue: 0
+  m_isImageShader: 1
   m_shaderParameter: 
   m_timeToFadeIn: 0
   m_timeToFadeOff: 0
@@ -3014,7 +3015,6 @@ MonoBehaviour:
   m_maxValue: 1
   m_timeToChangeValue: 1
   m_waitTimeBetweenValue: 0
-  image: {fileID: 0}
   m_meshesToChangeMat:
   - {fileID: 7557590822043677618}
   - {fileID: 5744409475557611944}
@@ -3105,7 +3105,7 @@ MonoBehaviour:
     m_fromValue: -0.6
     m_toValue: 0.6
     m_timeToFadeShader: 1
-    m_waitTimeToDissolve: 0.5
+    m_waitTimeToDissolve: 0
     m_curve:
       serializedVersion: 2
       m_Curve:

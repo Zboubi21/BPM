@@ -38,6 +38,7 @@ public class SuicidalEnemyAudioController : AudioController
     }
     public void On_EnemyExplode()
     {
+        m_movements.ResetAudioSource();
         StartSoundFromArray(m_explode.m_audioSource, m_explode.m_sounds, m_explode.m_volume, m_explode.m_volumeRandomizer, m_explode.m_pitch, m_explode.m_pitchRandomizer);
     }
     public void On_EnemyDie()
