@@ -1011,9 +1011,7 @@ MonoBehaviour:
     m_shaderMaterial: {fileID: 2100000, guid: 61380d1a38a619349a64c053d6860f01, type: 2}
     m_alternativeShaderMaterial: {fileID: 2100000, guid: 61380d1a38a619349a64c053d6860f01,
       type: 2}
-    m_fx: 14
     m_ps: {fileID: 3426201744500749723}
-    m_spawnFxTrans: {fileID: 7914586009387326488}
   m_dissolve:
     m_shaderParameter: Vector1_73673D0C
     m_fromValue: -0.6
@@ -1047,9 +1045,7 @@ MonoBehaviour:
     m_shaderMaterial: {fileID: 2100000, guid: 1fcfb9bcbcea10e4a9199f62489a194f, type: 2}
     m_alternativeShaderMaterial: {fileID: 2100000, guid: 1fcfb9bcbcea10e4a9199f62489a194f,
       type: 2}
-    m_fx: 13
     m_ps: {fileID: 7267582542041235299}
-    m_spawnFxTrans: {fileID: 5301648118628028268}
 --- !u!1 &1093564852996495577
 GameObject:
   m_ObjectHideFlags: 0
@@ -3939,9 +3935,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.33
   m_Speed: 3.5
-  m_Acceleration: 10
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 270
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
@@ -3973,8 +3969,8 @@ MonoBehaviour:
     SerializationNodes: []
   "_enemyCaract\xE9ristique":
     _move:
-      moveSpeed: 8
-      rotationSpeed: 100
+      moveSpeed: 10
+      rotationSpeed: 200
     _health:
       maxHealth: 100
       damageMultiplicatorOnWeakSpot: 1.5
@@ -4100,7 +4096,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   _attack:
-    damage: 5
+    damage: 10
     rangeRadius: 10
     rangeOfAttackNoMatterWhat: 7
     bulletSpeed: 50
@@ -4109,7 +4105,7 @@ MonoBehaviour:
     minTimeBetweenEachBurst: 0.5
     maxTimeBetweenEachBurst: 0.75
     _debugGizmos: 1
-    enemyAttackDispersement: 0.5
+    enemyAttackDispersement: 0
 --- !u!114 &4194676766685212466
 MonoBehaviour:
   m_ObjectHideFlags: 0
