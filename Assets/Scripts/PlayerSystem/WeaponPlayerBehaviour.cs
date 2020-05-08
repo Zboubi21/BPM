@@ -480,7 +480,6 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     bool m_isTouchEnemy = false;
     void SetCurrentEnemyTargeted()
     {
-
         if(!WeaponForwardRaycast())
         {
             if(m_currentEnemyCharaBase == null) // Si le Player ne vise aucun NPC
@@ -490,6 +489,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             else // Si le Player a visé un NPC mais ne le vise plus
             {
                 /// Deactivate shader on current
+                On_ActivateShader(false, m_currentEnemyCharaBase);
                 m_currentEnemyCharaBase = null; 
             }
         }
@@ -502,7 +502,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     m_currentEnemyCharaBase = enemyRef.cara;
                     m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+
                     /// Activate shader on current
+                    On_ActivateShader(true, m_currentEnemyCharaBase);
                 }
             }
             else // Si le Player vise un autre NPC juste après en avoir visé un ( Son raycast n'a jamais touché autre chose qu'un NPC, entre les deux NPC )
@@ -513,61 +515,22 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                     if (enemyRef != null)
                     {
                         /// Deactive shader on last
+                        On_ActivateShader(false, m_lastEnemyCharaBase);
                         m_currentEnemyCharaBase = enemyRef.cara;
+
                         /// Activate shader on current
+                        On_ActivateShader(true, m_currentEnemyCharaBase);
                         m_lastEnemyCharaBase = m_currentEnemyCharaBase;
                     }
                 }
             }
         }
-
-        // m_isTouchEnemy = false;
-        
-        // if (WeaponForwardRaycast())
-        // {
-        //     ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
-        //     if (enemyRef != null)
-        //     {
-        //         m_currentEnemyCharaBase = enemyRef.cara;
-
-        //         SuicidalEnemyController suicidalEnemy = m_currentEnemyCharaBase.GetSuicidalEnemyController();
-        //         if (suicidalEnemy != null)
-        //             if (suicidalEnemy.CanBeMouseOver)
-        //             {
-        //                 suicidalEnemy.On_EnemyIsMouseOver(true);
-        //                 m_isTouchEnemy = true;
-        //                 ResetLastTouchEnemy();
-        //                 m_lastEnemyCharaBase = m_currentEnemyCharaBase;
-        //             }
-
-        //         EnemyController enemy = m_currentEnemyCharaBase.GetEnemyController();
-        //         if (enemy != null)
-        //             if (enemy.CanBeMouseOver)
-        //             {
-        //                 enemy.On_EnemyIsMouseOver(true);
-        //                 m_isTouchEnemy = true;
-        //                 ResetLastTouchEnemy();
-        //                 m_lastEnemyCharaBase = m_currentEnemyCharaBase;
-        //             }
-        //     }
-        // }
-        // if (!m_isTouchEnemy)
-        //     ResetLastTouchEnemy();
     }
-    void ResetLastTouchEnemy()
+    void On_ActivateShader(bool activate, EnemyCaraBase enemy)
     {
-        // if (m_lastEnemyCharaBase != null)
-        // {
-        //     SuicidalEnemyController suicidalEnemy = m_lastEnemyCharaBase.GetSuicidalEnemyController();
-        //         if (suicidalEnemy != null)
-        //             if (suicidalEnemy.CanBeMouseOver)
-        //                 suicidalEnemy.On_EnemyIsMouseOver(false);
-
-        //     EnemyController enemy = m_lastEnemyCharaBase.GetEnemyController();
-        //     if (enemy != null)
-        //         if (enemy.CanBeMouseOver)
-        //             enemy.On_EnemyIsMouseOver(false);
-        // }
+        SuicidalEnemyController suicidalEnemy = enemy.GetComponent<SuicidalEnemyController>();
+        if (suicidalEnemy != null)
+            suicidalEnemy.On_ShowEnemyWeakSpot(activate);
     }
 
     void SetPlayerCrosshairColor()

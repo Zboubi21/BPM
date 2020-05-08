@@ -274,18 +274,7 @@ public class SuicidalEnemyController : MonoBehaviour
         }
         return m_playerInRange;
     }
-    // public bool EnemyInClosedRangeOfPlayer()
-    // {
-    //     if (GetPlayerDistance() >= m_automaticExplodeRange.m_range)
-    //     {
-    //         return false;
-    //     }
-    //     else if (GetPlayerDistance() < m_automaticExplodeRange.m_range)
-    //     {
-    //         return true;
-    //     }
-    //     return false;
-    // }
+
     bool m_isWaitingToExplode = false;
     IEnumerator m_waitTimeToExplodeCorout;
     public void On_EnemyEnterInSelfDestructionState()
@@ -476,6 +465,7 @@ public class SuicidalEnemyController : MonoBehaviour
         {
             m_weakSpots[i]?.SetActive(show);
         }
+        Debug.Log("On_ShowEnemyWeakSpot: " + show);
     }
 
 #endregion
