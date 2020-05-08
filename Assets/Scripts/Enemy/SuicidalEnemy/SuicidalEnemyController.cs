@@ -391,11 +391,13 @@ public class SuicidalEnemyController : MonoBehaviour
         {
             m_shaderController?.On_StartDisintegrationShader();
             m_audioController?.On_EnemyIsDisintegrate();
+            SetAnimation("Disintegration");
         }
         else
         {
             m_shaderController?.On_StartDissolveShader();
             m_audioController?.On_EnemyDie();
+            SetAnimation("Dissolve");
         }
         m_audioController?.On_StartToMoveFast(false);
     }

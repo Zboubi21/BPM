@@ -22,7 +22,6 @@ public class SuicidalEnemyDieState : IState
         m_timer = 0;
         m_timerIsDone = false;
         m_enemyController.StopEnemyMovement(true);
-        m_enemyController.SetAnimation("Die");
     }
 
     public void FixedUpdate()
