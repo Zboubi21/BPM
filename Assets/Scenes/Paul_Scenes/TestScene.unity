@@ -7561,6 +7561,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812351987}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &813964776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df29e7cc05fbec4aa43e06ea875565d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 0
+    m_Value: 0
+  multiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 0
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  sunSize:
+    m_OverrideState: 0
+    m_Value: 0.04
+    min: 0
+    max: 1
+  sunSizeConvergence:
+    m_OverrideState: 0
+    m_Value: 5
+    min: 1
+    max: 10
+  atmosphereThickness:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 5
+  skyTint:
+    m_OverrideState: 0
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  groundColor:
+    m_OverrideState: 0
+    m_Value: {r: 0.369, g: 0.349, b: 0.341, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  enableSunDisk:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!1 &825206012
 GameObject:
   m_ObjectHideFlags: 0
@@ -15973,9 +16049,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8798216646479647648, guid: afa9eecb96c518548a307d2ca9de695b,
         type: 3}
+      propertyPath: mats.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8798216646479647648, guid: afa9eecb96c518548a307d2ca9de695b,
+        type: 3}
       propertyPath: weaponRecoil.m_useCameraRecoil
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8798216646479647648, guid: afa9eecb96c518548a307d2ca9de695b,
+        type: 3}
+      propertyPath: rayCastEnemyCollision.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 8798216646479647648, guid: afa9eecb96c518548a307d2ca9de695b,
+        type: 3}
+      propertyPath: mats.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 736a8d3c67ac5c344bbe3cb9beb040c0, type: 2}
+    - target: {fileID: 8798216646479647648, guid: afa9eecb96c518548a307d2ca9de695b,
+        type: 3}
+      propertyPath: mats.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a4d5ede9895b2fe4d9e6071d71726385, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afa9eecb96c518548a307d2ca9de695b, type: 3}
 --- !u!1 &1644310204
@@ -16571,82 +16667,6 @@ Transform:
   m_Father: {fileID: 1972370673}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1703060954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df29e7cc05fbec4aa43e06ea875565d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  rotation:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 360
-  skyIntensityMode:
-    m_OverrideState: 0
-    m_Value: 0
-  exposure:
-    m_OverrideState: 0
-    m_Value: 0
-  multiplier:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-  upperHemisphereLuxValue:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-  desiredLuxValue:
-    m_OverrideState: 0
-    m_Value: 20000
-  updateMode:
-    m_OverrideState: 0
-    m_Value: 0
-  updatePeriod:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-  includeSunInBaking:
-    m_OverrideState: 0
-    m_Value: 0
-  sunSize:
-    m_OverrideState: 0
-    m_Value: 0.04
-    min: 0
-    max: 1
-  sunSizeConvergence:
-    m_OverrideState: 0
-    m_Value: 5
-    min: 1
-    max: 10
-  atmosphereThickness:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 5
-  skyTint:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  groundColor:
-    m_OverrideState: 0
-    m_Value: {r: 0.369, g: 0.349, b: 0.341, a: 1}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  enableSunDisk:
-    m_OverrideState: 0
-    m_Value: 1
 --- !u!1 &1728510227
 GameObject:
   m_ObjectHideFlags: 0
@@ -19356,7 +19376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: f2a69eb764f4e6f4e8b5b606e6db4a89, type: 2}
   m_StaticLightingSkyUniqueID: 2
-  m_SkySettings: {fileID: 1703060954}
+  m_SkySettings: {fileID: 813964776}
   m_SkySettingsFromProfile: {fileID: 8232989810861969397, guid: f2a69eb764f4e6f4e8b5b606e6db4a89,
     type: 2}
 --- !u!114 &2007120853
@@ -22287,6 +22307,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  mesh: {fileID: 0}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
@@ -22378,6 +22399,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  mesh: {fileID: 0}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
@@ -23740,6 +23762,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  mesh: {fileID: 0}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
@@ -23812,6 +23835,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  mesh: {fileID: 0}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
@@ -23937,6 +23961,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  mesh: {fileID: 0}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
@@ -24962,6 +24987,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  mesh: {fileID: 0}
   "_enemyCaract\xE9ristique":
     _move:
       moveSpeed: 0
@@ -26090,6 +26116,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ObjectPooler
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556029032081389869, guid: 801aa31bbd318a449a26ef687ec91de7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4556029032081389870, guid: 801aa31bbd318a449a26ef687ec91de7,
         type: 3}
@@ -27979,6 +28010,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 69078357968290816, guid: b105084d94c3e444396ef70a6c71a7dc,
         type: 3}
       propertyPath: m_LocalRotation.y
@@ -28334,12 +28369,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.000000013715351
       objectReference: {fileID: 0}
-    - target: {fileID: 1943647027869053552, guid: b105084d94c3e444396ef70a6c71a7dc,
-        type: 3}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 1943647027869053552, guid: b105084d94c3e444396ef70a6c71a7dc,
-        type: 3}
     - target: {fileID: 2447590023957319515, guid: b105084d94c3e444396ef70a6c71a7dc,
         type: 3}
       propertyPath: m_LocalRotation.x

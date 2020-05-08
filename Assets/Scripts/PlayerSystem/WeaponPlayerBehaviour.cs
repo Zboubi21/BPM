@@ -25,6 +25,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     public Camera playerCamera;
     public LayerMask rayCastCollision;
+    public LayerMask rayCastEnemyCollision = 10;
 
     [Header("Anims")]
     [SerializeField] Animations m_animations;
@@ -475,12 +476,18 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         return Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastCollision, QueryTriggerInteraction.Collide);
     }
 
+    bool WeaponForwardRaycastForEnemy()
+    {
+        Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * 100f, Color.blue);
+        return Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out _hit, Mathf.Infinity, rayCastEnemyCollision, QueryTriggerInteraction.Collide);
+    }
+
     EnemyCaraBase m_currentEnemyCharaBase;
     EnemyCaraBase m_lastEnemyCharaBase;
     bool m_isTouchEnemy = false;
     void SetCurrentEnemyTargeted()
     {
-        if(!WeaponForwardRaycast())
+        if (!WeaponForwardRaycastForEnemy())
         {
             if(m_currentEnemyCharaBase == null) // Si le Player ne vise aucun NPC
             {
@@ -489,8 +496,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             else // Si le Player a visé un NPC mais ne le vise plus
             {
                 /// Deactivate shader on current
-                On_ActivateShader(false, m_currentEnemyCharaBase);
-                m_currentEnemyCharaBase = null; 
+                //On_ActivateShader(false, m_currentEnemyCharaBase);
+                m_currentEnemyCharaBase = null;
             }
         }
         else // Si le Player vise un NPC
@@ -502,24 +509,23 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                 {
                     m_currentEnemyCharaBase = enemyRef.cara;
                     m_lastEnemyCharaBase = m_currentEnemyCharaBase;
-
                     /// Activate shader on current
-                    On_ActivateShader(true, m_currentEnemyCharaBase);
+                    //On_ActivateShader(true, m_currentEnemyCharaBase);
                 }
             }
             else // Si le Player vise un autre NPC juste après en avoir visé un ( Son raycast n'a jamais touché autre chose qu'un NPC, entre les deux NPC )
             {
-                if (m_currentEnemyCharaBase != m_lastEnemyCharaBase) // Si le NPC visé est bien différent du NPC visé précédement
+                ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
+                if (enemyRef != null)
                 {
-                    ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
-                    if (enemyRef != null)
+                    m_currentEnemyCharaBase = enemyRef.cara;
+                    if (m_currentEnemyCharaBase != m_lastEnemyCharaBase) // Si le NPC visé est bien différent du NPC visé précédement
                     {
                         /// Deactive shader on last
-                        On_ActivateShader(false, m_lastEnemyCharaBase);
-                        m_currentEnemyCharaBase = enemyRef.cara;
+                        //On_ActivateShader(false, m_lastEnemyCharaBase);
 
                         /// Activate shader on current
-                        On_ActivateShader(true, m_currentEnemyCharaBase);
+                        //On_ActivateShader(true, m_currentEnemyCharaBase);
                         m_lastEnemyCharaBase = m_currentEnemyCharaBase;
                     }
                 }

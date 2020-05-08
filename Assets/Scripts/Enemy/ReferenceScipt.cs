@@ -6,4 +6,5 @@ public class ReferenceScipt : MonoBehaviour
 {
     public EnemyCaraBase cara;
     public int positionImpact;
+
 }
