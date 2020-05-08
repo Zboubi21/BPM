@@ -480,6 +480,47 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     bool m_isTouchEnemy = false;
     void SetCurrentEnemyTargeted()
     {
+
+        if(!WeaponForwardRaycast())
+        {
+            if(m_currentEnemyCharaBase == null) // Si le Player ne vise aucun NPC
+            {
+                return;
+            }
+            else // Si le Player a visé un NPC mais ne le vise plus
+            {
+                /// Deactivate shader on current
+                m_currentEnemyCharaBase = null; 
+            }
+        }
+        else // Si le Player vise un NPC
+        {
+            if(m_currentEnemyCharaBase == null) // Si le Player vise un NPC après n'en avoir visé aucun
+            {
+                ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
+                if(enemyRef != null)
+                {
+                    m_currentEnemyCharaBase = enemyRef.cara;
+                    m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+                    /// Activate shader on current
+                }
+            }
+            else // Si le Player vise un autre NPC juste après en avoir visé un ( Son raycast n'a jamais touché autre chose qu'un NPC, entre les deux NPC )
+            {
+                if (m_currentEnemyCharaBase != m_lastEnemyCharaBase) // Si le NPC visé est bien différent du NPC visé précédement
+                {
+                    ReferenceScipt enemyRef = _hit.collider.GetComponent<ReferenceScipt>();
+                    if (enemyRef != null)
+                    {
+                        /// Deactive shader on last
+                        m_currentEnemyCharaBase = enemyRef.cara;
+                        /// Activate shader on current
+                        m_lastEnemyCharaBase = m_currentEnemyCharaBase;
+                    }
+                }
+            }
+        }
+
         // m_isTouchEnemy = false;
         
         // if (WeaponForwardRaycast())

@@ -177,7 +177,6 @@ public class EnemyController : MonoBehaviour
         _debug.useGizmos = true;
 #else
         _debug.useGizmos = false;
-
 #endif
     }
 
@@ -205,10 +204,6 @@ public class EnemyController : MonoBehaviour
 
             //_debug.spine.LookAt(Player.position);
         }
-
-#else
-        _debug.useGizmos = false;
-
 #endif
         _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
         _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);
