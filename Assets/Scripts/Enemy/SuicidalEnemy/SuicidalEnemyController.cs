@@ -138,6 +138,7 @@ public class SuicidalEnemyController : MonoBehaviour
     Animator m_animator;
     Collider[] enemyColliders;
     // bool m_canBeMouseOver = true;
+    bool isInEditor;
 
 #region Get / Set
     public StateMachine SM { get => m_sM; }
@@ -161,11 +162,20 @@ public class SuicidalEnemyController : MonoBehaviour
     void Start()
     {
         m_enemyChara = GetComponent<EnemyCaraBase>();
+#if UNITY_EDITOR
+        isInEditor = true;
+#else
+        isInEditor = false;
+#endif
+        m_debug.m_stateTxt.gameObject.SetActive(isInEditor);
+        m_debug.m_lifeTxt.gameObject.SetActive(isInEditor);
     }
     void FixedUpdate()
 	{
 		m_sM.FixedUpdate();
+#if UNITY_EDITOR
         ShowDebug();
+#endif
         CheckMovements();
 	}
 	void Update()
