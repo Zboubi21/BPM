@@ -465,7 +465,6 @@ public class SuicidalEnemyController : MonoBehaviour
         {
             m_weakSpots[i]?.SetActive(show);
         }
-        Debug.Log("On_ShowEnemyWeakSpot: " + show);
     }
 
 #endregion

@@ -529,8 +529,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     void On_ActivateShader(bool activate, EnemyCaraBase enemy)
     {
         SuicidalEnemyController suicidalEnemy = enemy.GetComponent<SuicidalEnemyController>();
-        if (suicidalEnemy != null)
-            suicidalEnemy.On_ShowEnemyWeakSpot(activate);
+        suicidalEnemy?.On_ShowEnemyWeakSpot(activate);
     }
 
     void SetPlayerCrosshairColor()
