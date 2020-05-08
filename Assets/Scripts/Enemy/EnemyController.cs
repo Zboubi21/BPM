@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
         public bool useGizmos;
         public bool useDebugLogs;
 
+        public GameObject m_debugCanvas;
         public Text m_stateText;
         public Text m_lifeText;
 
@@ -205,8 +206,7 @@ public class EnemyController : MonoBehaviour
             //_debug.spine.LookAt(Player.position);
         }
 #endif
-        _debug.m_stateText.gameObject.SetActive(_debug.useGizmos);
-        _debug.m_lifeText.gameObject.SetActive(_debug.useGizmos);
+        _debug.m_debugCanvas?.gameObject.SetActive(_debug.useGizmos);
         #endregion
 
         DistanceToTarget = GetTargetDistance(currentTarget);

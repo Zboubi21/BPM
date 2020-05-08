@@ -57,6 +57,7 @@ public class SuicidalEnemyController : MonoBehaviour
     [SerializeField] Debugs m_debug;
     [Serializable] class Debugs
     {
+        public GameObject m_debugCanvas;
         public Text m_stateTxt;
         public Text m_lifeTxt;
     }
@@ -167,8 +168,7 @@ public class SuicidalEnemyController : MonoBehaviour
 #else
         isInEditor = false;
 #endif
-        m_debug.m_stateTxt.gameObject.SetActive(isInEditor);
-        m_debug.m_lifeTxt.gameObject.SetActive(isInEditor);
+        m_debug.m_debugCanvas?.gameObject.SetActive(isInEditor);
     }
     void FixedUpdate()
 	{
