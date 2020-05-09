@@ -27,6 +27,17 @@ public class AudioController : MonoBehaviour
         public Sounds m_sounds;
     }
 
+    [System.Serializable] public class SoundsWithPitchModifier
+    {
+        [Header("Pitch Modifier")]
+        public float m_additionalPitchPerModifier = 0.1f;
+        public int m_maxPitchModifier = 10;
+        public float m_timeToResetpitch = 0.1f;
+
+        [Header("Sounds")]
+        public Sounds m_sounds;
+    }
+
     [System.Serializable] public class Sound
     {
         public AudioClip m_sound;

@@ -330,6 +330,7 @@ public class BPMSystem : MonoBehaviour
         {
             _overdrenaline.m_mesh.materials[_overdrenaline.m_matNbr].SetInt("_BPMReady", 1);
             On_ShowFuryGUIFeedback(true);
+            audioControl?.On_OveradrenalineCanBeActivate();
             _canUseFury = true;
         }
     }

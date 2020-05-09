@@ -47,6 +47,20 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-4464793616783147270
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: edb93859353c4784fb39cccde66d6342
+  m_EffectName: Attenuation
+  m_MixLevel: ab597cb826c6a3a42a8080ba4cf3ddcb
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-3935341234385318024
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -61,6 +75,25 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &-3350818807994067998
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OveradrenalineCanBeActivate
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 3b12ffc40df5f5e4db4fe7a88084a750
+  m_Children: []
+  m_Volume: 04517ae0dc3e409419e066f22b3bd2cb
+  m_Pitch: 761315275fb534d45bbd54431d559d45
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -4464793616783147270}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &-1412655807052381582
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -107,6 +140,7 @@ AudioMixerController:
     - 7ffeee416d2c15f4b88fe13e01794df8
     - f1b25c87c5d999445861b5c9acb4f523
     - adacfb2b3fcc2fc49a97fdee42db7446
+    - 3b12ffc40df5f5e4db4fe7a88084a750
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -126,6 +160,7 @@ AudioMixerGroupController:
   - {fileID: 243444230159316176}
   - {fileID: 243065452371384912}
   - {fileID: 1551098527115958438}
+  - {fileID: -3350818807994067998}
   - {fileID: 313568398541128322}
   - {fileID: 1886775470642633983}
   - {fileID: 1041462234004532461}

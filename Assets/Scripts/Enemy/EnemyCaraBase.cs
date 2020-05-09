@@ -242,7 +242,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
         _currentLife = _enemyCaractéristique._health.maxHealth;
         if(controller != null)
         {
-            controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;
+            // controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;   // J'utilise une autre manière pour cette sa vitesse dans SuicidalEnemyController.cs
         }
         //_currentDamage = _enemyCaractéristique._attack.damage;
     }
