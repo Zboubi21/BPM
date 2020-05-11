@@ -138,13 +138,11 @@ public class SuicidalEnemyController : MonoBehaviour
     EnemyCaraBase m_enemyChara;
     Animator m_animator;
     Collider[] enemyColliders;
-    // bool m_canBeMouseOver = true;
     bool isInEditor;
 
 #region Get / Set
     public StateMachine SM { get => m_sM; }
     public EnemyCaraBase EnemyChara { get => m_enemyChara; }
-    // public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
 #endregion
 
 #region Unity Events
@@ -158,7 +156,6 @@ public class SuicidalEnemyController : MonoBehaviour
     }
     void OnDisable()
     {
-        m_lowHealthParticles?.Stop(true);
     }
     void Start()
     {
@@ -301,10 +298,15 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         SetAnimation("Explode");
 
+        ActivateEnemyColliders(false);
+
         m_audioController?.On_EnemyExplode();
         StopEnemyMovement(true);
 
         On_ShowEnemyWeakSpot(false);
+        CanShowEnemyWeakSpot(false);
+
+        StopEnemyParticlesWhenDie();
         m_explosionParticles?.Play(true);
 
         List<EnemyCaraBase> enemies = new List<EnemyCaraBase>();
@@ -376,12 +378,13 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         if (m_waitTimeToExplodeCorout != null)
             StopCoroutine(m_waitTimeToExplodeCorout);
-        // m_canBeMouseOver = false;
-        On_ShowEnemyWeakSpot(false);
 
-        m_stunParticles?.Stop(true);
-        m_lowHealthParticles?.Stop(true);
-        m_detonationParticles?.Stop(true);
+        On_ShowEnemyWeakSpot(false);
+        CanShowEnemyWeakSpot(false);
+
+        ActivateEnemyColliders(false);
+
+        StopEnemyParticlesWhenDie();
 
         m_sM.ChangeState((int)EnemyState.DieState);
 
@@ -400,6 +403,12 @@ public class SuicidalEnemyController : MonoBehaviour
             SetAnimation("Dissolve");
         }
         m_audioController?.On_StartToMoveFast(false);
+    }
+    void StopEnemyParticlesWhenDie()
+    {
+        m_stunParticles?.Stop(true);
+        m_lowHealthParticles?.Stop(true);
+        m_detonationParticles?.Stop(true);
     }
     public void On_EnemyDie()
     {
@@ -459,9 +468,16 @@ public class SuicidalEnemyController : MonoBehaviour
         m_agent.speed = newSpeed;
     }
 
+    bool m_canShowEnemyWeakSpot = false;
+    public void CanShowEnemyWeakSpot(bool canShow)
+    {
+        m_canShowEnemyWeakSpot = canShow;
+    }
     public void On_ShowEnemyWeakSpot(bool show)
     {
         if (m_weakSpots == null)
+            return;
+        if (!m_canShowEnemyWeakSpot)
             return;
         for (int i = 0, l = m_weakSpots.Length; i < l; ++i)
         {

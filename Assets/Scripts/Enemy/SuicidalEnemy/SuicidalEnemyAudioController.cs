@@ -43,10 +43,12 @@ public class SuicidalEnemyAudioController : AudioController
     }
     public void On_EnemyDie()
     {
+        StopSound(m_selfDestructionBIP.m_audioSource);
         StartSoundFromArrayWithDelay(m_die.m_sounds.m_audioSource, m_die.m_sounds.m_sounds, m_die.m_sounds.m_volume, m_die.m_sounds.m_volumeRandomizer, m_die.m_sounds.m_pitch, m_die.m_sounds.m_pitchRandomizer, m_die.m_delayToStartSound);
     }
     public void On_EnemyIsDisintegrate()
     {
+        StopSound(m_selfDestructionBIP.m_audioSource);
         StartSoundFromArrayWithDelay(m_disintegrate.m_sounds.m_audioSource, m_disintegrate.m_sounds.m_sounds, m_disintegrate.m_sounds.m_volume, m_disintegrate.m_sounds.m_volumeRandomizer, m_disintegrate.m_sounds.m_pitch, m_disintegrate.m_sounds.m_pitchRandomizer, m_disintegrate.m_delayToStartSound);
     }
 

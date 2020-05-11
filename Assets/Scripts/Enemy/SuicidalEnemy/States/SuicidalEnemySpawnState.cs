@@ -23,6 +23,7 @@ public class SuicidalEnemySpawnState : IState
         m_timerIsDone = false;
         m_enemyController.SetAnimation("Spawn");
         m_enemyController.ActivateEnemyColliders(false);
+        m_enemyController.StopEnemyMovement(true);
     }
 
     public void FixedUpdate()
@@ -49,7 +50,8 @@ public class SuicidalEnemySpawnState : IState
     {
         // m_enemyController.CanBeMouseOver = true;
         m_enemyController.ActivateEnemyColliders(true);
-        // m_enemyController.On_ShowEnemyWeakSpot(true);
+        m_enemyController.StopEnemyMovement(false);
+        m_enemyController.CanShowEnemyWeakSpot(true);
     }
     
 }

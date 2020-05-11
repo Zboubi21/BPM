@@ -115,4 +115,9 @@ public class AudioController : MonoBehaviour
         audioSource.PlayOneShot(audioClip);
     }
 
+    protected void StopSound(AudioSource source)
+    {
+        source.Stop();
+    }
+
 }
