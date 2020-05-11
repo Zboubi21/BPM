@@ -204,7 +204,9 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
         _SMG.firePoint.transform.eulerAngles = new Vector3(_SMG.firePoint.transform.eulerAngles.x + enemyController.Player.position.x + dispersion.x, 
             rotation.eulerAngles.y + (enemyController.Player.position.y + YOffset) + dispersion.y, 
             _SMG.firePoint.transform.eulerAngles.z + enemyController.Player.position.z);*/
+        //Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
 
+        //Vector3 newPos = new Vector3(dispersion.x + _SMG.firePoint.transform.position.x, _SMG.firePoint.transform.position.y + dispersion.y, _SMG.firePoint.transform.position.z);
         GameObject go = ObjectPooler.Instance.SpawnProjectileFromPool(ProjectileType.EnemyProjectile, _SMG.firePoint.transform.position, _SMG.firePoint.transform.rotation);
         InitiateProjVar(go.GetComponent<Projectile>());
         return go;
@@ -225,9 +227,10 @@ public class WeaponEnemyBehaviour : WeaponBehaviour
     public override Vector3 OnSearchForLookAt()
     {
         Vector2 dispersion = UnityEngine.Random.insideUnitCircle * _attack.enemyAttackDispersement;
-        return new Vector3(playerPosOnShoot.x + dispersion.x, 
-                            (playerPosOnShoot.y) + dispersion.y,
-                                playerPosOnShoot.z );
+        return new Vector3(playerPosOnShoot.x + dispersion.x,
+        (playerPosOnShoot.y) + dispersion.y,
+        playerPosOnShoot.z);
+        //return new Vector3(dispersion.x + _SMG.firePoint.transform.position.x, _SMG.firePoint.transform.position.y + dispersion.y, _SMG.firePoint.transform.position.z);
     }
 
     #endregion
