@@ -24,10 +24,13 @@ public class PlayerIdleState : IState
     float m_secondTimer = 0;
     bool m_startTimer = false;
 
+    bool m_hasResetTimerBeacausePlayerShoot = false;
+
     public void Enter()
     {
         m_playerController.SetPlayerWeaponAnim("isMoving", false);
         m_playerController.SetPlayerWeaponAnim("Move", 0);
+        m_hasResetTimerBeacausePlayerShoot = false;
         SetFirstTimerParameters();
     }
     void SetFirstTimerParameters()
@@ -48,6 +51,17 @@ public class PlayerIdleState : IState
 
         m_playerController.ResetPlayerVelocity();
 
+        if (m_playerController.PlayerWeapon.IsShooting && !m_hasResetTimerBeacausePlayerShoot)
+        {
+            m_hasResetTimerBeacausePlayerShoot = true;
+            SetFirstTimerParameters();
+            return;
+        }
+        else if (!m_playerController.PlayerWeapon.IsShooting && m_hasResetTimerBeacausePlayerShoot)
+        {
+            m_hasResetTimerBeacausePlayerShoot = false;
+        }
+
         // First timer
         if (!m_timerIsDone)
         {
@@ -61,9 +75,8 @@ public class PlayerIdleState : IState
                 m_secondTimer = 0;
             }
         }
-
         // Second timer
-        if (m_startTimer)
+        else if (m_startTimer)
         {
             m_secondTimer += Time.deltaTime;
             if (m_secondTimer > m_waitTimeToReset)
@@ -71,7 +84,7 @@ public class PlayerIdleState : IState
                 m_startTimer = false;
                 SetFirstTimerParameters();
             }
-        }
+        }        
     }
     public void Update()
     {

@@ -130,6 +130,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         m_fireAnimationSpeed = m_fireAnimationDistance / m_animations.m_timeToChange;
     }
 
+    bool m_isShooting = false;
+    public bool IsShooting { get => m_isShooting; }
     public override void Update()
     {
 
@@ -159,6 +161,8 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                     PlayerController.s_instance.SetPlayerWeaponAnim("Fire", true);
                     PlayerController.s_instance.SetPlayerWeaponAnim("FireValue", m_animations.m_fireAnimValue);
                     StartChangeFireLayerValueCorout(m_animations.m_fireLayerToValue);
+                    if (!m_isShooting)
+                        m_isShooting = true;
                 }
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
@@ -167,6 +171,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
                     PlayerController.s_instance.SetPlayerWeaponAnim("FireValue", 0);
                     StartChangeFireLayerValueCorout(0);
                     m_crosshair.On_StopShoot();
+                    m_isShooting = false;
                 }
                 break;
         }
