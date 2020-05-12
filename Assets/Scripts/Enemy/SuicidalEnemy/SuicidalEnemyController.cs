@@ -14,6 +14,9 @@ public class SuicidalEnemyController : MonoBehaviour
     [Header("Debug")]
     [SerializeField] Transform m_lastPlayerPosition;
     [SerializeField] Transform m_destinationPos;
+    [SerializeField] Transform m_lastpathPos;
+    // [SerializeField] Transform m_closestPoint;
+
 #region State Machine
     [SerializeField] StateMachine m_sM = new StateMachine();
     void SetupStateMachine()
@@ -256,8 +259,6 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         m_destinationPos.position = m_agent.destination;
         m_lastPlayerPosition.position = m_lastPlayerPos;
-        // if (m_agent.pathStatus == NavMeshPathStatus.PathInvalid)
-        //     Debug.Log("PathInvalid");
 
         // Debug.Log("path type = " + m_agent.pathStatus);
 
@@ -270,26 +271,46 @@ public class SuicidalEnemyController : MonoBehaviour
 
         // Debug.Log("distanceFromTarget = " + distanceFromTarget);
 
+        // float yDistance = Mathf.Abs(m_playerPos.y - PlayerController.s_instance.transform.position.y);
+        // if (m_playerPos.y > PlayerController.s_instance.transform.position.y)
+        // {
+        //     // Le player est dans les airs et au dessus du sol
+        // }
+
         NavMeshPath path = new NavMeshPath();
         m_agent.CalculatePath(m_playerPos, path);
         // Debug.Log("path type = " + path.status);
 
         if (path.status == NavMeshPathStatus.PathPartial || path.status == NavMeshPathStatus.PathInvalid)
         {
-            float distanceFromTarget = Vector3.Distance(transform.position, m_lastPlayerPos);
-            if (distanceFromTarget > m_minDistanceToMove)
+            NavMeshHit meshHit;
+            if (NavMesh.SamplePosition(m_playerPos, out meshHit, 50, NavMesh.AllAreas))
             {
-                m_agent.SetDestination(m_lastPlayerPos);
+                Vector3 newPos = meshHit.position;
+                m_lastpathPos.position = newPos;
+                m_lastPlayerPos = newPos;
+                m_agent.SetDestination(newPos);
             }
+            else
+            {
+                float distanceFromTarget = Vector3.Distance(transform.position, m_lastPlayerPos);
+                if (distanceFromTarget > m_minDistanceToMove)
+                {
+                    m_agent.SetDestination(m_lastPlayerPos);
+                }
+            }
+
         }
 
         if (path.status == NavMeshPathStatus.PathComplete)
         {
-            float distanceFromTarget = Vector3.Distance(transform.position, m_playerPos);
+            Vector3 targetPos = path.corners[path.corners.Length - 1];
+            // targetPos = m_playerPos;
+            float distanceFromTarget = Vector3.Distance(transform.position, targetPos);
             if (distanceFromTarget > m_minDistanceToMove)
             {
-                m_agent.SetDestination(m_playerPos);
-                m_lastPlayerPos = m_playerPos;
+                m_agent.SetDestination(targetPos);
+                m_lastPlayerPos = targetPos;
             }
         }
 
@@ -313,8 +334,16 @@ public class SuicidalEnemyController : MonoBehaviour
         //         Debug.Log("PathPartial");
         //     }
         // }
-
     }
+    void DrawCircle(Vector3 center, float radius, Color color) {
+		Vector3 prevPos = center + new Vector3(radius, 0, 0);
+		for (int i = 0; i < 30; i++) {
+			float angle = (float)(i+1) / 30.0f * Mathf.PI * 2.0f;
+			Vector3 newPos = center + new Vector3(Mathf.Cos(angle)*radius, 0, Mathf.Sin(angle)*radius);
+			Debug.DrawLine(prevPos, newPos, color);
+			prevPos = newPos;
+		}
+	}
     public void StopEnemyMovement(bool stop)
     {
         m_agent.isStopped = stop;

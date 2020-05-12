@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
 	}
 
 	[Header("Movements")]
+	public Idle m_idle;
+	[Serializable] public class Idle
+	{
+		public float m_minTimeToBreath = 5, m_maxTimeToBreath = 10;
+		public float m_waitAnimTime = 1;
+	}
 	public Movements m_movements;
 	[Serializable] public class Movements{
 		public bool m_useRawInput = true;

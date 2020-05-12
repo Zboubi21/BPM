@@ -14,10 +14,27 @@ public class PlayerIdleState : IState
         m_playerController = playerController;
     }
 
+    // First timer
+    float m_targetedTimer = 0;
+    float m_timer = 0;
+    bool m_timerIsDone = false;
+
+    // Second timer
+    float m_waitTimeToReset = 0;
+    float m_secondTimer = 0;
+    bool m_startTimer = false;
+
     public void Enter()
     {
         m_playerController.SetPlayerWeaponAnim("isMoving", false);
         m_playerController.SetPlayerWeaponAnim("Move", 0);
+        SetFirstTimerParameters();
+    }
+    void SetFirstTimerParameters()
+    {
+        m_targetedTimer = Random.Range(m_playerController.m_idle.m_minTimeToBreath, m_playerController.m_idle.m_maxTimeToBreath);
+        m_timer = 0;
+        m_timerIsDone = false;
     }
     public void FixedUpdate()
     {
@@ -30,6 +47,31 @@ public class PlayerIdleState : IState
         }
 
         m_playerController.ResetPlayerVelocity();
+
+        // First timer
+        if (!m_timerIsDone)
+        {
+            m_timer += Time.deltaTime;
+            if (m_timer > m_targetedTimer)
+            {
+                m_timerIsDone = true;
+                m_playerController.SetPlayerWeaponAnim("Breath");
+                m_waitTimeToReset = m_playerController.m_idle.m_waitAnimTime;
+                m_startTimer = true;
+                m_secondTimer = 0;
+            }
+        }
+
+        // Second timer
+        if (m_startTimer)
+        {
+            m_secondTimer += Time.deltaTime;
+            if (m_secondTimer > m_waitTimeToReset)
+            {
+                m_startTimer = false;
+                SetFirstTimerParameters();
+            }
+        }
     }
     public void Update()
     {
