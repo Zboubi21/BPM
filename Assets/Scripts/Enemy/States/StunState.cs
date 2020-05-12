@@ -22,7 +22,25 @@ public class StunState : IState
         
         m_enemyController.Agent.isStopped = true;
         m_enemyController.Anim.SetBool("IsStun", true);
-        m_enemyController.Anim.SetFloat("WhichPart", m_enemyController.Cara.ImpactPosition);
+        switch (m_enemyController.Cara.ImpactPosition)
+        {
+            case 0:
+                m_enemyController.Anim.SetTrigger("Head_Hit");
+                break;
+            case 1:
+                m_enemyController.Anim.SetTrigger("Body_Hit");
+                break;
+            case 2:
+                m_enemyController.Anim.SetTrigger("Stomach_Hit");
+                break;
+            case 3:
+                m_enemyController.Anim.SetTrigger("Rib_Hit");
+                break;
+            case 4:
+                m_enemyController.Anim.SetTrigger("Side_Hit");
+                break;
+        }
+        //m_enemyController.Anim.SetFloat("WhichPart", m_enemyController.Cara.ImpactPosition);
         //Vector3 direction = (PlayerController.s_instance.transform.position - m_enemyController.transform.position).normalized;
         //m_enemyController.Anim.SetLayerWeight(2, 1);
 
