@@ -12,10 +12,9 @@ public class SuicidalEnemyController : MonoBehaviour
 {
 
     [Header("Debug")]
-    [SerializeField] Transform m_lastPlayerPosition;
-    [SerializeField] Transform m_destinationPos;
-    [SerializeField] Transform m_lastpathPos;
-    // [SerializeField] Transform m_closestPoint;
+    // [SerializeField] Transform m_lastPlayerPosition;
+    // [SerializeField] Transform m_destinationPos;
+    // [SerializeField] Transform m_lastpathPos;
 
 #region State Machine
     [SerializeField] StateMachine m_sM = new StateMachine();
@@ -105,11 +104,25 @@ public class SuicidalEnemyController : MonoBehaviour
         public int m_playerDamage = 25;
         public int m_enemyDamage = 25;
         public int m_environmentDamage = 1;
+
+        [Header("Camera shake")]
+        public CameraShaking m_explosionShake;
     }
     [Serializable] public class Range
     {
         public float m_range = 1;
         public Color m_color = Color.red;
+    }
+    [Serializable] public class CameraShaking
+    {
+        public Range m_minShakeDistance, m_maxShakeDistance;
+        public AnimationCurve m_curveDistance = new AnimationCurve(new Keyframe(0, 0, 1, 1), new Keyframe(1, 1, 1, 1));
+        public ShakeDistance m_worldShake;
+        public ShakeDistance m_gunShake;
+    }
+    [Serializable] public class ShakeDistance
+    {
+        public CameraShake m_minShake, m_maxShake;
     }
 
     [Header("Spawn")]
@@ -210,6 +223,11 @@ public class SuicidalEnemyController : MonoBehaviour
         // Gizmos.DrawWireSphere(m_explosionRoot.position, m_automaticExplodeRange.m_range);
         Gizmos.color = m_explosion.m_explosionRange.m_color;
         Gizmos.DrawWireSphere(m_explosionRoot.position, m_explosion.m_explosionRange.m_range);
+
+        Gizmos.color = m_explosion.m_explosionShake.m_minShakeDistance.m_color;
+        Gizmos.DrawWireSphere(m_explosionRoot.position, m_explosion.m_explosionShake.m_minShakeDistance.m_range);
+        Gizmos.color = m_explosion.m_explosionShake.m_maxShakeDistance.m_color;
+        Gizmos.DrawWireSphere(m_explosionRoot.position, m_explosion.m_explosionShake.m_maxShakeDistance.m_range);
     }
 
     void ShowDebug()
@@ -250,18 +268,20 @@ public class SuicidalEnemyController : MonoBehaviour
         m_shaderController.On_StartSpawnShader();
         m_audioController?.On_Spawn();
     }
-    Vector3 m_playerPos = Vector3.zero;
-    Vector3 m_lastPlayerPos = Vector3.zero;
+    
+    [Header("Pathfinding")]
     [SerializeField] float m_minDistanceToMove = 1;
     [SerializeField] LayerMask m_evironmentMask;
-    
+    [SerializeField] float m_maxClosestPathDistance = 25;
+    Vector3 m_playerPos = Vector3.zero;
+    Vector3 m_lastplayerPos = Vector3.zero;
+    Vector3 m_lastGoodPlayerPos = Vector3.zero;
     public void ChasePlayer()
     {
-        m_destinationPos.position = m_agent.destination;
-        m_lastPlayerPosition.position = m_lastPlayerPos;
+        // m_destinationPos.position = m_agent.destination;
+        // m_lastPlayerPosition.position = m_lastGoodPlayerPos;
 
-        // Debug.Log("path type = " + m_agent.pathStatus);
-
+        // Regarde au dessous des pieds du joueurs s'il y a du sol pour essayer de s'y rendre
         m_playerPos = PlayerController.s_instance.transform.position;
         RaycastHit hit;
         if (Physics.Raycast(PlayerController.s_instance.transform.position + new Vector3(0, 0.5f, 0), -PlayerController.s_instance.transform.up, out hit, Mathf.Infinity, m_evironmentMask))
@@ -269,40 +289,33 @@ public class SuicidalEnemyController : MonoBehaviour
             m_playerPos.y = hit.point.y;
         }
 
-        // Debug.Log("distanceFromTarget = " + distanceFromTarget);
-
-        // float yDistance = Mathf.Abs(m_playerPos.y - PlayerController.s_instance.transform.position.y);
-        // if (m_playerPos.y > PlayerController.s_instance.transform.position.y)
-        // {
-        //     // Le player est dans les airs et au dessus du sol
-        // }
+        // Regarde la distance entre la position actuelle du player et sa last pos pour moins de calcul quand le player ne bouge pas
+        float minDistanceToMove = Vector3.Distance(m_playerPos, m_lastplayerPos);
+        if (minDistanceToMove > m_minDistanceToMove)
+            m_lastplayerPos = m_playerPos;
+        else
+            return;
 
         NavMeshPath path = new NavMeshPath();
         m_agent.CalculatePath(m_playerPos, path);
         // Debug.Log("path type = " + path.status);
-
         if (path.status == NavMeshPathStatus.PathPartial || path.status == NavMeshPathStatus.PathInvalid)
         {
             NavMeshHit meshHit;
-            if (NavMesh.SamplePosition(m_playerPos, out meshHit, 50, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(m_playerPos, out meshHit, m_maxClosestPathDistance, NavMesh.AllAreas))
             {
                 Vector3 newPos = meshHit.position;
-                m_lastpathPos.position = newPos;
-                m_lastPlayerPos = newPos;
+                // m_lastpathPos.position = newPos;
+                m_lastGoodPlayerPos = newPos;
                 m_agent.SetDestination(newPos);
             }
             else
             {
-                float distanceFromTarget = Vector3.Distance(transform.position, m_lastPlayerPos);
-                if (distanceFromTarget > m_minDistanceToMove)
-                {
-                    m_agent.SetDestination(m_lastPlayerPos);
-                }
+                m_agent.SetDestination(m_lastGoodPlayerPos);
             }
 
         }
-
-        if (path.status == NavMeshPathStatus.PathComplete)
+        else if (path.status == NavMeshPathStatus.PathComplete)
         {
             Vector3 targetPos = path.corners[path.corners.Length - 1];
             // targetPos = m_playerPos;
@@ -310,30 +323,9 @@ public class SuicidalEnemyController : MonoBehaviour
             if (distanceFromTarget > m_minDistanceToMove)
             {
                 m_agent.SetDestination(targetPos);
-                m_lastPlayerPos = targetPos;
+                m_lastGoodPlayerPos = targetPos;
             }
         }
-
-        // if (distanceFromTarget > m_minDistanceToMove)
-        // {
-        //     m_agent.SetDestination(m_playerPos);
-        //     m_lastPlayerPos = m_playerPos;
-        // }
-
-        // if (m_agent.pathStatus == NavMeshPathStatus.PathComplete)
-        // {
-        //     Vector3 newPos = PlayerController.s_instance.transform.position;
-        //     m_agent.SetDestination(newPos);
-        //     m_lastPlayerPos = newPos;
-        // }
-        // else if (m_agent.pathStatus == NavMeshPathStatus.PathPartial)
-        // {
-        //     if (Vector3.Distance(m_agent.transform.position, m_lastPlayerPos) > m_minDistanceToMove)
-        //     {
-        //         m_agent.SetDestination(m_lastPlayerPos);
-        //         Debug.Log("PathPartial");
-        //     }
-        // }
     }
     void DrawCircle(Vector3 center, float radius, Color color) {
 		Vector3 prevPos = center + new Vector3(radius, 0, 0);
@@ -391,8 +383,8 @@ public class SuicidalEnemyController : MonoBehaviour
     void On_EnemyExplode()
     {
         SetAnimation("Explode");
-
         ActivateEnemyColliders(false);
+        AddExplosionCameraShake();
 
         m_audioController?.On_EnemyExplode();
         StopEnemyMovement(true);
@@ -466,6 +458,26 @@ public class SuicidalEnemyController : MonoBehaviour
         {
             m_goToHideWhenExplode[i]?.SetActive(activate);
         }
+    }
+
+    void AddExplosionCameraShake()
+    {
+        float percDist = Mathf.InverseLerp(m_explosion.m_explosionShake.m_minShakeDistance.m_range, m_explosion.m_explosionShake.m_maxShakeDistance.m_range, GetPlayerDistance());
+        float percDistCurve = m_explosion.m_explosionShake.m_curveDistance.Evaluate(percDist);
+        // Debug.Log("percDist = " + percDist);
+        // Debug.Log("percDistCurve = " + percDistCurve);
+
+        float weaponMagnitude = Mathf.Lerp(m_explosion.m_explosionShake.m_gunShake.m_maxShake.m_magnitude, m_explosion.m_explosionShake.m_gunShake.m_minShake.m_magnitude, percDistCurve);
+        float weaponRoughness = Mathf.Lerp(m_explosion.m_explosionShake.m_gunShake.m_maxShake.m_roughness, m_explosion.m_explosionShake.m_gunShake.m_minShake.m_roughness, percDistCurve);
+        float weaponFadeInTime = Mathf.Lerp(m_explosion.m_explosionShake.m_gunShake.m_maxShake.m_fadeInTime, m_explosion.m_explosionShake.m_gunShake.m_minShake.m_fadeInTime, percDistCurve);
+        float weaponFadeOutTime = Mathf.Lerp(m_explosion.m_explosionShake.m_gunShake.m_maxShake.m_fadeOutTime, m_explosion.m_explosionShake.m_gunShake.m_minShake.m_fadeOutTime, percDistCurve);
+        PlayerController.s_instance?.AddPlayerWeaponCameraShake(weaponMagnitude, weaponRoughness, weaponFadeInTime, weaponFadeOutTime);
+
+        float worldMagnitude = Mathf.Lerp(m_explosion.m_explosionShake.m_worldShake.m_maxShake.m_magnitude, m_explosion.m_explosionShake.m_worldShake.m_minShake.m_magnitude, percDistCurve);
+        float worldRoughness = Mathf.Lerp(m_explosion.m_explosionShake.m_worldShake.m_maxShake.m_roughness, m_explosion.m_explosionShake.m_worldShake.m_minShake.m_roughness, percDistCurve);
+        float worldFadeInTime = Mathf.Lerp(m_explosion.m_explosionShake.m_worldShake.m_maxShake.m_fadeInTime, m_explosion.m_explosionShake.m_worldShake.m_minShake.m_fadeInTime, percDistCurve);
+        float worldFadeOutTime = Mathf.Lerp(m_explosion.m_explosionShake.m_worldShake.m_maxShake.m_fadeOutTime, m_explosion.m_explosionShake.m_worldShake.m_minShake.m_fadeOutTime, percDistCurve);
+        PlayerController.s_instance?.AddWorldCameraShake(worldMagnitude, worldRoughness, worldFadeInTime, worldFadeOutTime);
     }
 
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)

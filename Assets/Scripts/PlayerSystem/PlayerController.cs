@@ -5,6 +5,14 @@ using UnityEngine;
 using PlayerStateEnum;
 using EZCameraShake;
 
+[Serializable] public class CameraShake
+{
+	public float m_magnitude = 1;
+	public float m_roughness = 1;
+	public float m_fadeInTime = 0.25f;
+	public float m_fadeOutTime = 0.25f;
+}
+
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController s_instance;
@@ -137,14 +145,6 @@ public class PlayerController : MonoBehaviour
 		public CameraController m_cameraControls;
 		public TransformFollower m_camPivot;
 		public TransformFollower m_gunPivot;
-	}
-
-	[Serializable] public class CameraShake
-	{
-		public float m_magnitude = 1;
-		public float m_roughness = 1;
-		public float m_fadeInTime = 0.25f;
-		public float m_fadeOutTime = 0.25f;
 	}
 
 #endregion
