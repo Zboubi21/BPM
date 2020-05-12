@@ -12,7 +12,8 @@ public class SuicidalEnemyController : MonoBehaviour
 {
 
     [Header("Debug")]
-      
+    [SerializeField] Transform m_lastPlayerPosition;
+    [SerializeField] Transform m_destinationPos;
 #region State Machine
     [SerializeField] StateMachine m_sM = new StateMachine();
     void SetupStateMachine()
@@ -246,9 +247,73 @@ public class SuicidalEnemyController : MonoBehaviour
         m_shaderController.On_StartSpawnShader();
         m_audioController?.On_Spawn();
     }
+    Vector3 m_playerPos = Vector3.zero;
+    Vector3 m_lastPlayerPos = Vector3.zero;
+    [SerializeField] float m_minDistanceToMove = 1;
+    [SerializeField] LayerMask m_evironmentMask;
+    
     public void ChasePlayer()
     {
-        m_agent.SetDestination(PlayerController.s_instance.transform.position);
+        m_destinationPos.position = m_agent.destination;
+        m_lastPlayerPosition.position = m_lastPlayerPos;
+        // if (m_agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        //     Debug.Log("PathInvalid");
+
+        // Debug.Log("path type = " + m_agent.pathStatus);
+
+        m_playerPos = PlayerController.s_instance.transform.position;
+        RaycastHit hit;
+        if (Physics.Raycast(PlayerController.s_instance.transform.position + new Vector3(0, 0.5f, 0), -PlayerController.s_instance.transform.up, out hit, Mathf.Infinity, m_evironmentMask))
+        {
+            m_playerPos.y = hit.point.y;
+        }
+
+        // Debug.Log("distanceFromTarget = " + distanceFromTarget);
+
+        NavMeshPath path = new NavMeshPath();
+        m_agent.CalculatePath(m_playerPos, path);
+        // Debug.Log("path type = " + path.status);
+
+        if (path.status == NavMeshPathStatus.PathPartial || path.status == NavMeshPathStatus.PathInvalid)
+        {
+            float distanceFromTarget = Vector3.Distance(transform.position, m_lastPlayerPos);
+            if (distanceFromTarget > m_minDistanceToMove)
+            {
+                m_agent.SetDestination(m_lastPlayerPos);
+            }
+        }
+
+        if (path.status == NavMeshPathStatus.PathComplete)
+        {
+            float distanceFromTarget = Vector3.Distance(transform.position, m_playerPos);
+            if (distanceFromTarget > m_minDistanceToMove)
+            {
+                m_agent.SetDestination(m_playerPos);
+                m_lastPlayerPos = m_playerPos;
+            }
+        }
+
+        // if (distanceFromTarget > m_minDistanceToMove)
+        // {
+        //     m_agent.SetDestination(m_playerPos);
+        //     m_lastPlayerPos = m_playerPos;
+        // }
+
+        // if (m_agent.pathStatus == NavMeshPathStatus.PathComplete)
+        // {
+        //     Vector3 newPos = PlayerController.s_instance.transform.position;
+        //     m_agent.SetDestination(newPos);
+        //     m_lastPlayerPos = newPos;
+        // }
+        // else if (m_agent.pathStatus == NavMeshPathStatus.PathPartial)
+        // {
+        //     if (Vector3.Distance(m_agent.transform.position, m_lastPlayerPos) > m_minDistanceToMove)
+        //     {
+        //         m_agent.SetDestination(m_lastPlayerPos);
+        //         Debug.Log("PathPartial");
+        //     }
+        // }
+
     }
     public void StopEnemyMovement(bool stop)
     {

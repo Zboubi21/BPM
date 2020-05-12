@@ -8,53 +8,61 @@ public class AttackState : IState
 
     EnemyController m_enemyController;
     WeaponEnemyBehaviour m_weaponEnemyBehaviour;
-    public Transform from;
-    public Transform to;
-
-    float timeCount = 0.0f;
-    float _currentTime;
-    Vector3 relativePos;
-    Vector3 initForward;
     Vector3 lastFrameTargetPos;
+
+    Vector3 direction;
+    Vector3 torsoDirection;
+
+    Quaternion lookRotation;
+    Quaternion torsoLookRotation;
+    
+    float angularDistance;
+    //float torsoAngularDistance;
+
+    float time;
+    float maxTime;
+
+    float agentSpeed;
+
+    bool go;
 
     public AttackState(EnemyController enemyController)
     {
         m_enemyController = enemyController;
+        m_weaponEnemyBehaviour = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
     }
-    float agentSpeed;
+
     public void Enter()
     {
-        m_weaponEnemyBehaviour = m_enemyController.GetComponent<WeaponEnemyBehaviour>();
 
         ///Play attack animation
         
         m_enemyController.Anim.SetBool("isMoving", false);
         m_enemyController.Anim.SetTrigger("Shoot");
-        //m_enemyController.RigBuilder.layers[0].rig.weight = 1;
-        //m_enemyController._debug.aimConstraint.weight = 1;
 
         ///Play attack sound (enter state not shoot)
 
-        relativePos = PlayerController.s_instance.gameObject.transform.position - m_enemyController.transform.position;
-        initForward = m_enemyController.transform.forward;
         lastFrameTargetPos = new Vector3(PlayerController.s_instance.gameObject.transform.position.x, PlayerController.s_instance.gameObject.transform.position.y + m_enemyController.YOffset, PlayerController.s_instance.gameObject.transform.position.z);
+
         m_enemyController.Agent.isStopped = true;
         agentSpeed = m_enemyController.Agent.speed;
         m_enemyController.Agent.speed = 0;
 
-        timeCount = 0;
-        _currentTime = 0;
         go = true;
         time = 0;
 
+        m_enemyController.Agent.updateRotation = true;
+        //m_weaponEnemyBehaviour.StartCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
     }
 
     public void Exit()
     {
         m_weaponEnemyBehaviour.StopCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
+
         m_enemyController.Agent.isStopped = false;
         m_enemyController.Agent.speed = agentSpeed;
-        //m_enemyController.Agent.updateRotation = true;
+
+
     }
 
     public void FixedUpdate()
@@ -64,76 +72,24 @@ public class AttackState : IState
 
     public void Update()
     {
-        //m_enemyController._debug.boneToMove.transform.LookAt(PlayerController.s_instance.m_references.m_cameraPivot.transform);
     }
-    bool go;
     
     public void LateUpdate()
     {
         if (RotateTowards(lastFrameTargetPos) && go)
         {
             go = false;
-            //finalStateOfTheBonePosition = m_enemyController._debug.boneToMove.transform.position;
-            //Debug.LogError("hohoho");
             m_weaponEnemyBehaviour.StartCoroutine(m_weaponEnemyBehaviour.OnEnemyShoot(m_weaponEnemyBehaviour._attack.nbrOfShootOnRafale, m_weaponEnemyBehaviour._attack.timeBetweenEachBullet, m_weaponEnemyBehaviour._attack.minTimeBetweenEachBurst, m_weaponEnemyBehaviour._attack.maxTimeBetweenEachBurst, lastFrameTargetPos));
-            //m_enemyController._debug.aimConstraint.weight = 0;
         }
+        //    RotateOnAttack();
 
-        
-        /*if (m_enemyController.DistanceToTarget > m_enemyController.Agent.stoppingDistance)
-        {
-            m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
-        }*/
-        /*if(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt] != null)
-        {
-            m_enemyController.transform.LookAt(m_enemyController.PlayerController.AllPreviousPos[m_enemyController.Cara.CurrentIndexInLateLookAt]);
-        }
-        else
-        {
-            Debug.LogError("You didn't wait long enough, the player records 5 seconds of its movement, if you spawn enemies before 5 seconds they won't know at what to look at");
-        }*/
-        //LateLookAt();
-
+        //if (!go)
+        //{
+        //}
     }
-    /* void LateLookAt()
-     {
-         Quaternion rotation;
-         if (m_enemyController.Player.position == lastFrameTargetPos)
-         {
-             if (_currentTime < m_enemyController.Cara._enemyCaractéristique._move.timeOfLateLookAt)
-             {
-                 _currentTime += Time.deltaTime;
-             }
-             else
-             {
-                 _currentTime = m_enemyController.Cara._enemyCaractéristique._move.timeOfLateLookAt;
-             }
-             rotation = Quaternion.LookRotation(Vector3.Slerp(initForward, relativePos, Mathf.InverseLerp(0, m_enemyController.Cara._enemyCaractéristique._move.timeOfLateLookAt, _currentTime)));
 
-         }
-         else
-         {
-             relativePos = m_enemyController.Player.position - m_enemyController.transform.position;
-             initForward = m_enemyController.transform.forward;
-             rotation = Quaternion.LookRotation(Vector3.Slerp(initForward, relativePos, (1 / m_enemyController.Cara._enemyCaractéristique._move.timeOfLateLookAt) * Time.deltaTime));
-             _currentTime = 0;
-         }
-         lastFrameTargetPos = m_enemyController.Player.position;
-         m_enemyController.transform.eulerAngles = new Vector3(m_enemyController.transform.eulerAngles.x, rotation.eulerAngles.y, m_enemyController.transform.eulerAngles.z);
-     }*/
-    float time;
-    Vector3 direction;
-    Vector3 torsoDirection;
-
-    Quaternion lookRotation;
-    Quaternion torsoLookRotation;
-    
-    float angularDistance;
-    float torsoAngularDistance;
-    float maxTime;
     private bool RotateTowards(Vector3 target)
     {
-        //m_enemyController._debug.boneToMove.transform.rotation = Quaternion.LookRotation(PlayerController.s_instance.m_references.m_cameraPivot.transform.position);
         if (Mathf.InverseLerp(0, maxTime, time) >= 1)
         {
             return true;
@@ -146,7 +102,7 @@ public class AttackState : IState
 
             torsoDirection = (target - m_enemyController._debug.boneToMove.transform.position).normalized;
             torsoLookRotation = Quaternion.LookRotation(new Vector3(torsoDirection.x, torsoDirection.y, torsoDirection.z));
-            torsoAngularDistance = Quaternion.Angle(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation);
+            //torsoAngularDistance = Quaternion.Angle(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation);
 
             maxTime = angularDistance / (m_enemyController.Cara._enemyCaractéristique._move.rotationSpeed);
             if (maxTime == 0)
@@ -159,19 +115,37 @@ public class AttackState : IState
                 Debug.Log(m_enemyController + " I have to wait " + maxTime + " seconds before starting to attack.");
             }
 #endif
-            time += Time.deltaTime /* (m_enemyController.Cara.rotationSpeed/100)*/;
+            time += Time.deltaTime;
             return false;
         }
         else
         {
-            time += Time.deltaTime /* (m_enemyController.Cara.rotationSpeed/100)*/;
+            time += Time.deltaTime;
             m_enemyController.transform.rotation = Quaternion.Slerp(m_enemyController.transform.rotation, lookRotation, Mathf.InverseLerp(0, maxTime, time));
-            //Debug.Log(m_enemyController._debug.boneToMove.transform.rotation);
             SlerpSpineRotation(Quaternion.Slerp(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation, Mathf.InverseLerp(0, maxTime, time)));
-            //m_enemyController._debug.boneToMove.transform.rotation = Quaternion.Slerp(m_enemyController._debug.boneToMove.transform.rotation, torsoLookRotation, Mathf.InverseLerp(0, maxTime, time));
             return false;
         }
     }
+
+
+    void RotateOnAttack()
+    {
+        // Determine which direction to rotate towards
+        Vector3 targetDirection = PlayerController.s_instance.gameObject.transform.position - m_enemyController.transform.position;
+
+        // The step size is equal to speed times frame time.
+        float singleStep = m_enemyController.Cara._enemyCaractéristique._move.rotationSpeed * Time.deltaTime;
+
+        // Rotate the forward vector towards the target direction by one step
+        Vector3 newDirection = Vector3.RotateTowards(m_enemyController.transform.forward, targetDirection, singleStep, 0.0f);
+
+        // Draw a ray pointing at our target in
+        Debug.DrawRay(m_enemyController.transform.position, newDirection, Color.red);
+
+        // Calculate a rotation a step closer to the target and applies rotation to this object
+        m_enemyController._debug.boneToMove.transform.rotation = Quaternion.LookRotation(newDirection);
+    }
+
 
     void SlerpSpineRotation(Quaternion value)
     {
