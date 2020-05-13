@@ -150,9 +150,8 @@ public class Projectile : MonoBehaviour
         {
             case TypeOfCollision.Rigibody:
 
-                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                // rb.interpolation = RigidbodyInterpolation.Extrapolate;
                 rb.interpolation = RigidbodyInterpolation.None;
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
                 rb.constraints = RigidbodyConstraints.FreezeRotation;
                 rb.useGravity = false;
 
