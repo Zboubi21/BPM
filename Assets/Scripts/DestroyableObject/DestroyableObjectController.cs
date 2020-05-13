@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class DestroyableObjectController : MonoBehaviour
+public class DestroyableObjectController : AudioController
 {
 
     [SerializeField] int m_lifePoint = 1;
+    [SerializeField] protected UnityEvent m_onObjectIsBreak;
 
     bool m_isBroken = false;
 
@@ -39,6 +41,7 @@ public class DestroyableObjectController : MonoBehaviour
 
     protected virtual void On_ObjectIsBreak()
     {
+        m_onObjectIsBreak?.Invoke();
     }
 
 }

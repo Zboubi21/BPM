@@ -8,6 +8,7 @@ public class EmissiveDestroyableObject : DestroyableObjectController
     [SerializeField] ChangeShaderValue[] m_shaders;
     [SerializeField] bool m_hasToFallWhenIsBreak = false;
     [SerializeField] int m_newColliderLayerNbr = 16;
+    [SerializeField] Sounds m_impactSounds;
 
     Collider[] m_colliders;
 
@@ -19,8 +20,10 @@ public class EmissiveDestroyableObject : DestroyableObjectController
 
     protected override void On_ObjectIsBreak()
     {
-        // base.On_ObjectIsBreak(impactPos);
+        base.On_ObjectIsBreak();
 
+        StartSoundFromArray(m_impactSounds.m_audioSource, m_impactSounds.m_sounds, m_impactSounds.m_volume, m_impactSounds.m_volumeRandomizer, m_impactSounds.m_pitch, m_impactSounds.m_pitchRandomizer);
+        
         On_DeactivateShader();
 
         //GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.firstCategorie);

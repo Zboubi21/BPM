@@ -16,6 +16,8 @@ public class BreakableObjectController : DestroyableObjectController
         public GameObject m_mesh;
         [Range(0, 100)] public int m_prob;
     }
+
+    [SerializeField] Sounds m_impactSounds;
     
     protected override void On_ObjectIsBreak()
     {
@@ -41,7 +43,9 @@ public class BreakableObjectController : DestroyableObjectController
 
     void On_BreakObject()
     {
-        m_baseMesh.SetActive(false);
+        StartSoundFromArray(m_impactSounds.m_audioSource, m_impactSounds.m_sounds, m_impactSounds.m_volume, m_impactSounds.m_volumeRandomizer, m_impactSounds.m_pitch, m_impactSounds.m_pitchRandomizer);
+        // m_baseMesh.SetActive(false);
+        Destroy(m_baseMesh);
         // m_breakMesh.SetActive(true);
         m_breakMesh[ChoseMesh()].m_mesh.SetActive(true);
     }
