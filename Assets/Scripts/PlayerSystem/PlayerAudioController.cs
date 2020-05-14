@@ -264,25 +264,35 @@ public class PlayerAudioController : AudioController
         StartSoundFromArray(m_cantActivateOveradrenaline.m_audioSource, m_cantActivateOveradrenaline.m_sounds, m_cantActivateOveradrenaline.m_volume, m_cantActivateOveradrenaline.m_volumeRandomizer, m_cantActivateOveradrenaline.m_pitch, m_cantActivateOveradrenaline.m_pitchRandomizer);
     }
 
+    Coroutine m_criticalBpmCorout;
     public void On_CriticalBpm(bool criticalBpm)
     {
         m_isOnCriticalBpm = criticalBpm;
         if (m_isOnCriticalBpm)
-            StartCoroutine(StartFirstHeartSound());
+            StartHeartCoroutine(StartFirstHeartSound());
+            // StartCoroutine(StartFirstHeartSound());
+    }
+    void StartHeartCoroutine(IEnumerator coroutine)
+    {
+        if (m_criticalBpmCorout != null)
+            StopCoroutine(m_criticalBpmCorout);
+        m_criticalBpmCorout = StartCoroutine(coroutine);
     }
     IEnumerator StartFirstHeartSound()
     {
         StartSound(m_bpm.m_sounds.m_audioSource, m_bpm.m_sounds.m_sounds[0], m_bpm.m_sounds.m_volume, m_bpm.m_sounds.m_volumeRandomizer, m_bpm.m_sounds.m_pitch, m_bpm.m_sounds.m_pitchRandomizer);
         yield return new WaitForSeconds(m_bpm.m_waitTimeBetweenHeart);
         if (m_isOnCriticalBpm)
-            StartCoroutine(StartSecondHeartSound());
+            StartHeartCoroutine(StartSecondHeartSound());
+            // StartCoroutine(StartSecondHeartSound());
     }
     IEnumerator StartSecondHeartSound()
     {
         StartSound(m_bpm.m_sounds.m_audioSource, m_bpm.m_sounds.m_sounds[1], m_bpm.m_sounds.m_volume, m_bpm.m_sounds.m_volumeRandomizer, m_bpm.m_sounds.m_pitch, m_bpm.m_sounds.m_pitchRandomizer);
         yield return new WaitForSeconds(m_bpm.m_waitTimeAfterNextHeart);
         if (m_isOnCriticalBpm)
-            StartCoroutine(StartFirstHeartSound());
+            StartHeartCoroutine(StartFirstHeartSound());
+            // StartCoroutine(StartFirstHeartSound());
     }
 
     public void On_HitMarkerNoSpot()

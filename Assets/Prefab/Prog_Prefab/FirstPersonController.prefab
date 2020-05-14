@@ -2919,7 +2919,7 @@ MonoBehaviour:
     m_bpmGainedWhendLvlUp:
       m_getLvl2Bpm: 20
       m_getLvl3Bpm: 30
-    m_criticalBpmFeedBackScreen: {fileID: 99033614028600509}
+    m_criticalBpmFeedBackGui: {fileID: 8235339601318202170}
     m_playerBpmGui: {fileID: 4004649038133091816}
     m_bpmGauge:
       m_gaugeShader: {fileID: 4107457078764622332}
@@ -10517,7 +10517,7 @@ GameObject:
   - component: {fileID: 9194742342345028715}
   - component: {fileID: 9130357826955715252}
   - component: {fileID: 1016448441992908668}
-  - component: {fileID: 99033614028600509}
+  - component: {fileID: 8235339601318202170}
   m_Layer: 17
   m_Name: CriticalBpmLevel
   m_TagString: Untagged
@@ -10580,7 +10580,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &99033614028600509
+--- !u!114 &8235339601318202170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10589,27 +10589,148 @@ MonoBehaviour:
   m_GameObject: {fileID: 8897205473870988893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870a588db28a61c4abc92c33144e8e82, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d244e08cbc2ae5439d8f1bc87d9f9ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startValue: 0
-  m_useImage: 1
-  m_timeToFadeIn: 0.25
-  m_timeToFadeOff: 0.5
-  m_fromColor: {r: 1, g: 0, b: 0.11764706, a: 0}
-  m_toColor: {r: 1, g: 0, b: 0.11764706, a: 0.5019608}
-  m_useCurve: 0
-  m_curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_useBlink: 1
-  m_minAlpha: 88
-  m_maxAlpha: 168
-  m_timeToChangeAlpha: 0.4
-  m_waitTimeBetweenBlink: 0.4
+  m_fadeIn:
+    m_targetValue: 100
+    m_animSpeed: 250
+    m_animCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_fadeOut:
+    m_targetValue: 0
+    m_animSpeed: 250
+    m_animCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_additionnelAlphaPerHit: 6
+  m_maxHitNbr: 15
+  m_waitTimeToResetAlpha: 1.5
+  m_baseBlink:
+    m_targetValue: 230
+    m_animSpeed: 500
+    m_animCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_minBlink:
+    m_targetValue: 205
+    m_animSpeed: 130
+    m_animCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_maxBlink:
+    m_targetValue: 255
+    m_animSpeed: 130
+    m_animCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_waitTimeBetweenBlink: 0.425
 --- !u!1001 &1027738355116468802
 PrefabInstance:
   m_ObjectHideFlags: 0

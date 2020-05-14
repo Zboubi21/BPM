@@ -28,7 +28,8 @@ public class BPMSystem : MonoBehaviour
         }
 
         [Header("Feedback")]
-        public ChangeImageValues m_criticalBpmFeedBackScreen;
+        // public ChangeImageValues m_criticalBpmFeedBackScreen;
+        public ChangeImageAlpha m_criticalBpmFeedBackGui;
 
         // public float BPMGain_OnNoSpot;
         // public float BPMGain_OnWeak;
@@ -215,7 +216,7 @@ public class BPMSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
             GainBPM(25);
         if (Input.GetKeyDown(KeyCode.Y))
-            LoseBPM(25);
+            LoseBPM(25, transform);
         // if (Input.GetKey(KeyCode.B))
         #endif
     }
@@ -254,7 +255,8 @@ public class BPMSystem : MonoBehaviour
                 if (m_playerCanDie)
                     On_PlayerHasNoBpm();
             }
-            CheckCriticalLevelOfBPM();
+            bool byShooter = shooter != null ? true : false;
+            CheckCriticalLevelOfBPM(true, byShooter);
         }
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
@@ -299,7 +301,7 @@ public class BPMSystem : MonoBehaviour
             _currentBPM = _BPM.maxBPM;
         }
         CheckCanActivateFury();
-        CheckCriticalLevelOfBPM();  // Pas sûr de le mettre ici
+        CheckCriticalLevelOfBPM(false, false);  // Pas sûr de le mettre ici
 
         ChangeWeaponLevel(_currentBPM, gainOnActivateFury);
 
@@ -307,22 +309,30 @@ public class BPMSystem : MonoBehaviour
         _BPM.m_playerBpmGui.On_PlayerGetBpm(true, Mathf.CeilToInt(BPMGain), specialGain);
         UpdateEyeletFuryFeedback();
     }
-    void CheckCriticalLevelOfBPM()
+    void CheckCriticalLevelOfBPM(bool loseBPM, bool byShooter)
     {
         if (_currentBPM <= _BPM.criticalLvlOfBPM && !m_isInCriticalLevelOfBPM)
         {
             m_isInCriticalLevelOfBPM = true;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
-            _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+            // _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+            
+            _BPM.m_criticalBpmFeedBackGui?.On_EnterInCriticalLevelOfBpm(true);
+
             audioControl?.On_CriticalBpm(true);
         }
         else if(_currentBPM > _BPM.criticalLvlOfBPM && m_isInCriticalLevelOfBPM)
         {
             m_isInCriticalLevelOfBPM = false;
             _BPM.m_playerBpmGui.On_CriticalLevelOfBPM(m_isInCriticalLevelOfBPM);
-            _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+            // _BPM.m_criticalBpmFeedBackScreen.SwitchValue();
+
+            _BPM.m_criticalBpmFeedBackGui?.On_EnterInCriticalLevelOfBpm(false);
+
             audioControl?.On_CriticalBpm(false);
         }
+        if (loseBPM && byShooter)
+            _BPM.m_criticalBpmFeedBackGui?.On_TakeDamage();
     }
     void CheckCanActivateFury()
     {
