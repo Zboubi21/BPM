@@ -5,31 +5,30 @@ using UnityEngine;
 public class ElevatorDoorOpener : MonoBehaviour
 {
     Animator animator;
-    PlayerController controller;
-    public Canvas canvas;
+    //public Canvas canvas;
 
-    public void Start()
+    public bool usePlayerStart = false;
+
+
+
+    private void Start()
     {
-        controller = PlayerController.s_instance;
+        animator = GetComponent<Animator>();
+        if (usePlayerStart)
+        {
+            if (PlayerController.s_instance != null)
+            {
+                //canvas.gameObject.SetActive(true);
+                PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(false);
+                Cursor.visible = true;
+            }
+        }
     }
+
 
     public void OpenDoors()
     {
         animator.SetTrigger("Open");
-    }
-
-    private void Update()
-    {
-        if(controller != null)
-        {
-            if (canvas.gameObject.activeSelf && Cursor.visible == false)
-            {
-                canvas.gameObject.SetActive(false);
-            }
-            else if (!canvas.gameObject.activeSelf && Cursor.visible == true)
-            {
-                canvas.gameObject.SetActive(true);
-            }
-        }
+        PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(true);
     }
 }

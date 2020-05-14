@@ -139,8 +139,8 @@ public class PlayerController : MonoBehaviour
 
 	[Space]
 
-	[SerializeField] ScriptOrder m_scriptOrder;
-	[Serializable] class ScriptOrder
+	[SerializeField] public ScriptOrder m_scriptOrder;
+	[Serializable] public class ScriptOrder
 	{
 		public CameraController m_cameraControls;
 		public TransformFollower m_camPivot;

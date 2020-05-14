@@ -7,7 +7,7 @@ public class OnShootOnTargetEvent : MonoBehaviour
 {
 
     RaycastHit _hit;
-    Camera playerCamera;
+    GameObject playerCamera;
     LayerMask rayCastCollision;
 
     public UnityEvent OnFirstShootEvent;

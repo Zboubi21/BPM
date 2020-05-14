@@ -23,7 +23,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     ObjectPooler objectPooler;
     PlayerAudioController audioControl;
 
-    public Camera playerCamera;
+    public GameObject playerCamera;
     public LayerMask rayCastCollision;
     public LayerMask rayCastEnemyCollision = 10;
 
