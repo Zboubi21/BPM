@@ -25,7 +25,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
 
     public GameObject playerCamera;
     public LayerMask rayCastCollision;
-    public LayerMask rayCastEnemyCollision = 10;
+    public LayerMask rayCastEnemyCollision;
 
     [Header("Anims")]
     [SerializeField] Animations m_animations;

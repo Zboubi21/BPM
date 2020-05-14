@@ -7,6 +7,7 @@ using System;
 using UnityEngine.UI;
 using PoolTypes;
 using UnityEngine.Animations.Rigging;
+using UnityEditor;
 
 public class EnemyController : MonoBehaviour
 {
@@ -552,7 +553,7 @@ public class EnemyController : MonoBehaviour
     {
         Destroy(obj);
     }
-#endregion
+    #endregion
 
     private void OnDrawGizmosSelected()
     {
@@ -569,7 +570,6 @@ public class EnemyController : MonoBehaviour
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, weaponBehavior._attack.rangeOfAttackNoMatterWhat);
                 //Gizmos.DrawWireSphere(Vector3.LerpUnclamped(transform.position, Vector3.zero, range), 1f);
-
             }
             else
             {
@@ -579,8 +579,10 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+    //public static void DrawSolidArc(Vector3 center, Vector3 normal, Vector3 from, float angle, float radius);
 
-#region Enemy
+
+    #region Enemy
     public void On_SpawnEnemy()
     {
         if (m_spawn.m_faceToPlayerWhenSpawned)

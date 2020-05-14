@@ -33,6 +33,9 @@ public class Projectile : MonoBehaviour
     [Space]
     public TypeOfCollision m_colType = TypeOfCollision.DoubleRaycasts;
     public float forceBuffer = 50f;
+
+    ParticleSystem particle;
+    TrailRenderer trail;
     Rigidbody rb;
     SphereCollider col;
 
@@ -40,7 +43,7 @@ public class Projectile : MonoBehaviour
     PoolTypes.ProjectileType projectileType;
     RaycastHit _hit;
     bool m_dieWhenHit = true;
-
+    bool hasReachedDestination;
     float deltaLength;
     float newLength;
     Vector3 m_awakeDistance;
@@ -140,6 +143,9 @@ public class Projectile : MonoBehaviour
                 break;
         }
         gameObject.layer = layer;
+        particle = GetComponent<ParticleSystem>();
+        trail = GetComponent<TrailRenderer>();
+
 
         StartCoroutine(DestroyAnyway());
 
@@ -182,6 +188,7 @@ public class Projectile : MonoBehaviour
                 break;
         }
         gameObject.layer = layer;
+        
         StartCoroutine(DestroyAnyway());
     }
 
@@ -272,9 +279,13 @@ public class Projectile : MonoBehaviour
                         m_currentDistance = transform.localPosition;
 
                         //Debug.DrawLine(m_currentDistance, m_distanceToReach, Color.red);
+
                     }
-                    else
+                    else if(!hasReachedDestination) //Pour que la fonction ne soit appelée qu'une fois
                     {
+                        hasReachedDestination = true;
+                        
+
                         SwitchForWeakSpots(_hit.collider);
                     }
                 }
@@ -292,6 +303,9 @@ public class Projectile : MonoBehaviour
                 }
             }
         }
+
+        //var em = particle.GetComponent<ParticleSystemRenderer>();
+        //em.enabled = !hasReachedDestination;
     }
 
 
@@ -410,7 +424,6 @@ public class Projectile : MonoBehaviour
                 pos = _hit.point;
                 break;
         }
-        
         Level.AddFX(impactFX, pos, transform.rotation);    //Impact FX
 
         if (collider.GetComponent<Rigidbody>() != null)
@@ -418,19 +431,30 @@ public class Projectile : MonoBehaviour
             Rigidbody _rb = collider.GetComponent<Rigidbody>();
             _rb.AddForceAtPosition(-(_hit.normal * forceBuffer), _hit.point);
         }
-
-        DestroyProj();
+        
+        StartCoroutine(WaitForTrailToDestroy());
     }
 
     IEnumerator DestroyAnyway()
     {
         yield return new WaitForSeconds(m_maxLifeTime);
+        StartCoroutine(WaitForTrailToDestroy());
+    }
+
+    IEnumerator WaitForTrailToDestroy()
+    {
+        yield return new WaitForSeconds(2f);
+        //var em = particle.GetComponent<ParticleSystemRenderer>();
+        //em.enabled = false;
         DestroyProj();
     }
 
     void DestroyProj()
     {
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
+        hasReachedDestination = false;
+        //var em = particle.GetComponent<ParticleSystemRenderer>();
+        //em.enabled = true;
     }
 
     void FeedbackPlayerHitMarker(string tag)
