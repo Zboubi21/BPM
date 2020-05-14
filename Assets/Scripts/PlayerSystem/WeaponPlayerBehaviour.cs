@@ -75,7 +75,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     int defaultDistance = 500;
 
     RaycastHit _hit;
-    public WeaponRecoil weaponRecoil = new WeaponRecoil();
+    public WeaponRecoil[] weaponRecoil;
     [Serializable]
     public class WeaponRecoil
     {
@@ -95,6 +95,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         //public Vector3 RecoilRotation;
         //public Vector3 RecoilKickBack;
         //[Space(15)]
+        public string name;
         [Header("Camera Recoil")]
         public bool m_useCameraRecoil = false;
         [Header("Recoil Settings")]
@@ -369,11 +370,29 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         //    RotationOutput = Vector3.Slerp(RotationOutput, CurrentPositionRecoil, weaponRecoil.RotationDampTime * Time.fixedDeltaTime);
         //}
 
-        if (weaponRecoil.m_useCameraRecoil)
+        if (weaponRecoil[(int)_BPMSystem.CurrentWeaponState].m_useCameraRecoil)
         {
-            currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, weaponRecoil.returnSpeed * Time.deltaTime);
-            rot = Vector3.Slerp(rot, currentRotation, weaponRecoil.rotationSpeed * Time.deltaTime);
+            currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, weaponRecoil[(int)_BPMSystem.CurrentWeaponState].returnSpeed * Time.deltaTime);
+            rot = Vector3.Slerp(rot, currentRotation, weaponRecoil[(int)_BPMSystem.CurrentWeaponState].rotationSpeed * Time.deltaTime);
             if(PlayerController.s_instance.m_references.m_cameraControl != null)
+            {
+                PlayerController.s_instance.m_references.m_cameraControl.transform.localRotation = Quaternion.Euler(rot);
+            }
+        }
+        else if(weaponRecoil.Length > 1)
+        {
+            currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, weaponRecoil[(int)_BPMSystem.CurrentWeaponState-1].returnSpeed * Time.deltaTime);
+            rot = Vector3.Slerp(rot, currentRotation, weaponRecoil[(int)_BPMSystem.CurrentWeaponState - 1].rotationSpeed * Time.deltaTime);
+            if (PlayerController.s_instance.m_references.m_cameraControl != null)
+            {
+                PlayerController.s_instance.m_references.m_cameraControl.transform.localRotation = Quaternion.Euler(rot);
+            }
+        }
+        else
+        {
+            currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, weaponRecoil[0].returnSpeed * Time.deltaTime);
+            rot = Vector3.Slerp(rot, currentRotation, weaponRecoil[0].rotationSpeed * Time.deltaTime);
+            if (PlayerController.s_instance.m_references.m_cameraControl != null)
             {
                 PlayerController.s_instance.m_references.m_cameraControl.transform.localRotation = Quaternion.Euler(rot);
             }
@@ -386,7 +405,19 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         //CurrentPositionRecoil += new Vector3(weaponRecoil.RecoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.y, weaponRecoil.RecoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.RecoilRotation.z, weaponRecoil.RecoilRotation.z));
         //CurrentRotationRecoil += new Vector3(UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.x, weaponRecoil.RecoilKickBack.x), UnityEngine.Random.Range(-weaponRecoil.RecoilKickBack.y, weaponRecoil.RecoilKickBack.y), weaponRecoil.RecoilKickBack.z);
-        currentRotation += new Vector3(-weaponRecoil.recoilRotation.x, UnityEngine.Random.Range(-weaponRecoil.recoilRotation.y, weaponRecoil.recoilRotation.y), UnityEngine.Random.Range(-weaponRecoil.recoilRotation.z, weaponRecoil.recoilRotation.z));
+
+        if (weaponRecoil[(int)_BPMSystem.CurrentWeaponState].m_useCameraRecoil)
+        {
+            currentRotation += new Vector3(-weaponRecoil[(int)_BPMSystem.CurrentWeaponState].recoilRotation.x, UnityEngine.Random.Range(-weaponRecoil[(int)_BPMSystem.CurrentWeaponState].recoilRotation.y, weaponRecoil[(int)_BPMSystem.CurrentWeaponState].recoilRotation.y), UnityEngine.Random.Range(-weaponRecoil[(int)_BPMSystem.CurrentWeaponState].recoilRotation.z, weaponRecoil[(int)_BPMSystem.CurrentWeaponState].recoilRotation.z));
+        }
+        else if (weaponRecoil.Length > 1)
+        {
+            currentRotation += new Vector3(-weaponRecoil[(int)_BPMSystem.CurrentWeaponState-1].recoilRotation.x, UnityEngine.Random.Range(-weaponRecoil[(int)_BPMSystem.CurrentWeaponState - 1].recoilRotation.y, weaponRecoil[(int)_BPMSystem.CurrentWeaponState - 1].recoilRotation.y), UnityEngine.Random.Range(-weaponRecoil[(int)_BPMSystem.CurrentWeaponState - 1].recoilRotation.z, weaponRecoil[(int)_BPMSystem.CurrentWeaponState - 1].recoilRotation.z));
+        }
+        else
+        {
+            currentRotation += new Vector3(-weaponRecoil[0].recoilRotation.x, UnityEngine.Random.Range(-weaponRecoil[0].recoilRotation.y, weaponRecoil[0].recoilRotation.y), UnityEngine.Random.Range(-weaponRecoil[0].recoilRotation.z, weaponRecoil[0].recoilRotation.z));
+        }
     }
 
     /*public override IEnumerator RecoilCurve()
