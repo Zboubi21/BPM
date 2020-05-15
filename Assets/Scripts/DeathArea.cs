@@ -15,7 +15,7 @@ public class DeathArea : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<BPMSystem>().On_PlayerFallIntoTheVoid();
+            col.GetComponent<BPMSystem>().On_PlayerFallIntoTheVoid(transform);
         }
     }
 

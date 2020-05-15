@@ -14,6 +14,53 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-6957271625161281867
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: fcb684118d79e3146ab3505a645c090c
+  m_EffectName: Attenuation
+  m_MixLevel: 04a10b5de9527774281f01ab401cbf4f
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!243 &-4367416745712694938
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sculpture
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: b9062df33969686418ae1de72684ed3e
+  m_Children: []
+  m_Volume: 549c0c8f666c0ec43ac823f52898d22f
+  m_Pitch: 39186d13b6d3a094c832cb03e58571de
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -6957271625161281867}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &-1899709837446288967
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 96a705d30704bbd4f8ba0fe5d301f266
+  m_EffectName: Attenuation
+  m_MixLevel: c9a20bffaf5ccf045bc245cf789c55df
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &-1055509600823531268
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -55,6 +102,9 @@ AudioMixerController:
     - 3fd68f5999df68e44bd6dd22065f9575
     - d93c411ae8855c74fb9966613f54144d
     - 61df889bd7dd38643b63f8939cd045dc
+    - fcd647fe87245e242a3f98039ab9ff79
+    - 55cafee0bcff62b42a50415a095f463a
+    - b9062df33969686418ae1de72684ed3e
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -70,6 +120,9 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: 7851083658980612339}
   - {fileID: -1055509600823531268}
+  - {fileID: -4367416745712694938}
+  - {fileID: 3753983779567986945}
+  - {fileID: 6149234660055443589}
   m_Volume: 468b631bde0d9c145ae48e4e90bef729
   m_Pitch: 22a24c675d23b76419492d0afb4efe49
   m_Send: 00000000000000000000000000000000
@@ -104,6 +157,58 @@ AudioMixerSnapshotController:
   m_SnapshotID: 86ad9bd0051385e4196ad1e78fcc7768
   m_FloatValues: {}
   m_TransitionOverrides: {}
+--- !u!244 &861528789065566297
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 9b20ed6f034d9a147a4509b699808aa3
+  m_EffectName: Attenuation
+  m_MixLevel: eff442652dc74c94a87ae0b220a027f9
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!243 &3753983779567986945
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sculpture_Concrete
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: fcd647fe87245e242a3f98039ab9ff79
+  m_Children: []
+  m_Volume: bcebb1db9c0388141897b4a4069ead4c
+  m_Pitch: b3c1f9772d4e7654bbced8c8854bce40
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 861528789065566297}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &6149234660055443589
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sculpture_Glass
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 55cafee0bcff62b42a50415a095f463a
+  m_Children: []
+  m_Volume: 5fe6255e18ead434f9c2ad141b5384dc
+  m_Pitch: 9b1da69892f7c37478c2f7d6eadf0702
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -1899709837446288967}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &6416000978115468271
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

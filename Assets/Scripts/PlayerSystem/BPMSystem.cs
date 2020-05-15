@@ -257,7 +257,8 @@ public class BPMSystem : MonoBehaviour
             }
             bool byShooter = shooter != null ? true : false;
             CheckCriticalLevelOfBPM(true, byShooter);
-            audioControl?.On_PlayerTakeDamage();
+            if (shooter != null)
+                audioControl?.On_PlayerTakeDamage();
         }
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
@@ -405,10 +406,10 @@ public class BPMSystem : MonoBehaviour
     {
         SceneReloader.s_instance?.On_ResetLvl();
     }
-    public void On_PlayerFallIntoTheVoid()
+    public void On_PlayerFallIntoTheVoid(Transform voidPos)
     {
+        LoseBPM(_BPM.m_loseBpmWhenFallIntoTheVoid, voidPos);
         transform.position = GameManager.Instance.RespawnPos.position;
-        LoseBPM(_BPM.m_loseBpmWhenFallIntoTheVoid);
     }
 
     #endregion
