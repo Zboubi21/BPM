@@ -24,7 +24,8 @@ public class ElectricalStunState : IState
 
         m_enemyController.Agent.isStopped = true;
         m_enemyController.Anim.SetBool("IsStun", true);
-        m_enemyController.Anim.SetFloat("WhichPart", 5);
+        m_enemyController.Anim.SetTrigger("Electrocuted");
+        //m_enemyController.Anim.SetFloat("WhichPart", 5);
         m_enemyController.StartCoroutine(m_enemyController.IsStun(m_enemyController.Cara.CurrentTimeForElectricalStun, EnemyState.Enemy_ElectricalStunState));
         if (!hasAlreadyBeenStuned)
         {

@@ -9,6 +9,7 @@ public class ChangeShaderValue : ChangeValues
     [Header("Shader")]
     [SerializeField] bool m_isImageShader = true;
     [SerializeField] protected string m_shaderParameter;
+    [SerializeField] protected int m_materialNbr = 0;
 
     [Header("Parameters")]
     [SerializeField] protected float m_timeToFadeIn = 0.25f;
@@ -47,10 +48,11 @@ public class ChangeShaderValue : ChangeValues
         {
             MeshRenderer mesh = GetComponent<MeshRenderer>();
             if (mesh != null)
-                m_shader = mesh.material;
+                m_shader = mesh.materials[m_materialNbr];
         }
         SetupVariables();
     }
+    
     protected virtual void SetupVariables()
     {
         m_currentFromValue = m_fromValue;
@@ -137,6 +139,7 @@ public class ChangeShaderValue : ChangeValues
             SetShaderValue(actualValue);
             yield return null;
         }
+
         if (m_useBlink && m_blinkIsActivate)
             StartToBlink(true);
         else
@@ -200,10 +203,17 @@ public class ChangeShaderValue : ChangeValues
     {
         return m_shader.GetFloat(m_shaderParameter);
     }
+    protected virtual float GetShaderValue(string shaderParameter)
+    {
+        return m_shader.GetFloat(shaderParameter);
+    }
     protected virtual void SetShaderValue(float newValue)
     {
-        // Pour plus de réutilisation, mettre le nom de la variable du shader en public !
         m_shader?.SetFloat(m_shaderParameter, newValue);
+    }
+    protected virtual void SetShaderValue(string shaderParameter, float newValue)
+    {
+        m_shader?.SetFloat(shaderParameter, newValue);
     }
 
 }
