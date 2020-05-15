@@ -284,8 +284,8 @@ public class Projectile : MonoBehaviour
                     else if(!hasReachedDestination) //Pour que la fonction ne soit appelée qu'une fois
                     {
                         hasReachedDestination = true;
-                        
 
+                        transform.position = _hit.point;
                         SwitchForWeakSpots(_hit.collider);
                     }
                 }
