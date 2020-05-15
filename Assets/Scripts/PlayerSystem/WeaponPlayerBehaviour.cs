@@ -210,7 +210,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         */
         #endregion
         #region Easter Egg
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Alpha5))
         {
             if(WeaponForwardRaycast())
             {
