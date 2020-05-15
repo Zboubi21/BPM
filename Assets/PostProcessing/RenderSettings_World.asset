@@ -20,82 +20,8 @@ MonoBehaviour:
     min: 0
   indirectDiffuseIntensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2.31
     min: 0
---- !u!114 &-7326231167805402777
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 384c4d03a551c44448145f4093304119, type: 3}
-  m_Name: ScreenSpaceReflection
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  depthBufferThickness:
-    m_OverrideState: 1
-    m_Value: 0.001
-    min: 0
-    max: 1
-  screenFadeDistance:
-    m_OverrideState: 1
-    m_Value: 0.58
-    min: 0
-    max: 1
-  minSmoothness:
-    m_OverrideState: 1
-    m_Value: 0.873
-    min: 0
-    max: 1
-  smoothnessFadeStart:
-    m_OverrideState: 1
-    m_Value: 1
-    min: 0
-    max: 1
-  reflectSky:
-    m_OverrideState: 1
-    m_Value: 1
-  rayMaxIterations:
-    m_OverrideState: 1
-    m_Value: 32
-  enableRaytracing:
-    m_OverrideState: 0
-    m_Value: 0
-  rayLength:
-    m_OverrideState: 0
-    m_Value: 10
-    min: 0.001
-    max: 50
-  clampValue:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0.001
-    max: 10
-  temporalAccumulationWeight:
-    m_OverrideState: 0
-    m_Value: 0.1
-    min: 0.001
-    max: 1
-  spatialFilterRadius:
-    m_OverrideState: 0
-    m_Value: 4
-  numSamples:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 1
-    max: 32
-  enableFilter:
-    m_OverrideState: 0
-    m_Value: 0
-  filterRadius:
-    m_OverrideState: 0
-    m_Value: 16
-    min: 1
-    max: 32
 --- !u!114 &-3658530672440771278
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -120,7 +46,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 0.99
+    m_Value: 1.41
   multiplier:
     m_OverrideState: 1
     m_Value: 1
@@ -243,13 +169,13 @@ MonoBehaviour:
     min: 1
   baseHeight:
     m_OverrideState: 1
-    m_Value: 34
+    m_Value: 47.4
   meanHeight:
     m_OverrideState: 1
     m_Value: 1000
   anisotropy:
     m_OverrideState: 1
-    m_Value: 0.48
+    m_Value: -0.56
     min: -1
     max: 1
   globalLightProbeDimmer:
@@ -283,50 +209,6 @@ MonoBehaviour:
   fogType:
     m_OverrideState: 1
     m_Value: 3
---- !u!114 &-992895955400847377
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ddcec8a8eb2d684d833ac8f5d26aebd, type: 3}
-  m_Name: HDShadowSettings
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  maxShadowDistance:
-    m_OverrideState: 1
-    m_Value: 500
-    min: 0
-  cascadeShadowSplitCount:
-    m_OverrideState: 0
-    m_Value: 4
-    min: 1
-    max: 4
-  cascadeShadowSplit0:
-    m_OverrideState: 0
-    m_Value: 0.05
-  cascadeShadowSplit1:
-    m_OverrideState: 0
-    m_Value: 0.15
-  cascadeShadowSplit2:
-    m_OverrideState: 0
-    m_Value: 0.3
-  cascadeShadowBorder0:
-    m_OverrideState: 0
-    m_Value: 0
-  cascadeShadowBorder1:
-    m_OverrideState: 0
-    m_Value: 0
-  cascadeShadowBorder2:
-    m_OverrideState: 0
-    m_Value: 0
-  cascadeShadowBorder3:
-    m_OverrideState: 0
-    m_Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,10 +222,8 @@ MonoBehaviour:
   m_Name: RenderSettings_World
   m_EditorClassIdentifier: 
   components:
-  - {fileID: -992895955400847377}
   - {fileID: -1781829853410641726}
   - {fileID: -2249617754250038658}
   - {fileID: -1001499786749307315}
   - {fileID: -3658530672440771278}
   - {fileID: -8809629644115748970}
-  - {fileID: -7326231167805402777}
