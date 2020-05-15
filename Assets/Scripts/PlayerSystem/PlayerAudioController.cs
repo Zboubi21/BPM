@@ -48,6 +48,7 @@ public class PlayerAudioController : AudioController
         public float m_waitTimeBetweenHeart = 0.4f;
         public float m_waitTimeAfterNextHeart = 0.8f;
     }
+    [SerializeField] Sounds m_onPlayerTakeDamage;
 
     [Header("Overadrenaline")]
     [SerializeField] Sounds m_overadrenalineCanBeActivate;
@@ -293,6 +294,11 @@ public class PlayerAudioController : AudioController
         if (m_isOnCriticalBpm)
             StartHeartCoroutine(StartFirstHeartSound());
             // StartCoroutine(StartFirstHeartSound());
+    }
+
+    public void On_PlayerTakeDamage()
+    {
+        StartSoundFromArray(m_onPlayerTakeDamage.m_audioSource, m_onPlayerTakeDamage.m_sounds, m_onPlayerTakeDamage.m_volume, m_onPlayerTakeDamage.m_volumeRandomizer, m_onPlayerTakeDamage.m_pitch, m_hitMarkerWeakSpot.m_sounds.m_pitchRandomizer);
     }
 
     public void On_HitMarkerNoSpot()

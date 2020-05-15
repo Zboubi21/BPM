@@ -257,6 +257,7 @@ public class BPMSystem : MonoBehaviour
             }
             bool byShooter = shooter != null ? true : false;
             CheckCriticalLevelOfBPM(true, byShooter);
+            audioControl?.On_PlayerTakeDamage();
         }
         ChangeWeaponLevel(_currentBPM);
         FeedBackBPM();
