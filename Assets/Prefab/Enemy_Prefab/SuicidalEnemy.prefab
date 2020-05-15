@@ -399,9 +399,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_spawn:
     m_audioSource: {fileID: 175754376398373815}
-    m_sounds: []
+    m_sounds:
+    - {fileID: 8300000, guid: bfba3fef19885d347b1b91630a291faa, type: 3}
     m_volume: 0.75
-    m_volumeRandomizer: 0.2
+    m_volumeRandomizer: 0.05
     m_pitch: 1
     m_pitchRandomizer: 0.1
   m_movements: {fileID: 2587070198626022432}
@@ -1998,9 +1999,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2033,7 +2034,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

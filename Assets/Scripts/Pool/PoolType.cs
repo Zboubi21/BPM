@@ -39,6 +39,7 @@
         SuicidalEnemy_Spawn,
         SuicidalEnemy_Dissolve,
         SuicidalEnemy_Disintegration,
+        DestroyableObjectSmall,
     }
     [System.Serializable] public enum ObjectType {
         BpmGuiValues,
