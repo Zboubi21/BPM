@@ -108,9 +108,8 @@ public class SpawnerController : MonoBehaviour
         {
             if (Waves[i].waveNbr == wave)  // Verifie si il y a plusieur index avec le meme int, et pour chacun d'eux si ils sont égaux à la wave en cours commence à faire spawn
             {
-                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
+                for (int a = 0, f = Waves[i].enemyArray.Length; a < f; ++a) // Pour chaque enemyArchetype dans la wave en cours
                 {
-
                     yield return new WaitForSeconds(OnCreateTimeBetweenSpawn(controller) + Waves[i].enemyArray[a].additionalTimeBeforeSpawning);
                     spawnPosition = OnCreateRandomPositionInSquare();
                     while (true)
