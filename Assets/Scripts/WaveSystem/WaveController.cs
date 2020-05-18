@@ -123,6 +123,7 @@ public class WaveController : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hasStarted)
         {
+
             hasStarted = true;
             for (int i = 0, l = allSpawners.Length; i < l; ++i)
             {
