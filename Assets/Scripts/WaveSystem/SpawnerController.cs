@@ -19,7 +19,7 @@ public class SpawnerController : MonoBehaviour
         //[TableColumnWidth(40, Resizable = false)]
         public int waveNbr;
         //[TableColumnWidth(90)]
-        public EnemyType[] enemy;
+        //public EnemyType[] enemy;
         public EnemyArray[] enemyArray;
 
     }
@@ -62,7 +62,7 @@ public class SpawnerController : MonoBehaviour
         {
             if (Waves[i].waveNbr == wave)
             {
-                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a) 
+                for (int a = 0, f = Waves[i].enemyArray.Length; a < f; ++a) 
                 {
                     controller.NbrOfEnemy++;
                 }
@@ -78,7 +78,7 @@ public class SpawnerController : MonoBehaviour
             //Debug.Log(this + " all my wave nbr " + Waves[i].waveNbr + " lookingWave " + wave);
             if (Waves[i].waveNbr == wave)
             {
-                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a)
+                for (int a = 0, f = Waves[i].enemyArray.Length; a < f; ++a)
                 {
                     controller.NbtOfAllEnemy++;
                 }
@@ -92,7 +92,7 @@ public class SpawnerController : MonoBehaviour
         {
             if (Waves[i].waveNbr == wave)
             {
-                for (int a = 0, f = Waves[i].enemy.Length; a < f; ++a)
+                for (int a = 0, f = Waves[i].enemyArray.Length; a < f; ++a)
                 {
                     controller.NbrOfWantedEnemy++;
                 }
