@@ -46,11 +46,7 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     IEnumerator m_showPlayerHitMarker;
     [Serializable] class Hitmarker
     {
-        public Image m_img;
-
-        [Header("Sprites")]
-        public Sprite m_noSpotMarker;
-        public Sprite m_weakSpotMarker;
+        public Image[] m_img;
 
         [Header("Colors")]
         public Color m_onEnemyNoSpot = Color.red;
@@ -59,12 +55,10 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         [Header("Timers")]
         public float m_timeToShow = 0.125f;
         public float m_timeToHideMarker = 0.125f;
+        public float m_waitTimeToShowMarker = 0.01f;
 
-        [Header("Size")]
-        public float m_additionalSizePerShoot = 0.1f;
-        public int m_maxShoot = 5;
-
-        public float m_waitTimeToShowMarker = 0.05f;
+        [Header("Images")]
+        public Sprite[] m_hitmarkersImgs;
     }
     int m_currentShootCount = 0;
 
@@ -585,14 +579,14 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         if (colliderTag == "NoSpot")
         {
-            SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyNoSpot);
-            m_hitmarkers.m_img.sprite = m_hitmarkers.m_noSpotMarker;
+            SetImagesColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyNoSpot);
+            // SetSpriteImages(m_hitmarkers.m_img, m_hitmarkers.m_noSpotMarker);
             audioControl?.On_HitMarkerNoSpot();
         }
         else if (colliderTag == "WeakSpot")
         {
-            SetImageColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyWeakspot);
-            m_hitmarkers.m_img.sprite = m_hitmarkers.m_weakSpotMarker;
+            SetImagesColor(m_hitmarkers.m_img, m_hitmarkers.m_onEnemyWeakspot);
+            // SetSpriteImages(m_hitmarkers.m_img, m_hitmarkers.m_weakSpotMarker);
             audioControl?.On_HitMarkerWeakSpot();
         }
         
@@ -603,26 +597,24 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
     IEnumerator ShowPlayerHitMarker()
     {
-        m_hitmarkers.m_img.enabled = false;
+        EnableImages(m_hitmarkers.m_img, false);
         yield return new WaitForSeconds(m_hitmarkers.m_waitTimeToShowMarker);
-        m_hitmarkers.m_img.enabled = true;
 
-        if (m_currentShootCount > 0 && m_currentShootCount < m_hitmarkers.m_maxShoot)
-        {
-            float newXScaleValue = m_hitmarkers.m_img.rectTransform.localScale.x + m_hitmarkers.m_additionalSizePerShoot;
-            float newYScaleValue = m_hitmarkers.m_img.rectTransform.localScale.y + m_hitmarkers.m_additionalSizePerShoot;
-            m_hitmarkers.m_img.rectTransform.localScale = new Vector3(newXScaleValue, newYScaleValue, m_hitmarkers.m_img.rectTransform.localScale.z);
-        }
+        if (m_hitmarkers.m_hitmarkersImgs.Length != m_currentShootCount)
+            SetSpriteImages(m_hitmarkers.m_img, m_hitmarkers.m_hitmarkersImgs[m_currentShootCount]);
+
+        EnableImages(m_hitmarkers.m_img, true);
         
-        m_hitmarkers.m_img.color = new Color(m_hitmarkers.m_img.color.r, m_hitmarkers.m_img.color.g, m_hitmarkers.m_img.color.b, 1);
+        Color imageColor = new Color(m_hitmarkers.m_img[0].color.r, m_hitmarkers.m_img[0].color.g, m_hitmarkers.m_img[0].color.b, 1);
+        SetImagesColor(m_hitmarkers.m_img, imageColor);
 
-        if (m_currentShootCount < m_hitmarkers.m_maxShoot)
+        if (m_currentShootCount < m_hitmarkers.m_hitmarkersImgs.Length)
             m_currentShootCount ++;
 
         yield return new WaitForSeconds(m_hitmarkers.m_timeToShow);
 
-        Color fromColor = m_hitmarkers.m_img.color;
-        Color toColor = new Color(m_hitmarkers.m_img.color.r, m_hitmarkers.m_img.color.g, m_hitmarkers.m_img.color.b, 0);
+        Color fromColor = m_hitmarkers.m_img[0].color;
+        Color toColor = new Color(m_hitmarkers.m_img[0].color.r, m_hitmarkers.m_img[0].color.g, m_hitmarkers.m_img[0].color.b, 0);
 
         Color actualColor = fromColor;
         float fracJourney = 0;
@@ -633,13 +625,13 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
         {
             fracJourney += (Time.deltaTime) * speed / distance;
             actualColor = Color.Lerp(fromColor, toColor, fracJourney);
-            SetImageColor(m_hitmarkers.m_img, actualColor);
+            SetImagesColor(m_hitmarkers.m_img, actualColor);
             yield return null;
         }
 
         // Reset Shoot
         m_currentShootCount = 0;
-        m_hitmarkers.m_img.rectTransform.localScale = Vector3.one;
+        // m_hitmarkers.m_img.rectTransform.localScale = Vector3.one;
     }
     void SetImageColor(Image image, Color color)
     {
@@ -653,6 +645,24 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
             if (image[i] != null)
                 if (image[i].color != color)
                     image[i].color = color;
+        }
+    }
+    void SetSpriteImages(Image[] image, Sprite newSprite)
+    {
+        for (int i = 0, l = image.Length; i < l; ++i)
+        {
+            if (image[i] != null)
+                if (image[i].sprite != newSprite)
+                    image[i].sprite = newSprite;
+        }
+    }
+    void EnableImages(Image[] image, bool enable)
+    {
+        for (int i = 0, l = image.Length; i < l; ++i)
+        {
+            if (image[i] != null)
+                if (image[i].enabled != enable)
+                    image[i].enabled = enable;
         }
     }
 
