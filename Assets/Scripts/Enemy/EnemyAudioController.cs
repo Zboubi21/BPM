@@ -35,6 +35,11 @@ public class EnemyAudioController : AudioController
             public AudioClip[] allDifferentClip;
             public Pitch Pitch;
             public Volume Volume;
+            public int nbrOfPlayingSoundMax;
+            public float timeOffset;
+            int _currentNbrOfPlayedSound;
+
+            public int CurrentNbrOfPlayedSound { get => _currentNbrOfPlayedSound; set => _currentNbrOfPlayedSound = value; }
         }
         [Space]
         public AllDifferentLastFireSound LastFireSounds;
@@ -44,6 +49,11 @@ public class EnemyAudioController : AudioController
             public AudioClip[] allDifferentClip;
             public Pitch Pitch;
             public Volume Volume;
+            public int nbrOfPlayingSoundMax;
+            public float timeOffset;
+            int _currentNbrOfPlayedSound;
+
+            public int CurrentNbrOfPlayedSound { get => _currentNbrOfPlayedSound; set => _currentNbrOfPlayedSound = value; }
         }
     }
 
@@ -171,18 +181,32 @@ public class EnemyAudioController : AudioController
     }
     public void PlayAppropriateLastFireSound()
     {
-        if (weaponSound.source != null && weaponSound.LastFireSounds.allDifferentClip.Length > 0)
+        if (weaponSound.source != null && weaponSound.LastFireSounds.allDifferentClip.Length > 0 && (weaponSound.LastFireSounds.CurrentNbrOfPlayedSound < weaponSound.LastFireSounds.nbrOfPlayingSoundMax || weaponSound.FireSounds.nbrOfPlayingSoundMax == 0))
         {
+            weaponSound.LastFireSounds.CurrentNbrOfPlayedSound++;
             StartSoundFromArray(weaponSound.source, weaponSound.LastFireSounds.allDifferentClip, weaponSound.LastFireSounds.Volume.volume, weaponSound.LastFireSounds.Volume.volumeRandomizer, weaponSound.LastFireSounds.Pitch.pitch, weaponSound.LastFireSounds.Pitch.pitchRandomizer);
+            StartCoroutine(WaitForTheEndOfLastFireClip());
         }
+    }
+    IEnumerator WaitForTheEndOfLastFireClip()
+    {
+        yield return new WaitForSeconds(weaponSound.LastFireSounds.allDifferentClip[0].length + weaponSound.LastFireSounds.timeOffset);
+        weaponSound.LastFireSounds.CurrentNbrOfPlayedSound--;
     }
 
     public void PlayAppropriateFireSound()
     {
-        if (weaponSound.source != null && weaponSound.FireSounds.allDifferentClip.Length > 0)
+        if (weaponSound.source != null && weaponSound.FireSounds.allDifferentClip.Length > 0 && (weaponSound.FireSounds.CurrentNbrOfPlayedSound < weaponSound.FireSounds.nbrOfPlayingSoundMax || weaponSound.FireSounds.nbrOfPlayingSoundMax == 0))
         {
+            weaponSound.FireSounds.CurrentNbrOfPlayedSound++;
             StartSoundFromArray(weaponSound.source, weaponSound.FireSounds.allDifferentClip, weaponSound.FireSounds.Volume.volume, weaponSound.FireSounds.Volume.volumeRandomizer, weaponSound.FireSounds.Pitch.pitch, weaponSound.FireSounds.Pitch.pitchRandomizer);
+            StartCoroutine(WaitForTheEndOfFireClip());
         }
+    }
+    IEnumerator WaitForTheEndOfFireClip()
+    {
+        yield return new WaitForSeconds(weaponSound.FireSounds.allDifferentClip[0].length + weaponSound.LastFireSounds.timeOffset);
+        weaponSound.FireSounds.CurrentNbrOfPlayedSound--;
     }
 
     public void On_EnemyDie()

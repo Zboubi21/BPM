@@ -298,7 +298,17 @@ public class PlayerAudioController : AudioController
 
     public void On_PlayerTakeDamage()
     {
-        StartSoundFromArray(m_onPlayerTakeDamage.m_audioSource, m_onPlayerTakeDamage.m_sounds, m_onPlayerTakeDamage.m_volume, m_onPlayerTakeDamage.m_volumeRandomizer, m_onPlayerTakeDamage.m_pitch, m_hitMarkerWeakSpot.m_sounds.m_pitchRandomizer);
+        if (m_onPlayerTakeDamage.CurrentNbrOfPlayedSound < m_onPlayerTakeDamage.nbrOfPlayingSoundMax || m_onPlayerTakeDamage.nbrOfPlayingSoundMax == 0)
+        {
+            m_onPlayerTakeDamage.CurrentNbrOfPlayedSound++;
+            StartSoundFromArray(m_onPlayerTakeDamage.m_audioSource, m_onPlayerTakeDamage.m_sounds, m_onPlayerTakeDamage.m_volume, m_onPlayerTakeDamage.m_volumeRandomizer, m_onPlayerTakeDamage.m_pitch, m_onPlayerTakeDamage.m_pitchRandomizer);
+            StartCoroutine(WaitForTheEndOfTakeDamageClip());
+        }
+    }
+    IEnumerator WaitForTheEndOfTakeDamageClip()
+    {
+        yield return new WaitForSeconds(m_onPlayerTakeDamage.m_sounds[0].length + m_onPlayerTakeDamage.timeOffset);
+        m_onPlayerTakeDamage.CurrentNbrOfPlayedSound--;
     }
 
     public void On_HitMarkerNoSpot()
