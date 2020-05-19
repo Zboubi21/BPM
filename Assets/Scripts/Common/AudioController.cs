@@ -19,6 +19,12 @@ public class AudioController : MonoBehaviour
         [Header("Pitch")]
         [Range(-3, 3)] public float m_pitch = 1;
         [Range(0, 1.5f)] public float m_pitchRandomizer = 0.1f;
+
+        public int nbrOfPlayingSoundMax;
+        public float timeOffset;
+        int _currentNbrOfPlayedSound;
+
+        public int CurrentNbrOfPlayedSound { get => _currentNbrOfPlayedSound; set => _currentNbrOfPlayedSound = value; }
     }
 
     [System.Serializable] public class SoundsWithDelay
@@ -68,7 +74,6 @@ public class AudioController : MonoBehaviour
             Debug.LogWarning("No audioClip in the array!");
             return;
         }
-
         AudioClip sound = GetAudioFromArray(audioClip);
         float volumeValue = GetRandomValue(volume, volumeRandomizer);
         float pitchValue = GetRandomValue(pitch, pitchRandomizer);
@@ -77,6 +82,7 @@ public class AudioController : MonoBehaviour
         audioSource.pitch = pitchValue;
 
         audioSource.PlayOneShot(sound);
+        
     }
 
     protected void StartSoundFromArrayWithDelay(AudioSource audioSource, AudioClip[] audioClip, float volume, float volumeRandomizer, float pitch, float pitchRandomizer, float delay)
