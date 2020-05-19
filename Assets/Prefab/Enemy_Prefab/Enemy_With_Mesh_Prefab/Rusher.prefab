@@ -852,7 +852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4129783746070748847}
-  - component: {fileID: 6152153272240102566}
+  - component: {fileID: 3940775793717166985}
   m_Layer: 10
   m_Name: Rusher_Meshs
   m_TagString: Untagged
@@ -877,7 +877,7 @@ Transform:
   m_Father: {fileID: 7313983345991303046}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6152153272240102566
+--- !u!114 &3940775793717166985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -886,39 +886,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1086680014892330172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2761eb0d3a8126b449a15770f7bd7b26, type: 3}
+  m_Script: {fileID: 11500000, guid: cf84f1449516e284fa3bd11ca56859f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_startValue: 0
-  m_isImageShader: 1
+  m_isImageShader: 0
   m_shaderParameter: 
   m_materialNbr: 0
-  m_timeToFadeIn: 0
-  m_timeToFadeOff: 0
+  m_timeToFadeIn: 0.25
+  m_timeToFadeOff: 0.5
   m_fromValue: 0
   m_toValue: 0
   m_useCurve: 1
   m_curve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -927,11 +909,7 @@ MonoBehaviour:
   m_maxValue: 1
   m_timeToChangeValue: 1
   m_waitTimeBetweenValue: 0
-  m_meshesToChangeMat:
-  - {fileID: 1647716707584830197}
-  - {fileID: 1647716707584830199}
-  m_alternativeMeshesToChangeMat: []
-  m_skinnedMeshesToChangeMat:
+  m_renderersToChangeMat:
   - {fileID: 6441226612255799878}
   - {fileID: 3313606486423112839}
   - {fileID: 6271002059124976393}
@@ -945,6 +923,8 @@ MonoBehaviour:
   - {fileID: 5517227129983369138}
   - {fileID: 5703466123060633892}
   - {fileID: 136480496978671433}
+  - {fileID: 1647716707584830197}
+  - {fileID: 1647716707584830199}
   m_spawn:
     m_shaderParameter: _DissolveAmount
     m_meshHeight: 3.25
@@ -973,9 +953,22 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_shaderMaterial: {fileID: 2100000, guid: b8001c46608e39d4698003c3faeec6f4, type: 2}
-    m_alternativeShaderMaterial: {fileID: 2100000, guid: b8001c46608e39d4698003c3faeec6f4,
-      type: 2}
+    m_shaderMaterial:
+    - {fileID: 2100000, guid: b8960f226862cd84791edd7233a1ae03, type: 2}
+    - {fileID: 2100000, guid: 72862025a1f847043a86156a903d71e9, type: 2}
+    - {fileID: 2100000, guid: 44f3a50736a9c0d428d844fb077c5acc, type: 2}
+    - {fileID: 2100000, guid: 26d9bf975a2fa4c4393d6fdf559c6696, type: 2}
+    - {fileID: 2100000, guid: 575e0236760c37f46ab0e74c7a46a9c5, type: 2}
+    - {fileID: 2100000, guid: 40b8696bc8e14314d953ab9a3c8ac4ed, type: 2}
+    - {fileID: 2100000, guid: a212d475ee9da1749bc8615bdef1d550, type: 2}
+    - {fileID: 2100000, guid: ae2fc8d1248c7304095acc74dbd21259, type: 2}
+    - {fileID: 2100000, guid: 506e41e207d678847a8fc9efe486782c, type: 2}
+    - {fileID: 2100000, guid: 65d1debf84c97b748b1fca3de4d2e079, type: 2}
+    - {fileID: 2100000, guid: c29984532d13bba4b860323e00bf8bf0, type: 2}
+    - {fileID: 2100000, guid: b3663ed8f287aa644af30444b9b8c96b, type: 2}
+    - {fileID: 2100000, guid: 27a7a5bb56cc0784ab041c212746ddfd, type: 2}
+    - {fileID: 2100000, guid: 645b2351ee917e348bc0fe9b9021ae6e, type: 2}
+    - {fileID: 2100000, guid: bf0f28b100a913747a471a3dd943dbd2, type: 2}
     m_shaderPos: {fileID: 6115762866150564083}
     m_fx: 12
     m_spawnFxTrans: {fileID: 209273574479271613}
@@ -1009,9 +1002,22 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_shaderMaterial: {fileID: 2100000, guid: 61380d1a38a619349a64c053d6860f01, type: 2}
-    m_alternativeShaderMaterial: {fileID: 2100000, guid: 61380d1a38a619349a64c053d6860f01,
-      type: 2}
+    m_shaderMaterial:
+    - {fileID: 2100000, guid: f68e9dbb8c3536d41bcf7f8411cbe811, type: 2}
+    - {fileID: 2100000, guid: d5b2089a6ceef9a449fa2e201d67a96e, type: 2}
+    - {fileID: 2100000, guid: 237f1893d4331504e85b7b65b760536e, type: 2}
+    - {fileID: 2100000, guid: c6cc9463d1798854b98e4fcd7b334579, type: 2}
+    - {fileID: 2100000, guid: 03ab0f1f61711e848b493e82163f2105, type: 2}
+    - {fileID: 2100000, guid: cdd157273b950c647ac6d6dda21d7e53, type: 2}
+    - {fileID: 2100000, guid: 9addf18a6edb0dc47abcb5c7e53c952c, type: 2}
+    - {fileID: 2100000, guid: 6594d85db0e6f4a4fba6ab0ccf1ebc93, type: 2}
+    - {fileID: 2100000, guid: f45eb42617568f940bea4f00c84b879c, type: 2}
+    - {fileID: 2100000, guid: 2a4dce27961bca948b5ff1a26c04253f, type: 2}
+    - {fileID: 2100000, guid: 04d564d422310164d952fe1e035875b4, type: 2}
+    - {fileID: 2100000, guid: 7fe64efbaabf16d4eba176c2189d191e, type: 2}
+    - {fileID: 2100000, guid: 7b70e536b28f2aa4d9857484141410af, type: 2}
+    - {fileID: 2100000, guid: 280f3e4ef8d8b014aa30e5d4502cb4a3, type: 2}
+    - {fileID: 2100000, guid: 14490401ff202944f8f144437a35bd3f, type: 2}
     m_ps: {fileID: 3426201744500749723}
   m_dissolve:
     m_shaderParameter: Vector1_73673D0C
@@ -1025,8 +1031,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -1043,9 +1049,22 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_shaderMaterial: {fileID: 2100000, guid: 1fcfb9bcbcea10e4a9199f62489a194f, type: 2}
-    m_alternativeShaderMaterial: {fileID: 2100000, guid: 1fcfb9bcbcea10e4a9199f62489a194f,
-      type: 2}
+    m_shaderMaterial:
+    - {fileID: 2100000, guid: 05798840b67cb574495f7034a8cb549b, type: 2}
+    - {fileID: 2100000, guid: ac16a335c3908684a8cd9aa1219e98bd, type: 2}
+    - {fileID: 2100000, guid: 53b7677f737a53345937939609aab71b, type: 2}
+    - {fileID: 2100000, guid: 1b1965b3bfc902241858c5699532cdd4, type: 2}
+    - {fileID: 2100000, guid: 95ca741e5d0f1dd489281f779bf76048, type: 2}
+    - {fileID: 2100000, guid: 08bed884a8f36184c84607f0a5914afd, type: 2}
+    - {fileID: 2100000, guid: 3c3bace32c6f2d24ead8bbc96df4bfdd, type: 2}
+    - {fileID: 2100000, guid: 6b8db59d495806d41907fdedc15bbdb0, type: 2}
+    - {fileID: 2100000, guid: 511a6fa4170506d41b98ac810c8c94a7, type: 2}
+    - {fileID: 2100000, guid: e5cdee2905ef0f64fa1268d1dbae68e6, type: 2}
+    - {fileID: 2100000, guid: 48dc9d02443eb014b83ad620b9d342d3, type: 2}
+    - {fileID: 2100000, guid: 1ba53d3b31c9ec94f8e70ebbe3467484, type: 2}
+    - {fileID: 2100000, guid: bf886e3315c7e274c911232ca5f17dff, type: 2}
+    - {fileID: 2100000, guid: bb34d64cdd4eba241ac2b87e58953833, type: 2}
+    - {fileID: 2100000, guid: b6dc57965d795c94eb8eaee60baca35e, type: 2}
     m_ps: {fileID: 7267582542041235299}
 --- !u!1 &1093564852996495577
 GameObject:
@@ -4040,7 +4059,7 @@ MonoBehaviour:
   electricalStunVFX: 0
   m_stunPS: {fileID: 4588273294182440213}
   m_lowHealthPS: {fileID: 2432676932164961698}
-  m_shaderController: {fileID: 6152153272240102566}
+  m_shaderController: {fileID: 3940775793717166985}
   finalStateOfTheBoneRotation: {x: 0, y: 0, z: 0, w: 0}
   YOffset: 1
 --- !u!114 &5017258547545758395
@@ -4191,23 +4210,26 @@ MonoBehaviour:
   m_raycastMaxDistance: 0.25
   m_groundMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   m_die:
     m_delayToStartSound: 0
     m_sounds:
       m_audioSource: {fileID: 1767273890344558366}
-      m_sounds: []
+      m_sounds:
+      - {fileID: 8300000, guid: 27fec5f436b1db5489510cca80901b99, type: 3}
       m_volume: 0.75
-      m_volumeRandomizer: 0.2
+      m_volumeRandomizer: 0.05
       m_pitch: 1
       m_pitchRandomizer: 0.1
   m_disintegrate:
     m_delayToStartSound: 0.5
     m_sounds:
       m_audioSource: {fileID: 3004455460391122185}
-      m_sounds: []
+      m_sounds:
+      - {fileID: 8300000, guid: e270bcef6eaeaea46bc0d8aa500f9d7b, type: 3}
+      - {fileID: 8300000, guid: e6a192b7819762c4a8bad326f3f68e77, type: 3}
       m_volume: 0.75
-      m_volumeRandomizer: 0.2
+      m_volumeRandomizer: 0.05
       m_pitch: 1
       m_pitchRandomizer: 0.1
   m_showGizmos: 0

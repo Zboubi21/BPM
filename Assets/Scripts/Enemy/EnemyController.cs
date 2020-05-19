@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
     public FxType electricalStunVFX;
     [SerializeField] ParticleSystem m_stunPS;
     [SerializeField] ParticleSystem m_lowHealthPS;
-    [SerializeField] EnemySpawnerShaderController m_shaderController;
+    [SerializeField] SimpleEnemySpawnerShaderController m_shaderController;
 
     public void ChangeState(int i)
     {
