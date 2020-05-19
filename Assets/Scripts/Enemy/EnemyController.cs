@@ -655,6 +655,7 @@ public class EnemyController : MonoBehaviour
             mainStunParticles.loop = false;
             m_stunPS.Stop(true);
         }
+        m_shaderController?.On_EnemyIsStun(isStun);
     }
 
     void FaceToTarget(Vector3 targetPos)

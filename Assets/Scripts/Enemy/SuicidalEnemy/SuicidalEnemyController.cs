@@ -143,6 +143,7 @@ public class SuicidalEnemyController : MonoBehaviour
     public ParticleSystem m_lowHealthParticles;
     public ParticleSystem m_detonationParticles;
     public ParticleSystem m_explosionParticles;
+    public ParticleSystem m_propulsion;
     [Space]
     public float m_waitTimeToDie = 0.5f;
     [Space]
@@ -515,6 +516,7 @@ public class SuicidalEnemyController : MonoBehaviour
         m_stunParticles?.Stop(true);
         m_lowHealthParticles?.Stop(true);
         m_detonationParticles?.Stop(true);
+        m_propulsion?.Stop(true);
     }
     public void On_EnemyDie()
     {

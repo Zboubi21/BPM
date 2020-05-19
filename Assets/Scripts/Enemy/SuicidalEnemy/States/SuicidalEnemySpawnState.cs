@@ -52,6 +52,7 @@ public class SuicidalEnemySpawnState : IState
         m_enemyController.ActivateEnemyColliders(true);
         m_enemyController.StopEnemyMovement(false);
         m_enemyController.CanShowEnemyWeakSpot(true);
+        m_enemyController.m_propulsion?.Play(true);
     }
     
 }

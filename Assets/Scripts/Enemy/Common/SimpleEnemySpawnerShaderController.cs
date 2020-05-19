@@ -45,12 +45,15 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
         public Material[] m_shaderMaterial;
     }
 
+    [SerializeField] Material[] m_stunShaderMaterial;
+
     List<Material> m_startMaterials = new List<Material>();
     Material[] m_spawnShaderMaterialInstance;
     Material[] m_disintegrationShaderMaterialInstance;
     Material[] m_dissolveShaderMaterialInstance;
 
     Material[] m_weakSpotMaterialInstance;
+    Material[] m_stunShaderMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
     enum ShaderState
@@ -73,6 +76,9 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
 
         m_weakSpotMaterialInstance = new Material[m_weakSpots.m_shaderMaterial.Length];
         SetupShaderInstance(m_weakSpotMaterialInstance, m_weakSpots.m_shaderMaterial);
+
+        m_stunShaderMaterialInstance = new Material[m_stunShaderMaterial.Length];
+        SetupShaderInstance(m_stunShaderMaterialInstance, m_stunShaderMaterial);
     }
     protected override void Start()
     {
@@ -199,7 +205,22 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
             if (m_weakSpots.m_renderersIndex != null)
                 for (int i = 0, l = m_weakSpots.m_renderersIndex.Length; i < l; ++i)
                     m_renderersToChangeMat[m_weakSpots.m_renderersIndex[i]].material = m_startMaterials[m_weakSpots.m_renderersIndex[i]];
+        }
+    }
 
+    public void On_EnemyIsStun(bool isStun)
+    {
+        if (isStun)
+        {
+            if (m_renderersToChangeMat != null)
+                for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
+                    m_renderersToChangeMat[i].material = m_stunShaderMaterialInstance[i];
+        }
+        else
+        {
+            if (m_renderersToChangeMat != null)
+                for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
+                    m_renderersToChangeMat[i].material = m_startMaterials[i];
         }
     }
     
