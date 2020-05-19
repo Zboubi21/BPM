@@ -4009,7 +4009,7 @@ MonoBehaviour:
   useVolumetric: 1
   featuresFoldout: 1
   showAdditionalSettings: 0
-  displayLightIntensity: 1.57
+  displayLightIntensity: 0.5
   displayAreaLightEmissiveMesh: 0
   areaLightCookie: {fileID: 0}
   areaLightShadowCone: 120
@@ -4040,7 +4040,7 @@ Light:
   serializedVersion: 9
   m_Type: 1
   m_Color: {r: 0.83183515, g: 0.8639762, b: 0.8773585, a: 1}
-  m_Intensity: 1.57
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4085,7 +4085,7 @@ Light:
   m_BounceIntensity: 10
   m_ColorTemperature: 6429
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 8.798214e+21, z: 4.5904e-41, w: 0}
+  m_BoundingSphereOverride: {x: -1.114e-42, y: 6e-45, z: 2.4e-44, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -5760,7 +5760,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 6b9c72388a0a62e498c06e378a54a0e0, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: a386e6d14adbda241bb114d329d2f450, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -9274,22 +9274,22 @@ PrefabInstance:
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 0.0000000023307969
+      value: -0.016304241
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.8910089e-25
+      value: -1.2915116e+9
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0.0067772963
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 3.9920535e-25
+      value: -3.647847e+31
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
@@ -11251,7 +11251,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 24819afae6dd9864aaca704eb919ea20, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 6b9c72388a0a62e498c06e378a54a0e0, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -12347,7 +12347,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 86ebc9e973040ef47a590a99dafb134a, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 24819afae6dd9864aaca704eb919ea20, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -13351,22 +13351,22 @@ PrefabInstance:
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.3967797e-18
+      value: 179
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0.0078212125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.1257285e-18
+      value: 187
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 0.007821219
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
@@ -15917,7 +15917,8 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 4828
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 6.07e-43, y: 2.7043907e+27, z: 6.07e-43, w: 8.788451e+11}
+  m_BoundingSphereOverride: {x: 0.0000000037252903, y: -Infinity, z: 6.6174445e-24,
+    w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -16526,7 +16527,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: a386e6d14adbda241bb114d329d2f450, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 0293c98bbfb2ab841ad9dde23065b615, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -16891,22 +16892,22 @@ PrefabInstance:
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 0.007823358
+      value: 4.2523524e-10
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 7.628926e-21
+      value: 2.4078964e+27
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0.00010687346
+      value: -1.456759e+19
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.1701719e-32
+      value: -210.68568
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
@@ -17982,7 +17983,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 9ee994d76d7ea36459835095da539dcd, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 46f28f639b9113c4781028b90d10f391, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -19169,22 +19170,22 @@ PrefabInstance:
     - target: {fileID: 3644122951206352110, guid: e8c57bb986069e34f83311bbedc2eefd,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.2399e-41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3644122951206352110, guid: e8c57bb986069e34f83311bbedc2eefd,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 6.8822533e-19
+      value: 1.2164
       objectReference: {fileID: 0}
     - target: {fileID: 3644122951206352110, guid: e8c57bb986069e34f83311bbedc2eefd,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 1.2399e-41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3644122951206352110, guid: e8c57bb986069e34f83311bbedc2eefd,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 6.8822533e-19
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6196481775658867031, guid: e8c57bb986069e34f83311bbedc2eefd,
         type: 3}
@@ -20611,22 +20612,22 @@ PrefabInstance:
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.56122e-39
+      value: -1.758605e+38
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 1.7e-44
+      value: 6.96e-43
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.56122e-39
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1e-44
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8837180998120622756, guid: d6db4a639f2331647b1ad1c504dabb6b,
         type: 3}
@@ -22803,7 +22804,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 0293c98bbfb2ab841ad9dde23065b615, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 9ee994d76d7ea36459835095da539dcd, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
