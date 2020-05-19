@@ -110,12 +110,13 @@ public class CameraController : MonoBehaviour {
         if (!beInvisible)
         {
             Cursor.lockState = CursorLockMode.None;
-
+            PlayerController.s_instance.m_references.playerCanvasGroupe.alpha = 0;
         }
         else
         {
+            PlayerController.s_instance.m_references.playerCanvasGroupe.alpha = 1;
             Cursor.lockState = CursorLockMode.Locked;
-            
+
         }
     }
 

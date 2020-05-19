@@ -114,7 +114,7 @@ public class WaveController : MonoBehaviour
         NbrOfDeadEnemy = 0;
         NbrOfEnemy = 0;
         hasStarted = false;
-        Debug.Log("Has been called (ça devrait pas appel Paul)");
+        //Debug.Log("Has been called (ça devrait pas appel Paul)");
         ChangeAllScreen(ScreenChannel.WaveCountChannel);
         ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
     }
@@ -155,10 +155,13 @@ public class WaveController : MonoBehaviour
 
         if (NbrOfDeadEnemy != 0 && NbrOfDeadEnemy == NbrOfEnemy)
         {
-            if(maxWave == _nbrOfWave+1)
+
+            if (maxWave == _nbrOfWave+1)
             {
+
                 if (wavesControl.Length > 0)
                 {
+
                     for (int i = 0, l = wavesControl.Length; i < l; ++i)
                     {
                         if (_nbrOfWave == wavesControl[i].wave.waveNbr)
@@ -169,7 +172,6 @@ public class WaveController : MonoBehaviour
                             }
                             break;
                         }
-
                     }
                 }
                 ///Final wave's over
