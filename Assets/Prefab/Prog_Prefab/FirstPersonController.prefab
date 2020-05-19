@@ -2936,6 +2936,7 @@ GameObject:
   - component: {fileID: 8798216646479647648}
   - component: {fileID: 3421608736393940812}
   - component: {fileID: 1908011164272710559}
+  - component: {fileID: 6804372705407051256}
   m_Layer: 8
   m_Name: FirstPersonController
   m_TagString: Player
@@ -3600,6 +3601,20 @@ MonoBehaviour:
   m_mainMixer: {fileID: 24100000, guid: aab05cdb549dc2c4393b19493b9fd84e, type: 2}
   m_startSceneScreen: {fileID: 6959991939558362850}
   m_waitTimeToActivatePlayer: 3
+--- !u!114 &6804372705407051256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3422587882778152750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0880153ad58e694698cd8daac1ec02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkInterval: 0.5
+  currentFrameRate: 0
 --- !u!1 &3422606679811486316
 GameObject:
   m_ObjectHideFlags: 0
@@ -9324,6 +9339,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.2
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
     m_woodStep:
       m_audioSource: {fileID: 4801491814076992866}
       m_sounds:
@@ -9336,6 +9353,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.2
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
     m_glassStep:
       m_audioSource: {fileID: 4801491814076992866}
       m_sounds:
@@ -9348,6 +9367,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.2
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
   m_jump:
     m_audioSource: {fileID: 7968827262524799274}
     m_sounds:
@@ -9360,6 +9381,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0.2
     m_pitch: 1
     m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_doubleJump:
     m_audioSource: {fileID: 840400490762893126}
     m_sounds:
@@ -9375,6 +9398,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0.2
     m_pitch: 1
     m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_land:
     m_stone:
       m_audioSource: {fileID: 8570276900306928437}
@@ -9388,6 +9413,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.2
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
     m_wood:
       m_audioSource: {fileID: 8570276900306928437}
       m_sounds:
@@ -9398,6 +9425,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.2
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
     m_glass:
       m_audioSource: {fileID: 8570276900306928437}
       m_sounds:
@@ -9406,6 +9435,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.2
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
   m_dash:
     m_audioSource: {fileID: 1983271840447501681}
     m_sounds:
@@ -9414,6 +9445,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0.1
     m_pitch: 1
     m_pitchRandomizer: 0.25
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_bpm:
     m_sounds:
       m_audioSource: {fileID: 6910470609738586190}
@@ -9424,6 +9457,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0.1
       m_pitch: 1
       m_pitchRandomizer: 0.1
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
     m_waitTimeBetweenHeart: 0.4
     m_waitTimeAfterNextHeart: 0.8
   m_onPlayerTakeDamage:
@@ -9434,6 +9469,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0.05
     m_pitch: 1
     m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_overadrenalineCanBeActivate:
     m_audioSource: {fileID: 15854631161096874}
     m_sounds:
@@ -9442,6 +9479,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0
     m_pitch: 1
     m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_cantActivateOveradrenaline:
     m_audioSource: {fileID: 467238325942990608}
     m_sounds:
@@ -9450,6 +9489,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0
     m_pitch: 1
     m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_overadrenaline: {fileID: 4285408393698501570}
   weaponSound:
     fireSource: {fileID: 5125647276093728765}
@@ -9545,6 +9586,8 @@ MonoBehaviour:
     m_volumeRandomizer: 0
     m_pitch: 1
     m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
   m_hitMarkerWeakSpot:
     m_additionalPitchPerModifier: 0.025
     m_maxPitchModifier: 4
@@ -9557,6 +9600,8 @@ MonoBehaviour:
       m_volumeRandomizer: 0
       m_pitch: 1
       m_pitchRandomizer: 0
+      nbrOfPlayingSoundMax: 0
+      timeOffset: 0
   m_raycastTrans: {fileID: 5837479378864761318}
   m_raycastMaxDistance: 0.5
   m_groundMask:
