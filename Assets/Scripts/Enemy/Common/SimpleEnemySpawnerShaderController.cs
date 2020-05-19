@@ -38,10 +38,19 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
         public ParticleSystem m_ps;
     }
 
+    [SerializeField] WeakSpots m_weakSpots;
+    [Serializable] class WeakSpots
+    {
+        public int[] m_renderersIndex;
+        public Material[] m_shaderMaterial;
+    }
+
     List<Material> m_startMaterials = new List<Material>();
     Material[] m_spawnShaderMaterialInstance;
     Material[] m_disintegrationShaderMaterialInstance;
     Material[] m_dissolveShaderMaterialInstance;
+
+    Material[] m_weakSpotMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
     enum ShaderState
@@ -61,6 +70,9 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
 
         m_dissolveShaderMaterialInstance = new Material[m_dissolve.m_shaderMaterial.Length];
         SetupShaderInstance(m_dissolveShaderMaterialInstance, m_dissolve.m_shaderMaterial);
+
+        m_weakSpotMaterialInstance = new Material[m_weakSpots.m_shaderMaterial.Length];
+        SetupShaderInstance(m_weakSpotMaterialInstance, m_weakSpots.m_shaderMaterial);
     }
     protected override void Start()
     {
@@ -172,6 +184,23 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
 
         // ObjectPooler.Instance.SpawnFXFromPool(m_dissolve.m_fx, m_dissolve.m_spawnFxTrans.position, m_dissolve.m_spawnFxTrans.rotation);
         m_dissolve.m_ps?.Play(true);
+    }
+
+    public void On_ShowWeakSpot(bool show)
+    {
+        if (show)
+        {
+            if (m_weakSpots.m_renderersIndex != null)
+                for (int i = 0, l = m_weakSpots.m_renderersIndex.Length; i < l; ++i)
+                    m_renderersToChangeMat[m_weakSpots.m_renderersIndex[i]].material = m_weakSpotMaterialInstance[i];
+        }
+        else
+        {
+            if (m_weakSpots.m_renderersIndex != null)
+                for (int i = 0, l = m_weakSpots.m_renderersIndex.Length; i < l; ++i)
+                    m_renderersToChangeMat[m_weakSpots.m_renderersIndex[i]].material = m_startMaterials[m_weakSpots.m_renderersIndex[i]];
+
+        }
     }
     
     protected override float GetShaderValue()

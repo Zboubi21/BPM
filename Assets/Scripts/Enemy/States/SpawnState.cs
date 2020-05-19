@@ -44,6 +44,7 @@ public class SpawnState : IState
 
     public void Exit()
     {
+        m_enemyController.CanShowEnemyWeakSpot(true);
         m_enemyController.ActivateEnemyColliders(true);
     }
 

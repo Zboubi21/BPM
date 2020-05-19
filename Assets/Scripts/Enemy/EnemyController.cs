@@ -593,6 +593,8 @@ public class EnemyController : MonoBehaviour
     }
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
+        CanShowEnemyWeakSpot(false);
+        // On_ShowEnemyWeakSpot(false);
         m_lowHealthPS?.Stop(true);
         if (dieWithElectricalDamage)
         {
@@ -661,6 +663,18 @@ public class EnemyController : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         
+    }
+
+    bool m_canShowWeakSpot = false;
+    public void CanShowEnemyWeakSpot(bool canShow)
+    {
+        m_canShowWeakSpot = canShow;
+    }
+    public void On_ShowEnemyWeakSpot(bool show)
+    {
+        if (!m_canShowWeakSpot)
+            return;
+        m_shaderController.On_ShowWeakSpot(show);
     }
 
 }

@@ -566,6 +566,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     {
         SuicidalEnemyController suicidalEnemy = enemy.GetComponent<SuicidalEnemyController>();
         suicidalEnemy?.On_ShowEnemyWeakSpot(activate);
+
+        EnemyController rucherEnemy = enemy.GetComponent<EnemyController>();
+        rucherEnemy?.On_ShowEnemyWeakSpot(activate);
     }
 
     void SetPlayerCrosshairColor()
