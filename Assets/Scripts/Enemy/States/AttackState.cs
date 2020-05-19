@@ -44,6 +44,7 @@ public class AttackState : IState
 
         lastFrameTargetPos = new Vector3(PlayerController.s_instance.gameObject.transform.position.x, PlayerController.s_instance.gameObject.transform.position.y + m_enemyController.YOffset, PlayerController.s_instance.gameObject.transform.position.z);
 
+        m_enemyController.Agent.velocity = Vector3.zero;
         m_enemyController.Agent.isStopped = true;
         agentSpeed = m_enemyController.Agent.speed;
         m_enemyController.Agent.speed = 0;
