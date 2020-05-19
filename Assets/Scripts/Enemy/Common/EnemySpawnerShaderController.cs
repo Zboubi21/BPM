@@ -64,14 +64,14 @@ public class EnemySpawnerShaderController : ChangeShaderValue
 
     protected override void Awake()
     {
-        m_spawnShaderMaterialInstance = m_spawn.m_shaderMaterial;
-        m_alternativeSpawnShaderMaterialInstance = m_spawn.m_alternativeShaderMaterial;
+        m_spawnShaderMaterialInstance = new Material(m_spawn.m_shaderMaterial);
+        m_alternativeSpawnShaderMaterialInstance = new Material(m_spawn.m_alternativeShaderMaterial);
 
-        m_disintegrationShaderMaterialInstance = m_disintegration.m_shaderMaterial;
-        m_alternativeDisintegrationShaderMaterialInstance = m_disintegration.m_alternativeShaderMaterial;
+        m_disintegrationShaderMaterialInstance = new Material(m_disintegration.m_shaderMaterial);
+        m_alternativeDisintegrationShaderMaterialInstance = new Material(m_disintegration.m_alternativeShaderMaterial);
 
-        m_dissolveShaderMaterialInstance = m_dissolve.m_shaderMaterial;
-        m_alternativeDissolveShaderMaterialInstance = m_dissolve.m_alternativeShaderMaterial;
+        m_dissolveShaderMaterialInstance = new Material(m_dissolve.m_shaderMaterial);
+        m_alternativeDissolveShaderMaterialInstance = new Material(m_dissolve.m_alternativeShaderMaterial);
 
         if (m_meshesToChangeMat != null)
         {
