@@ -113,7 +113,6 @@ public class EnemyController : MonoBehaviour
     public Animator Anim { get => anim; set => anim = value; }
     public bool HasShoot { get => hasShoot; set => hasShoot = value; }
 
-    public bool CanBeMouseOver { get => m_canBeMouseOver; set => m_canBeMouseOver = value; }
     public RigBuilder RigBuilder { get => rigBuilder; set => rigBuilder = value; }
     #endregion
 
@@ -622,24 +621,10 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    bool m_canBeMouseOver = true;
-
-
-    public void On_EnemyIsMouseOver(bool isMouseOver)
-    {
-        // for (int i = 0, l = m_weakSpots.Length; i < l; ++i)
-        // {
-        //     m_weakSpots[i].SetActive(isMouseOver);
-        // }
-        // for (int i = 0, l = m_noWeakSpots.Length; i < l; ++i)
-        // {
-        //     m_noWeakSpots[i].SetActive(!isMouseOver);
-        // }
-    }
-
     public void On_EnemyIsLowHealth()
     {
         m_lowHealthPS?.Play(true);
+        m_shaderController?.On_EnemyIsLowLife(true);
     }
     public void On_EnemyIsStunned(bool isStun)
     {
