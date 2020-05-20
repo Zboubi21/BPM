@@ -45,7 +45,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         // public Transform m_spawnFxTrans;
     }
 
-    List<Material> m_startMaterials = new List<Material>();
+    [Header("Signs & Feedback Shader")]
+    [SerializeField] Material m_feedbackShaderMaterial;
+    [SerializeField] string m_weakSpotParameters = "_IsWeakSpotActive";
+    [SerializeField] string m_lowHpParameters = "_IsLowHP";
+    [SerializeField] string m_stunParameters = "_IsStunned";
+
+    // List<Material> m_startMaterials = new List<Material>();
     List<Material> m_alternativeStartMaterials = new List<Material>();
     Material m_spawnShaderMaterialInstance;
     Material m_alternativeSpawnShaderMaterialInstance;
@@ -53,6 +59,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     Material m_alternativeDisintegrationShaderMaterialInstance;
     Material m_dissolveShaderMaterialInstance;
     Material m_alternativeDissolveShaderMaterialInstance;
+
+    Material m_feedbackShaderMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
     enum ShaderState
@@ -73,11 +81,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         m_dissolveShaderMaterialInstance = new Material(m_dissolve.m_shaderMaterial);
         m_alternativeDissolveShaderMaterialInstance = new Material(m_dissolve.m_alternativeShaderMaterial);
 
+        m_feedbackShaderMaterialInstance = new Material(m_feedbackShaderMaterial);
+
         if (m_meshesToChangeMat != null)
         {
             for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
             {
-                m_startMaterials.Add(m_meshesToChangeMat[i].material);
+                // m_startMaterials.Add(m_meshesToChangeMat[i].material);
 
                 m_meshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
             }
@@ -95,7 +105,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         {
             for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
             {
-                m_startMaterials.Add(m_skinnedMeshesToChangeMat[i].material);
+                // m_startMaterials.Add(m_skinnedMeshesToChangeMat[i].material);
 
                 m_skinnedMeshesToChangeMat[i].material = m_spawnShaderMaterialInstance;
             }
@@ -151,6 +161,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     }
     public void On_StartDisintegrationShader()
     {
+        ResetFeedbackShader();
         if (m_meshesToChangeMat != null)
         {
             for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
@@ -191,6 +202,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     }
     public void On_StartDissolveShader()
     {
+        ResetFeedbackShader();
         StartCoroutine(WaitTimeToStartDissolveShader());
     }
     IEnumerator WaitTimeToStartDissolveShader()
@@ -236,6 +248,22 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         m_dissolve.m_ps?.Play(true);
     }
     
+    public void On_EnemyIsStun(bool isStun)
+    {
+        SetShaderBool(m_feedbackShaderMaterialInstance, m_stunParameters, isStun);
+    }
+
+    public void On_EnemyIsLowLife(bool isLowLife)
+    {
+        SetShaderBool(m_feedbackShaderMaterialInstance, m_lowHpParameters, isLowLife);
+    }
+
+    void ResetFeedbackShader()
+    {
+        On_EnemyIsStun(false);
+        On_EnemyIsLowLife(false);
+    }
+
     protected override float GetShaderValue()
     {
         switch (m_currentShaderState)
@@ -278,7 +306,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
             {
                 for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
                 {
-                    m_meshesToChangeMat[i].material = m_startMaterials[i];
+                    // m_meshesToChangeMat[i].material = m_startMaterials[i];
+                    m_meshesToChangeMat[i].material = m_feedbackShaderMaterialInstance;
                 }
             }
             if (m_alternativeMeshesToChangeMat != null)
@@ -292,7 +321,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
             {
                 for (int i = 0, l = m_skinnedMeshesToChangeMat.Length; i < l; ++i)
                 {
-                    m_skinnedMeshesToChangeMat[i].material = m_startMaterials[i];
+                    // m_skinnedMeshesToChangeMat[i].material = m_startMaterials[i];
+                    m_skinnedMeshesToChangeMat[i].material = m_feedbackShaderMaterialInstance;
                 }
             }
         }

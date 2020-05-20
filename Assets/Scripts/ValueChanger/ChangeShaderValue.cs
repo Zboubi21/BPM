@@ -216,4 +216,18 @@ public class ChangeShaderValue : ChangeValues
         m_shader?.SetFloat(shaderParameter, newValue);
     }
 
+    protected void SetShaderBool(Material shader, string parameters, bool b)
+    {
+        int boolValue = b ? 1 : 0;
+        shader.SetInt(parameters, boolValue);
+    }
+    protected void SetShaderBool(Material[] shader, string parameters, bool b)
+    {
+        for (int i = 0, l = shader.Length; i < l; ++i)
+        {
+            int boolValue = b ? 1 : 0;
+            shader[i].SetInt(parameters, boolValue);
+        }
+    }
+
 }

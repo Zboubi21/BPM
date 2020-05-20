@@ -50,7 +50,6 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
     Material[] m_spawnShaderMaterialInstance;
     Material[] m_disintegrationShaderMaterialInstance;
     Material[] m_dissolveShaderMaterialInstance;
-
     Material[] m_feedbackShaderMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
@@ -261,20 +260,7 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
             shader[i].SetFloat(parameters, value);
         }
     }
-    void SetShaderBool(Material shader, string parameters, bool b)
-    {
-        int boolValue = b ? 1 : 0;
-        shader.SetInt(parameters, boolValue);
-    }
-    void SetShaderBool(Material[] shader, string parameters, bool b)
-    {
-        for (int i = 0, l = shader.Length; i < l; ++i)
-        {
-            int boolValue = b ? 1 : 0;
-            shader[i].SetInt(parameters, boolValue);
-        }
-    }
-
+    
     protected override void On_ChangeShaderValueCoroutIsDone()
     {
         base.On_ChangeShaderValueCoroutIsDone();
@@ -294,6 +280,10 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
 
     bool HaveValueInArray(int[] array, int value)
     {
+        if (array == null)
+            return false;
+        if (array.Length == 0)
+            return false;
         for (int i = 0, l = array.Length; i < l; ++i)
         {
             if (array[i] == value)

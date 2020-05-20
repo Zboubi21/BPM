@@ -547,11 +547,13 @@ public class SuicidalEnemyController : MonoBehaviour
             mainStunParticles.loop = false;
             m_stunParticles.Stop(true);
         }
+        m_shaderController?.On_EnemyIsStun(startStun);
     }
 
     public void On_EnemyIsLowHealth()
     {
         m_lowHealthParticles?.Play(true);
+        m_shaderController?.On_EnemyIsLowLife(true);
     }
 
     public void SetAnimation(string name)
