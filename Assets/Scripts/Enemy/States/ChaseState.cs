@@ -23,7 +23,7 @@ public class ChaseState : IState
         m_enemyController.Anim.SetTrigger("Run");
 
 
-
+        Debug.Log("enter chase state");
         m_enemyController.AudioControl.On_Run(true);
         playerController = PlayerController.s_instance;
         weapon = m_enemyController.GetComponent<WeaponEnemyBehaviour>();

@@ -241,7 +241,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(time);
         if (m_sM.CompareState((int)state))
         {
-            ChangeState((int)EnemyState.Enemy_RepositionState);
+            ChangeState((int)EnemyState.Enemy_ChaseState);
         }
     }
 
@@ -409,7 +409,7 @@ public class EnemyController : MonoBehaviour
         while (count > 0 && !m_sM.CompareState((int)EnemyState.Enemy_DieState))
         {
             //Choisi un point aléatoire dans un cercle de radius 1;
-            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeOfAttackNoMatterWhat;/* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
+            Vector2 randomPointInCircle = UnityEngine.Random.insideUnitCircle * weaponBehavior._attack.rangeRadius;/* (weaponBehavior._attack.rangeRadius * Cara.EnemyArchetype._rateOfDefensivity)*/;
             if (playerIsOnNavMesh)
             {
                 newTarget = new Vector3(randomPointInCircle.x + newPoint.x, newPoint.y, randomPointInCircle.y + newPoint.z);
@@ -432,7 +432,7 @@ public class EnemyController : MonoBehaviour
             //Debug.Log(this +" : "+ count);
             count--;
         }
-        ChangeState((int)EnemyState.Enemy_RepositionState);
+        ChangeState((int)EnemyState.Enemy_AttackState);
         return transform.position; //Si le NPC ne trouve aucun point sur navMesh il reste sur place
     }
 

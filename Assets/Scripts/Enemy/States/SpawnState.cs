@@ -30,7 +30,7 @@ public class SpawnState : IState
         if (m_timer >m_enemyController.m_spawn.m_timeToSpawn && !m_timeIsDone)
         {
             m_timeIsDone = true;
-            m_enemyController.ChangeState((int)EnemyState.Enemy_RepositionState);
+            m_enemyController.ChangeState((int)EnemyState.Enemy_ChaseState);
         }
     }
 
