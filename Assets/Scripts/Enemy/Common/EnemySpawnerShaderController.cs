@@ -50,9 +50,29 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     [SerializeField] string m_weakSpotParameters = "_IsWeakSpotActive";
     [SerializeField] string m_lowHpParameters = "_IsLowHP";
     [SerializeField] string m_stunParameters = "_IsStunned";
+    [SerializeField] Material m_alternativeFeedbackShaderMaterial;
+    [SerializeField] string m_emissiveParameters = "_EmissiveStrengh";
+
+    [Header("Animations")]
+    [SerializeField] CustomAnimation m_spawnEmissive;
+    [Serializable] class CustomAnimation
+    {
+        public float m_fromValue = 0, m_toValue = 1;
+        public float m_timeToFadeShader = 1;
+        public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0, 1, 1), new Keyframe(1, 1, 1, 1));
+    }
+    [SerializeField] CustomBlinkAnimation m_blinkExplosionAnim;
+    [Serializable] class CustomBlinkAnimation
+    {
+        public float m_fromValue = 0, m_toValue = 1;
+        public float m_timeToFadeShader = 1;
+        public float m_reduceTimePerAnim = 1;
+        public int m_maxReduceSpeed = 5;
+        public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0, 1, 1), new Keyframe(1, 1, 1, 1));
+    }
 
     // List<Material> m_startMaterials = new List<Material>();
-    List<Material> m_alternativeStartMaterials = new List<Material>();
+    // List<Material> m_alternativeStartMaterials = new List<Material>();
     Material m_spawnShaderMaterialInstance;
     Material m_alternativeSpawnShaderMaterialInstance;
     Material m_disintegrationShaderMaterialInstance;
@@ -61,6 +81,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     Material m_alternativeDissolveShaderMaterialInstance;
 
     Material m_feedbackShaderMaterialInstance;
+    Material m_alternativeFeedbackShaderMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
     enum ShaderState
@@ -82,6 +103,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         m_alternativeDissolveShaderMaterialInstance = new Material(m_dissolve.m_alternativeShaderMaterial);
 
         m_feedbackShaderMaterialInstance = new Material(m_feedbackShaderMaterial);
+        m_alternativeFeedbackShaderMaterialInstance = new Material(m_alternativeFeedbackShaderMaterial);
 
         if (m_meshesToChangeMat != null)
         {
@@ -96,7 +118,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         {
             for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
             {
-                m_alternativeStartMaterials.Add(m_alternativeMeshesToChangeMat[i].material);
+                // m_alternativeStartMaterials.Add(m_alternativeMeshesToChangeMat[i].material);
 
                 m_alternativeMeshesToChangeMat[i].material = m_alternativeSpawnShaderMaterialInstance;
             }
@@ -252,7 +274,6 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     {
         SetShaderBool(m_feedbackShaderMaterialInstance, m_stunParameters, isStun);
     }
-
     public void On_EnemyIsLowLife(bool isLowLife)
     {
         SetShaderBool(m_feedbackShaderMaterialInstance, m_lowHpParameters, isLowLife);
@@ -302,6 +323,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
 
         if (m_currentShaderState == ShaderState.Spawn)
         {
+            ResetFeedbackShader();
             if (m_meshesToChangeMat != null)
             {
                 for (int i = 0, l = m_meshesToChangeMat.Length; i < l; ++i)
@@ -314,7 +336,8 @@ public class EnemySpawnerShaderController : ChangeShaderValue
             {
                 for (int i = 0, l = m_alternativeMeshesToChangeMat.Length; i < l; ++i)
                 {
-                    m_alternativeMeshesToChangeMat[i].material = m_alternativeStartMaterials[i];
+                    // m_alternativeMeshesToChangeMat[i].material = m_alternativeStartMaterials[i];
+                    m_alternativeMeshesToChangeMat[i].material = m_alternativeFeedbackShaderMaterialInstance;
                 }
             }
             if (m_skinnedMeshesToChangeMat != null)
@@ -325,7 +348,50 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                     m_skinnedMeshesToChangeMat[i].material = m_feedbackShaderMaterialInstance;
                 }
             }
+            On_RobotIsActivate();
         }
+    }
+
+    void On_RobotIsActivate()
+    {
+        ResetCounter();
+        m_blinkExplosionAnimData = CustomAnimationManager.AnimFloatWithTime(m_spawnEmissive.m_fromValue, m_spawnEmissive.m_toValue, m_spawnEmissive.m_timeToFadeShader).SetCurve(m_spawnEmissive.m_curve).SetOnUpdate(SetAlternativeShaderEmissive);
+    }
+    AnimationData m_blinkExplosionAnimData;
+    bool m_blinkOn = true;
+    int m_blinkCounter = 0;
+    public void On_RobotGoingToExplode(bool goingToExplode)
+    {
+        CustomAnimationManager.StopAnimation(m_blinkExplosionAnimData);
+        if (goingToExplode)
+            BlinkAnim();
+        else
+            ResetCounter();            
+    }
+    void BlinkAnim()
+    {
+        float targetValue = m_blinkOn ? m_blinkExplosionAnim.m_toValue : m_blinkExplosionAnim.m_fromValue;
+        m_blinkExplosionAnimData = CustomAnimationManager.AnimFloatWithTime(GetAlternativeShaderEmissive(), targetValue, GetTargetedBlinkSpeed()).SetCurve(m_blinkExplosionAnim.m_curve).SetOnUpdate(SetAlternativeShaderEmissive).SetOnComplete(BlinkAnim);
+        if (m_blinkCounter < m_blinkExplosionAnim.m_maxReduceSpeed)
+            m_blinkCounter ++;
+        m_blinkOn =! m_blinkOn;
+    }
+    void ResetCounter()
+    {
+        m_blinkOn = true;
+        m_blinkCounter = 0;
+    }
+    float GetAlternativeShaderEmissive()
+    {
+        return m_alternativeFeedbackShaderMaterialInstance.GetFloat(m_emissiveParameters);
+    }
+    void SetAlternativeShaderEmissive(float value)
+    {
+        m_alternativeFeedbackShaderMaterialInstance.SetFloat(m_emissiveParameters, value);
+    }
+    float GetTargetedBlinkSpeed()
+    {
+        return m_blinkExplosionAnim.m_timeToFadeShader - m_blinkExplosionAnim.m_reduceTimePerAnim * m_blinkCounter;
     }
 
 }

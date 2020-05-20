@@ -266,8 +266,9 @@ public class SuicidalEnemyController : MonoBehaviour
         ActivateGOToHideWhenExplode(true);
 
         ChangeState(EnemyState.SpawnState);
-        m_shaderController.On_StartSpawnShader();
+        m_shaderController?.On_StartSpawnShader();
         m_audioController?.On_Spawn();
+        m_lastplayerPos = Vector3.zero;
     }
     
     [Header("Pathfinding")]
@@ -298,7 +299,8 @@ public class SuicidalEnemyController : MonoBehaviour
             return;
 
         NavMeshPath path = new NavMeshPath();
-        m_agent.CalculatePath(m_playerPos, path);
+        if (m_agent.enabled)
+            m_agent.CalculatePath(m_playerPos, path);
         // Debug.Log("path type = " + path.status);
         if (path.status == NavMeshPathStatus.PathPartial || path.status == NavMeshPathStatus.PathInvalid)
         {
@@ -308,11 +310,14 @@ public class SuicidalEnemyController : MonoBehaviour
                 Vector3 newPos = meshHit.position;
                 // m_lastpathPos.position = newPos;
                 m_lastGoodPlayerPos = newPos;
-                m_agent.SetDestination(newPos);
+
+                if (m_agent.enabled)
+                    m_agent.SetDestination(newPos);
             }
             else
             {
-                m_agent.SetDestination(m_lastGoodPlayerPos);
+                if (m_agent.enabled)
+                    m_agent.SetDestination(m_lastGoodPlayerPos);
             }
 
         }
@@ -339,7 +344,8 @@ public class SuicidalEnemyController : MonoBehaviour
 	}
     public void StopEnemyMovement(bool stop)
     {
-        m_agent.isStopped = stop;
+        if (m_agent.enabled)
+            m_agent.isStopped = stop;
     }
     public float GetPlayerDistance()
     {
@@ -377,12 +383,15 @@ public class SuicidalEnemyController : MonoBehaviour
     IEnumerator WaitTimeToExplode()
     {
         m_audioController?.On_EnemyWaitToExplode();
+        m_shaderController?.On_RobotGoingToExplode(true);
         yield return new WaitForSeconds(m_selfDestruction.m_waitTimeToExplode);
+        m_shaderController?.On_RobotGoingToExplode(false);
         On_EnemyExplode();
         m_isWaitingToExplode = false;
     }
     void On_EnemyExplode()
     {
+        ActivateAgent(false);
         SetAnimation("Explode");
         ActivateEnemyColliders(false);
         AddExplosionCameraShake();
@@ -483,6 +492,9 @@ public class SuicidalEnemyController : MonoBehaviour
 
     public void On_EnemyGoingToDie(bool dieWithElectricalDamage = false)
     {
+        ActivateAgent(false);
+        m_shaderController?.On_RobotGoingToExplode(false);
+
         if (m_waitTimeToExplodeCorout != null)
             StopCoroutine(m_waitTimeToExplodeCorout);
 
@@ -577,6 +589,10 @@ public class SuicidalEnemyController : MonoBehaviour
     {
         m_agent.speed = newSpeed;
     }
+    public void ActivateAgent(bool activate)
+    {
+        m_agent.enabled = activate;
+    }
 
     bool m_canShowEnemyWeakSpot = false;
     public void CanShowEnemyWeakSpot(bool canShow)
@@ -599,7 +615,7 @@ public class SuicidalEnemyController : MonoBehaviour
 
     void FaceToTarget(Vector3 targetPos)
     {
-        transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
+        transform.LookAt(targetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
 

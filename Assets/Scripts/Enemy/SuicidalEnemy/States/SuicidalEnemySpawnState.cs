@@ -24,6 +24,7 @@ public class SuicidalEnemySpawnState : IState
         m_enemyController.SetAnimation("Spawn");
         m_enemyController.ActivateEnemyColliders(false);
         m_enemyController.StopEnemyMovement(true);
+        m_enemyController.ActivateAgent(true);
     }
 
     public void FixedUpdate()

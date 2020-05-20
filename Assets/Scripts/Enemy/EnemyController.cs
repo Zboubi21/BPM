@@ -645,10 +645,8 @@ public class EnemyController : MonoBehaviour
 
     void FaceToTarget(Vector3 targetPos)
     {
-        
-        transform.rotation = Quaternion.LookRotation(targetPos, Vector3.up);
-        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        
+        transform.LookAt(targetPos, Vector3.up);
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
 
     bool m_canShowWeakSpot = false;
