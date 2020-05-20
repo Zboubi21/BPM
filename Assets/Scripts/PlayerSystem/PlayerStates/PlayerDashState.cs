@@ -22,6 +22,8 @@ public class PlayerDashState : IState
 
     public void Enter()
     {
+        m_playerController.m_dash.m_dashBreaker.On_StartDash(true);
+
         m_playerController.StartDashCooldown(true);
 
         m_playerController.StartChangeDashLayerValueCorout(1, false);
@@ -87,6 +89,8 @@ public class PlayerDashState : IState
 
         m_playerController.StartRawInputAfterDash();
         m_playerController.StartChangeDashLayerValueCorout(0, true);
+
+        m_playerController.m_dash.m_dashBreaker.On_StartDash(false);
     }
 
     void ExitStateAfterDash()

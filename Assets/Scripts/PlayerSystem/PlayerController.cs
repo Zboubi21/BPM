@@ -109,6 +109,10 @@ public class PlayerController : MonoBehaviour
 		public int m_dashLayer = 1;
 		public float m_timeToChangeLayer = 0.1f;
 		public AnimationCurve m_changeLayerCurve;
+
+		[Header("Break Objects")]
+		public int m_damage = 10;
+		public DashBreakerObject m_dashBreaker;
 	}
 
 	[Header("Field Of View")]
@@ -222,6 +226,7 @@ public class PlayerController : MonoBehaviour
 		m_currentUseRawInput = m_movements.m_useRawInput;
 
 		m_scriptOrder.m_cameraControls.LockCamera = m_movements.lockCursor;
+		m_dash.m_dashBreaker.Damage = m_dash.m_damage;
 	}
 
 	void OnEnable()
