@@ -142,7 +142,7 @@ public class BPMSystem : MonoBehaviour
         public float timeOfOverAdrenaline = 15f;
 
         [Header("Feedback")]
-        public ChangeImageValues m_overadrenalineFeedBackScreen;
+        public ChangeShaderValue m_overadrenalineFeedBackGUI;
         public ParticleSystem m_overadrenalineFeedBackParticles;
         public ParticleSystem m_onOveradrenalineCanBeActivatePS;
         public ChangeShaderValue[] m_onOveradrenalineCanBeActivateShader;
@@ -571,7 +571,7 @@ public class BPMSystem : MonoBehaviour
 
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.overAdrenaline.onUsingFury);
 
-        _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
+        _overdrenaline.m_overadrenalineFeedBackGUI?.SwitchValue(true);
         var mainOveradrenalineFeedBackParticles = _overdrenaline.m_overadrenalineFeedBackParticles.main;
         mainOveradrenalineFeedBackParticles.loop = true;
         _overdrenaline.m_overadrenalineFeedBackParticles.Play();
@@ -602,7 +602,7 @@ public class BPMSystem : MonoBehaviour
         ChangeWeaponStats();
         ActivateBool(false);
         
-        _overdrenaline.m_overadrenalineFeedBackScreen.SwitchValue();
+        _overdrenaline.m_overadrenalineFeedBackGUI?.SwitchValue(false);
         mainOveradrenalineFeedBackParticles.loop = false;
         audioControl?.On_Overadrenaline(false);
         PlayerController.s_instance.On_ActivateOveradrenaline(false);
