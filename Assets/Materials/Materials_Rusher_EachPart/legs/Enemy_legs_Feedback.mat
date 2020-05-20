@@ -7,59 +7,68 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy_arm02_Stun
-  m_Shader: {fileID: -6465566751694194690, guid: aca8b9f49c8ab604ab1fb35a5a6ac206,
+  m_Name: Enemy_legs_Feedback
+  m_Shader: {fileID: -6465566751694194690, guid: 70a4b4cd2c3d12a469985093f9c6ad55,
     type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _DOUBLESIDED_ON
+  m_ShaderKeywords: _DOUBLESIDED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap:
     MotionVector: User
-    RenderType: TransparentCutout
   disabledShaderPasses:
-  - DistortionVectors
-  - MOTIONVECTORS
-  - TransparentDepthPrepass
-  - TransparentDepthPostpass
   - TransparentBackface
+  - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_18953B82:
-        m_Texture: {fileID: 2800000, guid: 5ed8eeef5ff16874086e2f46b9222f22, type: 3}
+    - Texture2D_100E8B67:
+        m_Texture: {fileID: 2800000, guid: b055664440a7d3b42a7c41b138bee3ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_29251AB3:
-        m_Texture: {fileID: 2800000, guid: 13db7323c71428f44a3d89d912514c69, type: 3}
+    - Texture2D_418A3208:
+        m_Texture: {fileID: 2800000, guid: ce1c765b1b1ffbc4fbaca037827652a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_4D4458F5:
-        m_Texture: {fileID: 2800000, guid: 16c20837f4d546d4d8b1573f62cff9dd, type: 3}
+    - Texture2D_6883EB07:
+        m_Texture: {fileID: 2800000, guid: fc129b2989d449849af2a3ab790fc2a3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_98117E66:
+    - Texture2D_6E977EA1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_E3771CC9:
-        m_Texture: {fileID: 2800000, guid: 9586dfb1f682d474aa6224e93beb1715, type: 3}
+    - Texture2D_855F5797:
+        m_Texture: {fileID: 2800000, guid: 1165b12fdd26f424f8efc136030576c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_F3F026B3:
-        m_Texture: {fileID: 2800000, guid: 13906ba8cf6373042b2d206ecd01799d, type: 3}
+    - Texture2D_9CD131DA:
+        m_Texture: {fileID: 2800000, guid: ad89de97a62a7474c983b5636dcacc6b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_EEA428CF:
+        m_Texture: {fileID: 2800000, guid: 7b7e202040d7a714a93f7c04b1eeba25, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_369AD01B: 1
-    - Vector1_3E3EC37C: 0.5
-    - Vector1_59F7159D: 0
-    - Vector1_64D7B5C6: 50
-    - Vector1_916E2DCB: 2
-    - Vector1_971D4F58: 10
+    - Boolean_BC825277: 0
+    - Boolean_E8A4442A: 0
+    - Boolean_E99DF394: 0
+    - Vector1_22CD9618: 3
+    - Vector1_258E9F2: 0.2
+    - Vector1_429D174D: -0.2
+    - Vector1_48A93777: 2
+    - Vector1_4AC3D4A6: 50
+    - Vector1_4B00404C: 200
+    - Vector1_77FEA326: 2
+    - Vector1_866D6D3: 10
+    - Vector1_D2436098: 10
+    - Vector1_E71B9DDD: 1
+    - Vector1_EA86D572: 1
+    - Vector1_ECA11705: 0.5
     - _AlphaCutoff: 0.5
-    - _AlphaCutoffEnable: 1
+    - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _BlendMode: 0
@@ -68,6 +77,9 @@ Material:
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _IsLowHP: 0
+    - _IsStunned: 0
+    - _IsWeakSpotActive: 0
     - _ReceivesSSR: 1
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
@@ -88,13 +100,15 @@ Material:
     - _TransparentSortPriority: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 3
-    - _ZTestGBuffer: 3
+    - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_465A9029: {r: 0, g: 6.901961, b: 11.98431, a: 1}
-    - Color_DA7BA8FC: {r: 0, g: 3.45098, b: 5.992157, a: 1}
-    - Vector2_70C7D752: {r: 0.02, g: -0.3, b: 0, a: 0}
-    - Vector2_CB7E173D: {r: -0.02, g: 0.01, b: 0, a: 0}
+    - Color_A6E5641B: {r: 11.98431, g: 0, b: 0, a: 1}
+    - Color_A9466828: {r: 2.9960785, g: 2.337255, b: 0, a: 0}
+    - Color_BC503A45: {r: 0, g: 3.45098, b: 5.992157, a: 1}
+    - Color_C858C28F: {r: 0, g: 6.901961, b: 11.98431, a: 1}
+    - Vector2_69E3AFFF: {r: 0.02, g: -0.3, b: 0, a: 0}
+    - Vector2_CD783899: {r: -0.02, g: 0.01, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

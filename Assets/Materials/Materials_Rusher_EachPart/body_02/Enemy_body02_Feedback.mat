@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy_topHead02_Weakspot
+  m_Name: Enemy_body02_Feedback
   m_Shader: {fileID: -6465566751694194690, guid: 70a4b4cd2c3d12a469985093f9c6ad55,
     type: 3}
   m_ShaderKeywords: _DOUBLESIDED_ON
@@ -24,31 +24,31 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_100E8B67:
-        m_Texture: {fileID: 2800000, guid: a4d2be56a50e58b439bd35a42db1d819, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7bb594e1b686bb945af79a5efc4356a8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_418A3208:
-        m_Texture: {fileID: 2800000, guid: 9cba773b651dfc746a442f9129fe6e00, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_6883EB07:
-        m_Texture: {fileID: 2800000, guid: 3f579647a9c4eb443be93b15bd4cb317, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_6E977EA1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Texture2D_6883EB07:
+        m_Texture: {fileID: 2800000, guid: 008aa43b99d38d744bc3ea772f3c47d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_6E977EA1:
+        m_Texture: {fileID: 2800000, guid: 389b42291c63eab419dc5b4cec66a7d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_855F5797:
-        m_Texture: {fileID: 2800000, guid: 983eed3da96b8dd4f9e9d8ba62069bca, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a8eb2b33152cb349a7f1e59d0f12e5d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_9CD131DA:
-        m_Texture: {fileID: 2800000, guid: dc455cfbecf36424ebaf18aa4ec7a084, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2e2722f8b33107f4fb7e792a4900de0c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_EEA428CF:
-        m_Texture: {fileID: 2800000, guid: 36f61da34e9b4d048bcd5bc183707a34, type: 3}
+        m_Texture: {fileID: 2800000, guid: 85479b008423b6e499ddf8e72b8f77c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -65,7 +65,7 @@ Material:
     - Vector1_866D6D3: 10
     - Vector1_D2436098: 10
     - Vector1_E71B9DDD: 1
-    - Vector1_EA86D572: 1
+    - Vector1_EA86D572: 0
     - Vector1_ECA11705: 0.5
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
@@ -77,6 +77,9 @@ Material:
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _IsLowHP: 0
+    - _IsStunned: 0
+    - _IsWeakSpotActive: 0
     - _ReceivesSSR: 1
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
@@ -102,7 +105,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_A6E5641B: {r: 11.98431, g: 0, b: 0, a: 1}
-    - Color_A9466828: {r: 2.9960785, g: 2.3215687, b: 0, a: 0}
+    - Color_A9466828: {r: 2.9960785, g: 2.337255, b: 0, a: 0}
     - Color_BC503A45: {r: 0, g: 3.45098, b: 5.992157, a: 1}
     - Color_C858C28F: {r: 0, g: 6.901961, b: 11.98431, a: 1}
     - Vector2_69E3AFFF: {r: 0.02, g: -0.3, b: 0, a: 0}

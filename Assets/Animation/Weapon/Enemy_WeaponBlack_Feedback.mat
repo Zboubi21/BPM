@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy_bottomHead02_Weakspot
+  m_Name: Enemy_WeaponBlack_Feedback
   m_Shader: {fileID: -6465566751694194690, guid: 70a4b4cd2c3d12a469985093f9c6ad55,
     type: 3}
   m_ShaderKeywords: _DOUBLESIDED_ON
@@ -24,15 +24,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_100E8B67:
-        m_Texture: {fileID: 2800000, guid: cbd82c84cb8403f44b0c2ee2ae23d4e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: d4010c101e3fc74438cdf46fa636d417, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_418A3208:
-        m_Texture: {fileID: 2800000, guid: 5fe4807f4eea45944b3821dc594150ab, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_6883EB07:
-        m_Texture: {fileID: 2800000, guid: 418bb0ec30b84fd4c9a52cbcd88a47e2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 662de20f417736f43b3c6670b4279f24, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_6E977EA1:
@@ -40,15 +40,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_855F5797:
-        m_Texture: {fileID: 2800000, guid: 6df742baab8e46d4b9e5ae8441b3e84e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0bec0540a571fda4a8df88ef0fed4770, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_9CD131DA:
-        m_Texture: {fileID: 2800000, guid: 83c7f857199cc5d40ab292016933a65f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_EEA428CF:
-        m_Texture: {fileID: 2800000, guid: 2cf88045de7296047a0e20611cb0e984, type: 3}
+        m_Texture: {fileID: 2800000, guid: 53829e6b9170b514aa6dbe1ee6c74fab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -65,7 +65,7 @@ Material:
     - Vector1_866D6D3: 10
     - Vector1_D2436098: 10
     - Vector1_E71B9DDD: 1
-    - Vector1_EA86D572: 1
+    - Vector1_EA86D572: 0
     - Vector1_ECA11705: 0.5
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
@@ -77,6 +77,9 @@ Material:
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _IsLowHP: 0
+    - _IsStunned: 0
+    - _IsWeakSpotActive: 0
     - _ReceivesSSR: 1
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0

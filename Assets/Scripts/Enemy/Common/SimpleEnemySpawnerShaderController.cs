@@ -38,22 +38,20 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
         public ParticleSystem m_ps;
     }
 
-    [SerializeField] WeakSpots m_weakSpots;
-    [Serializable] class WeakSpots
-    {
-        public int[] m_renderersIndex;
-        public Material[] m_shaderMaterial;
-    }
+    [Header("Signs & Feedback Shader")]
+    [SerializeField] Material[] m_feedbackShaderMaterial;
+    [SerializeField] string m_weakSpotParameters = "_IsWeakSpotActive";
+    [SerializeField] int[] m_weakSpotRendererIndex;
+    [SerializeField] string m_lowHpParameters = "_IsLowHP";
+    [SerializeField] int[] m_lowHpExceptIndex;
+    [SerializeField] string m_stunParameters = "_IsStunned";
+    [SerializeField] int[] m_stunExceptRendererIndex;
 
-    [SerializeField] Material[] m_stunShaderMaterial;
-
-    List<Material> m_startMaterials = new List<Material>();
     Material[] m_spawnShaderMaterialInstance;
     Material[] m_disintegrationShaderMaterialInstance;
     Material[] m_dissolveShaderMaterialInstance;
 
-    Material[] m_weakSpotMaterialInstance;
-    Material[] m_stunShaderMaterialInstance;
+    Material[] m_feedbackShaderMaterialInstance;
 
     ShaderState m_currentShaderState = ShaderState.Spawn;
     enum ShaderState
@@ -74,11 +72,8 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
         m_dissolveShaderMaterialInstance = new Material[m_dissolve.m_shaderMaterial.Length];
         SetupShaderInstance(m_dissolveShaderMaterialInstance, m_dissolve.m_shaderMaterial);
 
-        m_weakSpotMaterialInstance = new Material[m_weakSpots.m_shaderMaterial.Length];
-        SetupShaderInstance(m_weakSpotMaterialInstance, m_weakSpots.m_shaderMaterial);
-
-        m_stunShaderMaterialInstance = new Material[m_stunShaderMaterial.Length];
-        SetupShaderInstance(m_stunShaderMaterialInstance, m_stunShaderMaterial);
+        m_feedbackShaderMaterialInstance = new Material[m_feedbackShaderMaterial.Length];
+        SetupShaderInstance(m_feedbackShaderMaterialInstance, m_feedbackShaderMaterial);
     }
     protected override void Start()
     {
@@ -86,7 +81,7 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
         {
             for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
             {
-                m_startMaterials.Add(m_renderersToChangeMat[i].material);
+                // m_startMaterials.Add(m_renderersToChangeMat[i].material);
 
                 m_renderersToChangeMat[i].material = m_spawnShaderMaterialInstance[i];
             }
@@ -134,7 +129,9 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
         SwitchValue(true);
     }
     public void On_StartDisintegrationShader()
-    {        
+    {
+        ResetFeedbackShader();
+
         if (m_renderersToChangeMat != null)
         {
             for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
@@ -161,6 +158,7 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
     }
     public void On_StartDissolveShader()
     {
+        ResetFeedbackShader();
         StartCoroutine(WaitTimeToStartDissolveShader());
     }
     IEnumerator WaitTimeToStartDissolveShader()
@@ -194,34 +192,38 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
 
     public void On_ShowWeakSpot(bool show)
     {
-        if (show)
+        for (int i = 0, l = m_feedbackShaderMaterialInstance.Length; i < l; ++i)
         {
-            if (m_weakSpots.m_renderersIndex != null)
-                for (int i = 0, l = m_weakSpots.m_renderersIndex.Length; i < l; ++i)
-                    m_renderersToChangeMat[m_weakSpots.m_renderersIndex[i]].material = m_weakSpotMaterialInstance[i];
-        }
-        else
-        {
-            if (m_weakSpots.m_renderersIndex != null)
-                for (int i = 0, l = m_weakSpots.m_renderersIndex.Length; i < l; ++i)
-                    m_renderersToChangeMat[m_weakSpots.m_renderersIndex[i]].material = m_startMaterials[m_weakSpots.m_renderersIndex[i]];
+            if (HaveValueInArray(m_weakSpotRendererIndex, i))
+                SetShaderBool(m_feedbackShaderMaterialInstance[i], m_weakSpotParameters, show);
         }
     }
 
     public void On_EnemyIsStun(bool isStun)
     {
-        if (isStun)
+        // SetShaderBool(m_feedbackShaderMaterialInstance, m_stunParameters, isStun);
+        for (int i = 0, l = m_feedbackShaderMaterialInstance.Length; i < l; ++i)
         {
-            if (m_renderersToChangeMat != null)
-                for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
-                    m_renderersToChangeMat[i].material = m_stunShaderMaterialInstance[i];
+            if (!HaveValueInArray(m_stunExceptRendererIndex, i))
+                SetShaderBool(m_feedbackShaderMaterialInstance[i], m_stunParameters, isStun);
         }
-        else
+    }
+
+    public void On_EnemyIsLowLife(bool isLowLife)
+    {
+        // SetShaderBool(m_feedbackShaderMaterialInstance, m_lowHpParameters, isLowLife);
+        for (int i = 0, l = m_feedbackShaderMaterialInstance.Length; i < l; ++i)
         {
-            if (m_renderersToChangeMat != null)
-                for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
-                    m_renderersToChangeMat[i].material = m_startMaterials[i];
+            if (!HaveValueInArray(m_lowHpExceptIndex, i))
+                SetShaderBool(m_feedbackShaderMaterialInstance[i], m_lowHpParameters, isLowLife);
         }
+    }
+
+    void ResetFeedbackShader()
+    {
+        On_ShowWeakSpot(false);
+        On_EnemyIsStun(false);
+        On_EnemyIsLowLife(false);
     }
     
     protected override float GetShaderValue()
@@ -259,6 +261,19 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
             shader[i].SetFloat(parameters, value);
         }
     }
+    void SetShaderBool(Material shader, string parameters, bool b)
+    {
+        int boolValue = b ? 1 : 0;
+        shader.SetInt(parameters, boolValue);
+    }
+    void SetShaderBool(Material[] shader, string parameters, bool b)
+    {
+        for (int i = 0, l = shader.Length; i < l; ++i)
+        {
+            int boolValue = b ? 1 : 0;
+            shader[i].SetInt(parameters, boolValue);
+        }
+    }
 
     protected override void On_ChangeShaderValueCoroutIsDone()
     {
@@ -270,10 +285,21 @@ public class SimpleEnemySpawnerShaderController : ChangeShaderValue
             {
                 for (int i = 0, l = m_renderersToChangeMat.Length; i < l; ++i)
                 {
-                    m_renderersToChangeMat[i].material = m_startMaterials[i];
+                    // m_renderersToChangeMat[i].material = m_startMaterials[i];
+                    m_renderersToChangeMat[i].material = m_feedbackShaderMaterialInstance[i];
                 }
             }
         }
+    }
+
+    bool HaveValueInArray(int[] array, int value)
+    {
+        for (int i = 0, l = array.Length; i < l; ++i)
+        {
+            if (array[i] == value)
+                return true;
+        }
+        return false;
     }
 
 }
