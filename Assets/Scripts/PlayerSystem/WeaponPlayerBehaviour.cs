@@ -564,6 +564,9 @@ public class WeaponPlayerBehaviour : WeaponBehaviour
     }
     void On_ActivateShader(bool activate, EnemyCaraBase enemy)
     {
+        if (enemy == null)
+            return;
+            
         SuicidalEnemyController suicidalEnemy = enemy.GetComponent<SuicidalEnemyController>();
         suicidalEnemy?.On_ShowEnemyWeakSpot(activate);
 
