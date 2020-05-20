@@ -67,7 +67,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         public float m_fromValue = 0, m_toValue = 1;
         public float m_timeToFadeShader = 1;
         public float m_reduceTimePerAnim = 1;
-        public int m_maxReduceSpeed = 5;
+        public int m_maxReduceTime = 3;
         public AnimationCurve m_curve = new AnimationCurve(new Keyframe(0, 0, 1, 1), new Keyframe(1, 1, 1, 1));
     }
 
@@ -358,7 +358,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
         m_blinkExplosionAnimData = CustomAnimationManager.AnimFloatWithTime(m_spawnEmissive.m_fromValue, m_spawnEmissive.m_toValue, m_spawnEmissive.m_timeToFadeShader).SetCurve(m_spawnEmissive.m_curve).SetOnUpdate(SetAlternativeShaderEmissive);
     }
     AnimationData m_blinkExplosionAnimData;
-    bool m_blinkOn = true;
+    bool m_blinkOn = false;
     int m_blinkCounter = 0;
     public void On_RobotGoingToExplode(bool goingToExplode)
     {
@@ -372,13 +372,13 @@ public class EnemySpawnerShaderController : ChangeShaderValue
     {
         float targetValue = m_blinkOn ? m_blinkExplosionAnim.m_toValue : m_blinkExplosionAnim.m_fromValue;
         m_blinkExplosionAnimData = CustomAnimationManager.AnimFloatWithTime(GetAlternativeShaderEmissive(), targetValue, GetTargetedBlinkSpeed()).SetCurve(m_blinkExplosionAnim.m_curve).SetOnUpdate(SetAlternativeShaderEmissive).SetOnComplete(BlinkAnim);
-        if (m_blinkCounter < m_blinkExplosionAnim.m_maxReduceSpeed)
+        if (m_blinkCounter < m_blinkExplosionAnim.m_maxReduceTime)
             m_blinkCounter ++;
         m_blinkOn =! m_blinkOn;
     }
     void ResetCounter()
     {
-        m_blinkOn = true;
+        m_blinkOn = false;
         m_blinkCounter = 0;
     }
     float GetAlternativeShaderEmissive()
