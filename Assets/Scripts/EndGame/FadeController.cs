@@ -19,6 +19,12 @@ public class FadeController : MonoBehaviour
 #endif
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+            StartEndGame();
+    }
+
 
     public void StartEndGame()
     {
@@ -45,7 +51,7 @@ public class FadeController : MonoBehaviour
 
             float value = groupeHandeler[0].fadeEffect.Evaluate(_currentTimeOfAnimation / groupeHandeler[0].timeOfFade);
 
-            groupeHandeler[0].canvasGroup.alpha = Mathf.Lerp(0, 1, value);
+            groupeHandeler[0].canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, value);
             yield return null;
 
         }
@@ -62,7 +68,7 @@ public class FadeController : MonoBehaviour
 
             float value = groupeHandeler[1].fadeEffect.Evaluate(_currentTimeOfAnimation / groupeHandeler[1].timeOfFade);
 
-            groupeHandeler[1].canvasGroup.alpha = Mathf.Lerp(0, 1, value);
+            groupeHandeler[1].canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, value);
             yield return null;
 
         }
@@ -79,15 +85,15 @@ public class FadeController : MonoBehaviour
 
             float value = groupeHandeler[2].fadeEffect.Evaluate(_currentTimeOfAnimation / groupeHandeler[2].timeOfFade);
 
-            groupeHandeler[2].canvasGroup.alpha = Mathf.Lerp(0, 1, value);
+            groupeHandeler[2].canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, value);
             yield return null;
 
         }
         PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(false);
-        groupeHandeler[0].canvasGroup.interactable = true;
-        groupeHandeler[0].canvasGroup.blocksRaycasts = true;
-        groupeHandeler[2].canvasGroup.interactable = true;
-        groupeHandeler[2].canvasGroup.blocksRaycasts = true;
+        groupeHandeler[0].canvasGroup.GetComponent<CanvasGroup>().interactable = true;
+        groupeHandeler[0].canvasGroup.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        groupeHandeler[2].canvasGroup.GetComponent<CanvasGroup>().interactable = true;
+        groupeHandeler[2].canvasGroup.GetComponent<CanvasGroup>().blocksRaycasts = true;
         _currentTimeOfAnimation = 0;
     }
 
@@ -96,7 +102,7 @@ public class FadeController : MonoBehaviour
 
 [Serializable] public class CanvasGroupeHandeler
 {
-    public CanvasGroup canvasGroup;
+    public GameObject canvasGroup;
     public AnimationCurve fadeEffect;
     public float timeOfFade;
 }
