@@ -100,7 +100,7 @@ public class EnemyCara : EnemyCaraBase
                     {
                         for (int a = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; a < l; ++a)
                         {
-                            if (_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned[a] > Mathf.InverseLerp(0, _enemyCaractéristique._health.maxHealth, CurrentLife)*100f && !hasBeenStuned[a])
+                            if (_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned[a] >= Mathf.InverseLerp(0, _enemyCaractéristique._health.maxHealth, CurrentLife)*100f && !hasBeenStuned[a])
                             {
                                 _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
                                 hasBeenStuned[a] = true;
@@ -121,7 +121,7 @@ public class EnemyCara : EnemyCaraBase
                 }
             }
             
-            if (_currentLife <= _enemyCaractéristique._stunResistance.m_lifeWhenLowHealth && !m_isLowHealth)
+            if (_currentLife * 100 / _enemyCaractéristique._health.maxHealth <= _enemyCaractéristique._stunResistance.m_lifeWhenLowHealth && !m_isLowHealth)
             {
                 m_isLowHealth = true;
                 CheckIfLowHealth();
