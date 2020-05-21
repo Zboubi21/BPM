@@ -98,15 +98,15 @@ public class EnemyCaraBase : SerializedMonoBehaviour
         //         //}
         //     }
         // }
-        if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
-        {
-            hasBeenStuned = new bool[_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length];
+        // if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
+        // {
+        //     hasBeenStuned = new bool[_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length];
 
-            for (int i = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; i < l; ++i)
-            {
-                hasBeenStuned[i] = false;
-            }
-        }
+        //     for (int i = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; i < l; ++i)
+        //     {
+        //         hasBeenStuned[i] = false;
+        //     }
+        // }
     }
     protected virtual void Start()
     {
@@ -184,7 +184,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
                     {
                         for (int a = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; a < l; ++a)
                         {
-                            if (_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned[a] > Mathf.InverseLerp(0, _enemyCaractéristique._health.maxHealth, CurrentLife)*100f && !hasBeenStuned[a])
+                            if (_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned[a] >= Mathf.InverseLerp(0, _enemyCaractéristique._health.maxHealth, CurrentLife)*100f && !hasBeenStuned[a])
                             {
                                 _currentTimeForStun = _enemyCaractéristique._stunResistance.timeOfStun;
                                 hasBeenStuned[a] = true;
@@ -205,7 +205,7 @@ public class EnemyCaraBase : SerializedMonoBehaviour
                 }
             }
 
-            if (_currentLife <= _enemyCaractéristique._stunResistance.m_lifeWhenLowHealth && !m_isLowHealth)
+            if (_currentLife * 100 / _enemyCaractéristique._health.maxHealth <= _enemyCaractéristique._stunResistance.m_lifeWhenLowHealth && !m_isLowHealth)
             {
                 m_isLowHealth = true;
                 CheckIfLowHealth();
@@ -241,13 +241,22 @@ public class EnemyCaraBase : SerializedMonoBehaviour
 
     void InitializeEnemyStats()
     {
-
         _currentLife = _enemyCaractéristique._health.maxHealth;
         if(controller != null)
         {
             // controller.GetComponent<NavMeshAgent>().speed = _enemyCaractéristique._move.moveSpeed;   // J'utilise une autre manière pour cette sa vitesse dans SuicidalEnemyController.cs
         }
         //_currentDamage = _enemyCaractéristique._attack.damage;
+
+        if(_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length > 0)
+        {
+            hasBeenStuned = new bool[_enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length];
+
+            for (int i = 0, l = _enemyCaractéristique._stunResistance.allPercentLifeBeforeGettingStuned.Length; i < l; ++i)
+            {
+                hasBeenStuned[i] = false;
+            }
+        }
     }
     //private void OnDrawGizmos()
     //{

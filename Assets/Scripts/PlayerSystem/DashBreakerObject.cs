@@ -18,7 +18,16 @@ public class DashBreakerObject : MonoBehaviour
     {
         if (!m_isDashing)
             return;
-            
+        BreakObject(col);
+    }
+    void OnTriggerStay(Collider col)
+    {
+        if (!m_isDashing)
+            return;
+        BreakObject(col);
+    }
+    void BreakObject(Collider col)
+    {
         if (col.CompareTag("DestroyableObject"))
         {
             DestroyableObject destroyableObject = col.GetComponent<DestroyableObject>();

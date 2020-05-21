@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class FadeController : MonoBehaviour
 {
     public CanvasGroupeHandeler[] groupeHandeler;
     public float timeBeforeSecondFade;
     public float timeBeforeThirdFade;
+    public UnityEvent eventOnStartOfEndGame;
+
 
     private void Update()
     {
@@ -28,6 +31,7 @@ public class FadeController : MonoBehaviour
 
     public void StartEndGame()
     {
+        eventOnStartOfEndGame.Invoke();
         StartCoroutine(StartsFades());
     }
 

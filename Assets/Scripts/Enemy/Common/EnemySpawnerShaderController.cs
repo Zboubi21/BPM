@@ -348,6 +348,7 @@ public class EnemySpawnerShaderController : ChangeShaderValue
                     m_skinnedMeshesToChangeMat[i].material = m_feedbackShaderMaterialInstance;
                 }
             }
+            SetAlternativeShaderEmissive(m_spawnEmissive.m_fromValue);
             On_RobotIsActivate();
         }
     }

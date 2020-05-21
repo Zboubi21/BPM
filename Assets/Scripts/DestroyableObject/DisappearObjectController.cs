@@ -7,19 +7,37 @@ public class DisappearObjectController : DestroyableObjectController
 {
     
     [SerializeField] float m_waitTimeToDestroy = 0.25f;
-    [SerializeField] Transform m_spawnTrans;
+    [SerializeField] float m_ySpawnOffset = 0;
+    [SerializeField] float m_gizmosRadius = 0.125f;
     [SerializeField] FxType m_fxType = FxType.DestroyableObjectSmall;
+    [SerializeField] Sounds m_impactSounds;
+
+    Renderer m_renderer;
+
+    void Awake()
+    {
+        m_renderer = GetComponent<Renderer>();
+    }
 
     protected override void On_ObjectIsBreak()
     {
+        StartSoundFromArray(m_impactSounds.m_audioSource, m_impactSounds.m_sounds, m_impactSounds.m_volume, m_impactSounds.m_volumeRandomizer, m_impactSounds.m_pitch, m_impactSounds.m_pitchRandomizer);
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroyThirdCategorie);
-        Transform spawnTrans = m_spawnTrans != null ? m_spawnTrans : transform;
-        ObjectPooler.Instance?.SpawnFXFromPool(m_fxType, spawnTrans.position, spawnTrans.rotation);
+        Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + m_ySpawnOffset, transform.position.z);
+        ObjectPooler.Instance?.SpawnFXFromPool(m_fxType, spawnPos, transform.rotation);
         StartCoroutine(WaitTimeToDestroy());
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(new Vector3 (transform.position.x, transform.position.y + m_ySpawnOffset, transform.position.z), m_gizmosRadius);
     }
     
     IEnumerator WaitTimeToDestroy()
     {
+        if (m_renderer != null)
+            m_renderer.enabled = false;
         yield return new WaitForSeconds(m_waitTimeToDestroy);
         Destroy(gameObject);
     }

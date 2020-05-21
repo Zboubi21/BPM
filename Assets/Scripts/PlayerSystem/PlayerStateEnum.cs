@@ -5,5 +5,6 @@
 		Fall,			// 2 - Fall
         Jump,			// 3 - Jump
 		Dash,			// 4 - Dash
+		Cinematic		// 5 - Cinematic
 	}
 }

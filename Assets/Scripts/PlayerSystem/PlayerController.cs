@@ -277,6 +277,7 @@ public class PlayerController : MonoBehaviour
 			new PlayerFallState(this),				// 2 = Fall
 			new PlayerJumpState(this),				// 3 = Jump
 			new PlayerDashState(this),				// 4 = Dash
+			new PlayerCinematicState(this),			// 5 = Cinematic
 		});
 
         string[] playerStateNames = System.Enum.GetNames(typeof(PlayerState));
@@ -858,5 +859,19 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
+
+	public void On_PlayerEnterInCinematicState(bool inCinematic)
+	{
+		if (inCinematic)
+		{
+			PlayerWeapon.CanShoot = false;
+			ChangeState(PlayerState.Cinematic);
+		}
+		else
+		{
+			PlayerWeapon.CanShoot = true;
+			ChangeState(PlayerState.Idle);
+		}
+	}
 
 }

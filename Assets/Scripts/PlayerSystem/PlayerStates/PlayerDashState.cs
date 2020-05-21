@@ -34,7 +34,7 @@ public class PlayerDashState : IState
 
         m_playerController.On_PlayerHasDash(true);
         m_playerController.On_PlayerStartDash(true);
-        m_playerController.GetComponent<WeaponPlayerBehaviour>().CanShoot = false;
+        m_playerController.PlayerWeapon.CanShoot = false;
         m_dashDirection = m_playerController.GetPlayerDashDirection();
 
         m_dashTimer = 0;
@@ -71,7 +71,7 @@ public class PlayerDashState : IState
     }
     public void Exit()
     {
-        m_playerController.GetComponent<WeaponPlayerBehaviour>().CanShoot = true;
+        m_playerController.PlayerWeapon.CanShoot = true;
 
         m_playerController.ChangeCameraFov(m_playerController.GetTargetedCameraFOV(), m_playerController.m_fieldOfView.m_endDash.m_timeToChangeFov, m_playerController.m_fieldOfView.m_endDash.m_changeFovCurve);
 
