@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2524548352729228764}
   - component: {fileID: 2524548352729228763}
+  - component: {fileID: 641532769}
   m_Layer: 0
   m_Name: MusicMainArea
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2524548352729228765}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -27.049278, y: 4.9929047, z: -17.075363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -127,3 +128,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &641532769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524548352729228765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b13b880342ece54386221179e9822f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeOverCurve:
+    objectToApplyFade: {fileID: 2524548352729228765}
+    fadeEffect:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    timeOfFade: 1
+  finalVolume: 0

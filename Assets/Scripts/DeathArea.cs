@@ -7,14 +7,14 @@ public class DeathArea : MonoBehaviour
 {
     
     [SerializeField] bool m_showGizmos = true;
-    [SerializeField] CanvasGroupeHandeler[] fadeHandeler;
+    [SerializeField] FadeOverCurveHandeler[] fadeHandeler;
 
     BoxCollider boxCol;
     public BoxCollider BoxCol { get => boxCol = GetComponent<BoxCollider>(); }
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Player") && fadeHandeler[0].canvasGroup != null && fadeHandeler[1].canvasGroup != null)
+        if (col.CompareTag("Player") && fadeHandeler[0].objectToApplyFade != null && fadeHandeler[1].objectToApplyFade != null)
         {
             //col.GetComponent<BPMSystem>().On_PlayerFallIntoTheVoid(transform);
             StartCoroutine(FadeControl(col));
@@ -38,9 +38,9 @@ public class DeathArea : MonoBehaviour
 
             float value = fadeHandeler[index].fadeEffect.Evaluate(_currentTimeOfAnimation / fadeHandeler[index].timeOfFade);
 
-            Color color = fadeHandeler[index].canvasGroup.GetComponent<Image>().color;
+            Color color = fadeHandeler[index].objectToApplyFade.GetComponent<Image>().color;
             color.a = Mathf.Lerp(start, end, value);
-            fadeHandeler[index].canvasGroup.GetComponent<Image>().color = color;
+            fadeHandeler[index].objectToApplyFade.GetComponent<Image>().color = color;
             yield return null;
 
         }

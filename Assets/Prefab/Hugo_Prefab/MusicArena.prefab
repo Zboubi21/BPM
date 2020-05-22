@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2262501298281455567}
   - component: {fileID: 2262501298281455560}
+  - component: {fileID: 6974424425476196036}
   m_Layer: 0
   m_Name: MusicArena
   m_TagString: Untagged
@@ -127,3 +128,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6974424425476196036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2262501298281455566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b13b880342ece54386221179e9822f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeOverCurve:
+    objectToApplyFade: {fileID: 0}
+    fadeEffect:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    timeOfFade: 0
+  finalVolume: 0
