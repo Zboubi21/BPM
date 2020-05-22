@@ -7,6 +7,7 @@ public class DestroyableObjectController : AudioController
 {
 
     [SerializeField] int m_lifePoint = 1;
+    [SerializeField] protected UnityEvent m_onObjectTakeDamage;
     [SerializeField] protected UnityEvent m_onObjectIsBreak;
 
     bool m_isBroken = false;
@@ -37,6 +38,7 @@ public class DestroyableObjectController : AudioController
 
     protected virtual void On_ObjectTakeDamage()
     {
+        m_onObjectTakeDamage?.Invoke();
     }
 
     protected virtual void On_ObjectIsBreak()

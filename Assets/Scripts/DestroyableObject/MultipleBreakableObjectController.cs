@@ -39,7 +39,7 @@ public class MultipleBreakableObjectController : DestroyableObjectController
     protected override void On_ObjectIsBreak()
     {
         base.On_ObjectIsBreak();
-        //GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.fourthCategorie);
+        GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroyFourthCategorie);
     }
 
 }

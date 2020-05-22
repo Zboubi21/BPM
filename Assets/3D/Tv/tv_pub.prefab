@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 170201526}
   - component: {fileID: 170201524}
   - component: {fileID: 8155173330538397350}
+  - component: {fileID: 3682960713385950456}
   - component: {fileID: 8898618164440671472}
   m_Layer: 11
   m_Name: tv_pub
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 5561349426305759274, guid: 3f324a9c599d2cd42971f3fbe4429083, type: 3}
-  - {fileID: 2100000, guid: d383f0768a6801a42adbd5e85b2c9dd0, type: 2}
+  - {fileID: 2100000, guid: 78ad99586fcb44440bcbf5e56594cf49, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,11 +111,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
   m_onObjectIsBreak:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8155173330538397350}
         m_MethodName: StopChangeValueWhenIsDestroyed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8155173330538397350}
+        m_MethodName: SwitchValue
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 3682960713385950456}
+        m_MethodName: SwitchValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -136,6 +162,9 @@ MonoBehaviour:
     m_volumeRandomizer: 0.05
     m_pitch: 1
     m_pitchRandomizer: 0.2
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
+  m_takeDamageJusteOneTime: 0
 --- !u!114 &8155173330538397350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +276,56 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+--- !u!114 &3682960713385950456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4485747186674228813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e08fa4e2a207e46bd36eee7ac51aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_startValue: 0
+  m_isImageShader: 0
+  m_shaderParameter: _Crack
+  m_materialNbr: 1
+  m_timeToFadeIn: 0.25
+  m_timeToFadeOff: 0
+  m_fromValue: 0
+  m_toValue: 0.5
+  m_useCurve: 1
+  m_curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_useBlink: 0
+  m_minValue: 0
+  m_maxValue: 0
+  m_timeToChangeValue: 0
+  m_waitTimeBetweenValue: 0
 --- !u!82 &8898618164440671472
 AudioSource:
   m_ObjectHideFlags: 0
