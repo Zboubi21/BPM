@@ -16,8 +16,11 @@ public class SuicidalEnemySelfDestructionState : IState
 
     public void Enter()
     {
-        m_enemyController.SetAnimation("SelfDestruction");
         m_enemyController.SetEnemyAgentSpeed(m_enemyController.m_explosionMoveSpeed);
+        
+        if (m_enemyController.IsWaitingToExplode)
+            return;
+        m_enemyController.SetAnimation("SelfDestruction");
         m_enemyController.On_EnemyEnterInSelfDestructionState();
     }
 

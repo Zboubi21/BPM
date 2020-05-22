@@ -161,9 +161,9 @@ public class SuicidalEnemyController : MonoBehaviour
 #region Get / Set
     public StateMachine SM { get => m_sM; }
     public EnemyCaraBase EnemyChara { get => m_enemyChara; }
-#endregion
+    #endregion
 
-#region Unity Events
+    #region Unity Events
     void Awake()
     {
         m_animator = GetComponentInChildren<Animator>();
@@ -366,6 +366,7 @@ public class SuicidalEnemyController : MonoBehaviour
     }
 
     bool m_isWaitingToExplode = false;
+    public bool IsWaitingToExplode { get => m_isWaitingToExplode; }
     IEnumerator m_waitTimeToExplodeCorout;
     public void On_EnemyEnterInSelfDestructionState()
     {
@@ -387,7 +388,7 @@ public class SuicidalEnemyController : MonoBehaviour
         yield return new WaitForSeconds(m_selfDestruction.m_waitTimeToExplode);
         m_shaderController?.On_RobotGoingToExplode(false);
         On_EnemyExplode();
-        m_isWaitingToExplode = false;
+        // m_isWaitingToExplode = false;
     }
     void On_EnemyExplode()
     {
