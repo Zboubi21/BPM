@@ -29,6 +29,8 @@ public class Projectile : MonoBehaviour
 
     [Space]
     public float m_maxLifeTime = 2;
+    [Tooltip("This only affect destroyable object")]
+    public float m_explosionRange = 1;
     [Header("DEBUG")]
     [Space]
     public TypeOfCollision m_colType = TypeOfCollision.DoubleRaycasts;
@@ -425,7 +427,24 @@ public class Projectile : MonoBehaviour
                 break;
         }
         Level.AddFX(impactFX, pos, transform.rotation);    //Impact FX
+        if(m_projectileType == ProjectileType.Player)
+        {
+            Collider[] hitsCollider = Physics.OverlapSphere(transform.position, m_explosionRange);
+            for (int i = 0, l = hitsCollider.Length; i < l; ++i)
+            {
+                if (hitsCollider[i].CompareTag("DestroyableObject"))
+                {
+                    if (hitsCollider[i].gameObject.TryGetComponent(out DestroyableObject destroyable))
+                    {
+                        destroyable.TakeDamage(CurrentDamage);
 
+                    }else if (hitsCollider[i].gameObject.TryGetComponent(out DestroyableObjectController destroyableObject))
+                    {
+                        destroyableObject.TakeDamage(CurrentDamage);
+                    }
+                }
+            }
+        }
         if (collider.GetComponent<Rigidbody>() != null)
         {
             Rigidbody _rb = collider.GetComponent<Rigidbody>();
@@ -452,6 +471,7 @@ public class Projectile : MonoBehaviour
     void DestroyProj()
     {
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
+        
         hasReachedDestination = false;
         //var em = particle.GetComponent<ParticleSystemRenderer>();
         //em.enabled = true;

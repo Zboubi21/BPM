@@ -5,10 +5,11 @@ using UnityEngine;
 public class testScript : MonoBehaviour
 {
     public Transform from;
+    public Transform to;
 
-
-    private void LateUpdate()
+    private void Update()
     {
-        from.LookAt(new Vector3(PlayerController.s_instance.transform.position.x, PlayerController.s_instance.transform.position.y + 1.5f, PlayerController.s_instance.transform.position.z));
+        transform.rotation = Quaternion.Slerp(from.localRotation, to.localRotation, Time.time);
+        transform.position = Vector3.Lerp(from.localPosition, to.localPosition, Time.time);
     }
 }
