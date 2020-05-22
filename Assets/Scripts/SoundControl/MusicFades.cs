@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicFadeOut : MonoBehaviour
+public class MusicFades : MonoBehaviour
 {
     public FadeOverCurveHandeler FadeOverCurve;
     AudioSource audioSource;
@@ -27,6 +27,7 @@ public class MusicFadeOut : MonoBehaviour
             StartCoroutine(PlayFade(0, finalVolume));
         }
     }
+    
 
     public void Start()
     {
