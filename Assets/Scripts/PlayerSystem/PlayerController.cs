@@ -251,6 +251,8 @@ public class PlayerController : MonoBehaviour
 		m_scriptOrder.m_cameraControls.UpdateScript();
         m_scriptOrder.m_camPivot.UpdateScript();
 		m_scriptOrder.m_gunPivot.UpdateScript();
+
+		// if (Input.GetKeyDown(KeyCode.V))
 	}
 
 	void LateUpdate()
@@ -872,6 +874,7 @@ public class PlayerController : MonoBehaviour
 			PlayerWeapon.CanShoot = true;
 			ChangeState(PlayerState.Idle);
 		}
+		SetPlayerWeaponAnim("inCinematic", inCinematic);
 	}
 
 }
