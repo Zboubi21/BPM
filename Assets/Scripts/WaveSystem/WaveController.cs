@@ -55,6 +55,9 @@ public class WaveController : MonoBehaviour
     int nbrOfCocoScreen;
     int _nbrOfWantedEnemy;
 
+
+    WallStreetController[] wallStreetControllers;
+
     #region Get Set
     public int NbrOfEnemy { get => _nbrOfEnemy; set => _nbrOfEnemy = value; }
     public int NbrOfDeadEnemy { get => _nbrOfDeadEnemy; set => _nbrOfDeadEnemy = value; }
@@ -81,6 +84,8 @@ public class WaveController : MonoBehaviour
         ChangeAllScreen(ScreenChannel.WaveCountChannel);
         ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
         _debug.canvas.gameObject.SetActive(!_debug.canvas.gameObject.activeSelf);
+
+        wallStreetControllers = FindObjectsOfType<WallStreetController>();
     }
 
     private void Update()
@@ -179,6 +184,10 @@ public class WaveController : MonoBehaviour
             else
             {
                 ///Current wave's over
+                for (int i = 0, l = wallStreetControllers.Length; i < l; ++i)
+                {
+                    wallStreetControllers[i]?.ChangeToNextWaveText();
+                }
                 StartCoroutine(WaitForNextWave());
             }
         }
@@ -253,6 +262,10 @@ public class WaveController : MonoBehaviour
 
         ///All the enemy have spawned
         yield return new WaitForSeconds(1f); // temps d'animation de fin 
+        for (int i = 0, l = wallStreetControllers.Length; i < l; ++i)
+        {
+            wallStreetControllers[i]?.ChangeToLoreText();
+        }
     }
 
     void ChangeAllScreen(ScreenChannel chanel)

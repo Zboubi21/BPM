@@ -109,4 +109,8 @@ public class FadeController : MonoBehaviour
     public GameObject objectToApplyFade;
     public AnimationCurve fadeEffect;
     public float timeOfFade;
+}[Serializable] public class FadeHandeler
+{
+    public AnimationCurve fadeEffect;
+    public float timeOfFade;
 }
