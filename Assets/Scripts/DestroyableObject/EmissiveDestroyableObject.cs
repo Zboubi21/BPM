@@ -11,6 +11,10 @@ public class EmissiveDestroyableObject : DestroyableObjectController
     [SerializeField] Sounds m_impactSounds;
     [SerializeField] bool m_takeDamageJusteOneTime = true;
 
+    [Header("Material")]
+    [SerializeField] Material m_newMaterial;
+    // [SerializeField] int m_materialNbr = 0;
+
     Collider[] m_colliders;
     bool m_hasTakeDamage = false;
 
@@ -41,6 +45,8 @@ public class EmissiveDestroyableObject : DestroyableObjectController
 
         if (m_hasToFallWhenIsBreak)
             On_ObjectFall();
+
+        On_ChangeMaterial();
     }
 
     void On_DeactivateShader()
@@ -70,6 +76,17 @@ public class EmissiveDestroyableObject : DestroyableObjectController
         rbody = GetComponentInChildren<Rigidbody>();
         if (rbody != null)
             rbody.isKinematic = false;
+    }
+
+    void On_ChangeMaterial()
+    {
+        Renderer rend;
+        rend = GetComponent<Renderer>();
+        if (rend == null)
+            rend = GetComponentInChildren<Renderer>();
+        if (rend != null)
+            // rend.materials[m_materialNbr] = m_newMaterial;
+            rend.material = m_newMaterial;
     }
 
 }
