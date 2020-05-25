@@ -15,21 +15,24 @@ public class WallStreetController : MonoBehaviour
     int currentArrayIndex;
     private void Start()
     {
-        if (!CheckForAnOverride())
+        if(allPossibleLoreText.Length > 0)
         {
-            if (displayLoreRandomly)
+            if (!CheckForAnOverride())
             {
-                int randomIndex = UnityEngine.Random.Range(0, allPossibleLoreText.Length);
-                allPossibleLoreText[randomIndex].loreText.gameObject.SetActive(true);
-                currentArrayIndex = randomIndex;
+                if (displayLoreRandomly)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, allPossibleLoreText.Length);
+                    allPossibleLoreText[randomIndex].loreText.gameObject.SetActive(true);
+                    currentArrayIndex = randomIndex;
+                }
+                else
+                {
+                    allPossibleLoreText[0].loreText.gameObject.SetActive(true);
+                    currentArrayIndex = 0;
+                }
             }
-            else
-            {
-                allPossibleLoreText[0].loreText.gameObject.SetActive(true);
-                currentArrayIndex = 0;
-            }
+            StartCoroutine(SwitchLoreTextDisplayed(allPossibleLoreText[currentArrayIndex].displayTime));
         }
-        StartCoroutine(SwitchLoreTextDisplayed(allPossibleLoreText[currentArrayIndex].displayTime));
     }
     bool CheckForAnOverride()
     {
@@ -81,9 +84,12 @@ public class WallStreetController : MonoBehaviour
 
     public void ChangeToNextWaveText()
     {
-        StopAllCoroutines();
-        allPossibleLoreText[currentArrayIndex].loreText.gameObject.SetActive(false);
-        nextWaveText.gameObject.SetActive(true);
+        if(allPossibleLoreText.Length > 0)
+        {
+            StopAllCoroutines();
+            allPossibleLoreText[currentArrayIndex].loreText.gameObject.SetActive(false);
+            nextWaveText.gameObject.SetActive(true);
+        }
     }
 
     public void ChangeToLoreText()

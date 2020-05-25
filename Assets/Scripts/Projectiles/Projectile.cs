@@ -444,6 +444,11 @@ public class Projectile : MonoBehaviour
                     }
                 }
             }
+            StartCoroutine(WaitForTrailToDestroy());
+        }
+        else if (m_projectileType == ProjectileType.Enemy)
+        {
+            DestroyProj();
         }
         if (collider.GetComponent<Rigidbody>() != null)
         {
@@ -451,7 +456,6 @@ public class Projectile : MonoBehaviour
             _rb.AddForceAtPosition(-(_hit.normal * forceBuffer), _hit.point);
         }
         
-        StartCoroutine(WaitForTrailToDestroy());
     }
 
     IEnumerator DestroyAnyway()
