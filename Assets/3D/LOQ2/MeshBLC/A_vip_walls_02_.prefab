@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 5456025867046726916}
   - component: {fileID: 6951425850447481687}
   - component: {fileID: 1824703463125198875}
-  m_Layer: 0
+  - component: {fileID: 9166332575439809372}
+  m_Layer: 11
   m_Name: A_vip_white_marble_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5456025867046726916
 Transform:
@@ -57,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5018126168326542288, guid: 93c0a137d6ff4bb489dce5ce19e26088, type: 3}
+  - {fileID: 2100000, guid: b09ca4486e04b9f4393ded39f1919ff5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,6 +79,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &9166332575439809372
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015734100039036927}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2033270070523496522, guid: 93c0a137d6ff4bb489dce5ce19e26088, type: 3}
 --- !u!1 &2800518998631252204
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,12 +102,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1190684136632808191}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: A_vip_walls_02_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1190684136632808191
 Transform:
@@ -101,7 +116,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2800518998631252204}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 183.03769, y: 110.848, z: -202.24826}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -122,12 +137,12 @@ GameObject:
   - component: {fileID: 248893607740134571}
   - component: {fileID: 1951008171511334057}
   - component: {fileID: 2355223839039094749}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: A_vip_light_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &248893607740134571
 Transform:
@@ -168,7 +183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7674923503234155378, guid: 93c0a137d6ff4bb489dce5ce19e26088, type: 3}
+  - {fileID: 2100000, guid: 6521ac3e1877080418aa9a5205eb2475, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -200,12 +215,13 @@ GameObject:
   - component: {fileID: 9065291523607724951}
   - component: {fileID: 1792230436752302736}
   - component: {fileID: 4925786157915546951}
-  m_Layer: 0
+  - component: {fileID: 4105686192412665797}
+  m_Layer: 11
   m_Name: A_vip_black_marble_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &9065291523607724951
 Transform:
@@ -246,7 +262,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4462478803473421138, guid: 93c0a137d6ff4bb489dce5ce19e26088, type: 3}
+  - {fileID: 2100000, guid: dc6bcfa30ca8b7c4682b537b5e30d031, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -267,3 +283,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &4105686192412665797
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8607987823447879106}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4461071643347048721, guid: 93c0a137d6ff4bb489dce5ce19e26088, type: 3}

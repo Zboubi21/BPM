@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 151005596566047589}
   - component: {fileID: 8332882705245347990}
   - component: {fileID: 5049024394106148261}
-  - component: {fileID: 4206037962191262105}
+  - component: {fileID: 4916005994880104813}
   m_Layer: 11
   m_Name: A_roof_transition_12
   m_TagString: Untagged
@@ -119,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588265119101302201}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.3159869, y: 1.8, z: 0.79999995}
+  m_LocalPosition: {x: 3.406, y: 1.958, z: 0.79999995}
   m_LocalScale: {x: 1, y: 1.0106281, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -171,8 +171,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4206037962191262105
-BoxCollider:
+--- !u!64 &4916005994880104813
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -181,9 +181,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.84, y: 1.8, z: 1}
-  m_Center: {x: -0.4, y: 0.9, z: 0.5}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -6489195137865267445, guid: 8f21a8ebff3f4c3428755c25e01437ff, type: 3}
 --- !u!1 &1044057528312915466
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,8 +212,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044057528312915466}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.6, y: 2, z: 2.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 5.6, y: 2, z: 1.756}
+  m_LocalScale: {x: 1, y: 1, z: 1.2294}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
   m_RootOrder: 6
@@ -287,7 +288,7 @@ GameObject:
   - component: {fileID: 6778938221755640238}
   - component: {fileID: 516926838690436107}
   - component: {fileID: 9124531517309647400}
-  - component: {fileID: 5840227513367153772}
+  - component: {fileID: 1281666407}
   m_Layer: 11
   m_Name: A_roof_transition_11
   m_TagString: Untagged
@@ -355,8 +356,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5840227513367153772
-BoxCollider:
+--- !u!64 &1281666407
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -365,9 +366,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.84, y: 1.8, z: 1}
-  m_Center: {x: -0.4, y: 0.9, z: 0.5}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -6765672767111784695, guid: 8f21a8ebff3f4c3428755c25e01437ff, type: 3}
 --- !u!1 &1873514603823605238
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,7 +830,7 @@ GameObject:
   - component: {fileID: 6369370505124031175}
   - component: {fileID: 4464257896926504751}
   - component: {fileID: 8508681461865633152}
-  - component: {fileID: 578407047558458587}
+  - component: {fileID: 2105953087192964025}
   m_Layer: 11
   m_Name: A_roof_transition_10
   m_TagString: Untagged
@@ -844,7 +846,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3845402353104822219}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -3.3, y: 3.6435194, z: 4.017621}
+  m_LocalPosition: {x: -3.3, y: 3.625, z: 4.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -896,8 +898,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &578407047558458587
-BoxCollider:
+--- !u!64 &2105953087192964025
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -906,9 +908,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8400002, y: 1.8, z: 1.0000002}
-  m_Center: {x: -0.3999991, y: -0.899999, z: -0.5000001}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -8766089859930653464, guid: 8f21a8ebff3f4c3428755c25e01437ff, type: 3}
 --- !u!1 &4028996888990947079
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +939,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4028996888990947079}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.7, y: 2, z: 2.2}
+  m_LocalPosition: {x: 2.7, y: 2.203, z: 2.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -1028,7 +1031,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4241302650371016325}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3999999, y: 2, z: 3.5}
+  m_LocalPosition: {x: 2.3999999, y: 2.2029998, z: 3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -1212,7 +1215,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5460112032748000703}
   m_LocalRotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.58, y: 1.8, z: 0.79999995}
+  m_LocalPosition: {x: 2.58, y: 1.955, z: 0.79999995}
   m_LocalScale: {x: 0.6754306, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -1288,7 +1291,7 @@ GameObject:
   - component: {fileID: 5821309375890154572}
   - component: {fileID: 2936259942518848452}
   - component: {fileID: 2455328295416509282}
-  - component: {fileID: 3416450176379175175}
+  - component: {fileID: 5877454487011078925}
   m_Layer: 11
   m_Name: A_roof_transition_8
   m_TagString: Untagged
@@ -1356,8 +1359,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &3416450176379175175
-BoxCollider:
+--- !u!64 &5877454487011078925
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1366,9 +1369,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.84, y: 1.8, z: 1}
-  m_Center: {x: -0.40000096, y: 0.90000093, z: 0.5}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4341047033902022573, guid: 8f21a8ebff3f4c3428755c25e01437ff, type: 3}
 --- !u!1 &5968899054157295878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1476,7 @@ GameObject:
   - component: {fileID: 3565423504576007105}
   - component: {fileID: 3492167553450972831}
   - component: {fileID: 7715480756681872429}
-  - component: {fileID: 1344771920763608028}
+  - component: {fileID: 3863285075243120858}
   m_Layer: 11
   m_Name: A_roof_transition_4
   m_TagString: Untagged
@@ -1540,8 +1544,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1344771920763608028
-BoxCollider:
+--- !u!64 &3863285075243120858
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1550,9 +1554,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.84, y: 1.8, z: 1}
-  m_Center: {x: -0.4, y: 0.90000093, z: 0.4999981}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 7811444278303819986, guid: 8f21a8ebff3f4c3428755c25e01437ff, type: 3}
 --- !u!1 &6971954000638748142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,8 +1585,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6971954000638748142}
   m_LocalRotation: {x: 0, y: 7.6571376e-16, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 2, z: 2.2}
-  m_LocalScale: {x: 0.6754306, y: 1, z: 1}
+  m_LocalPosition: {x: 5.4311, y: 1.999, z: 2.2}
+  m_LocalScale: {x: 0.7967379, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
   m_RootOrder: 13
@@ -1764,7 +1769,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7399301976086280062}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -6, y: 1.8, z: 4.1373844}
+  m_LocalPosition: {x: -6.9, y: 1.813, z: 4.1373844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -1856,7 +1861,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7494734811288266908}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 2, z: 3.1}
+  m_LocalPosition: {x: 5, y: 2.2029996, z: 3.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
@@ -1932,7 +1937,7 @@ GameObject:
   - component: {fileID: 819547373851620888}
   - component: {fileID: 5922993788214951649}
   - component: {fileID: 6760878796882008874}
-  - component: {fileID: 5595198595739932457}
+  - component: {fileID: 8910956882645665450}
   m_Layer: 11
   m_Name: A_roof_transition_9
   m_TagString: Untagged
@@ -1948,8 +1953,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8401662649261210989}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -6.044961, y: 3.5565076, z: -0.32696792}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -6.711, y: 3.601, z: -0.32696792}
+  m_LocalScale: {x: 1, y: 1, z: 1.6332655}
   m_Children: []
   m_Father: {fileID: 1810138786153809094}
   m_RootOrder: 18
@@ -2000,8 +2005,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5595198595739932457
-BoxCollider:
+--- !u!64 &8910956882645665450
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2010,9 +2015,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8400002, y: 1.8, z: 1.0000002}
-  m_Center: {x: -0.40000007, y: -0.90000093, z: 0.5000001}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 2519680908433228252, guid: 8f21a8ebff3f4c3428755c25e01437ff, type: 3}
 --- !u!1 &8506567702003862072
 GameObject:
   m_ObjectHideFlags: 0
