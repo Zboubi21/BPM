@@ -64,7 +64,10 @@ public class EmissiveDestroyableObject : DestroyableObjectController
             }
         }
 
-        Rigidbody rbody = GetComponentInChildren<Rigidbody>();
+        Rigidbody rbody;
+        rbody = GetComponent<Rigidbody>();
+        if (rbody == null)
+        rbody = GetComponentInChildren<Rigidbody>();
         if (rbody != null)
             rbody.isKinematic = false;
     }
