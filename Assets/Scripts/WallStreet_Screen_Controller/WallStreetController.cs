@@ -10,33 +10,26 @@ public class WallStreetController : MonoBehaviour
     public bool displayLoreRandomly;
     [Space]
     public LoreText[] allPossibleLoreText;
-    [Header("Fade For NextWave")]
-    public FadeHandeler nextWaveFade;
+    public TMP_Text nextWaveText;
     
-    string nextWave = "Next Wave";
-    TMP_Text TMPtext;
     int currentArrayIndex;
     private void Start()
     {
-        if(TryGetComponent(out TMP_Text text))
+        if (!CheckForAnOverride())
         {
-            TMPtext = text;
-            if (!CheckForAnOverride())
+            if (displayLoreRandomly)
             {
-                if (displayLoreRandomly)
-                {
-                    int randomIndex = UnityEngine.Random.Range(0, allPossibleLoreText.Length);
-                    text.text = allPossibleLoreText[randomIndex].loreText;
-                    currentArrayIndex = randomIndex;
-                }
-                else
-                {
-                    text.text = allPossibleLoreText[0].loreText;
-                    currentArrayIndex = 0;
-                }
+                int randomIndex = UnityEngine.Random.Range(0, allPossibleLoreText.Length);
+                allPossibleLoreText[randomIndex].loreText.gameObject.SetActive(true);
+                currentArrayIndex = randomIndex;
             }
-            StartCoroutine(SwitchLoreTextDisplayed(allPossibleLoreText[currentArrayIndex].displayTime));
+            else
+            {
+                allPossibleLoreText[0].loreText.gameObject.SetActive(true);
+                currentArrayIndex = 0;
+            }
         }
+        StartCoroutine(SwitchLoreTextDisplayed(allPossibleLoreText[currentArrayIndex].displayTime));
     }
     bool CheckForAnOverride()
     {
@@ -44,7 +37,7 @@ public class WallStreetController : MonoBehaviour
         {
             if (allPossibleLoreText[i].chooseThisTextAsFirstText)
             {
-                TMPtext.text = allPossibleLoreText[i].loreText;
+                allPossibleLoreText[i].loreText.gameObject.SetActive(true);
                 currentArrayIndex = i;
                 return true;
             }
@@ -55,11 +48,12 @@ public class WallStreetController : MonoBehaviour
     IEnumerator SwitchLoreTextDisplayed(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
+        allPossibleLoreText[currentArrayIndex].loreText.gameObject.SetActive(false);
         if (displayLoreRandomly)
         {
             int randomIndex = ChooseNewIndex(currentArrayIndex);
             currentArrayIndex = randomIndex;
-            yield return StartCoroutine(ChangeCurrentTextToNextText(allPossibleLoreText[randomIndex].fadeHandeler.fadeEffect, allPossibleLoreText[randomIndex].fadeHandeler.timeOfFade, TMPtext, allPossibleLoreText[randomIndex].loreText));
+            allPossibleLoreText[currentArrayIndex].loreText.gameObject.SetActive(true);
             StartCoroutine(SwitchLoreTextDisplayed(allPossibleLoreText[randomIndex].displayTime));
         }
         else
@@ -68,8 +62,9 @@ public class WallStreetController : MonoBehaviour
             if(currentArrayIndex >= allPossibleLoreText.Length)
             {
                 currentArrayIndex = 0;
+
             }
-            yield return StartCoroutine(ChangeCurrentTextToNextText(allPossibleLoreText[currentArrayIndex].fadeHandeler.fadeEffect, allPossibleLoreText[currentArrayIndex].fadeHandeler.timeOfFade, TMPtext, allPossibleLoreText[currentArrayIndex].loreText));
+            allPossibleLoreText[currentArrayIndex].loreText.gameObject.SetActive(true);
             StartCoroutine(SwitchLoreTextDisplayed(allPossibleLoreText[currentArrayIndex].displayTime));
         }
     }
@@ -84,54 +79,17 @@ public class WallStreetController : MonoBehaviour
     }
 
 
-    #region Fade With Curve
-    IEnumerator ChangeCurrentTextToNextText(AnimationCurve curve, float timeOfAnimation, TMP_Text text, string newText, bool hasToLoop = false)
-    {
-        yield return StartCoroutine(FadeInFadeOutControl(curve, timeOfAnimation, text, true));
-        text.text = newText;
-        yield return StartCoroutine(FadeInFadeOutControl(curve, timeOfAnimation, text));
-        if (hasToLoop)
-        {
-            StartCoroutine(ChangeCurrentTextToNextText(curve, timeOfAnimation, text, newText, hasToLoop));
-        }
-    }
-
-    IEnumerator FadeInFadeOutControl(AnimationCurve curve, float timeOfAnimation, TMP_Text text, bool inverseCurve = false)
-    {
-        float _currentTimeOfAnimation = 0;
-        while (_currentTimeOfAnimation / timeOfAnimation <= 1)
-        {
-            yield return new WaitForSeconds(0.01f);
-            _currentTimeOfAnimation += Time.deltaTime;
-
-            float value = curve.Evaluate(_currentTimeOfAnimation / timeOfAnimation);
-
-            if (!inverseCurve)
-            {
-                text.alpha = Mathf.Lerp(0, 1, value);
-            }
-            else
-            {
-                text.alpha = Mathf.Lerp(1, 0, value);
-            }
-
-            yield return null;
-
-        }
-        _currentTimeOfAnimation = 0;
-    }
-    #endregion
-
-
     public void ChangeToNextWaveText()
     {
         StopAllCoroutines();
-        StartCoroutine(ChangeCurrentTextToNextText(nextWaveFade.fadeEffect, nextWaveFade.timeOfFade, TMPtext, nextWave, true));
+        allPossibleLoreText[currentArrayIndex].loreText.gameObject.SetActive(false);
+        nextWaveText.gameObject.SetActive(true);
     }
 
     public void ChangeToLoreText()
     {
         StopAllCoroutines();
+        nextWaveText.gameObject.SetActive(false);
         StartCoroutine(SwitchLoreTextDisplayed(0));
     }
 
@@ -140,7 +98,6 @@ public class WallStreetController : MonoBehaviour
 [Serializable] public class LoreText
 {
     public bool chooseThisTextAsFirstText;
-    public string loreText;
+    public TMP_Text loreText;
     public float displayTime;
-    public FadeHandeler fadeHandeler;
 }
