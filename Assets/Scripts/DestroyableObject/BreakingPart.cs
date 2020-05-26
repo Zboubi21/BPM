@@ -25,6 +25,10 @@ public class BreakingPart : AudioController
         // Debug.Log("relativeVelocity = " + col.relativeVelocity.magnitude);
         if (!m_canDoSound)
             return;
+
+        if (col.gameObject.CompareTag("Player"))
+            return;
+
         if (col.relativeVelocity.magnitude > m_minTriggerSoundMagnitude)
         {
             if (m_impactSound.m_audioSource != null)
