@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 8917494205405956816}
   - component: {fileID: 336914138624964638}
   - component: {fileID: 4553616517235083603}
-  m_Layer: 11
+  - component: {fileID: 3390425382499382699}
+  - component: {fileID: 2789999190307276118}
+  m_Layer: 15
   m_Name: Drogue02_Prefab
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6523308267069037723}
-  m_LocalRotation: {x: -0, y: 0.37610924, z: -0, w: 0.92657536}
-  m_LocalPosition: {x: -0.1078, y: -0.0534, z: -0.0366}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 44.186, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &336914138624964638
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -78,3 +80,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &3390425382499382699
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523308267069037723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.056509838, y: 0.0085120415, z: 0.008877024}
+  m_Center: {x: 0.0000000018626451, y: 0.0032520723, z: 0}
+--- !u!114 &2789999190307276118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523308267069037723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.05
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0

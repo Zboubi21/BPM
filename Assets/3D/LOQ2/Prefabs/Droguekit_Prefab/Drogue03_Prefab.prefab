@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 3923683986381038395}
   - component: {fileID: 8947917781441656078}
   - component: {fileID: 3323835602734977558}
-  m_Layer: 11
+  - component: {fileID: 4714480070550736885}
+  - component: {fileID: 5610221501237332527}
+  m_Layer: 15
   m_Name: Drogue03_Prefab
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8729275761960131991}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -0.033}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,3 +80,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &4714480070550736885
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8729275761960131991}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01757759, y: 0.0094986865, z: 0.017437868}
+  m_Center: {x: 0.0002280809, y: 0.0047493433, z: 0.0040886635}
+--- !u!114 &5610221501237332527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8729275761960131991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.05
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0

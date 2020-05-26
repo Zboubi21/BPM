@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 9013290239194124814}
   - component: {fileID: 3507077957314855798}
   - component: {fileID: 9158531208317404655}
-  m_Layer: 11
+  - component: {fileID: 8205068773755492175}
+  - component: {fileID: 6154395489640150900}
+  m_Layer: 15
   m_Name: Chicha02_prefab
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8063856169679744791}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1216, y: -0.051927, z: -0.0238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,3 +80,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &8205068773755492175
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063856169679744791}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.019467674, y: 0.08792599, z: 0.018785855}
+  m_Center: {x: 0.000056345016, y: 0.04359361, z: -0.00017546583}
+--- !u!114 &6154395489640150900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063856169679744791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0.045
+  m_gizmosRadius: 0.01
+  m_affVFX: 1
+  m_affSFX: 0
+  m_fxType: 20
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 0
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
