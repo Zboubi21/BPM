@@ -9,6 +9,8 @@ public class DisappearObjectController : DestroyableObjectController
     [SerializeField] float m_waitTimeToDestroy = 0.25f;
     [SerializeField] float m_ySpawnOffset = 0;
     [SerializeField] float m_gizmosRadius = 0.125f;
+    [SerializeField] bool m_affVFX = true;
+    [SerializeField] bool m_affSFX = true;
     [SerializeField] FxType m_fxType = FxType.DestroyableObjectSmall;
     [SerializeField] Sounds m_impactSounds;
 
@@ -21,10 +23,14 @@ public class DisappearObjectController : DestroyableObjectController
 
     protected override void On_ObjectIsBreak()
     {
-        StartSoundFromArray(m_impactSounds.m_audioSource, m_impactSounds.m_sounds, m_impactSounds.m_volume, m_impactSounds.m_volumeRandomizer, m_impactSounds.m_pitch, m_impactSounds.m_pitchRandomizer);
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroyThirdCategorie);
         Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + m_ySpawnOffset, transform.position.z);
-        ObjectPooler.Instance?.SpawnFXFromPool(m_fxType, spawnPos, transform.rotation);
+
+        if (m_affVFX)
+            ObjectPooler.Instance?.SpawnFXFromPool(m_fxType, spawnPos, transform.rotation);
+        if (m_affSFX)
+            StartSoundFromArray(m_impactSounds.m_audioSource, m_impactSounds.m_sounds, m_impactSounds.m_volume, m_impactSounds.m_volumeRandomizer, m_impactSounds.m_pitch, m_impactSounds.m_pitchRandomizer);
+
         StartCoroutine(WaitTimeToDestroy());
     }
 

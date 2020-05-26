@@ -11,12 +11,14 @@ GameObject:
   - component: {fileID: 118349684441264219}
   - component: {fileID: 3598739636929471346}
   - component: {fileID: 4671933396157560535}
-  m_Layer: 11
+  - component: {fileID: 4354157837853589269}
+  - component: {fileID: 3562298384120686931}
+  m_Layer: 15
   m_Name: Dessous_deverre_Prefab
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &118349684441264219
 Transform:
@@ -78,3 +80,50 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4354157837853589269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3898059431389960775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.025
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds: []
+    m_volume: 0
+    m_volumeRandomizer: 0
+    m_pitch: 0
+    m_pitchRandomizer: 0
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
+--- !u!65 &3562298384120686931
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3898059431389960775}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.10982702, y: 0.00627937, z: 0.110633895}
+  m_Center: {x: -0.0008093938, y: 0.003139685, z: -0.00000008754432}
