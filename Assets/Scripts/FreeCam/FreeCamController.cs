@@ -10,6 +10,7 @@ public class FreeCamController : MonoBehaviour
     public float m_MoveSpeed = 10.0f;
     public float m_MoveSpeedIncrement = 2.5f;
     public float m_Turbo = 10.0f;
+    
 
     string kMouseX = "Mouse X";
     string kMouseY = "Mouse Y";
@@ -26,13 +27,15 @@ public class FreeCamController : MonoBehaviour
     Camera[] cameras;
     public Canvas menu;
     public MenuFreeCam menuFreeCam;
-    //public OrbitControl orbitControl;
+    public OrbitControl orbitControl;
 
     float lookSpeedController;
     float lookSpeedMouse;
     float moveSpeed;
     float moveSpeedIncrement;
     float turbo;
+
+    float orbitingSpeed;
 
     private void Start()
     {
@@ -47,65 +50,84 @@ public class FreeCamController : MonoBehaviour
         moveSpeed = m_MoveSpeed;
         moveSpeedIncrement = m_MoveSpeedIncrement;
         turbo = m_Turbo;
+        orbitingSpeed = orbitControl.orbitingSpeed;
     }
 
 
 
+    bool hasPlaceAnOrbitPoint;
+    bool isOrbiting;
+    RaycastHit _hit;
 
     void LateUpdate()
     {
-        if ((Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.F) && !freeCamOn) || freeCamOn)
+        #region Activate / Deactivate Free Cam
+        if ((Input.GetKey(KeyCode.V) && Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.F) && !freeCamOn) || freeCamOn)
         {
             ControlFreeCamState(true);
-
-            CameraControl();
+            if (!isOrbiting)
+            {
+                CameraControl();
+            }
         }
         else if((Input.GetKeyDown(KeyCode.Escape) && freeCamOn))
         {
             ControlFreeCamState(false);
         }
-
+        ///Teleport cam on player pos
         if (!freeCamOn)
         {
             transform.position = PlayerController.s_instance.m_references.m_worldCamera.transform.position;
             transform.rotation = PlayerController.s_instance.m_references.m_worldCamera.transform.rotation;
         }
+        #endregion
 
-        if(freeCamOn && Input.GetKeyDown(KeyCode.F))
+
+        #region Activate / Deactivate Free Cam menu
+        if (freeCamOn && Input.GetKeyDown(KeyCode.F))
         {
-            menu.gameObject.SetActive(!menu.gameObject.activeSelf);
+            MenuControl();
         }
-        if (menu.gameObject.activeSelf)
+        SliderHandeler(menu.gameObject.activeSelf);
+        #endregion
+
+
+        #region Activate / Deactivate Free Cam Orbite
+        if (Input.GetKeyDown(KeyCode.O) && freeCamOn && !menu.gameObject.activeSelf && !hasPlaceAnOrbitPoint)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            m_LookSpeedController = Mathf.Lerp(0, lookSpeedController * 2, menuFreeCam.controlRotationSpeedSlider.value);
-            m_LookSpeedMouse = Mathf.Lerp(0, lookSpeedMouse * 2, menuFreeCam.mouseRotationSpeedSlider.value);
-            m_MoveSpeed = Mathf.Lerp(0, moveSpeed * 2, menuFreeCam.mouseSpeedSlider.value);
-            m_MoveSpeedIncrement = Mathf.Lerp(0, moveSpeedIncrement * 2, menuFreeCam.mouseSpeedIncrementSlider.value);
-            m_Turbo = Mathf.Lerp(0, turbo * 2, menuFreeCam.turboSlider.value);
+            hasPlaceAnOrbitPoint = true;
+            Physics.Raycast(transform.position, transform.forward, out _hit, Mathf.Infinity);
+
+            if (gameObjects.Count > 0)
+            {
+                Destroy(gameObjects[0].gameObject);
+                gameObjects.RemoveAt(0);
+            }
+
+            GameObject go = Instantiate(orbitControl.objectToRotate, _hit.point, Quaternion.identity);
+            gameObjects.Add(go);
         }
-        else
+
+        if(Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.O) && hasPlaceAnOrbitPoint)
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            hasPlaceAnOrbitPoint = false;
+            isOrbiting = true;
+            if (gameObjects.Count > 0)
+            {
+                Destroy(gameObjects[0].gameObject);
+                gameObjects.RemoveAt(0);
+            }
         }
 
-        //if(Input.GetKeyDown(KeyCode.O) && freeCamOn)
-        //{
-        //    RaycastHit _hit;
-        //    Physics.Raycast(transform.position, transform.forward, out _hit, Mathf.Infinity);
-
-        //    if(gameObjects.Count > 0)
-        //    {
-        //        Destroy(gameObjects[0].gameObject);
-        //        gameObjects.RemoveAt(0);
-        //    }
-
-        //    GameObject go = Instantiate(orbitControl.objectToRotate, _hit.point, Quaternion.identity);
-        //    gameObjects.Add(go);
-        //}
-
+        if (isOrbiting)
+        {
+            transform.RotateAround(_hit.point, Vector3.up, orbitControl.orbitingSpeed * Time.deltaTime);
+            if((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.D)))
+            {
+                isOrbiting = false;
+            }
+        }
+        #endregion
     }
     List<GameObject> gameObjects = new List<GameObject>();
     void CameraControl()
@@ -165,7 +187,7 @@ public class FreeCamController : MonoBehaviour
             item.enabled = b;
         }
         PlayerController.s_instance.On_PlayerEnterInCinematicState(b);
-        Cursor.visible = !b;
+        //Cursor.visible = !b;
         if (b)
         {
             PlayerController.s_instance.m_references.playerCanvasGroupe.alpha = 0;
@@ -177,6 +199,34 @@ public class FreeCamController : MonoBehaviour
 
         PlayerController.s_instance.m_references.m_worldCamera.gameObject.SetActive(!b);
         PlayerController.s_instance.m_references.m_gunCamera.gameObject.SetActive(!b);
+    }
+
+    void MenuControl()
+    {
+        menu.gameObject.SetActive(!menu.gameObject.activeSelf);
+        if (menu.gameObject.activeSelf)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+    void SliderHandeler(bool b)
+    {
+        if (b)
+        {
+            m_LookSpeedController = Mathf.Lerp(0, lookSpeedController * 2, menuFreeCam.controlRotationSpeedSlider.value);
+            m_LookSpeedMouse = Mathf.Lerp(0, lookSpeedMouse * 2, menuFreeCam.mouseRotationSpeedSlider.value);
+            m_MoveSpeed = Mathf.Lerp(0, moveSpeed * 2, menuFreeCam.mouseSpeedSlider.value);
+            m_MoveSpeedIncrement = Mathf.Lerp(0, moveSpeedIncrement * 2, menuFreeCam.mouseSpeedIncrementSlider.value);
+            m_Turbo = Mathf.Lerp(0, turbo * 2, menuFreeCam.turboSlider.value);
+            orbitControl.orbitingSpeed = Mathf.Lerp(0, orbitingSpeed * 2, orbitControl.orbitingSpeedSlider.value);
+        }
     }
 }
 
@@ -195,4 +245,7 @@ public class FreeCamController : MonoBehaviour
 public class OrbitControl
 {
     public GameObject objectToRotate;
+    [Space]
+    public float orbitingSpeed;
+    public Slider orbitingSpeedSlider;
 }

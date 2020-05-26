@@ -16,6 +16,8 @@ public class WaveScreenController :  MonoBehaviour
     [Space]
     public AnimationCurve scoreCurve;
     public float timeOfScoreAnimation;
+    [Space]
+    public bool isActivateAtStart = true;
     float currentFontSize;
     float maxFontSize = 0.35f;
 
@@ -24,7 +26,31 @@ public class WaveScreenController :  MonoBehaviour
         allWaveScreen = GetComponentsInChildren<WaveScreenReference>();
         //ChangeInformationDisplayed(_screenChannel);
 
-        if(allWaveScreen.Length > 0)
+        if (isActivateAtStart)
+        {
+            ActivateScreen();
+        }
+        else
+        {
+            if (allWaveScreen.Length > 0)
+            {
+                for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
+                {
+                    allWaveScreen[i].gameObject.SetActive(false);
+                    currentFontSize = allWaveScreen[(int)ScreenChannel.ScoreCountChannel].changingTexts[0].fontSize;
+                }
+            }
+        }
+    }
+    private void Start()
+    {
+        manager = GameManager.Instance;
+        manager.AddScreen(this);
+    }
+
+    public void ActivateScreen()
+    {
+        if (allWaveScreen.Length > 0)
         {
             for (int i = 0, l = allWaveScreen.Length; i < l; ++i)
             {
@@ -40,13 +66,6 @@ public class WaveScreenController :  MonoBehaviour
             }
         }
     }
-    private void Start()
-    {
-        manager = GameManager.Instance;
-        manager.AddScreen(this);
-    }
-
-
 
 
     public void RefreshScore(int scoreAdded, int currentScore)
