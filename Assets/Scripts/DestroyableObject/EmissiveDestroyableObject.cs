@@ -11,6 +11,10 @@ public class EmissiveDestroyableObject : DestroyableObjectController
     [SerializeField] Sounds m_impactSounds;
     [SerializeField] bool m_takeDamageJusteOneTime = true;
 
+    [Header("Break force")]
+    [SerializeField] float m_breakForce = 3;
+    [SerializeField] float m_upForce = 3;
+
     [Header("Material")]
     [SerializeField] Material m_newMaterial;
     // [SerializeField] int m_materialNbr = 0;
@@ -40,6 +44,14 @@ public class EmissiveDestroyableObject : DestroyableObjectController
         // StartSoundFromArray(m_impactSounds.m_audioSource, m_impactSounds.m_sounds, m_impactSounds.m_volume, m_impactSounds.m_volumeRandomizer, m_impactSounds.m_pitch, m_impactSounds.m_pitchRandomizer);
         
         // On_DeactivateShader();
+
+
+        // Rigidbody[] rbody = GetComponentsInChildren<Rigidbody>();
+        // for (int i = 0, l = rbody.Length; i < l; ++i)
+        // {
+        //     Vector3 force = ((rbody[i].transform.position - transform.position).normalized * m_breakForce) + (rbody[i].transform.forward * m_upForce);
+        //     rbody[i].AddForce(force);
+        // }
 
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroyFirstCategorie);
 
@@ -76,6 +88,10 @@ public class EmissiveDestroyableObject : DestroyableObjectController
         rbody = GetComponentInChildren<Rigidbody>();
         if (rbody != null)
             rbody.isKinematic = false;
+
+        
+        Vector3 force = ((rbody.transform.position - transform.position).normalized * m_breakForce) + (rbody.transform.forward * m_upForce);
+        rbody.AddForce(force);
     }
 
     void On_ChangeMaterial()
