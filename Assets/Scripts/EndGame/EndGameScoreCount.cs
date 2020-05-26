@@ -51,11 +51,11 @@ public class EndGameScoreCount : MonoBehaviour
             }
             if (fakeScore < GameManager.Instance.CurrentScore)
             {
-                text.text = string.Format("Score : " + fakeScore);
+                text.text = string.Format("{0}", fakeScore);
             }
             else
             {
-                text.text = string.Format("Score : " + GameManager.Instance.CurrentScore);
+                text.text = string.Format("{0}" ,GameManager.Instance.CurrentScore);
             }
         }
 

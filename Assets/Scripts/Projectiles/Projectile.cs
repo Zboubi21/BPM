@@ -474,6 +474,7 @@ public class Projectile : MonoBehaviour
 
     void DestroyProj()
     {
+        StopAllCoroutines();
         ObjectPooler.Instance.ReturnProjectileToPool(ProjectileType2, gameObject);
         
         hasReachedDestination = false;

@@ -11,7 +11,7 @@ public class FadeController : MonoBehaviour
     public float timeBeforeThirdFade;
     public UnityEvent eventOnStartOfEndGame;
 
-
+    public EndGameScoreCount count;
     private void Update()
     {
 #if UNITY_EDITOR
@@ -24,8 +24,11 @@ public class FadeController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.CurrentScore = 845120;
             StartEndGame();
+        }
     }
 
 
@@ -81,6 +84,8 @@ public class FadeController : MonoBehaviour
 
     IEnumerator LaunchThirdFade()
     {
+        count.StartCoroutine(count.StartCoutningScore());
+
         float _currentTimeOfAnimation = 0;
         while (_currentTimeOfAnimation / groupeHandeler[2].timeOfFade <= 1)
         {
