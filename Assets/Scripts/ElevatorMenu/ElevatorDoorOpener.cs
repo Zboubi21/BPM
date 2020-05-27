@@ -47,9 +47,10 @@ public class ElevatorDoorOpener : MonoBehaviour
             if (PlayerController.s_instance != null)
             {
                 //canvas.gameObject.SetActive(true);
-                PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(false);
-                PlayerController.s_instance.On_PlayerEnterInCinematicState(true);
+                //PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(false);
+                //PlayerController.s_instance.On_PlayerEnterInCinematicState(true);
                 MenuCamera = PlayerController.s_instance.m_references.m_worldCamera.gameObject;
+                StartCoroutine(EventOnStartingGame());
                 //PlayerController.s_instance.m_references.m_worldCamera.enabled = false;
                 //Cursor.visible = true;
             }
@@ -82,7 +83,6 @@ public class ElevatorDoorOpener : MonoBehaviour
             yield return null;
         }
     }
-
 
     IEnumerator CanvasGroupeFade(AnimationCurve curve, float timeOfAnimation, CanvasGroup canvasGroup, bool reverseFade = false)
     {
@@ -160,8 +160,8 @@ public class ElevatorDoorOpener : MonoBehaviour
         yield return new WaitForSeconds(timeBeforeOpeningDoors);
         animator.SetTrigger("Open");
         movingElevator?.Play();
-        PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(true);
-        PlayerController.s_instance.On_PlayerEnterInCinematicState(false);
+        //PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(true);
+        //PlayerController.s_instance.On_PlayerEnterInCinematicState(false);
     }
 
 
