@@ -12,6 +12,7 @@ public class SuicidalEnemyController : MonoBehaviour
 {
 
     [Header("Debug")]
+    [SerializeField] bool m_isShowcaseEnemy = false;
     // [SerializeField] Transform m_lastPlayerPosition;
     // [SerializeField] Transform m_destinationPos;
     // [SerializeField] Transform m_lastpathPos;
@@ -196,8 +197,8 @@ public class SuicidalEnemyController : MonoBehaviour
 	void Update()
 	{
 		m_sM.Update();
-        // if (Input.GetKeyDown(KeyCode.C))
-        //     ChangeState(EnemyState.ChaseState);
+        if (Input.GetKeyDown(KeyCode.C))
+            ChangeState(EnemyState.SelfDestructionState);
 	}
 	void LateUpdate()
 	{
@@ -280,6 +281,8 @@ public class SuicidalEnemyController : MonoBehaviour
     Vector3 m_lastGoodPlayerPos = Vector3.zero;
     public void ChasePlayer()
     {
+        if (m_isShowcaseEnemy)
+            return;
         // m_destinationPos.position = m_agent.destination;
         // m_lastPlayerPosition.position = m_lastGoodPlayerPos;
 

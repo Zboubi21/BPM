@@ -11,22 +11,9 @@ public class PlayerDelayScene : MonoBehaviour
     [SerializeField] ChangeImageValues m_startSceneScreen;
     [SerializeField] float m_waitTimeToActivatePlayer = 1;
 
-    void Awake()
+    public void On_StartPlayer()
     {
-        if (m_startWithSceneLoader)
-        {
-            m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithFromValue);
-            // PlayerController.
-            // WeaponPlayerBehaviour.
-            // BPMSystem.
-        }
-        else
-        {
-            m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithToValue);
-        }
-    }
-    void Start()
-    {
+        m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithFromValue);
         if (m_startWithSceneLoader)
         {
             SetMixerVolume(-80);
@@ -37,6 +24,35 @@ public class PlayerDelayScene : MonoBehaviour
         {
             SetMixerVolume(0);
         }
+    }
+
+    void Awake()
+    {
+        if (m_startWithSceneLoader)
+        {
+            // m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithFromValue);
+            // PlayerController.
+            // WeaponPlayerBehaviour.
+            // BPMSystem.
+        }
+        else
+        {
+            m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithToValue);
+            SetMixerVolume(0);
+        }
+    }
+    void Start()
+    {
+        // if (m_startWithSceneLoader)
+        // {
+        //     SetMixerVolume(-80);
+        //     m_startSceneScreen.SwitchValue();
+        //     StartCoroutine(WaitToActivatePlayer());
+        // }
+        // else
+        // {
+        //     SetMixerVolume(0);
+        // }
     }
 
     IEnumerator WaitToActivatePlayer()

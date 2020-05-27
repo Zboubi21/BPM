@@ -37,8 +37,15 @@ public class SceneReloader : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadSceneAsync("LD_Gameplay", LoadSceneMode.Additive);
-        SceneManager.LoadSceneAsync("LD_Lighting", LoadSceneMode.Additive);
+        AsyncOperation newLoadGameplay = SceneManager.LoadSceneAsync("LD_Gameplay", LoadSceneMode.Additive);
+        AsyncOperation newLoadLighting = SceneManager.LoadSceneAsync("LD_Lighting", LoadSceneMode.Additive);
+
+        while(!newLoadGameplay.isDone && !newLoadLighting.isDone)
+        {
+            yield return null;
+        }
+
+        PlayerController.s_instance?.GetComponent<PlayerDelayScene>().On_StartPlayer();
     }
 
     public void LeaveGame()
