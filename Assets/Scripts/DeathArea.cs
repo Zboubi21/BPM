@@ -7,6 +7,7 @@ public class DeathArea : MonoBehaviour
 {
     
     [SerializeField] bool m_showGizmos = true;
+    [SerializeField] bool m_isWire = true;
     [SerializeField] FadeOverCurveHandeler[] fadeHandeler;
 
     BoxCollider boxCol;
@@ -53,7 +54,10 @@ public class DeathArea : MonoBehaviour
         if (m_showGizmos)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position + BoxCol.center, BoxCol.size);
+            if (m_isWire)
+                Gizmos.DrawWireCube(transform.position + BoxCol.center, BoxCol.size);
+            else
+                Gizmos.DrawCube(transform.position + BoxCol.center, BoxCol.size);
         }
     }
 
