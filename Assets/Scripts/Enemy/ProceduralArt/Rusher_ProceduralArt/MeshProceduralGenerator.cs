@@ -34,7 +34,10 @@ public class MeshProceduralGenerator : MonoBehaviour
             maxTopHeadIndex++;
         }
 
-        //StartCoroutine(ShowCaseGeneration());
+        if (useShowCase)
+        {
+            StartCoroutine(ShowCaseGeneration());
+        }
     }
 
     IEnumerator ShowCaseGeneration()
@@ -43,6 +46,7 @@ public class MeshProceduralGenerator : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             BuildCharaMesh();
+            StartCoroutine(ShowCaseGeneration());
         }
     }
 
