@@ -18,6 +18,7 @@ public class MusicFades : MonoBehaviour
 
     public void StartFadeIn()
     {
+
         if(previousVolume != 0)
         {
             StartCoroutine(PlayFade(0, previousVolume));
@@ -26,6 +27,7 @@ public class MusicFades : MonoBehaviour
         {
             StartCoroutine(PlayFade(0, finalVolume));
         }
+        audioSource.Play();
     }
     
 

@@ -84,7 +84,7 @@ public class FadeController : MonoBehaviour
 
     IEnumerator LaunchThirdFade()
     {
-        count.StartCoroutine(count.StartCoutningScore());
+        //count.StartCoroutine(count.StartCoutningScore());
 
         float _currentTimeOfAnimation = 0;
         while (_currentTimeOfAnimation / groupeHandeler[2].timeOfFade <= 1)
