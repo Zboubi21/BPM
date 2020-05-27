@@ -32,11 +32,6 @@ public class BreakableObjectController : DestroyableObjectController
         Rigidbody[] rbody = GetComponentsInChildren<Rigidbody>();
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroySecondCategorie);
 
-
-        Vector3 pos = m_customSpawn == null ? transform.position : m_customSpawn.position;
-        Quaternion rot = m_customSpawn == null ? Quaternion.identity : m_customSpawn.rotation;
-        ObjectPooler.Instance?.SpawnFXFromPool(m_fxToSpawn, pos, rot);
-
         for (int i = 0, l = rbody.Length; i < l; ++i)
         {
             // rbody[i].AddForce(rbody[i].transform.position + (-rbody[i].transform.up * m_breakForce));
@@ -77,6 +72,10 @@ public class BreakableObjectController : DestroyableObjectController
                     if (m_linkedDestroyableObjects[i] != null)
                         m_linkedDestroyableObjects[i].TakeDamage(10);
                 }
+
+        Vector3 pos = m_customSpawn == null ? transform.position : m_customSpawn.position;
+        Quaternion rot = m_customSpawn == null ? Quaternion.identity : m_customSpawn.rotation;
+        ObjectPooler.Instance?.SpawnFXFromPool(m_fxToSpawn, pos, rot);
     }
 
     int ChoseMesh()
