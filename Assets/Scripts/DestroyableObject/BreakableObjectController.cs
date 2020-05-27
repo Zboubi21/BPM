@@ -7,7 +7,9 @@ public class BreakableObjectController : DestroyableObjectController
 
     [SerializeField] GameObject m_baseMesh;
     // [SerializeField] GameObject m_breakMesh;
+    [SerializeField] DestroyableObjectController[] m_linkedDestroyableObjects;
     [SerializeField] bool m_justeUseForwardForce = false;
+    [SerializeField] bool m_useControllerForward = true;
     [SerializeField] float m_breakForce = 3;
     [SerializeField] float m_upForce = 3;
 
@@ -31,7 +33,8 @@ public class BreakableObjectController : DestroyableObjectController
             // rbody[i].AddForce(rbody[i].transform.position + (-rbody[i].transform.up * m_breakForce));
             // rbody[i].AddForce(rbody[i].transform.position + (rbody[i].transform.up * m_breakForce));
 
-            Vector3 force = m_justeUseForwardForce ? rbody[i].transform.forward * m_breakForce : ((rbody[i].transform.position - transform.position).normalized * m_breakForce) + (rbody[i].transform.forward * m_upForce);
+            Vector3 direction = m_useControllerForward ? rbody[i].transform.forward : rbody[i].transform.right;
+            Vector3 force = m_justeUseForwardForce ? direction * m_breakForce : ((rbody[i].transform.position - transform.position).normalized * m_breakForce) + (rbody[i].transform.forward * m_upForce);
             rbody[i].AddForce(force);
 
             // int alea = Random.Range(0, 100);
@@ -57,6 +60,14 @@ public class BreakableObjectController : DestroyableObjectController
                 Destroy(m_breakMesh[i].m_mesh);
             }
         }
+
+        if (m_linkedDestroyableObjects != null)
+            if (m_linkedDestroyableObjects.Length != 0)
+                for (int i = 0, l = m_linkedDestroyableObjects.Length; i < l; ++i)
+                {
+                    if (m_linkedDestroyableObjects[i] != null)
+                        m_linkedDestroyableObjects[i].TakeDamage(10);
+                }
     }
 
     int ChoseMesh()

@@ -2364,7 +2364,7 @@ Transform:
   m_GameObject: {fileID: 6055685517140610262}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.066978, y: 1.5, z: -0.0092798}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_Children:
   - {fileID: 6227067469034353414}
   - {fileID: 1875524228345063023}
@@ -4547,8 +4547,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_baseMesh: {fileID: 1000512848498817796}
-  m_breakForce: 300
-  m_upForce: 25
+  m_justeUseForwardForce: 1
+  m_useControllerForward: 0
+  m_breakForce: 500
+  m_upForce: 0
   m_breakMesh:
   - m_mesh: {fileID: 6055685517140610262}
     m_prob: 100

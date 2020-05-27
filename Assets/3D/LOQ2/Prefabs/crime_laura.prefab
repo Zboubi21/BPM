@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 7547985558301173090}
   - component: {fileID: 2635326613394718984}
   - component: {fileID: 5739627430308717439}
-  m_Layer: 11
+  - component: {fileID: 4681745243592547910}
+  - component: {fileID: 8065749162974331685}
+  m_Layer: 15
   m_Name: clue_2_SM
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -78,6 +80,54 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &4681745243592547910
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406711485488128094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.087170415, y: 0.14817962, z: 0.061633296}
+  m_Center: {x: -0.04358917, y: 0.07388176, z: -0.030814514}
+--- !u!114 &8065749162974331685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406711485488128094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.125
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
 --- !u!1 &1472474627904642654
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,12 +139,14 @@ GameObject:
   - component: {fileID: 6765727157281496846}
   - component: {fileID: 842371391921030911}
   - component: {fileID: 7224510110148964903}
-  m_Layer: 11
+  - component: {fileID: 6929257453241618769}
+  - component: {fileID: 2839017704159959038}
+  m_Layer: 15
   m_Name: post_it
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &6765727157281496846
 Transform:
@@ -156,6 +208,54 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &6929257453241618769
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472474627904642654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06893005, y: 0.0037742613, z: 0.071519464}
+  m_Center: {x: 0.0344635, y: 0.0017715454, z: 0.013786468}
+--- !u!114 &2839017704159959038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472474627904642654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.125
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
 --- !u!1 &2851749285623749660
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,12 +267,14 @@ GameObject:
   - component: {fileID: 4810714769091460135}
   - component: {fileID: 4173754306931374473}
   - component: {fileID: 5197659814983009788}
-  m_Layer: 11
+  - component: {fileID: 2863930622053597830}
+  - component: {fileID: 5219200359371546689}
+  m_Layer: 15
   m_Name: tasse_SM
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4810714769091460135
 Transform:
@@ -234,6 +336,54 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &2863930622053597830
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851749285623749660}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.13984375, y: 0.12128219, z: 0.11772613}
+  m_Center: {x: 0.008636169, y: 0.058527984, z: -0.046253204}
+--- !u!114 &5219200359371546689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851749285623749660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.125
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
 --- !u!1 &3372824105525153154
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +395,7 @@ GameObject:
   - component: {fileID: 6801458880499431448}
   - component: {fileID: 8976938382672180309}
   - component: {fileID: 4290087989811898357}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: tasse_sol_SM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,12 +471,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1873968270724445330}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: clue_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1873968270724445330
 Transform:
@@ -356,9 +506,11 @@ GameObject:
   - component: {fileID: 5626968657317111579}
   - component: {fileID: 3490903975214335306}
   - component: {fileID: 328805536572666623}
-  m_Layer: 11
+  - component: {fileID: 1069208533225495663}
+  - component: {fileID: 5021486092934295582}
+  m_Layer: 15
   m_Name: clue_SM
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -423,6 +575,54 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &1069208533225495663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6778599485372980005}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08716736, y: 0.14817962, z: 0.061633296}
+  m_Center: {x: -0.043588255, y: 0.07388176, z: -0.030814514}
+--- !u!114 &5021486092934295582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6778599485372980005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.125
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
 --- !u!1 &7030848626496606825
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,9 +634,11 @@ GameObject:
   - component: {fileID: 5434950665005865677}
   - component: {fileID: 135664992135788972}
   - component: {fileID: 2879627393982935679}
-  m_Layer: 11
+  - component: {fileID: 3256554440506812300}
+  - component: {fileID: 8050996519473438740}
+  m_Layer: 15
   m_Name: clue_3_SM
-  m_TagString: Untagged
+  m_TagString: DestroyableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -501,6 +703,54 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &3256554440506812300
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7030848626496606825}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08716735, y: 0.14817962, z: 0.061633296}
+  m_Center: {x: -0.043587036, y: 0.07388176, z: -0.030814514}
+--- !u!114 &8050996519473438740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7030848626496606825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45a8f9c7aa81c743b51d3df970bc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifePoint: 1
+  m_onObjectTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onObjectIsBreak:
+    m_PersistentCalls:
+      m_Calls: []
+  m_waitTimeToDestroy: 0.75
+  m_ySpawnOffset: 0
+  m_gizmosRadius: 0.125
+  m_affVFX: 0
+  m_affSFX: 0
+  m_fxType: 18
+  m_impactSounds:
+    m_audioSource: {fileID: 0}
+    m_sounds:
+    - {fileID: 0}
+    m_volume: 1
+    m_volumeRandomizer: 0
+    m_pitch: 1
+    m_pitchRandomizer: 0.1
+    nbrOfPlayingSoundMax: 0
+    timeOffset: 0
 --- !u!1 &8361737037797596979
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,12 +760,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4778743961817836832}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: crime_laura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4778743961817836832
 Transform:
