@@ -156,10 +156,10 @@ public class ElevatorDoorOpener : MonoBehaviour
     IEnumerator EventOnStartingGame()
     {
         yield return new WaitForSeconds(timeBeforeFiringVoiceLine);
-        voiceLine.Play();
+        voiceLine?.Play();
         yield return new WaitForSeconds(timeBeforeOpeningDoors);
         animator.SetTrigger("Open");
-        movingElevator.Play();
+        movingElevator?.Play();
         PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(true);
         PlayerController.s_instance.On_PlayerEnterInCinematicState(false);
     }
