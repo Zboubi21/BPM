@@ -9,9 +9,14 @@ public class FadeController : MonoBehaviour
     public FadeOverCurveHandeler[] groupeHandeler;
     public float timeBeforeSecondFade;
     public float timeBeforeThirdFade;
+    public float timeBeforeRollCredit;
     public UnityEvent eventOnStartOfEndGame;
 
     public EndGameScoreCount count;
+    [Space]
+    public Animator anim;
+  
+
     private void Update()
     {
 #if UNITY_EDITOR
@@ -43,9 +48,15 @@ public class FadeController : MonoBehaviour
     {
         StartCoroutine(LaunchFirstFade());
         yield return new WaitForSeconds(timeBeforeSecondFade);
+        PlayerController.s_instance.On_PlayerEnterInCinematicState(true);
+        PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(false);
         StartCoroutine(LaunchSecondFade());
         yield return new WaitForSeconds(timeBeforeThirdFade);
-        StartCoroutine(LaunchThirdFade());
+        yield return StartCoroutine(LaunchThirdFade());
+        anim.SetTrigger("StartCredit");
+        //StartCoroutine(AnimateText(animationController.fadeEffect, animationController.timeOfFade, animationController.objectToApplyFade, firstPos.position, finalPosition.position));
+        //yield return new WaitForSeconds(timeBeforeRollCredit);
+        //StartCoroutine(AnimateText(animationCreditController.fadeEffect, animationCreditController.timeOfFade, animationCreditController.objectToApplyFade, firstPosCredit.position, creditPosition.position));
     }
 
     IEnumerator LaunchFirstFade()
@@ -98,12 +109,27 @@ public class FadeController : MonoBehaviour
             yield return null;
 
         }
-        PlayerController.s_instance.m_scriptOrder.m_cameraControls.ChangeCursorState(false);
         groupeHandeler[0].objectToApplyFade.GetComponent<CanvasGroup>().interactable = true;
         groupeHandeler[0].objectToApplyFade.GetComponent<CanvasGroup>().blocksRaycasts = true;
         groupeHandeler[2].objectToApplyFade.GetComponent<CanvasGroup>().interactable = true;
         groupeHandeler[2].objectToApplyFade.GetComponent<CanvasGroup>().blocksRaycasts = true;
         _currentTimeOfAnimation = 0;
+    }
+
+    IEnumerator AnimateText(AnimationCurve curve, float timeOfAnimation,GameObject objectToMove,Vector3 startPos, Vector3 endPos,  bool reverseFade = false)
+    {
+        float _currentTimeOfAnimation = 0;
+        while (_currentTimeOfAnimation <= timeOfAnimation)
+        {
+            _currentTimeOfAnimation += Time.deltaTime;
+
+            float value = curve.Evaluate(_currentTimeOfAnimation / timeOfAnimation);
+
+            Vector3 posY = objectToMove.transform.position;
+            posY = Vector3.Lerp(startPos, endPos, value);
+            objectToMove.transform.position = posY;
+            yield return null;
+        }
     }
 
 }

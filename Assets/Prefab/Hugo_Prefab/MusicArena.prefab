@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 64deed169c368a54b9c266ce09fa3c52, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -141,12 +141,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeOverCurve:
-    objectToApplyFade: {fileID: 0}
+    objectToApplyFade: {fileID: 2262501298281455566}
     fadeEffect:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    timeOfFade: 0
-  finalVolume: 0
+    timeOfFade: 1
+  finalVolume: 0.3
