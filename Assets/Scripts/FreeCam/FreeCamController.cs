@@ -58,6 +58,7 @@ public class FreeCamController : MonoBehaviour
     bool hasPlaceAnOrbitPoint;
     bool isOrbiting;
     RaycastHit _hit;
+    List<GameObject> gameObjects = new List<GameObject>();
 
     void LateUpdate()
     {
@@ -82,7 +83,6 @@ public class FreeCamController : MonoBehaviour
         }
         #endregion
 
-
         #region Activate / Deactivate Free Cam menu
         if (freeCamOn && Input.GetKeyDown(KeyCode.F))
         {
@@ -90,7 +90,6 @@ public class FreeCamController : MonoBehaviour
         }
         SliderHandeler(menu.gameObject.activeSelf);
         #endregion
-
 
         #region Activate / Deactivate Free Cam Orbite
         if (Input.GetKeyDown(KeyCode.O) && freeCamOn && !menu.gameObject.activeSelf && !hasPlaceAnOrbitPoint)
@@ -128,8 +127,37 @@ public class FreeCamController : MonoBehaviour
             }
         }
         #endregion
+
+        #region Control time scale
+        if (freeCamOn && !menu.gameObject.activeSelf)
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                Time.timeScale += 0.1f;
+                Time.fixedDeltaTime = 0.02F * Time.timeScale;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                Time.timeScale -= 0.1f;
+                Time.fixedDeltaTime = 0.02F * Time.timeScale;
+            }
+        }
+
+        if(freeCamOn && Input.GetKeyDown(KeyCode.R))
+        {
+            Time.timeScale = 1.0F;
+            Time.fixedDeltaTime = 0.02F;
+        }
+        #endregion
     }
-    List<GameObject> gameObjects = new List<GameObject>();
+
+    void OnApplicationQuit()
+    {
+        Time.timeScale = 1.0F;
+        Time.fixedDeltaTime = 0.02F;
+    }
+
+
     void CameraControl()
     {
         float inputRotateAxisX = 0.0f;

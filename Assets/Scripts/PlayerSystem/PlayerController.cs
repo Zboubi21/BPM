@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 		public Animator m_weaponAnimator;
         public Transform targetForEnnemies;
         public CanvasGroup playerCanvasGroupe;
+        //public CameraController cameraController;
 
 		[Header("Camera shake")]
 		public CameraShaker m_worldCamera;

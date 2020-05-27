@@ -40,6 +40,7 @@ public class WaveController : MonoBehaviour
     [Serializable]
     public class DEBUG
     {
+        public bool useThisCanvas;
         [Tooltip("Press "+"("+" pour afficher ou désafficher le canvas")]
         public Canvas canvas;
         public TMP_Text nbrOfWaveEnemyText;
@@ -83,7 +84,7 @@ public class WaveController : MonoBehaviour
         NbrOfEnemy = 0;
         ChangeAllScreen(ScreenChannel.WaveCountChannel);
         ChangeAllScreen(ScreenChannel.EnemyCountChannel); // Increment nbr of enemy
-        _debug.canvas.gameObject.SetActive(!_debug.canvas.gameObject.activeSelf);
+        _debug.canvas.gameObject.SetActive(_debug.useThisCanvas);
 
         wallStreetControllers = FindObjectsOfType<WallStreetController>();
     }

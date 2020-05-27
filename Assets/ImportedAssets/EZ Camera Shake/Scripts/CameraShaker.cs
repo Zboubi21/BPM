@@ -33,30 +33,33 @@ namespace EZCameraShake
 
         void Update()
         {
-            posAddShake = Vector3.zero;
-            rotAddShake = Vector3.zero;
-
-            for (int i = 0; i < cameraShakeInstances.Count; i++)
+            if (!PlayerController.s_instance.CurrentState(PlayerStateEnum.PlayerState.Cinematic))
             {
-                if (i >= cameraShakeInstances.Count)
-                    break;
+                posAddShake = Vector3.zero;
+                rotAddShake = Vector3.zero;
 
-                CameraShakeInstance c = cameraShakeInstances[i];
+                for (int i = 0; i < cameraShakeInstances.Count; i++)
+                {
+                    if (i >= cameraShakeInstances.Count)
+                        break;
 
-                if (c.CurrentState == CameraShakeState.Inactive && c.DeleteOnInactive)
-                {
-                    cameraShakeInstances.RemoveAt(i);
-                    i--;
+                    CameraShakeInstance c = cameraShakeInstances[i];
+
+                    if (c.CurrentState == CameraShakeState.Inactive && c.DeleteOnInactive)
+                    {
+                        cameraShakeInstances.RemoveAt(i);
+                        i--;
+                    }
+                    else if (c.CurrentState != CameraShakeState.Inactive)
+                    {
+                        posAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.PositionInfluence);
+                        rotAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.RotationInfluence);
+                    }
                 }
-                else if (c.CurrentState != CameraShakeState.Inactive)
-                {
-                    posAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.PositionInfluence);
-                    rotAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.RotationInfluence);
-                }
+
+                transform.localPosition = posAddShake;
+                transform.localEulerAngles = rotAddShake;
             }
-
-            transform.localPosition = posAddShake;
-            transform.localEulerAngles = rotAddShake;
         }
 
         /// <summary>

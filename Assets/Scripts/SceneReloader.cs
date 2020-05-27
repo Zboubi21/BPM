@@ -41,4 +41,9 @@ public class SceneReloader : MonoBehaviour
         SceneManager.LoadSceneAsync("LD_Lighting", LoadSceneMode.Additive);
     }
 
+    public void LeaveGame()
+    {
+        Application.Quit();
+    }
+
 }

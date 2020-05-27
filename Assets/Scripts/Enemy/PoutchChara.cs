@@ -21,7 +21,7 @@ public class PoutchChara : EnemyCara
         base.Start();
         gameObject.SetActive(true);
         IsDead = false;
-        m_mainCamera = Camera.main.GetComponent<Transform>();
+        m_mainCamera = Camera.main?.GetComponent<Transform>();
         m_animator = GetComponent<Animator>();
         UpdateLifebar();
 
