@@ -11,6 +11,9 @@ public class EmissiveDestroyableObject : DestroyableObjectController
     [SerializeField] Sounds m_impactSounds;
     [SerializeField] bool m_takeDamageJusteOneTime = true;
 
+    [Header("VFX")]
+    [SerializeField] ParticleSystem m_destroyedParticle;
+
     [Header("Break force")]
     [SerializeField] float m_breakForce = 3;
     [SerializeField] float m_upForce = 3;
@@ -52,6 +55,8 @@ public class EmissiveDestroyableObject : DestroyableObjectController
         //     Vector3 force = ((rbody[i].transform.position - transform.position).normalized * m_breakForce) + (rbody[i].transform.forward * m_upForce);
         //     rbody[i].AddForce(force);
         // }
+
+        m_destroyedParticle?.Play(true);
 
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroyFirstCategorie);
 

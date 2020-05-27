@@ -42,6 +42,8 @@
         DestroyableObjectSmall,
         DestroyableObjectMedium,
         DestroyableObjectLarge,
+        DestroyableObjectWood,
+        DestroyableObjectWoodMedium,
     }
     [System.Serializable] public enum ObjectType {
         BpmGuiValues,

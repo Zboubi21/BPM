@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PoolTypes;
 
 public class BreakableObjectController : DestroyableObjectController
 {
@@ -12,6 +13,9 @@ public class BreakableObjectController : DestroyableObjectController
     [SerializeField] bool m_useControllerForward = true;
     [SerializeField] float m_breakForce = 3;
     [SerializeField] float m_upForce = 3;
+
+    [SerializeField] FxType m_fxToSpawn;
+    [SerializeField] Transform m_customSpawn;
 
     [SerializeField] Probabilities[] m_breakMesh;
     [System.Serializable] class Probabilities
@@ -27,6 +31,11 @@ public class BreakableObjectController : DestroyableObjectController
         On_BreakObject();
         Rigidbody[] rbody = GetComponentsInChildren<Rigidbody>();
         GameManager.Instance.AddScore(GameManager.Instance.scoreSystem.destroyEnvironements.destroySecondCategorie);
+
+
+        Vector3 pos = m_customSpawn == null ? transform.position : m_customSpawn.position;
+        Quaternion rot = m_customSpawn == null ? Quaternion.identity : m_customSpawn.rotation;
+        ObjectPooler.Instance?.SpawnFXFromPool(m_fxToSpawn, pos, rot);
 
         for (int i = 0, l = rbody.Length; i < l; ++i)
         {
