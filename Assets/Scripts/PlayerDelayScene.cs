@@ -38,6 +38,7 @@ public class PlayerDelayScene : MonoBehaviour
         else
         {
             m_startSceneScreen.OverrideStartType(ChangeValues.StartType.StartWithToValue);
+            SetMixerVolume(0);
         }
     }
     void Start()
