@@ -147,6 +147,7 @@ public class PlayerBpmGui : MonoBehaviour
     {
         m_criticalLevelOfBPMFeedback.SwitchValue();
         m_bpmValue.color = inCriticalLevel ? m_criticalBpmValueColor : m_normalBpmValueColor;
+        m_bpmValue.font = inCriticalLevel ? m_bpmLvl[4] : m_bpmLvl[0];
     }
     public void On_OverAdrenalineActivated(bool isActivated)
     {
