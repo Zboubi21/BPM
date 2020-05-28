@@ -5,21 +5,41 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     
+    [SerializeField] bool m_isBuild = true;
     [SerializeField] float m_waitTimeToLoadScenes = 3;
+    [SerializeField] float m_waitTimeToLoadScenesForPres = 3;
     [SerializeField] string[] m_scenesToLoad;
 
     void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        m_animator = GetComponent<Animator>();
         StartCoroutine(WaitToLoadScenes());
     }
 
+    Animator m_animator;
     AsyncOperation[] m_operations;
     bool[] m_operationsDone;
+
     IEnumerator WaitToLoadScenes()
     {
-        yield return new WaitForSeconds(m_waitTimeToLoadScenes);
+        if (m_isBuild)
+        {
+            m_animator.SetTrigger("isBuild");
+            yield return new WaitForSeconds(m_waitTimeToLoadScenes);
+            StartCoroutine(LoadScene());
+        }
+        else
+        {
+            m_animator.SetTrigger("isPresentation");
+        }
+    }
+    IEnumerator LoadScene(bool isPresentation = false)
+    {
+        if (isPresentation)
+            yield return new WaitForSeconds(m_waitTimeToLoadScenesForPres);
+
         // LoadScenes();
         if (m_scenesToLoad != null)
         {
@@ -36,6 +56,17 @@ public class SceneLoader : MonoBehaviour
             }
             PlayerController.s_instance?.GetComponent<PlayerDelayScene>().On_StartPlayer();
             // SceneManager.UnloadSceneAsync("SceneLoader");
+        }
+    }
+
+    bool m_hasPressed = false;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && !m_hasPressed)
+        {
+            m_hasPressed = true;
+            m_animator.SetTrigger("Switch");
+            StartCoroutine(LoadScene(true));
         }
     }
 
