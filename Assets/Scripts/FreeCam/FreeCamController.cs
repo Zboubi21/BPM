@@ -14,8 +14,8 @@ public class FreeCamController : MonoBehaviour
 
     string kMouseX = "Mouse X";
     string kMouseY = "Mouse Y";
-    string kRightStickX = "Controller Right Stick X";
-    string kRightStickY = "Controller Right Stick Y";
+    //string kRightStickX = "Controller Right Stick X";
+    //string kRightStickY = "Controller Right Stick Y";
     string kVertical = "Vertical";
     string kHorizontal = "Horizontal";
 
@@ -24,7 +24,7 @@ public class FreeCamController : MonoBehaviour
 
     bool freeCamOn;
 
-    Camera[] cameras;
+    public GameObject[] cameras;
     public Canvas menu;
     public MenuFreeCam menuFreeCam;
     public OrbitControl orbitControl;
@@ -39,10 +39,10 @@ public class FreeCamController : MonoBehaviour
 
     private void Start()
     {
-        cameras = GetComponentsInChildren<Camera>();
-        foreach (Camera item in cameras)
+        //cameras = GetComponentsInChildren<Camera>();
+        foreach (GameObject item in cameras)
         {
-            item.enabled = false;
+            item.SetActive(false);
         }
         menu.gameObject.SetActive(false);
         lookSpeedController = m_LookSpeedController;
@@ -167,8 +167,8 @@ public class FreeCamController : MonoBehaviour
             inputRotateAxisX = Input.GetAxis(kMouseX) * m_LookSpeedMouse;
             inputRotateAxisY = Input.GetAxis(kMouseY) * m_LookSpeedMouse;
         }
-        inputRotateAxisX += (Input.GetAxis(kRightStickX) * m_LookSpeedController * Time.deltaTime);
-        inputRotateAxisY += (Input.GetAxis(kRightStickY) * m_LookSpeedController * Time.deltaTime);
+        //inputRotateAxisX += (Input.GetAxis(kRightStickX) * m_LookSpeedController * Time.deltaTime);
+        //inputRotateAxisY += (Input.GetAxis(kRightStickY) * m_LookSpeedController * Time.deltaTime);
 
         float inputChangeSpeed = Input.GetAxis(kSpeedAxis);
         if (inputChangeSpeed != 0.0f)
@@ -210,9 +210,9 @@ public class FreeCamController : MonoBehaviour
     void ControlFreeCamState(bool b)
     {
         freeCamOn = b;
-        foreach (Camera item in cameras)
+        foreach (GameObject item in cameras)
         {
-            item.enabled = b;
+            item.SetActive(b);
         }
         PlayerController.s_instance.On_PlayerEnterInCinematicState(b);
         //Cursor.visible = !b;
