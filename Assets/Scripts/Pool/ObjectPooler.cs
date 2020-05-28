@@ -268,6 +268,9 @@ public class ObjectPooler : MonoBehaviour {
 
 		GameObject objectToSpawn = m_objectPoolDictionary[objectType].Dequeue();
 
+		if (objectToSpawn == null)
+			return null;
+
 		objectToSpawn.transform.position = position;
 		objectToSpawn.transform.rotation = rotation;
 
