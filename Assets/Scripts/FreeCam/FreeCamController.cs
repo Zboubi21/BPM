@@ -5,7 +5,7 @@ using System;
 using UnityEngine.UI;
 public class FreeCamController : MonoBehaviour
 {
-    public float m_LookSpeedController = 120f;
+    public float m_upAndDownSpeed = 120f;
     public float m_LookSpeedMouse = 10.0f;
     public float m_MoveSpeed = 10.0f;
     public float m_MoveSpeedIncrement = 2.5f;
@@ -14,13 +14,13 @@ public class FreeCamController : MonoBehaviour
 
     string kMouseX = "Mouse X";
     string kMouseY = "Mouse Y";
-    string kRightStickX = "Controller Right Stick X";
-    string kRightStickY = "Controller Right Stick Y";
+    // string kRightStickX = "Controller Right Stick X";
+    // string kRightStickY = "Controller Right Stick Y";
     string kVertical = "Vertical";
     string kHorizontal = "Horizontal";
 
-    string kYAxis = "YAxis";
-    string kSpeedAxis = "Speed Axis";
+    // string kYAxis = "YAxis";
+    // string kSpeedAxis = "Speed Axis";
 
     bool freeCamOn;
 
@@ -29,7 +29,7 @@ public class FreeCamController : MonoBehaviour
     public MenuFreeCam menuFreeCam;
     public OrbitControl orbitControl;
 
-    float lookSpeedController;
+    float upAndDownSpeed;
     float lookSpeedMouse;
     float moveSpeed;
     float moveSpeedIncrement;
@@ -45,7 +45,7 @@ public class FreeCamController : MonoBehaviour
             item.enabled = false;
         }
         menu.gameObject.SetActive(false);
-        lookSpeedController = m_LookSpeedController;
+        upAndDownSpeed = m_upAndDownSpeed;
         lookSpeedMouse = m_LookSpeedMouse;
         moveSpeed = m_MoveSpeed;
         moveSpeedIncrement = m_MoveSpeedIncrement;
@@ -167,21 +167,24 @@ public class FreeCamController : MonoBehaviour
             inputRotateAxisX = Input.GetAxis(kMouseX) * m_LookSpeedMouse;
             inputRotateAxisY = Input.GetAxis(kMouseY) * m_LookSpeedMouse;
         }
-        inputRotateAxisX += (Input.GetAxis(kRightStickX) * m_LookSpeedController * Time.deltaTime);
-        inputRotateAxisY += (Input.GetAxis(kRightStickY) * m_LookSpeedController * Time.deltaTime);
+        // inputRotateAxisX += (Input.GetAxis(kRightStickX) * m_LookSpeedController * Time.deltaTime);
+        // inputRotateAxisY += (Input.GetAxis(kRightStickY) * m_LookSpeedController * Time.deltaTime);
 
-        float inputChangeSpeed = Input.GetAxis(kSpeedAxis);
-        if (inputChangeSpeed != 0.0f)
-        {
-            m_MoveSpeed += inputChangeSpeed * m_MoveSpeedIncrement;
-            if (m_MoveSpeed < m_MoveSpeedIncrement) m_MoveSpeed = m_MoveSpeedIncrement;
-        }
+        // float inputChangeSpeed = Input.GetAxis(kSpeedAxis);
+        // if (inputChangeSpeed != 0.0f)
+        // {
+        //     m_MoveSpeed += inputChangeSpeed * m_MoveSpeedIncrement;
+        //     if (m_MoveSpeed < m_MoveSpeedIncrement) m_MoveSpeed = m_MoveSpeedIncrement;
+        // }
 
         float inputVertical = Input.GetAxis(kVertical);
         float inputHorizontal = Input.GetAxis(kHorizontal);
-        float inputYAxis = Input.GetAxis(kYAxis);
+        // float inputYAxis = Input.GetAxis(kYAxis);
 
-        bool moved = inputRotateAxisX != 0.0f || inputRotateAxisY != 0.0f || inputVertical != 0.0f || inputHorizontal != 0.0f || inputYAxis != 0.0f;
+        float upAxis = Input.GetKey(KeyCode.A) ? m_upAndDownSpeed : 0;
+        float downAxis = Input.GetKey(KeyCode.E) ? m_upAndDownSpeed : 0;
+
+        bool moved = inputRotateAxisX != 0.0f || inputRotateAxisY != 0.0f || inputVertical != 0.0f || inputHorizontal != 0.0f || upAxis != 0 || downAxis != 0/* || inputYAxis != 0.0f*/;
         if (moved)
         {
             float rotationX = transform.localEulerAngles.x;
@@ -203,7 +206,10 @@ public class FreeCamController : MonoBehaviour
                 moveSpeed *= Input.GetAxis("Fire1") > 0.0f ? m_Turbo : 1.0f;
             transform.position += transform.forward * moveSpeed * inputVertical;
             transform.position += transform.right * moveSpeed * inputHorizontal;
-            transform.position += Vector3.up * moveSpeed * inputYAxis;
+            // transform.position += Vector3.up * moveSpeed * inputYAxis;
+
+            transform.position += Vector3.up * moveSpeed * upAxis;
+            transform.position += Vector3.down * moveSpeed * downAxis;
         }
     }
 
@@ -248,7 +254,7 @@ public class FreeCamController : MonoBehaviour
     {
         if (b)
         {
-            m_LookSpeedController = Mathf.Lerp(0, lookSpeedController * 2, menuFreeCam.controlRotationSpeedSlider.value);
+            m_upAndDownSpeed = Mathf.Lerp(0, upAndDownSpeed * 2, menuFreeCam.controlRotationSpeedSlider.value);
             m_LookSpeedMouse = Mathf.Lerp(0, lookSpeedMouse * 2, menuFreeCam.mouseRotationSpeedSlider.value);
             m_MoveSpeed = Mathf.Lerp(0, moveSpeed * 2, menuFreeCam.mouseSpeedSlider.value);
             m_MoveSpeedIncrement = Mathf.Lerp(0, moveSpeedIncrement * 2, menuFreeCam.mouseSpeedIncrementSlider.value);

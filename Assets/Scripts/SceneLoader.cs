@@ -62,7 +62,7 @@ public class SceneLoader : MonoBehaviour
     bool m_hasPressed = false;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && !m_hasPressed)
+        if (Input.GetKeyDown(KeyCode.P) && !m_hasPressed && !m_isBuild)
         {
             m_hasPressed = true;
             m_animator.SetTrigger("Switch");
