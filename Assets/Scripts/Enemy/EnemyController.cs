@@ -52,6 +52,8 @@ public class EnemyController : MonoBehaviour
         agent.enabled = true;
         EnableDisableCollider(true);
         ChangeState((int)EnemyState.Enemy_IdleState);
+        if (PlayerController.s_instance != null)
+            Player = PlayerController.s_instance?.gameObject.transform;
     }
     [Header("VFX")]
     public FxType shockVFX;
@@ -165,7 +167,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        Player = PlayerController.s_instance.gameObject.transform;
+        Player = PlayerController.s_instance?.gameObject.transform;
         playerController = PlayerController.s_instance;
         
 

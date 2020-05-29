@@ -71,7 +71,7 @@ public class FreeCamController : MonoBehaviour
                 CameraControl();
             }
         }
-        else if((Input.GetKeyDown(KeyCode.Escape) && freeCamOn))
+        if((Input.GetKeyDown(KeyCode.Escape) && freeCamOn))
         {
             ControlFreeCamState(false);
         }

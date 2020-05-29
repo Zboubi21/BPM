@@ -22,7 +22,14 @@ public class SceneReloader : MonoBehaviour
     
     public void On_ResetLvl()
     {
-        StartCoroutine(LoadLvl());
+        // StartCoroutine(LoadLvl());
+
+        // ObjectPooler pool = ObjectPooler.Instance;
+        // if (pool != null)
+        //     GameObject.Destroy(pool.gameObject);
+        // SceneManager.LoadScene(0);
+        
+        Application.Quit();
     }
 
     IEnumerator LoadLvl()
