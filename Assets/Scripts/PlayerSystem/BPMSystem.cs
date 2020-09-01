@@ -212,13 +212,13 @@ public class BPMSystem : MonoBehaviour
     {
         FuryHandeler();
 
-        #if UNITY_EDITOR
+        // #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.T))
             GainBPM(25);
         if (Input.GetKeyDown(KeyCode.Y))
             LoseBPM(25, transform);
         // if (Input.GetKey(KeyCode.B))
-        #endif
+        // #endif
     }
     void FixedUpdate()
     {
