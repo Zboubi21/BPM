@@ -32,6 +32,13 @@ public class SceneReloader : MonoBehaviour
         Application.Quit();
     }
 
+    public void TryNotShotDownTheGame()
+    {
+        if (ObjectPooler.Instance)
+            Destroy(ObjectPooler.Instance.gameObject);
+        SceneManager.LoadScene(0);
+    }
+
     IEnumerator LoadLvl()
     {
         ObjectPooler.Instance?.On_ReturnAllInPool();

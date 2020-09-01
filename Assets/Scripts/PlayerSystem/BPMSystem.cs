@@ -404,7 +404,8 @@ public class BPMSystem : MonoBehaviour
 
     void On_PlayerHasNoBpm()
     {
-        SceneReloader.s_instance?.On_ResetLvl();
+        // SceneReloader.s_instance?.On_ResetLvl();
+        SceneReloader.s_instance?.TryNotShotDownTheGame();
     }
     public void On_PlayerFallIntoTheVoid(Transform voidPos)
     {
