@@ -4,7 +4,9 @@ using UnityEngine;
 [System.Serializable]
 public class StateMachine
 {
-    [SerializeField]public string m_currentStateString;
+    [Header("Debug")]
+    [SerializeField] public string m_currentStateString;
+    [SerializeField] public string m_LastStateString;
 
     List<IState> m_states = null;
     public List<IState> States{
@@ -111,6 +113,7 @@ public class StateMachine
 
         m_lastState = m_currentState;
         m_lastStateIndex = m_currentStateIndex;
+        m_LastStateString = m_currentState?.GetType().Name;
 
         m_currentState = m_states[index];
         m_currentStateIndex = index;

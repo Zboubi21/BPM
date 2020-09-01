@@ -56,7 +56,9 @@ public class BreakableObjectController : DestroyableObjectController
         Destroy(m_baseMesh);
         // m_breakMesh.SetActive(true);
         int meshChosen = ChoseMesh();
-        m_breakMesh[meshChosen].m_mesh.SetActive(true);
+        if (m_breakMesh.Length != 0)
+            if (m_breakMesh[meshChosen] != null)
+                m_breakMesh[meshChosen].m_mesh.SetActive(true);
         for (int i = 0, l = m_breakMesh.Length; i < l; ++i)
         {
             if (i != meshChosen)

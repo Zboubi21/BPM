@@ -21,6 +21,14 @@ public class DestroyableObjectController : AudioController
         }
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            TakeDamage(100);
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         if (m_isBroken)

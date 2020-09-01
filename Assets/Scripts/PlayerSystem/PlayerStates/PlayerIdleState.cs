@@ -98,6 +98,10 @@ public class PlayerIdleState : IState
             m_playerController.On_PlayerHasJump(true);
             m_playerController.ChangeState(PlayerState.Jump);
         }
+        if(m_playerController.IsDashKeyPressed())
+        {
+            m_playerController.ChangeState(PlayerState.Dash);
+        }
     }
     public void LateUpdate()
     {
