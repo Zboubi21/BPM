@@ -149,10 +149,10 @@ public class EnemyCaraBase : SerializedMonoBehaviour
                 _currentTimeForStun = 0;
             }
         }
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(25, 0, false, 0);
-#endif
+            TakeDamage(9999999f, 0, false, 0);
+// #endif
     }
     bool hasShotWeakSpot;
     public virtual void TakeDamage(float damage, int i, bool hasToBeElectricalStun, float timeForElectricalStun, bool isElectricalDamage = false)
